@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">待办</string>
+    <!--About Activity-->
+    <string name="about_label">关于</string>
+    <string name="author">Super12138</string>
+    <string name="check_update">检查更新</string>
+    <!--Crash Activity-->
+    <string name="error_title">应用程序出现错误</string>
+    <string name="error_tips">别担心，下方是错误日志，请全选复制然后把它发送给我，我会尽快解决问题</string>
+    <string name="no_crash_logs">没有日志传入</string>
+    <string name="exit_app">退出应用</string>
+    <!--Subjects-->
+    <string name="subject_unknown">未知</string>
+    <string name="subject_chinese">语文</string>
+    <string name="subject_math">数学</string>
+    <string name="subject_english">英语</string>
+    <string name="subject_biology">生物</string>
+    <string name="subject_physics">物理</string>
+    <string name="subject_history">历史</string>
+    <string name="subject_geography">地理</string>
+    <string name="subject_law">道法</string>
+    <!--UI-->
+    <string name="cancel">取消</string>
+    <string name="ok">确定</string>
+    <string name="add_task">添加待办</string>
+    <string name="warning">警告</string>
+    <string name="delete_confirm">即将删除全部待办，是否继续？</string>
+    <string name="tasks_textfield_hint">待办内容</string>
+    <string name="delete_one">删除</string>
+    <string name="delete_all">删除全部代办</string>
+    <string name="check_one">标记为已完成</string>
+    <string name="no_tasks">无待办事项</string>
+    <string name="delete_undo">撤销</string>
+    <string name="task_deleted">该待办已删除</string>
+    <string name="settings_label">设置</string>
+    <string name="appearance">外观</string>
+    <string name="dark_mode">深色模式</string>
+    <string name="dark_mode_summary">开启或关闭应用深色模式</string>
+    <string name="view_source">在 GitHub 上查看源代码</string>
+    <string name="config">配置</string>
+</resources>

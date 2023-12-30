@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">To Do</string>
+    <!--About Activity-->
+    <string name="about_label">About</string>
+    <string name="author">Super12138</string>
+    <string name="check_update">Check for updates</string>
+    <string name="view_source">View source on GitHub</string>
+    <!--Crash Activity-->
+    <string name="error_title">Oops! App went wrong</string>
+    <string name="error_tips">Don\'t worry, crash logs under there! Please copy them and send to me, I\'ll solve this problem</string>
+    <string name="no_crash_logs">No crash logs</string>
+    <string name="exit_app">Exit app</string>
+    <!--Subjects-->
+    <string name="subject_unknown">Unknown</string>
+    <string name="subject_chinese">Chinese</string>
+    <string name="subject_math">Math</string>
+    <string name="subject_english">English</string>
+    <string name="subject_biology">Biology</string>
+    <string name="subject_physics">Physics</string>
+    <string name="subject_history">History</string>
+    <string name="subject_geography">Geography</string>
+    <string name="subject_law">Law</string>
+    <!--UI-->
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="add_task">Add Task</string>
+    <string name="warning">Warning</string>
+    <string name="delete_confirm">Are you sure you want to delete all tasks?</string>
+    <string name="tasks_textfield_hint">Tasks</string>
+    <string name="delete_one">Delete</string>
+    <string name="delete_all">Delete all tasks</string>
+    <string name="check_one">Checked this task</string>
+    <string name="no_tasks">No tasks</string>
+    <string name="delete_undo">Undo</string>
+    <string name="task_deleted">This task has been deleted</string>
+    <!--Settings-->
+    <string name="settings_label">Settings</string>
+    <string name="appearance">Appearance</string>
+    <string name="dark_mode">Dark mode</string>
+    <string name="dark_mode_summary">Enable or disable the dark mode for this app</string>
+    <string name="config">Config</string>
+</resources>
