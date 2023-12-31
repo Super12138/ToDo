@@ -111,7 +111,6 @@ class ToDoAdapter(val todoList: MutableList<ToDo>, val viewModelStoreOwner: View
         val todo = todoList[position]
         holder.todoContext.text = todo.context
         holder.todoSubject.text = todo.subject
-
     }
 
     override fun getItemCount() = todoList.size

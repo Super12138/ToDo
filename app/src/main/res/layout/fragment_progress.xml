@@ -12,11 +12,11 @@
         android:layout_marginRight="15dp"
         android:max="100"
         app:indicatorSize="160dp"
-        app:trackColor="?attr/colorSurfaceContainerHighest"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:trackColor="?attr/colorSurfaceContainerHighest"
         app:trackCornerRadius="5dp"
         app:trackThickness="10dp" />
 

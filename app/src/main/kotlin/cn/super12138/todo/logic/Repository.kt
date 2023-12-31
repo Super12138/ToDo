@@ -16,5 +16,6 @@ object Repository {
 
     fun getAllData() = DBHelper.getAllData()
 
-    fun getPreferenceString(context: Context, key: String, defaultValue: String) = SPHelper.getPreferenceString(context, key, defaultValue)
+    fun getPreferenceString(context: Context, key: String, defaultValue: String) =
+        SPHelper.getPreferenceString(context, key, defaultValue)
 }

@@ -15,7 +15,7 @@ object DBHelper {
             ToDoApplication.context,
             Constants.DB_NAME,
             Constants.DB_VERSION
-        ).writableDatabase.use {db ->
+        ).writableDatabase.use { db ->
             db.insert(Constants.TABLE_NAME, null, data)
         }
     }
@@ -74,7 +74,7 @@ object DBHelper {
     }
 
     @SuppressLint("Range")
-    fun getAllData() : MutableList<ToDo> {
+    fun getAllData(): MutableList<ToDo> {
         val todoList = mutableListOf<ToDo>()
         ToDoDatabase(
             ToDoApplication.context,

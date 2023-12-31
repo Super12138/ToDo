@@ -5,7 +5,8 @@ import androidx.preference.PreferenceManager
 
 object SPHelper {
     fun getPreferenceString(context: Context, name: String, defaultValue: String): String? {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context /* Activity context */)
+        val sharedPreferences =
+            PreferenceManager.getDefaultSharedPreferences(context /* Activity context */)
         return sharedPreferences.getString(name, defaultValue)
     }
 }

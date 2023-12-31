@@ -9,7 +9,6 @@ import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.preference.PreferenceManager
 import cn.super12138.todo.R
 import cn.super12138.todo.ToDoApplication
 import cn.super12138.todo.databinding.ActivityMainBinding

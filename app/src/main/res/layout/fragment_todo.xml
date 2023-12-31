@@ -43,8 +43,8 @@
         android:id="@+id/empty_tip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_marginTop="20dp"
+        android:gravity="center"
         android:text="@string/no_tasks"
         android:visibility="visible" />
 
@@ -52,9 +52,9 @@
         android:id="@+id/add_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
         android:contentDescription="@string/add_task"
         android:text="@string/add_task"
-        app:icon="@drawable/add_24"/>
+        app:icon="@drawable/add_24" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
