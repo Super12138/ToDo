@@ -39,4 +39,5 @@
     <string name="dark_mode_summary">开启或关闭应用深色模式</string>
     <string name="view_source">在 GitHub 上查看源代码</string>
     <string name="config">配置</string>
+    <string name="others">其它</string>
 </resources>

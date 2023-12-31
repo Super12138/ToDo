@@ -22,8 +22,8 @@
             app:summary="自定义创建待办时文本框的预测项" />
     </PreferenceCategory>-->
 
-    <PreferenceCategory android:title="其它">
-        <Preference app:title="关于">
+    <PreferenceCategory android:title="@string/others">
+        <Preference app:title="@string/about_label">
             <intent
                 android:targetPackage="cn.super12138.todo"
                 android:targetClass="cn.super12138.todo.views.about.AboutActivity" />
