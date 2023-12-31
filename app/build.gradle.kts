@@ -19,6 +19,8 @@ android {
         versionName = "${baseVersionName}-${commitHash}"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        base.archivesName.set("todo-${baseVersionName}")
     }
 
     buildTypes {
