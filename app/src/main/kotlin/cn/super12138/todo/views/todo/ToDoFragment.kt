@@ -160,6 +160,9 @@ class ToDoFragment : Fragment() {
                 binding.todoList.visibility = View.VISIBLE
                 binding.emptyTip.visibility = View.GONE
             }
+            if (todoList.size == 0 && !binding.addItem.isShown) {
+                binding.addItem.show()
+            }
         })
         todoViewModel.refreshData.observe(viewLifecycleOwner, Observer {
             binding.todoList.adapter?.notifyItemInserted(todoList.size + 1)
