@@ -33,21 +33,21 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
-        /*val pref = getSharedPreferences("data",Context.MODE_PRIVATE)
+        /*val pref = getSharedPreferences("data", Context.MODE_PRIVATE)
         val isFirstUse = pref.getBoolean("first_use", false)
 
         if (!isFirstUse) {
             MaterialAlertDialogBuilder(this)
                 .setTitle("欢迎使用待办")
-                .setMessage("")
+                .setMessage("本应用不需要任何权限")
                 .setPositiveButton("确定") { dialog, which ->
                     val editor = getSharedPreferences("data", Context.MODE_PRIVATE).edit()
                     editor.putBoolean("first_use", true)
                     editor.apply()
                 }
                 .show()
-        }
-*/
+        }*/
+
         val isDarkMode = Repository.getPreferenceString(this, "dark_mode", "0")
         when (isDarkMode) {
             "0" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
