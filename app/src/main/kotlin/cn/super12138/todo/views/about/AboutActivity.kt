@@ -4,27 +4,17 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.view.WindowManager
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import cn.super12138.todo.constant.Constants
 import cn.super12138.todo.databinding.ActivityAboutBinding
+import cn.super12138.todo.views.BaseActivity
 import showToast
 
-class AboutActivity : AppCompatActivity() {
+class AboutActivity : BaseActivity() {
     private lateinit var binding: ActivityAboutBinding
     private var clickCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        // 适配刘海屏
-        val lp = window.attributes
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            lp.layoutInDisplayCutoutMode =
-                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
-        }
-        window.attributes = lp
 
         binding = ActivityAboutBinding.inflate(layoutInflater)
         setContentView(binding.root)

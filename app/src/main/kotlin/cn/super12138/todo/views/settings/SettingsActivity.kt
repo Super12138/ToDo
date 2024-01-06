@@ -1,27 +1,19 @@
 package cn.super12138.todo.views.settings
 
-import android.os.Build
 import android.os.Bundle
-import android.view.WindowManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import cn.super12138.todo.R
 import cn.super12138.todo.databinding.ActivitySettingsBinding
+import cn.super12138.todo.views.BaseActivity
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : BaseActivity() {
     private lateinit var binding: ActivitySettingsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // 适配刘海屏
-        val lp = window.attributes
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            lp.layoutInDisplayCutoutMode =
-                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
-        }
-        window.attributes = lp
+
 
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -38,7 +30,6 @@ class SettingsActivity : AppCompatActivity() {
             finish()
         }
     }
-
 
     class SettingsFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {

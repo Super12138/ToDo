@@ -43,14 +43,13 @@ class ToDoFragment : Fragment() {
             todoList.add(ToDo(todo.uuid, todo.context, todo.subject))
         }
 
-        /*ViewCompat.setOnApplyWindowInsetsListener(binding.todoList) { view, windowInsets ->
+        /*ViewCompat.setOnApplyWindowInsetsListener(binding.addItem) { view, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
             view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                leftMargin = insets.left
-                bottomMargin = insets.bottom
-                rightMargin = insets.right
+                leftMargin = if (insets.left == 0) 16 else insets.left
+                bottomMargin = if (insets.bottom == 0) 48 else insets.bottom + 32
+                rightMargin = if (insets.right == 0) 48 else insets.right + 32
             }
-
             WindowInsetsCompat.CONSUMED
         }*/
 
@@ -64,10 +63,10 @@ class ToDoFragment : Fragment() {
         val todoViewModel =
             ViewModelProvider(requireActivity()).get(ToDoFragmentViewModel::class.java)
 
-
         if (todoList.size == 0) {
             todoViewModel.emptyTipVis.value = View.VISIBLE
         }
+
         binding.addItem.setOnClickListener {
             ToDoDialogBinding = DialogAddTodoBinding.inflate(layoutInflater)
 

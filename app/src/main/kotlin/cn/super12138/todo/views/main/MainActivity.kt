@@ -1,33 +1,22 @@
 package cn.super12138.todo.views.main
 // 2023.11.18立项
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.WindowManager
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import cn.super12138.todo.R
 import cn.super12138.todo.ToDoApplication
 import cn.super12138.todo.databinding.ActivityMainBinding
 import cn.super12138.todo.logic.Repository
+import cn.super12138.todo.views.BaseActivity
 import cn.super12138.todo.views.settings.SettingsActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        // 适配刘海屏
-        val lp = window.attributes
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            lp.layoutInDisplayCutoutMode =
-                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
-        }
-        window.attributes = lp
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
