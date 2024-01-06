@@ -2,8 +2,6 @@ package cn.super12138.todo.views.main
 // 2023.11.18立项
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatDelegate
 import cn.super12138.todo.R
 import cn.super12138.todo.ToDoApplication
@@ -21,7 +19,19 @@ class MainActivity : BaseActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolbar)
+        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.item_settings -> {
+                    val intent = Intent(ToDoApplication.context, SettingsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                else -> false
+            }
+        }
+
+        // setSupportActionBar(binding.toolbar)
         /*val pref = getSharedPreferences("data", Context.MODE_PRIVATE)
         val isFirstUse = pref.getBoolean("first_use", false)
 
@@ -45,20 +55,5 @@ class MainActivity : BaseActivity() {
 
             "2" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.item_settings -> {
-                val intent = Intent(ToDoApplication.context, SettingsActivity::class.java)
-                startActivity(intent)
-            }
-        }
-        return true
     }
 }

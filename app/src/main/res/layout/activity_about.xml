@@ -56,6 +56,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
+                            android:contentDescription="@string/app_name"
                             app:srcCompat="@drawable/ic_launcher" />
 
                         <TextView

@@ -107,7 +107,6 @@ class ToDoFragment : Fragment() {
                             put("context", todoContext)
                         }
                         Repository.insertData(todoData)
-                        // dbHelper.writableDatabase.insert("ToDo", null, todoData)
 
                         binding.todoList.adapter?.notifyItemInserted(todoList.size + 1)
 
@@ -126,7 +125,6 @@ class ToDoFragment : Fragment() {
                     .setPositiveButton(R.string.ok) { dialog, which ->
                         todoList.clear()
                         Repository.deleteData(true, null)
-                        // dbHelper.writableDatabase.delete("ToDo", null, null)
                         binding.todoList.adapter?.notifyItemRangeRemoved(0, todoList.size + 1)
 
                         progressViewModel.updateProgress()
@@ -163,6 +161,7 @@ class ToDoFragment : Fragment() {
                 binding.addItem.show()
             }
         })
+
         todoViewModel.refreshData.observe(viewLifecycleOwner, Observer {
             binding.todoList.adapter?.notifyItemInserted(todoList.size + 1)
         })

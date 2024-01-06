@@ -17,6 +17,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:menu="@menu/main"
             app:title="@string/app_name" />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -35,13 +36,11 @@
             android:layout_weight="3"
             android:minHeight="160dp" />
 
-
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/todo_frag"
             android:name="cn.super12138.todo.views.todo.ToDoFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="2" />
-
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
