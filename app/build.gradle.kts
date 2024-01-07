@@ -3,6 +3,9 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
 }
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
 
 val baseVersionName = "1.0.0"
 val commitHash by lazy { "git rev-parse --short HEAD".exec() }
