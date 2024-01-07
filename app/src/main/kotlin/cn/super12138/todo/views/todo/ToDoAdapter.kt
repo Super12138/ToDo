@@ -1,6 +1,5 @@
 package cn.super12138.todo.views.todo
 
-import android.content.ContentValues
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +10,13 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.RecyclerView
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.Repository
+import cn.super12138.todo.logic.dao.ToDoRoom
 import cn.super12138.todo.logic.model.ToDo
 import cn.super12138.todo.views.progress.ProgressFragmentViewModel
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 class ToDoAdapter(val todoList: MutableList<ToDo>, val viewModelStoreOwner: ViewModelStoreOwner) :
     RecyclerView.Adapter<ToDoAdapter.ViewHolder>() {
@@ -47,12 +50,10 @@ class ToDoAdapter(val todoList: MutableList<ToDo>, val viewModelStoreOwner: View
             notifyItemRemoved(position)
             notifyItemRangeChanged(position, todoList.size)
 
-            val newState = ContentValues().apply {
-                put("state", true)
+            GlobalScope.launch {
+                Repository.updateStateByUUID(todo.uuid)
+                progressViewModel.updateProgress()
             }
-            Repository.updateData(todo.uuid, newState)
-
-            progressViewModel.updateProgress()
 
             // 设置空项目提示可见性
             if (todoList.isEmpty()) {
@@ -73,16 +74,11 @@ class ToDoAdapter(val todoList: MutableList<ToDo>, val viewModelStoreOwner: View
             notifyItemRemoved(position)
             notifyItemRangeChanged(position, todoList.size)
 
-            val tempTaskInfo = ContentValues().apply {
-                put("uuid", todo.uuid)
-                put("state", false)
-                put("subject", todo.subject)
-                put("context", todo.context)
+            GlobalScope.launch {
+                Repository.deleteByUUID(todo.uuid)
+                progressViewModel.updateProgress()
             }
 
-            Repository.deleteData(false, todo.uuid)
-
-            progressViewModel.updateProgress()
 
             // 设置空项目提示可见性
             if (todoList.isEmpty()) {
@@ -99,8 +95,18 @@ class ToDoAdapter(val todoList: MutableList<ToDo>, val viewModelStoreOwner: View
                     todoList.add(ToDo(todo.uuid, todo.context, todo.subject))
 
                     todoViewModel.refreshData.value = 1
-                    Repository.insertData(tempTaskInfo)
-                    progressViewModel.updateProgress()
+
+                    GlobalScope.launch {
+                        Repository.insert(
+                            ToDoRoom(
+                                todo.uuid,
+                                0,
+                                todo.subject,
+                                todo.context
+                            )
+                        )
+                        progressViewModel.updateProgress()
+                    }
                 }
                 .show()
         }

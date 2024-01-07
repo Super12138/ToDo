@@ -2,7 +2,9 @@ package cn.super12138.todo.views.progress
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import cn.super12138.todo.logic.Repository
+import kotlinx.coroutines.launch
 
 class ProgressFragmentViewModel : ViewModel() {
     val totalCount: MutableLiveData<Int> = MutableLiveData()
@@ -10,13 +12,14 @@ class ProgressFragmentViewModel : ViewModel() {
     val progress: MutableLiveData<Int> = MutableLiveData()
 
     fun updateProgress() {
-        val progressData = Repository.getCompleteTotalCount()
-        val total = progressData.total
-        val complete = progressData.complete
-        val calcProgress = (complete.toDouble() / total.toDouble()) * 100
+        viewModelScope.launch {
+            val total = Repository.getAll().size
+            val complete = Repository.getAllComplete().size
 
-        progress.value = calcProgress.toInt()
-        totalCount.value = total
-        completeCount.value = complete
+            val calcProgress = (complete.toDouble() / total.toDouble()) * 100
+            progress.postValue(calcProgress.toInt())
+            completeCount.postValue(complete)
+            totalCount.postValue(total)
+        }
     }
 }

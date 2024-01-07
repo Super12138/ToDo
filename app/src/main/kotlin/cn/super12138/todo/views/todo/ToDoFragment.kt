@@ -1,6 +1,5 @@
 package cn.super12138.todo.views.todo
 
-import android.content.ContentValues
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.super12138.todo.R
@@ -15,9 +15,11 @@ import cn.super12138.todo.ToDoApplication
 import cn.super12138.todo.databinding.DialogAddTodoBinding
 import cn.super12138.todo.databinding.FragmentTodoBinding
 import cn.super12138.todo.logic.Repository
+import cn.super12138.todo.logic.dao.ToDoRoom
 import cn.super12138.todo.logic.model.ToDo
 import cn.super12138.todo.views.progress.ProgressFragmentViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.launch
 import java.util.UUID
 
 class ToDoFragment : Fragment() {
@@ -38,11 +40,6 @@ class ToDoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val todos = Repository.getAllData()
-        for (todo in todos) {
-            todoList.add(ToDo(todo.uuid, todo.context, todo.subject))
-        }
-
         /*ViewCompat.setOnApplyWindowInsetsListener(binding.addItem) { view, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
             view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
@@ -62,6 +59,20 @@ class ToDoFragment : Fragment() {
             ViewModelProvider(requireActivity()).get(ProgressFragmentViewModel::class.java)
         val todoViewModel =
             ViewModelProvider(requireActivity()).get(ToDoFragmentViewModel::class.java)
+
+        lifecycleScope.launch {
+            val todos = Repository.getAllUncomplete()
+            var count = 0
+            for (todo in todos) {
+                todoList.add(ToDo(todo.uuid, todo.context, todo.subject))
+                count++
+            }
+            if (count == 0) {
+                todoViewModel.emptyTipVis.value = View.VISIBLE
+            } else {
+                todoViewModel.emptyTipVis.value = View.GONE
+            }
+        }
 
         if (todoList.size == 0) {
             todoViewModel.emptyTipVis.value = View.VISIBLE
@@ -99,18 +110,19 @@ class ToDoFragment : Fragment() {
                             ToDo(randomUUID, todoContext, todoSubject)
                         )
 
-                        // 添加到数据库
-                        val todoData = ContentValues().apply {
-                            put("uuid", randomUUID)
-                            put("state", 0)
-                            put("subject", todoSubject)
-                            put("context", todoContext)
+                        lifecycleScope.launch {
+                            Repository.insert(
+                                ToDoRoom(
+                                    randomUUID,
+                                    0,
+                                    todoSubject,
+                                    todoContext
+                                )
+                            )
+                            progressViewModel.updateProgress()
                         }
-                        Repository.insertData(todoData)
 
                         binding.todoList.adapter?.notifyItemInserted(todoList.size + 1)
-
-                        progressViewModel.updateProgress()
                     }
                     .setNegativeButton(R.string.cancel, null)
                     .show()
@@ -124,10 +136,11 @@ class ToDoFragment : Fragment() {
                     .setMessage(R.string.delete_confirm)
                     .setPositiveButton(R.string.ok) { dialog, which ->
                         todoList.clear()
-                        Repository.deleteData(true, null)
+                        lifecycleScope.launch {
+                            Repository.deleteAll()
+                            progressViewModel.updateProgress()
+                        }
                         binding.todoList.adapter?.notifyItemRangeRemoved(0, todoList.size + 1)
-
-                        progressViewModel.updateProgress()
 
                         todoViewModel.emptyTipVis.value = View.VISIBLE
                     }

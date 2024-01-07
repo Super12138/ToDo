@@ -3,6 +3,7 @@ package cn.super12138.todo.views.crash
 import android.content.Context
 import android.content.Intent
 import android.os.Process
+import kotlin.system.exitProcess
 
 class CrashHandler(private val context: Context) : Thread.UncaughtExceptionHandler {
 
@@ -18,11 +19,11 @@ class CrashHandler(private val context: Context) : Thread.UncaughtExceptionHandl
         }
         context.startActivity(intent)
 
-        // 杀掉崩溃的应用程序进程
-        Process.killProcess(Process.myPid())
-        System.exit(10)
-
         // 传递异常给默认的异常处理器
         defaultUEH?.uncaughtException(thread, ex)
+
+        // 杀掉崩溃的应用程序进程
+        Process.killProcess(Process.myPid())
+        exitProcess(10)
     }
 }
