@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -64,7 +65,7 @@ class ToDoFragment : Fragment() {
             val todos = Repository.getAllUncomplete()
             var count = 0
             for (todo in todos) {
-                todoList.add(ToDo(todo.uuid, todo.context, todo.subject))
+                todoList.add(ToDo(todo.uuid, todo.content, todo.subject))
                 count++
             }
             if (count == 0) {
@@ -82,12 +83,19 @@ class ToDoFragment : Fragment() {
             ToDoDialogBinding = DialogAddTodoBinding.inflate(layoutInflater)
 
             activity?.let { it1 ->
-                MaterialAlertDialogBuilder(it1)
+                val dialog = MaterialAlertDialogBuilder(it1)
                     .setTitle(R.string.add_task)
                     .setView(ToDoDialogBinding.root)
-                    .setPositiveButton(R.string.ok) { dialog, which ->
+                    .setPositiveButton(R.string.ok, null)
+                    .setNegativeButton(R.string.cancel, null)
+                    .show()
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                    val todoContent = ToDoDialogBinding.todoContent.editText?.text.toString()
+                    if (todoContent.isEmpty()) {
+                        ToDoDialogBinding.todoContent.error =
+                            getString(R.string.content_cannot_be_empty)
+                    } else {
                         val randomUUID = UUID.randomUUID().toString()
-                        val todoContext = ToDoDialogBinding.todoContext.editText?.text.toString()
                         val todoSubject = when (ToDoDialogBinding.todoSubject.checkedChipId) {
                             R.id.subject_chinese -> "语文"
                             R.id.subject_math -> "数学"
@@ -107,7 +115,7 @@ class ToDoFragment : Fragment() {
 
                         // 添加到RecyclerView
                         todoList.add(
-                            ToDo(randomUUID, todoContext, todoSubject)
+                            ToDo(randomUUID, todoContent, todoSubject)
                         )
 
                         lifecycleScope.launch {
@@ -116,16 +124,16 @@ class ToDoFragment : Fragment() {
                                     randomUUID,
                                     0,
                                     todoSubject,
-                                    todoContext
+                                    todoContent
                                 )
                             )
                             progressViewModel.updateProgress()
                         }
 
                         binding.todoList.adapter?.notifyItemInserted(todoList.size + 1)
+                        dialog.dismiss()
                     }
-                    .setNegativeButton(R.string.cancel, null)
-                    .show()
+                }
             }
         }
 

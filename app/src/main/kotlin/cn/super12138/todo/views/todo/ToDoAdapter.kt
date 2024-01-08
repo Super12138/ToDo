@@ -15,14 +15,13 @@ import cn.super12138.todo.logic.model.ToDo
 import cn.super12138.todo.views.progress.ProgressFragmentViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class ToDoAdapter(val todoList: MutableList<ToDo>, val viewModelStoreOwner: ViewModelStoreOwner) :
     RecyclerView.Adapter<ToDoAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val todoContext: TextView = view.findViewById(R.id.todo_context)
+        val todoContext: TextView = view.findViewById(R.id.todo_content)
         val todoSubject: TextView = view.findViewById(R.id.todo_subject)
         val checkToDoBtn: Button = view.findViewById(R.id.check_item_btn)
         val delToDoBtn: Button = view.findViewById(R.id.delete_item_btn)
@@ -92,7 +91,7 @@ class ToDoAdapter(val todoList: MutableList<ToDo>, val viewModelStoreOwner: View
                     if (todoList.size + 1 > 0) {
                         todoViewModel.emptyTipVis.value = View.GONE
                     }
-                    todoList.add(ToDo(todo.uuid, todo.context, todo.subject))
+                    todoList.add(ToDo(todo.uuid, todo.content, todo.subject))
 
                     todoViewModel.refreshData.value = 1
 
@@ -102,7 +101,7 @@ class ToDoAdapter(val todoList: MutableList<ToDo>, val viewModelStoreOwner: View
                                 todo.uuid,
                                 0,
                                 todo.subject,
-                                todo.context
+                                todo.content
                             )
                         )
                         progressViewModel.updateProgress()
@@ -115,7 +114,7 @@ class ToDoAdapter(val todoList: MutableList<ToDo>, val viewModelStoreOwner: View
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val todo = todoList[position]
-        holder.todoContext.text = todo.context
+        holder.todoContext.text = todo.content
         holder.todoSubject.text = todo.subject
     }
 

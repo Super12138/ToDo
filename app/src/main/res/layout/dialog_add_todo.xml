@@ -10,7 +10,7 @@
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/todo_context"
+            android:id="@+id/todo_content"
             style="?attr/textInputFilledExposedDropdownMenuStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
