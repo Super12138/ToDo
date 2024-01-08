@@ -97,15 +97,15 @@ class ToDoFragment : Fragment() {
                     } else {
                         val randomUUID = UUID.randomUUID().toString()
                         val todoSubject = when (ToDoDialogBinding.todoSubject.checkedChipId) {
-                            R.id.subject_chinese -> "语文"
-                            R.id.subject_math -> "数学"
-                            R.id.subject_english -> "英语"
-                            R.id.subject_biology -> "生物"
-                            R.id.subject_geography -> "地理"
-                            R.id.subject_history -> "历史"
-                            R.id.subject_physics -> "物理"
-                            R.id.subject_law -> "道法"
-                            else -> "未知"
+                            R.id.subject_chinese -> getString(R.string.subject_chinese)
+                            R.id.subject_math -> getString(R.string.subject_math)
+                            R.id.subject_english -> getString(R.string.subject_english)
+                            R.id.subject_biology -> getString(R.string.subject_biology)
+                            R.id.subject_geography -> getString(R.string.subject_geography)
+                            R.id.subject_history -> getString(R.string.subject_history)
+                            R.id.subject_physics -> getString(R.string.subject_physics)
+                            R.id.subject_law -> getString(R.string.subject_law)
+                            else -> getString(R.string.subject_unknown)
                         }
 
                         // 显示RecyclerView
