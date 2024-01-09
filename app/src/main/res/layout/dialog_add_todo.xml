@@ -27,6 +27,7 @@
             <AutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:labelFor="@string/tasks_textfield_hint"
                 app:simpleItems="@array/todo_predicts" />
         </com.google.android.material.textfield.TextInputLayout>
 
