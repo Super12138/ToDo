@@ -11,14 +11,16 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:max="100"
-        app:indicatorSize="160dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:indicatorSize="160dp"
         app:trackColor="?attr/colorSurfaceContainerHighest"
-        app:trackCornerRadius="5dp"
-        app:trackThickness="10dp" />
+        app:trackCornerRadius="25dp"
+        app:trackThickness="10dp"
+        app:showDelay="150"
+        app:indicatorTrackGapSize="10dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"

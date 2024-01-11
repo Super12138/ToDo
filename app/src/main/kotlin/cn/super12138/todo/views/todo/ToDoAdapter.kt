@@ -116,6 +116,11 @@ class ToDoAdapter(val todoList: MutableList<ToDo>, val viewModelStoreOwner: View
         val todo = todoList[position]
         holder.todoContext.text = todo.content
         holder.todoSubject.text = todo.subject
+        if (!todo.isAnimated) {
+            holder.itemView.alpha = 0f
+            holder.itemView.animate().alpha(1f).duration = 200
+            todo.isAnimated = true
+        }
     }
 
     override fun getItemCount() = todoList.size

@@ -2,6 +2,7 @@ package cn.super12138.todo.views.main
 // 2023.11.18立项
 import android.content.Intent
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatDelegate
 import cn.super12138.todo.R
 import cn.super12138.todo.ToDoApplication
@@ -48,12 +49,22 @@ class MainActivity : BaseActivity() {
         }*/
 
         val isDarkMode = Repository.getPreferenceString(this, "dark_mode", "0")
+        val isSecureMode = Repository.getPreferenceBoolean(this, "secure_mode", false)
         when (isDarkMode) {
             "0" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
 
             "1" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
             "2" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+        when (isSecureMode) {
+            true -> window.setFlags(
+                WindowManager.LayoutParams.FLAG_SECURE,
+                WindowManager.LayoutParams.FLAG_SECURE
+            )
+
+            false -> window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+            else -> window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
         }
     }
 }

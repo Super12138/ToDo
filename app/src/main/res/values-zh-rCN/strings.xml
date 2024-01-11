@@ -41,4 +41,8 @@
     <string name="view_source">在 GitHub 上查看源代码</string>
     <string name="config">配置</string>
     <string name="others">其它</string>
+    <string name="secure_mode">阻止截屏</string>
+    <string name="secure_mode_summary">开启后任何人将不能对待办列表进行截屏</string>
+    <string name="need_restart_app">重启应用后生效</string>
+    <string name="restart_app_now">立即重启</string>
 </resources>

@@ -1,12 +1,17 @@
 package cn.super12138.todo.views.settings
 
 import android.os.Bundle
+import android.os.Process
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreference
 import cn.super12138.todo.R
 import cn.super12138.todo.databinding.ActivitySettingsBinding
 import cn.super12138.todo.views.BaseActivity
+import com.google.android.material.snackbar.Snackbar
+import kotlin.system.exitProcess
 
 class SettingsActivity : BaseActivity() {
     private lateinit var binding: ActivitySettingsBinding
@@ -45,6 +50,29 @@ class SettingsActivity : BaseActivity() {
                         "2" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                     }
                     activity?.recreate()
+                    true
+                }
+            }
+
+            findPreference<SwitchPreference>("secure_mode")?.apply {
+                setOnPreferenceChangeListener { preference, newValue ->
+                    when (newValue) {
+                        true -> activity?.window?.setFlags(
+                            WindowManager.LayoutParams.FLAG_SECURE,
+                            WindowManager.LayoutParams.FLAG_SECURE
+                        )
+
+                        false -> activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+                    }
+                    view?.let {
+                        Snackbar.make(it, R.string.need_restart_app, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.restart_app_now) {
+                                Process.killProcess(Process.myPid())
+                                exitProcess(10)
+                            }
+                            .show()
+                    }
+
                     true
                 }
             }

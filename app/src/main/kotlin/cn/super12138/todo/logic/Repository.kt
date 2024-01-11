@@ -14,6 +14,13 @@ object Repository {
     fun getPreferenceString(context: Context, key: String, defaultValue: String) =
         SPHelper.getPreferenceString(context, key, defaultValue)
 
+
+    /**
+     * 获取应用设置的布尔值
+     */
+    fun getPreferenceBoolean(context: Context, key: String, defaultValue: Boolean) =
+        SPHelper.getPreferenceBoolean(context, key, defaultValue)
+
     // Room
     private val db get() = ToDoApplication.db
     val todoDao = db.toDoRoomDao()

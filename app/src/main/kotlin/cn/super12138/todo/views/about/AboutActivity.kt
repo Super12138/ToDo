@@ -56,10 +56,11 @@ class AboutActivity : BaseActivity() {
 
         binding.appVersion.setOnClickListener {
             clickCount++
-
-            if (clickCount == 5) {
-                clickCount = 0
-                "🧧".showToast()
+            when (clickCount) {
+                5 -> {
+                    clickCount = 0
+                    "🧧".showToast()
+                }
             }
         }
     }

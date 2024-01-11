@@ -41,4 +41,8 @@
     <string name="dark_mode_summary">Enable or disable the dark mode for this app</string>
     <string name="config">Config</string>
     <string name="others">Others</string>
+    <string name="secure_mode">Prevent screenshot</string>
+    <string name="secure_mode_summary">When it opens anybody cannot take screenshot for to do list</string>
+    <string name="need_restart_app">Effective after restarting the app</string>
+    <string name="restart_app_now">Restart now</string>
 </resources>

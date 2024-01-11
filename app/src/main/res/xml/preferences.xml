@@ -10,16 +10,21 @@
             app:summary="@string/dark_mode_summary" />
     </PreferenceCategory>
 
-    <!--<PreferenceCategory app:title="@string/config">
-        <EditTextPreference
+    <PreferenceCategory app:title="@string/config">
+        <!--<EditTextPreference
             android:defaultValue=""
             android:key="todo_predict_custom"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="文本预测项目"
             app:dialogMessage="多个项目请使用英文逗号隔开"
-            app:summary="自定义创建待办时文本框的预测项" />
-    </PreferenceCategory>-->
+            app:summary="自定义创建待办时文本框的预测项" />-->
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="secure_mode"
+            android:title="@string/secure_mode"
+            app:summary="@string/secure_mode_summary" />
+    </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/others">
         <Preference app:title="@string/about_label">
