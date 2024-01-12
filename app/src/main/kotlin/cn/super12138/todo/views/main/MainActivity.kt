@@ -64,7 +64,6 @@ class MainActivity : BaseActivity() {
             )
 
             false -> window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
-            else -> window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
         }
     }
 }
