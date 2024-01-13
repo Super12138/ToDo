@@ -6,7 +6,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.SwitchPreference
+import androidx.preference.SwitchPreferenceCompat
 import cn.super12138.todo.R
 import cn.super12138.todo.databinding.ActivitySettingsBinding
 import cn.super12138.todo.views.BaseActivity
@@ -54,7 +54,7 @@ class SettingsActivity : BaseActivity() {
                 }
             }
 
-            findPreference<SwitchPreference>("secure_mode")?.apply {
+            findPreference<SwitchPreferenceCompat>("secure_mode")?.apply {
                 setOnPreferenceChangeListener { preference, newValue ->
                     when (newValue) {
                         true -> activity?.window?.setFlags(
