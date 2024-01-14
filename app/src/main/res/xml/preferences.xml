@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory app:title="@string/appearance">
         <ListPreference
+            android:icon="@drawable/dark_mode_24"
             android:defaultValue="0"
             android:entries="@array/appearance"
             android:entryValues="@array/appearance_value"
@@ -20,6 +21,7 @@
             app:dialogMessage="多个项目请使用英文逗号隔开"
             app:summary="自定义创建待办时文本框的预测项" />-->
         <SwitchPreferenceCompat
+            android:icon="@drawable/screenshot_24"
             app:defaultValue="false"
             app:key="secure_mode"
             app:title="@string/secure_mode"
@@ -27,7 +29,9 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/others">
-        <Preference app:title="@string/about_label">
+        <Preference
+            android:icon="@drawable/about_24"
+            app:title="@string/about_label">
             <intent
                 android:targetClass="cn.super12138.todo.views.about.AboutActivity"
                 android:targetPackage="cn.super12138.todo" />

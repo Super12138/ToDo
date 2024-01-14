@@ -47,7 +47,25 @@
         <item name="colorSurfaceContainer">@color/md_theme_surfaceContainer</item>
         <item name="colorSurfaceContainerHigh">@color/md_theme_surfaceContainerHigh</item>
         <item name="colorSurfaceContainerHighest">@color/md_theme_surfaceContainerHighest</item>
+
+        <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
+        <item name="alertDialogTheme">@style/ToDo.M3AlertDialog</item>
     </style>
 
     <style name="Theme.ToDo" parent="Base.Theme.ToDo" />
+
+    <style name="AppPreferenceThemeOverlay" parent="@style/PreferenceThemeOverlay">
+        <item name="switchPreferenceCompatStyle">@style/AppSwitchPreference</item>
+    </style>
+
+    <style name="AppSwitchPreference" parent="@style/Preference.SwitchPreferenceCompat.Material">
+        <item name="widgetLayout">@layout/preference_material_switch</item>
+    </style>
+
+    <style name="ToDo.M3AlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="dialogCornerRadius">28dp</item>
+        <item name="cornerFamily">rounded</item>
+        <item name="android:colorBackground">?attr/colorSurfaceContainerHigh</item>
+        <item name="android:layout">@layout/m3_alert_dialog</item>
+    </style>
 </resources>
