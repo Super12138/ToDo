@@ -1,7 +1,7 @@
 # 待办 | ToDo
 简单的待办应用，遵循Material Design 3
 
-**简体中文** | (English)[https://github.com/Super12138/ToDo/blob/main/README_EN.md]
+**简体中文** | [English](https://github.com/Super12138/ToDo/blob/main/README_EN.md)
 
 [![Android CI](https://github.com/Super12138/ToDo/actions/workflows/android_ci.yml/badge.svg)](https://github.com/Super12138/ToDo/actions/workflows/android_ci.yml)
 ![GitHub all releases download](https://img.shields.io/github/downloads/Super12138/ToDo/total?style=flat-square)
