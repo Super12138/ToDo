@@ -34,13 +34,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:minHeight="160dp" />
+            android:minHeight="160dp"
+            tools:layout="@layout/fragment_progress" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/todo_frag"
             android:name="cn.super12138.todo.views.todo.ToDoFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2" />
+            android:layout_weight="2"
+            tools:layout="@layout/fragment_todo" />
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
