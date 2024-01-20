@@ -2,10 +2,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory app:title="@string/appearance">
         <ListPreference
-            android:icon="@drawable/dark_mode_24"
             android:defaultValue="0"
             android:entries="@array/appearance"
             android:entryValues="@array/appearance_value"
+            android:icon="@drawable/dark_mode_24"
             android:key="dark_mode"
             android:title="@string/dark_mode"
             app:summary="@string/dark_mode_summary" />
@@ -24,8 +24,18 @@
             android:icon="@drawable/screenshot_24"
             app:defaultValue="false"
             app:key="secure_mode"
-            app:title="@string/secure_mode"
-            app:summary="@string/secure_mode_summary" />
+            app:summary="@string/secure_mode_summary"
+            app:title="@string/secure_mode" />
+        <Preference
+            android:icon="@drawable/backup_24"
+            app:key="backupDB"
+            app:summary="@string/backup_summary"
+            app:title="@string/backup" />
+        <Preference
+            android:icon="@drawable/restore_24"
+            app:key="restoreDB"
+            app:summary="@string/restore_summary"
+            app:title="@string/restore" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/others">

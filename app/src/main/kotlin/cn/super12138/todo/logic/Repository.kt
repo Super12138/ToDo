@@ -14,7 +14,6 @@ object Repository {
     fun getPreferenceString(context: Context, key: String, defaultValue: String) =
         SPHelper.getPreferenceString(context, key, defaultValue)
 
-
     /**
      * 获取应用设置的布尔值
      */

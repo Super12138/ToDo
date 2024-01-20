@@ -45,4 +45,8 @@
     <string name="secure_mode_summary">开启后任何人将不能对待办列表进行截屏</string>
     <string name="need_restart_app">重启应用后生效</string>
     <string name="restart_app_now">立即重启</string>
+    <string name="backup">备份数据库</string>
+    <string name="backup_summary">备份待办数据库</string>
+    <string name="restore">恢复数据库</string>
+    <string name="restore_summary">恢复先前备份过的待办数据库</string>
 </resources>
