@@ -49,4 +49,15 @@
     <string name="backup_summary">备份待办数据库</string>
     <string name="restore">恢复数据库</string>
     <string name="restore_summary">恢复先前备份过的待办数据库</string>
+    <string name="backup_tips">下方是数据库文件，请全选复制以导出</string>
+    <string name="restore_tips">在下方粘贴已经导出的数据库</string>
+    <string name="overwrite_data">覆盖原有数据</string>
+    <string name="paste_data">粘贴导出的数据</string>
+    <string name="export_data">导出数据</string>
+    <string name="restore_data">恢复数据</string>
+    <string name="please_paste_data">请粘贴数据</string>
+    <string name="restore_successful">数据恢复成功</string>
+    <string name="restore_need_restart_app">需要重启应用以应用恢复的数据</string>
+    <string name="json_data_incorrect">JSON 数据格式错误</string>
+    <string name="restore_failed">恢复失败，请检查是否重复恢复同一次备份的数据</string>
 </resources>

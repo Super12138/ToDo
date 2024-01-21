@@ -63,7 +63,7 @@
     </style>
 
     <style name="ToDo.M3AlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
-        <item name="dialogCornerRadius">28dp</item>
+        <item name="dialogCornerRadius">30dp</item>
         <item name="cornerFamily">rounded</item>
         <item name="android:colorBackground">?attr/colorSurfaceContainerHigh</item>
         <item name="android:layout">@layout/m3_alert_dialog</item>

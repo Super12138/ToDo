@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_bar"
@@ -11,16 +12,15 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:max="100"
+        app:indicatorSize="160dp"
+        app:indicatorTrackGapSize="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:indicatorSize="160dp"
         app:trackColor="?attr/colorSurfaceContainerHighest"
         app:trackCornerRadius="25dp"
-        app:trackThickness="10dp"
-        app:showDelay="150"
-        app:indicatorTrackGapSize="10dp"/>
+        app:trackThickness="10dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
