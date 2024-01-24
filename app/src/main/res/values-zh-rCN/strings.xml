@@ -20,6 +20,7 @@
     <string name="subject_history">历史</string>
     <string name="subject_geography">地理</string>
     <string name="subject_law">道法</string>
+    <string name="subject_other">其它</string>
     <!--UI-->
     <string name="cancel">取消</string>
     <string name="ok">确定</string>

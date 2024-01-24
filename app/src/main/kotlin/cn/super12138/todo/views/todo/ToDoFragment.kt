@@ -105,6 +105,7 @@ class ToDoFragment : Fragment() {
                             R.id.subject_history -> getString(R.string.subject_history)
                             R.id.subject_physics -> getString(R.string.subject_physics)
                             R.id.subject_law -> getString(R.string.subject_law)
+                            R.id.subject_other -> getString(R.string.subject_other)
                             else -> getString(R.string.subject_unknown)
                         }
 
@@ -172,10 +173,20 @@ class ToDoFragment : Fragment() {
 
         todoViewModel.emptyTipVis.observe(viewLifecycleOwner, Observer { visibility ->
             if (visibility == View.VISIBLE) {
+                binding.todoList.alpha = 1f
+                binding.todoList.animate().alpha(0f).duration = 200
                 binding.todoList.visibility = View.GONE
+
+                binding.emptyTip.alpha = 0f
                 binding.emptyTip.visibility = View.VISIBLE
+                binding.emptyTip.animate().alpha(1f).duration = 200
             } else {
+                binding.todoList.alpha = 0f
                 binding.todoList.visibility = View.VISIBLE
+                binding.todoList.animate().alpha(1f).duration = 200
+
+                binding.emptyTip.alpha = 1f
+                binding.emptyTip.animate().alpha(0f).duration = 200
                 binding.emptyTip.visibility = View.GONE
             }
             if (todoList.size == 0 && !binding.addItem.isShown) {

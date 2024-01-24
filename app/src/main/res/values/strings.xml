@@ -20,6 +20,7 @@
     <string name="subject_history">History</string>
     <string name="subject_geography">Geography</string>
     <string name="subject_law">Law</string>
+    <string name="subject_other">Other</string>
     <!--UI-->
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
