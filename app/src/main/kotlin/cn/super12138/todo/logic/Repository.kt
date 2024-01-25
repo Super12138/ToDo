@@ -9,6 +9,12 @@ import kotlinx.coroutines.withContext
 
 object Repository {
     /**
+     * 设置数据到应用设置中
+     */
+    fun setPreference(context: Context, key: String, value: Any) =
+        SPHelper.setPreference(context, key, value)
+
+    /**
      * 获取应用设置里的数据
      */
     fun getPreferenceString(context: Context, key: String, defaultValue: String) =

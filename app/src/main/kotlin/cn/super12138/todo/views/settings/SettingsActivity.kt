@@ -5,21 +5,19 @@ import android.os.Process
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import cn.super12138.todo.R
+import cn.super12138.todo.ToDoApplication
 import cn.super12138.todo.databinding.ActivitySettingsBinding
 import cn.super12138.todo.databinding.DialogBackupBinding
 import cn.super12138.todo.databinding.DialogRestoreBinding
 import cn.super12138.todo.logic.Repository
 import cn.super12138.todo.logic.dao.ToDoRoom
 import cn.super12138.todo.views.BaseActivity
-import cn.super12138.todo.views.progress.ProgressFragmentViewModel
-import cn.super12138.todo.views.todo.ToDoFragmentViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
@@ -56,10 +54,8 @@ class SettingsActivity : BaseActivity() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.preferences, rootKey)
             val gson = Gson()
-            val progressViewModel =
-                ViewModelProvider(requireActivity()).get(ProgressFragmentViewModel::class.java)
-            val todoViewModel =
-                ViewModelProvider(requireActivity()).get(ToDoFragmentViewModel::class.java)
+            val isDevMode =
+                Repository.getPreferenceBoolean(ToDoApplication.context, "dev_mode", false)
 
             findPreference<ListPreference>("dark_mode")?.apply {
                 setOnPreferenceChangeListener { preference, newValue ->
@@ -161,8 +157,12 @@ class SettingsActivity : BaseActivity() {
                                     restoreBinding.jsonInput.error =
                                         getString(R.string.json_data_incorrect)
                                 } catch (e: Exception) {
-                                    restoreBinding.jsonInput.error =
-                                        getString(R.string.restore_failed)
+                                    if (isDevMode) {
+                                        restoreBinding.jsonInput.error = e.toString()
+                                    } else {
+                                        restoreBinding.jsonInput.error =
+                                            getString(R.string.restore_failed)
+                                    }
                                 }
                             }
                         }

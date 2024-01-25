@@ -35,7 +35,7 @@ class ToDoAdapter(val todoList: MutableList<ToDo>, val viewModelStoreOwner: View
             ViewModelProvider(viewModelStoreOwner).get(ToDoFragmentViewModel::class.java)
 
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.todo_item, parent, false)
+            .inflate(R.layout.item_todo, parent, false)
         val holder = ViewHolder(view)
 
         holder.checkToDoBtn.setOnClickListener {

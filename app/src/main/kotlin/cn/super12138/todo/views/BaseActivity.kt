@@ -4,9 +4,17 @@ import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import cn.super12138.todo.R
+import cn.super12138.todo.ToDoApplication
+import cn.super12138.todo.logic.Repository
 
 open class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        val springFestivalTheme =
+            Repository.getPreferenceBoolean(ToDoApplication.context, "spring_festival_theme", false)
+        if (springFestivalTheme) {
+            setTheme(R.style.Theme_SpringFestival)
+        }
         // enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         // 适配刘海屏
