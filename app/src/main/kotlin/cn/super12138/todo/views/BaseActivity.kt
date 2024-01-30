@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import cn.super12138.todo.R
 import cn.super12138.todo.ToDoApplication
 import cn.super12138.todo.logic.Repository
@@ -17,6 +18,17 @@ open class BaseActivity : AppCompatActivity() {
         }
         // enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+
+        // 深色模式
+        val isDarkMode = Repository.getPreferenceString(this, "dark_mode", "0")
+        when (isDarkMode) {
+            "0" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+
+            "1" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+
+            "2" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+
         // 适配刘海屏
         val lp = window.attributes
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {

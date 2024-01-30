@@ -58,7 +58,7 @@ class SettingsActivity : BaseActivity() {
                 Repository.getPreferenceBoolean(ToDoApplication.context, "dev_mode", false)
 
             findPreference<ListPreference>("dark_mode")?.apply {
-                setOnPreferenceChangeListener { preference, newValue ->
+                setOnPreferenceChangeListener { _, newValue ->
                     when (newValue) {
                         "0" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
 
@@ -72,7 +72,7 @@ class SettingsActivity : BaseActivity() {
             }
 
             findPreference<SwitchPreferenceCompat>("secure_mode")?.apply {
-                setOnPreferenceChangeListener { preference, newValue ->
+                setOnPreferenceChangeListener { _, newValue ->
                     when (newValue) {
                         true -> activity?.window?.setFlags(
                             WindowManager.LayoutParams.FLAG_SECURE,

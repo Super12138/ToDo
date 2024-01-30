@@ -28,7 +28,6 @@ class ToDoFragment : Fragment() {
 
     private lateinit var binding: FragmentTodoBinding
     private lateinit var ToDoDialogBinding: DialogAddTodoBinding
-    private val todoList = ArrayList<ToDo>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,31 +51,19 @@ class ToDoFragment : Fragment() {
             WindowInsetsCompat.CONSUMED
         }*/
 
-        val layoutManager = LinearLayoutManager(ToDoApplication.context)
-        binding.todoList.layoutManager = layoutManager
-        val adapter = ToDoAdapter(todoList, requireActivity())
-        binding.todoList.adapter = adapter
-
         val progressViewModel =
             ViewModelProvider(requireActivity()).get(ProgressFragmentViewModel::class.java)
         val todoViewModel =
             ViewModelProvider(requireActivity()).get(ToDoFragmentViewModel::class.java)
 
-        lifecycleScope.launch {
-            val todos = Repository.getAllUncomplete()
-            var count = 0
-            for (todo in todos) {
-                todoList.add(ToDo(todo.uuid, todo.content, todo.subject))
-                count++
-            }
-            if (count == 0) {
-                todoViewModel.emptyTipVis.value = View.VISIBLE
-            } else {
-                todoViewModel.emptyTipVis.value = View.GONE
-            }
-        }
+        val todoList = todoViewModel.todoList
 
-        if (todoList.size == 0) {
+        val layoutManager = LinearLayoutManager(ToDoApplication.context)
+        binding.todoList.layoutManager = layoutManager
+        val adapter = ToDoAdapter(todoList, requireActivity())
+        binding.todoList.adapter = adapter
+
+        if (todoList.isEmpty()) {
             todoViewModel.emptyTipVis.value = View.VISIBLE
         }
 
@@ -158,7 +145,7 @@ class ToDoFragment : Fragment() {
                 MaterialAlertDialogBuilder(it1)
                     .setTitle(R.string.warning)
                     .setMessage(R.string.delete_confirm)
-                    .setPositiveButton(R.string.ok) { dialog, which ->
+                    .setPositiveButton(R.string.ok) { _, _ ->
                         todoList.clear()
                         lifecycleScope.launch {
                             Repository.deleteAll()
