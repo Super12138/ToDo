@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        app:liftOnScroll="false">
+        app:liftOnScrollTargetViewId="@id/progress_frag">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
