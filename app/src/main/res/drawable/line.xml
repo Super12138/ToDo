@@ -2,6 +2,12 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
+    <corners
+        android:bottomLeftRadius="44dp"
+        android:bottomRightRadius="44dp"
+        android:topLeftRadius="44dp"
+        android:topRightRadius="44dp" />
+
     <solid android:color="?attr/colorSurfaceContainerHighest" />
 
     <padding
