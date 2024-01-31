@@ -5,7 +5,7 @@
             android:defaultValue="0"
             android:entries="@array/appearance"
             android:entryValues="@array/appearance_value"
-            android:icon="@drawable/dark_mode_24"
+            android:icon="@drawable/ic_dark_mode"
             android:key="dark_mode"
             android:title="@string/dark_mode"
             app:summary="@string/dark_mode_summary" />
@@ -21,18 +21,18 @@
             app:dialogMessage="多个项目请使用英文逗号隔开"
             app:summary="自定义创建待办时文本框的预测项" />-->
         <SwitchPreferenceCompat
-            android:icon="@drawable/screenshot_24"
+            android:icon="@drawable/ic_screenshot"
             app:defaultValue="false"
             app:key="secure_mode"
             app:summary="@string/secure_mode_summary"
             app:title="@string/secure_mode" />
         <Preference
-            android:icon="@drawable/backup_24"
+            android:icon="@drawable/ic_backup"
             app:key="backupDB"
             app:summary="@string/backup_summary"
             app:title="@string/backup" />
         <Preference
-            android:icon="@drawable/restore_24"
+            android:icon="@drawable/ic_restore"
             app:key="restoreDB"
             app:summary="@string/restore_summary"
             app:title="@string/restore" />
@@ -40,7 +40,7 @@
 
     <PreferenceCategory android:title="@string/others">
         <Preference
-            android:icon="@drawable/about_24"
+            android:icon="@drawable/ic_about"
             app:title="@string/about_label">
             <intent
                 android:targetClass="cn.super12138.todo.views.about.AboutActivity"

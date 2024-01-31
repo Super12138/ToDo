@@ -16,7 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="@drawable/arrow_back_24"
+            app:navigationIcon="@drawable/ic_arrow_back"
             app:title="@string/about_label" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -94,7 +94,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15dp"
-                            app:srcCompat="@drawable/update_24" />
+                            app:srcCompat="@drawable/ic_update" />
 
                         <TextView
                             android:id="@+id/check_update_text"
@@ -121,7 +121,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15dp"
-                            app:srcCompat="@drawable/github_24" />
+                            app:srcCompat="@drawable/ic_github" />
 
                         <TextView
                             android:id="@+id/open_source_text"
@@ -148,7 +148,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15dp"
-                            app:srcCompat="@drawable/person_24" />
+                            app:srcCompat="@drawable/ic_person" />
 
                         <TextView
                             android:id="@+id/developer_name"

@@ -55,6 +55,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:text="@string/exit_app"
-        app:icon="@drawable/exit_to_app_24" />
+        app:icon="@drawable/ic_exit" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
