@@ -5,32 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="end"
-        android:orientation="horizontal"
-        android:animateLayoutChanges="true">
-
-        <Button
-            android:id="@+id/delete_all_item"
-            style="?attr/materialIconButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:tooltipText="@string/delete_all"
-            app:icon="@drawable/delete_forever_24" />
-
-        <Button
-            android:id="@+id/add_item"
-            style="?attr/materialIconButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:tooltipText="@string/add_task"
-            app:icon="@drawable/add_24" />
-    </LinearLayout>-->
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/todo_list"
         android:layout_width="match_parent"
@@ -56,5 +30,10 @@
         android:layout_margin="16dp"
         android:contentDescription="@string/add_task"
         android:text="@string/add_task"
-        app:icon="@drawable/add_24" />
+        app:icon="@drawable/ic_add"
+        app:fastScrollEnabled="true"
+        app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
+        app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
+        app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
+        app:fastScrollVerticalTrackDrawable="@drawable/line_drawable" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
