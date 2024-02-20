@@ -7,7 +7,7 @@
     <string name="view_source">View source on GitHub</string>
     <!--Crash Activity-->
     <string name="error_title">Oops! App went wrong</string>
-    <string name="error_tips">Don\'t worry, crash logs under there! Please copy them and send to me, I\'ll solve this problem</string>
+    <string name="error_tips">Don\'t worry, below is the error log. Please select all and copy it, and then provide feedback on GitHub Issues. I will resolve the issue as soon as possible.</string>
     <string name="no_crash_logs">No crash logs</string>
     <string name="exit_app">Exit app</string>
     <!--Subjects-->

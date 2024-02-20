@@ -7,7 +7,7 @@
     <string name="check_update">检查更新</string>
     <!--Crash Activity-->
     <string name="error_title">应用程序出现错误</string>
-    <string name="error_tips">别担心，下方是错误日志，请全选复制然后把它发送给我，我会尽快解决问题</string>
+    <string name="error_tips">别担心，下方是错误日志，请全选复制然后反馈到 GitHub Issues，我会尽快解决问题</string>
     <string name="no_crash_logs">没有日志传入</string>
     <string name="exit_app">退出应用</string>
     <!--Subjects-->
