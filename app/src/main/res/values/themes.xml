@@ -59,7 +59,7 @@
     </style>
 
     <style name="AppSwitchPreference" parent="@style/Preference.SwitchPreferenceCompat.Material">
-        <item name="widgetLayout">@layout/preference_material_switch</item>
+        <item name="widgetLayout">@layout/preference_switch_m3</item>
     </style>
 
     <style name="ToDo.M3AlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
