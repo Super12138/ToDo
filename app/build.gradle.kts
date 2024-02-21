@@ -71,6 +71,8 @@ dependencies {
     ksp("androidx.room:room-compiler:2.6.1")
     // Gson
     implementation("com.google.code.gson:gson:2.10.1")
+    // Fast Scroll
+    implementation("me.zhanghai.android.fastscroll:library:1.3.0")
     // Test
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

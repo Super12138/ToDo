@@ -21,6 +21,7 @@ import cn.super12138.todo.logic.model.ToDo
 import cn.super12138.todo.views.progress.ProgressFragmentViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
+import me.zhanghai.android.fastscroll.FastScrollerBuilder
 import showToast
 import java.util.UUID
 
@@ -62,6 +63,11 @@ class ToDoFragment : Fragment() {
         binding.todoList.layoutManager = layoutManager
         val adapter = ToDoAdapter(todoList, requireActivity())
         binding.todoList.adapter = adapter
+
+        FastScrollerBuilder(binding.todoList).apply {
+            useMd2Style()
+            build()
+        }
 
         if (todoList.isEmpty()) {
             todoViewModel.emptyTipVis.value = View.VISIBLE
