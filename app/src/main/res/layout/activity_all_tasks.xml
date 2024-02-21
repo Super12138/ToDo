@@ -23,24 +23,28 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/all_tasks_list"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:visibility="gone"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/all_tasks_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
 
 
-    <TextView
-        android:id="@+id/empty_tip"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:text="@string/no_tasks"
-        android:textSize="14sp"
-        android:visibility="visible" />
+        <TextView
+            android:id="@+id/empty_tip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/no_tasks"
+            android:textSize="14sp"
+            android:visibility="visible" />
+    </FrameLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
