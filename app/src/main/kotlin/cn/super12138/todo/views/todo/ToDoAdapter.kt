@@ -27,7 +27,6 @@ class ToDoAdapter(val todoList: MutableList<ToDo>, val viewModelStoreOwner: View
         val delToDoBtn: Button = view.findViewById(R.id.delete_item_btn)
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val progressViewModel =
             ViewModelProvider(viewModelStoreOwner).get(ProgressFragmentViewModel::class.java)
@@ -91,7 +90,7 @@ class ToDoAdapter(val todoList: MutableList<ToDo>, val viewModelStoreOwner: View
                     if (todoList.size + 1 > 0) {
                         todoViewModel.emptyTipVis.value = View.GONE
                     }
-                    todoList.add(ToDo(todo.uuid, todo.content, todo.subject))
+                    todoList.add(ToDo(todo.uuid,0 , todo.content, todo.subject))
 
                     todoViewModel.refreshData.value = 1
 

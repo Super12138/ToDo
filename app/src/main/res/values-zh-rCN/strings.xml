@@ -64,4 +64,8 @@
     <string name="view_all_tasks_label">查看全部待办</string>
     <string name="all_tasks_label">全部代办</string>
     <string name="view_all_tasks_summary">查看包含已完成的待办在内的全部待办</string>
+    <string name="info_subject">学科：%s</string>
+    <string name="info_state_complete">状态：已完成</string>
+    <string name="info_state_incomplete">状态：未完成</string>
+    <string name="info_uuid">UUID：%s</string>
 </resources>

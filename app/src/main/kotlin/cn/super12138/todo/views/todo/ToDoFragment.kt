@@ -28,7 +28,7 @@ import java.util.UUID
 class ToDoFragment : Fragment() {
 
     private lateinit var binding: FragmentTodoBinding
-    private lateinit var ToDoDialogBinding: DialogAddTodoBinding
+    private lateinit var toDoDialogBinding: DialogAddTodoBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -74,19 +74,19 @@ class ToDoFragment : Fragment() {
         }
 
         binding.addItem.setOnClickListener {
-            ToDoDialogBinding = DialogAddTodoBinding.inflate(layoutInflater)
+            toDoDialogBinding = DialogAddTodoBinding.inflate(layoutInflater)
 
             activity?.let { it1 ->
                 val dialog = MaterialAlertDialogBuilder(it1)
                     .setTitle(R.string.add_task)
-                    .setView(ToDoDialogBinding.root)
+                    .setView(toDoDialogBinding.root)
                     .setPositiveButton(R.string.ok, null)
                     .setNegativeButton(R.string.cancel, null)
                     .show()
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-                    val todoContent = ToDoDialogBinding.todoContent.editText?.text.toString()
+                    val todoContent = toDoDialogBinding.todoContent.editText?.text.toString()
                     if (todoContent.isEmpty()) {
-                        ToDoDialogBinding.todoContent.error =
+                        toDoDialogBinding.todoContent.error =
                             getString(R.string.content_cannot_be_empty)
                     } else {
                         if (todoContent == "/DEV_MODE") {
@@ -104,7 +104,7 @@ class ToDoFragment : Fragment() {
                             dialog.dismiss()
                         } else {
                             val randomUUID = UUID.randomUUID().toString()
-                            val todoSubject = when (ToDoDialogBinding.todoSubject.checkedChipId) {
+                            val todoSubject = when (toDoDialogBinding.todoSubject.checkedChipId) {
                                 R.id.subject_chinese -> getString(R.string.subject_chinese)
                                 R.id.subject_math -> getString(R.string.subject_math)
                                 R.id.subject_english -> getString(R.string.subject_english)
@@ -124,7 +124,7 @@ class ToDoFragment : Fragment() {
 
                             // 添加到RecyclerView
                             todoList.add(
-                                ToDo(randomUUID, todoContent, todoSubject)
+                                ToDo(randomUUID, 0, todoContent, todoSubject)
                             )
 
                             lifecycleScope.launch {

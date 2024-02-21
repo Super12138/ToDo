@@ -4,11 +4,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.model.ToDo
 
-class AllTasksAdapter(private val todoList: MutableList<ToDo>) :
+class AllTasksAdapter(private val todoList: MutableList<ToDo>,
+                      private val fragmentManager: FragmentManager) :
     RecyclerView.Adapter<AllTasksAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -27,6 +29,18 @@ class AllTasksAdapter(private val todoList: MutableList<ToDo>) :
         val todo = todoList[position]
         holder.todoContext.text = todo.content
         holder.todoSubject.text = todo.subject
+
+
+        holder.itemView.setOnClickListener {
+            val infoBottomSheet = InfoBottomSheet.newInstance(
+                todo.content,
+                todo.subject,
+                todo.state,
+                todo.uuid
+            )
+            infoBottomSheet.show(fragmentManager, InfoBottomSheet.TAG)
+        }
+
         if (!todo.isAnimated) {
             holder.itemView.alpha = 0f
             holder.itemView.animate().alpha(1f).duration = 200

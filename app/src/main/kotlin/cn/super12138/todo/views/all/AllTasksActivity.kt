@@ -34,7 +34,7 @@ class AllTasksActivity : BaseActivity() {
 
         val layoutManager = LinearLayoutManager(ToDoApplication.context)
         binding.allTasksList.layoutManager = layoutManager
-        val adapter = AllTasksAdapter(viewModel.todoListAll)
+        val adapter = AllTasksAdapter(viewModel.todoListAll, supportFragmentManager)
         binding.allTasksList.adapter = adapter
 
         FastScrollerBuilder(binding.allTasksList).apply {

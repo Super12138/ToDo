@@ -64,4 +64,8 @@
     <string name="view_all_tasks_label">View all tasks</string>
     <string name="all_tasks_label">All tasks</string>
     <string name="view_all_tasks_summary">View all tasks including those that have been checked as completed</string>
+    <string name="info_subject">Subject: %s</string>
+    <string name="info_state_complete">State: complete</string>
+    <string name="info_state_incomplete">State: incomplete</string>
+    <string name="info_uuid">UUID: %s</string>
 </resources>

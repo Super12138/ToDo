@@ -21,7 +21,7 @@ class AllTasksViewModel : ViewModel() {
             val todos = Repository.getAll()
             var count = 0
             for (todo in todos) {
-                todoListAll.add(ToDo(todo.uuid, todo.content, todo.subject))
+                todoListAll.add(ToDo(todo.uuid, todo.state, todo.content, todo.subject))
                 count++
             }
             if (count == 0) {

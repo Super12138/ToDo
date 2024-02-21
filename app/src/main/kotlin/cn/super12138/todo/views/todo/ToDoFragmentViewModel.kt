@@ -17,12 +17,12 @@ class ToDoFragmentViewModel : ViewModel() {
         loadToDos()
     }
 
-    private fun loadToDos(){
+    private fun loadToDos() {
         viewModelScope.launch {
             val todos = Repository.getAllUncomplete()
             var count = 0
             for (todo in todos) {
-                todoList.add(ToDo(todo.uuid, todo.content, todo.subject))
+                todoList.add(ToDo(todo.uuid, todo.state, todo.content, todo.subject))
                 count++
             }
             if (count == 0) {
