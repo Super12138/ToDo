@@ -1,5 +1,6 @@
 package cn.super12138.todo.views.settings
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Process
@@ -77,11 +78,7 @@ class SettingsActivity : BaseActivity() {
                     view?.let {
                         Snackbar.make(it, R.string.need_restart_app, Snackbar.LENGTH_LONG)
                             .setAction(R.string.restart_app_now) {
-                                val intent = Intent(context, MainActivity::class.java).apply {
-                                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                }
-                                context.startActivity(intent)
-                                exitProcess(0)
+                                restartApp(context)
                             }
                             .show()
                     }
@@ -143,8 +140,7 @@ class SettingsActivity : BaseActivity() {
                                         .setTitle(R.string.restore_successful)
                                         .setMessage(R.string.restore_need_restart_app)
                                         .setPositiveButton(R.string.ok) { _, _ ->
-                                            Process.killProcess(Process.myPid())
-                                            exitProcess(10)
+                                            restartApp(context)
                                         }
                                         .setNegativeButton(R.string.cancel, null)
                                         .setCancelable(false)
@@ -166,6 +162,14 @@ class SettingsActivity : BaseActivity() {
                     true
                 }
             }
+        }
+
+        private fun restartApp(restartContext: Context) {
+            val intent = Intent(restartContext, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+            restartContext.startActivity(intent)
+            exitProcess(0)
         }
     }
 }
