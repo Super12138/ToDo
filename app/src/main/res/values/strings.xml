@@ -61,4 +61,7 @@
     <string name="restore_need_restart_app">Need to restart the app to apply the recovered data</string>
     <string name="json_data_incorrect">JSON data format is incorrect</string>
     <string name="restore_failed">Restore failed, please check if you are attempting to restore the same backup data again.</string>
+    <string name="view_all_tasks_label">View all tasks</string>
+    <string name="all_tasks_label">All tasks</string>
+    <string name="view_all_tasks_summary">View all tasks including those that have been checked as completed</string>
 </resources>

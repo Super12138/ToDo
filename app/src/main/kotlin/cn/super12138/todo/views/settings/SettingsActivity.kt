@@ -1,8 +1,8 @@
 package cn.super12138.todo.views.settings
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Process
-import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
@@ -18,6 +18,7 @@ import cn.super12138.todo.databinding.DialogRestoreBinding
 import cn.super12138.todo.logic.Repository
 import cn.super12138.todo.logic.dao.ToDoRoom
 import cn.super12138.todo.views.BaseActivity
+import cn.super12138.todo.views.main.MainActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
@@ -72,20 +73,15 @@ class SettingsActivity : BaseActivity() {
             }
 
             findPreference<SwitchPreferenceCompat>("secure_mode")?.apply {
-                setOnPreferenceChangeListener { _, newValue ->
-                    when (newValue) {
-                        true -> activity?.window?.setFlags(
-                            WindowManager.LayoutParams.FLAG_SECURE,
-                            WindowManager.LayoutParams.FLAG_SECURE
-                        )
-
-                        false -> activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
-                    }
+                setOnPreferenceChangeListener { _, _ ->
                     view?.let {
                         Snackbar.make(it, R.string.need_restart_app, Snackbar.LENGTH_LONG)
                             .setAction(R.string.restart_app_now) {
-                                Process.killProcess(Process.myPid())
-                                exitProcess(10)
+                                val intent = Intent(context, MainActivity::class.java).apply {
+                                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                }
+                                context.startActivity(intent)
+                                exitProcess(0)
                             }
                             .show()
                     }

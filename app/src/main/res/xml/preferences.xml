@@ -2,12 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory app:title="@string/appearance">
         <ListPreference
-            android:defaultValue="0"
-            android:entries="@array/appearance"
-            android:entryValues="@array/appearance_value"
-            android:icon="@drawable/ic_dark_mode"
-            android:key="dark_mode"
-            android:title="@string/dark_mode"
+            app:defaultValue="0"
+            app:entries="@array/appearance"
+            app:entryValues="@array/appearance_value"
+            app:icon="@drawable/ic_dark_mode"
+            app:key="dark_mode"
+            app:title="@string/dark_mode"
             app:summary="@string/dark_mode_summary" />
     </PreferenceCategory>
 
@@ -21,7 +21,7 @@
             app:dialogMessage="多个项目请使用英文逗号隔开"
             app:summary="自定义创建待办时文本框的预测项" />-->
         <SwitchPreferenceCompat
-            android:icon="@drawable/ic_screenshot"
+            app:icon="@drawable/ic_screenshot"
             app:defaultValue="false"
             app:key="secure_mode"
             app:summary="@string/secure_mode_summary"
@@ -32,15 +32,23 @@
             app:summary="@string/backup_summary"
             app:title="@string/backup" />
         <Preference
-            android:icon="@drawable/ic_restore"
+            app:icon="@drawable/ic_restore"
             app:key="restoreDB"
             app:summary="@string/restore_summary"
             app:title="@string/restore" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/others">
+    <PreferenceCategory app:title="@string/others">
         <Preference
-            android:icon="@drawable/ic_about"
+            app:icon="@drawable/ic_all_todos"
+            app:summary="@string/view_all_tasks_summary"
+            app:title="@string/view_all_tasks_label">
+            <intent
+                android:targetClass="cn.super12138.todo.views.all.AllTasksActivity"
+                android:targetPackage="cn.super12138.todo" />
+        </Preference>
+        <Preference
+            app:icon="@drawable/ic_about"
             app:title="@string/about_label">
             <intent
                 android:targetClass="cn.super12138.todo.views.about.AboutActivity"

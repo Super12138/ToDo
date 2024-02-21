@@ -20,6 +20,7 @@
         android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="@string/no_tasks"
+        android:textSize="14sp"
         android:visibility="visible" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton

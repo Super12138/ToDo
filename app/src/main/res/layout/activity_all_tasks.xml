@@ -5,44 +5,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".views.main.MainActivity">
+    tools:context=".views.about.AboutActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        app:liftOnScroll="true">
+        app:liftOnScroll="true"
+        app:liftOnScrollTargetViewId="@+id/all_tasks_list">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/main"
-            app:title="@string/app_name" />
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:title="@string/all_tasks_label" />
+
     </com.google.android.material.appbar.AppBarLayout>
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/all_tasks_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:orientation="horizontal"
+        android:visibility="gone"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/progress_frag"
-            android:name="cn.super12138.todo.views.progress.ProgressFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:minHeight="160dp"
-            tools:layout="@layout/fragment_progress" />
+    </androidx.recyclerview.widget.RecyclerView>
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/todo_frag"
-            android:name="cn.super12138.todo.views.todo.ToDoFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            tools:layout="@layout/fragment_todo" />
-    </LinearLayout>
+
+    <TextView
+        android:id="@+id/empty_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/no_tasks"
+        android:textSize="14sp"
+        android:visibility="visible" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -61,4 +61,7 @@
     <string name="restore_need_restart_app">需要重启应用以应用恢复的数据</string>
     <string name="json_data_incorrect">JSON 数据格式错误</string>
     <string name="restore_failed">恢复失败，请检查是否重复恢复同一次备份的数据</string>
+    <string name="view_all_tasks_label">查看全部待办</string>
+    <string name="all_tasks_label">全部代办</string>
+    <string name="view_all_tasks_summary">查看包含已完成的待办在内的全部待办</string>
 </resources>

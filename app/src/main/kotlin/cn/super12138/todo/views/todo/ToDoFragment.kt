@@ -53,9 +53,9 @@ class ToDoFragment : Fragment() {
         }*/
 
         val progressViewModel =
-            ViewModelProvider(requireActivity()).get(ProgressFragmentViewModel::class.java)
+            ViewModelProvider(requireActivity())[ProgressFragmentViewModel::class.java]
         val todoViewModel =
-            ViewModelProvider(requireActivity()).get(ToDoFragmentViewModel::class.java)
+            ViewModelProvider(requireActivity())[ToDoFragmentViewModel::class.java]
 
         val todoList = todoViewModel.todoList
 
@@ -89,7 +89,7 @@ class ToDoFragment : Fragment() {
                         ToDoDialogBinding.todoContent.error =
                             getString(R.string.content_cannot_be_empty)
                     } else {
-                        if (todoContent == "/DEV MODE") {
+                        if (todoContent == "/DEV_MODE") {
                             if (Repository.getPreferenceBoolean(
                                     ToDoApplication.context,
                                     "dev_mode",
