@@ -6,22 +6,21 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import cn.super12138.todo.R
-import cn.super12138.todo.ToDoApplication
+import cn.super12138.todo.ToDoApp
+import cn.super12138.todo.constant.Constants
+import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.logic.Repository
 
 open class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        val springFestivalTheme =
-            Repository.getPreferenceBoolean(ToDoApplication.context, "spring_festival_theme", false)
-        if (springFestivalTheme) {
+        if (GlobalValues.springFestivalTheme) {
             setTheme(R.style.Theme_SpringFestival)
         }
         // enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
         // 深色模式
-        val isDarkMode = Repository.getPreferenceString(this, "dark_mode", "0")
-        when (isDarkMode) {
+        when (GlobalValues.darkMode) {
             "0" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
 
             "1" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)

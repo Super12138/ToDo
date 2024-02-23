@@ -28,12 +28,12 @@
             app:title="@string/secure_mode" />
         <Preference
             android:icon="@drawable/ic_backup"
-            app:key="backupDB"
+            app:key="backup_db"
             app:summary="@string/backup_summary"
             app:title="@string/backup" />
         <Preference
             app:icon="@drawable/ic_restore"
-            app:key="restoreDB"
+            app:key="restore_db"
             app:summary="@string/restore_summary"
             app:title="@string/restore" />
     </PreferenceCategory>

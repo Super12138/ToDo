@@ -7,7 +7,7 @@ import cn.super12138.todo.logic.dao.ToDoRoomDB
 import cn.super12138.todo.views.crash.CrashHandler
 import com.google.android.material.color.DynamicColors
 
-class ToDoApplication : Application() {
+class ToDoApp : Application() {
     private val database by lazy { ToDoRoomDB.getDatabase(this) }
 
     companion object {

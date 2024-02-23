@@ -1,33 +1,14 @@
 package cn.super12138.todo.logic
 
-import android.content.Context
-import cn.super12138.todo.ToDoApplication
+import cn.super12138.todo.ToDoApp
 import cn.super12138.todo.logic.dao.ToDoRoom
-import cn.super12138.todo.logic.database.SPHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 object Repository {
-    /**
-     * 设置数据到应用设置中
-     */
-    fun setPreference(context: Context, key: String, value: Any) =
-        SPHelper.setPreference(context, key, value)
-
-    /**
-     * 获取应用设置里的数据
-     */
-    fun getPreferenceString(context: Context, key: String, defaultValue: String) =
-        SPHelper.getPreferenceString(context, key, defaultValue)
-
-    /**
-     * 获取应用设置的布尔值
-     */
-    fun getPreferenceBoolean(context: Context, key: String, defaultValue: Boolean) =
-        SPHelper.getPreferenceBoolean(context, key, defaultValue)
 
     // Room
-    private val db get() = ToDoApplication.db
+    private val db get() = ToDoApp.db
     val todoDao = db.toDoRoomDao()
 
     /**

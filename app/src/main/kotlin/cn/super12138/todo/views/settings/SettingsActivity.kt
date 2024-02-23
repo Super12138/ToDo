@@ -3,7 +3,6 @@ package cn.super12138.todo.views.settings
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Process
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
@@ -12,7 +11,8 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import cn.super12138.todo.R
-import cn.super12138.todo.ToDoApplication
+import cn.super12138.todo.constant.Constants
+import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.databinding.ActivitySettingsBinding
 import cn.super12138.todo.databinding.DialogBackupBinding
 import cn.super12138.todo.databinding.DialogRestoreBinding
@@ -56,10 +56,8 @@ class SettingsActivity : BaseActivity() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.preferences, rootKey)
             val gson = Gson()
-            val isDevMode =
-                Repository.getPreferenceBoolean(ToDoApplication.context, "dev_mode", false)
 
-            findPreference<ListPreference>("dark_mode")?.apply {
+            findPreference<ListPreference>(Constants.PREF_DARK_MODE)?.apply {
                 setOnPreferenceChangeListener { _, newValue ->
                     when (newValue) {
                         "0" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
@@ -73,7 +71,7 @@ class SettingsActivity : BaseActivity() {
                 }
             }
 
-            findPreference<SwitchPreferenceCompat>("secure_mode")?.apply {
+            findPreference<SwitchPreferenceCompat>(Constants.PREF_SECURE_MODE)?.apply {
                 setOnPreferenceChangeListener { _, _ ->
                     view?.let {
                         Snackbar.make(it, R.string.need_restart_app, Snackbar.LENGTH_LONG)
@@ -87,7 +85,7 @@ class SettingsActivity : BaseActivity() {
                 }
             }
 
-            findPreference<Preference>("backupDB")?.apply {
+            findPreference<Preference>(Constants.PREF_BACKUP_DB)?.apply {
                 setOnPreferenceClickListener {
                     lifecycleScope.launch {
                         val data = Repository.getAll()
@@ -107,7 +105,7 @@ class SettingsActivity : BaseActivity() {
                 }
             }
 
-            findPreference<Preference>("restoreDB")?.apply {
+            findPreference<Preference>(Constants.PREF_RESTORE_DB)?.apply {
                 setOnPreferenceClickListener {
                     restoreBinding = DialogRestoreBinding.inflate(layoutInflater)
                     activity?.let { it1 ->
@@ -149,7 +147,7 @@ class SettingsActivity : BaseActivity() {
                                     restoreBinding.jsonInput.error =
                                         getString(R.string.json_data_incorrect)
                                 } catch (e: Exception) {
-                                    if (isDevMode) {
+                                    if (GlobalValues.devMode) {
                                         restoreBinding.jsonInput.error = e.toString()
                                     } else {
                                         restoreBinding.jsonInput.error =

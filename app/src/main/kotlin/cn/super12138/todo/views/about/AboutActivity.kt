@@ -4,12 +4,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import cn.super12138.todo.ToDoApplication
 import cn.super12138.todo.constant.Constants
+import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.databinding.ActivityAboutBinding
-import cn.super12138.todo.logic.Repository
+import cn.super12138.todo.utils.showToast
 import cn.super12138.todo.views.BaseActivity
-import showToast
 
 class AboutActivity : BaseActivity() {
     private lateinit var binding: ActivityAboutBinding
@@ -61,24 +60,7 @@ class AboutActivity : BaseActivity() {
             when (clickCount) {
                 5 -> {
                     clickCount = 0
-                    val isSpringFestivalTheme = Repository.getPreferenceBoolean(
-                        ToDoApplication.context,
-                        "spring_festival_theme",
-                        false
-                    )
-                    if (isSpringFestivalTheme) {
-                        Repository.setPreference(
-                            ToDoApplication.context,
-                            "spring_festival_theme",
-                            false
-                        )
-                    } else {
-                        Repository.setPreference(
-                            ToDoApplication.context,
-                            "spring_festival_theme",
-                            true
-                        )
-                    }
+                    GlobalValues.springFestivalTheme = !GlobalValues.springFestivalTheme
                     "🧧".showToast()
                 }
             }

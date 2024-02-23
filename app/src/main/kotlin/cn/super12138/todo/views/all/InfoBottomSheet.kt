@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import cn.super12138.todo.R
-import cn.super12138.todo.ToDoApplication
+import cn.super12138.todo.ToDoApp
+import cn.super12138.todo.constant.Constants
+import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.databinding.BottomSheetInfoBinding
 import cn.super12138.todo.logic.Repository
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -21,7 +23,7 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
     private lateinit var todoUUID: String
 
     companion object {
-        const val TAG = "InfoBtmSheet"
+        const val TAG = Constants.TAG_INFO_BOTTOM_SHEET
         fun newInstance(
             todoContent: String,
             todoSubject: String,
@@ -29,10 +31,10 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
             todoUUID: String
         ) = InfoBottomSheet().apply {
             arguments = Bundle().apply {
-                putString("todoContent", todoContent)
-                putString("todoSubject", todoSubject)
-                putInt("todoState", todoState)
-                putString("todoUUID", todoUUID)
+                putString(Constants.BUNDLE_TODO_CONTENT, todoContent)
+                putString(Constants.BUNDLE_TODO_SUBJECT, todoSubject)
+                putInt(Constants.BUNDLE_TODO_STATE, todoState)
+                putString(Constants.BUNDLE_TODO_UUID, todoUUID)
             }
         }
     }
@@ -40,10 +42,10 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            todoContent = it.getString("todoContent", "")
-            todoSubject = it.getString("todoSubject", "")
-            todoState = it.getInt("todoState", 0)
-            todoUUID = it.getString("todoUUID", "")
+            todoContent = it.getString(Constants.BUNDLE_TODO_CONTENT, "")
+            todoSubject = it.getString(Constants.BUNDLE_TODO_SUBJECT, "")
+            todoState = it.getInt(Constants.BUNDLE_TODO_STATE, 0)
+            todoUUID = it.getString(Constants.BUNDLE_TODO_UUID, "")
         }
     }
 
@@ -57,7 +59,6 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
         return binding.root
     }
 
-    @androidx.annotation.OptIn(com.google.android.material.badge.ExperimentalBadgeUtils::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -72,7 +73,7 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
         } else {
             binding.todoState.text = getString(R.string.info_state_incomplete)
         }
-        if (Repository.getPreferenceBoolean(ToDoApplication.context, "dev_mode", false)) {
+        if (GlobalValues.devMode) {
             binding.todoUuid.apply {
                 visibility = View.VISIBLE
                 text = String.format(getString(R.string.info_uuid), todoUUID)

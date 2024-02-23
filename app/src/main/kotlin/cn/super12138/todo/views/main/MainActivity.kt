@@ -3,9 +3,10 @@ package cn.super12138.todo.views.main
 import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
-import androidx.appcompat.app.AppCompatDelegate
 import cn.super12138.todo.R
-import cn.super12138.todo.ToDoApplication
+import cn.super12138.todo.ToDoApp
+import cn.super12138.todo.constant.Constants
+import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.databinding.ActivityMainBinding
 import cn.super12138.todo.logic.Repository
 import cn.super12138.todo.views.BaseActivity
@@ -23,7 +24,7 @@ class MainActivity : BaseActivity() {
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.item_settings -> {
-                    val intent = Intent(ToDoApplication.context, SettingsActivity::class.java)
+                    val intent = Intent(ToDoApp.context, SettingsActivity::class.java)
                     startActivity(intent)
                     true
                 }
@@ -47,8 +48,7 @@ class MainActivity : BaseActivity() {
                 }
                 .show()
         }*/
-        val isSecureMode = Repository.getPreferenceBoolean(this, "secure_mode", false)
-        when (isSecureMode) {
+        when (GlobalValues.secureMode) {
             true -> window.setFlags(
                 WindowManager.LayoutParams.FLAG_SECURE,
                 WindowManager.LayoutParams.FLAG_SECURE

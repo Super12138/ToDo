@@ -6,7 +6,9 @@ import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import cn.super12138.todo.ToDoApplication
+import cn.super12138.todo.ToDoApp
+import cn.super12138.todo.constant.Constants
+import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.databinding.ActivityAllTasksBinding
 import cn.super12138.todo.logic.Repository
 import cn.super12138.todo.views.BaseActivity
@@ -17,8 +19,7 @@ class AllTasksActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val isSecureMode = Repository.getPreferenceBoolean(this, "secure_mode", false)
-        when (isSecureMode) {
+        when (GlobalValues.secureMode) {
             true -> window.setFlags(
                 WindowManager.LayoutParams.FLAG_SECURE,
                 WindowManager.LayoutParams.FLAG_SECURE
@@ -32,7 +33,7 @@ class AllTasksActivity : BaseActivity() {
 
         val viewModel = ViewModelProvider(this)[AllTasksViewModel::class.java]
 
-        val layoutManager = LinearLayoutManager(ToDoApplication.context)
+        val layoutManager = LinearLayoutManager(ToDoApp.context)
         binding.allTasksList.layoutManager = layoutManager
         val adapter = AllTasksAdapter(viewModel.todoListAll, supportFragmentManager)
         binding.allTasksList.adapter = adapter

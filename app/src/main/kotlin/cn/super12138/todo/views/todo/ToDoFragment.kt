@@ -12,7 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.super12138.todo.R
-import cn.super12138.todo.ToDoApplication
+import cn.super12138.todo.ToDoApp
+import cn.super12138.todo.constant.Constants
 import cn.super12138.todo.databinding.DialogAddTodoBinding
 import cn.super12138.todo.databinding.FragmentTodoBinding
 import cn.super12138.todo.logic.Repository
@@ -22,7 +23,7 @@ import cn.super12138.todo.views.progress.ProgressFragmentViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
-import showToast
+import cn.super12138.todo.utils.showToast
 import java.util.UUID
 
 class ToDoFragment : Fragment() {
@@ -59,7 +60,7 @@ class ToDoFragment : Fragment() {
 
         val todoList = todoViewModel.todoList
 
-        val layoutManager = LinearLayoutManager(ToDoApplication.context)
+        val layoutManager = LinearLayoutManager(ToDoApp.context)
         binding.todoList.layoutManager = layoutManager
         val adapter = ToDoAdapter(todoList, requireActivity())
         binding.todoList.adapter = adapter
@@ -89,16 +90,16 @@ class ToDoFragment : Fragment() {
                         toDoDialogBinding.todoContent.error =
                             getString(R.string.content_cannot_be_empty)
                     } else {
-                        if (todoContent == "/DEV_MODE") {
+                        if (todoContent == Constants.STRING_DEV_MODE) {
                             if (Repository.getPreferenceBoolean(
-                                    ToDoApplication.context,
-                                    "dev_mode",
+                                    ToDoApp.context,
+                                    Constants.PREF_DEV_MODE,
                                     true
                                 )
                             ) {
-                                Repository.setPreference(ToDoApplication.context, "dev_mode", false)
+                                Repository.setPreference(ToDoApp.context, Constants.PREF_DEV_MODE, false)
                             } else {
-                                Repository.setPreference(ToDoApplication.context, "dev_mode", true)
+                                Repository.setPreference(ToDoApp.context, Constants.PREF_DEV_MODE, true)
                                 "Dev Mode".showToast()
                             }
                             dialog.dismiss()
