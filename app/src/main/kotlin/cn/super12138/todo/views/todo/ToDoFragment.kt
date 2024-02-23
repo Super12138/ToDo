@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.super12138.todo.R
 import cn.super12138.todo.ToDoApp
 import cn.super12138.todo.constant.Constants
+import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.databinding.DialogAddTodoBinding
 import cn.super12138.todo.databinding.FragmentTodoBinding
 import cn.super12138.todo.logic.Repository
@@ -91,15 +92,10 @@ class ToDoFragment : Fragment() {
                             getString(R.string.content_cannot_be_empty)
                     } else {
                         if (todoContent == Constants.STRING_DEV_MODE) {
-                            if (Repository.getPreferenceBoolean(
-                                    ToDoApp.context,
-                                    Constants.PREF_DEV_MODE,
-                                    true
-                                )
-                            ) {
-                                Repository.setPreference(ToDoApp.context, Constants.PREF_DEV_MODE, false)
+                            if (GlobalValues.devMode) {
+                               GlobalValues.devMode = false
                             } else {
-                                Repository.setPreference(ToDoApp.context, Constants.PREF_DEV_MODE, true)
+                                GlobalValues.devMode = true
                                 "Dev Mode".showToast()
                             }
                             dialog.dismiss()
