@@ -24,7 +24,7 @@ object Repository {
      * 获取全部未完成的待办
      * @return List<ToDoRoom>
      */
-    suspend fun getAllUncomplete(): List<ToDoRoom> {
+    suspend fun getAllIncomplete(): List<ToDoRoom> {
         return withContext(Dispatchers.IO) {
             todoDao.getAllUnfinished()
         }
