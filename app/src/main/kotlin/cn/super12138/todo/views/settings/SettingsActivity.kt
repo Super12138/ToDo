@@ -45,7 +45,7 @@ class SettingsActivity : BaseActivity() {
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        binding.toolbar.setNavigationOnClickListener {
+        binding.toolBar.setNavigationOnClickListener {
             finish()
         }
     }

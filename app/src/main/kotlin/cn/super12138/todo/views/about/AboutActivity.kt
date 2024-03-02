@@ -29,7 +29,7 @@ class AboutActivity : BaseActivity() {
         }
         binding.appVersion.text = "$verName($verCode)"
 
-        binding.toolbar.setNavigationOnClickListener {
+        binding.toolBar.setNavigationOnClickListener {
             finish()
         }
 

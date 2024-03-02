@@ -43,7 +43,7 @@ class AllTasksActivity : BaseActivity() {
             build()
         }
 
-        binding.toolbar.setNavigationOnClickListener {
+        binding.toolBar.setNavigationOnClickListener {
             finish()
         }
 

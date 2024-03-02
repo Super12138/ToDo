@@ -21,7 +21,7 @@ class MainActivity : BaseActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+        binding.toolBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.item_settings -> {
                     val intent = Intent(ToDoApp.context, SettingsActivity::class.java)
