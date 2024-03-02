@@ -60,8 +60,8 @@ class AboutActivity : BaseActivity() {
             when (clickCount) {
                 5 -> {
                     clickCount = 0
-                    GlobalValues.springFestivalTheme = !GlobalValues.springFestivalTheme
-                    "🧧".showToast()
+                    // GlobalValues.springFestivalTheme = !GlobalValues.springFestivalTheme
+                    "\uD83C\uDF3C".showToast()
                 }
             }
         }

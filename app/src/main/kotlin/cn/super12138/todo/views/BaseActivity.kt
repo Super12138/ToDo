@@ -13,10 +13,10 @@ import cn.super12138.todo.logic.Repository
 
 open class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (GlobalValues.springFestivalTheme) {
+        /*if (GlobalValues.springFestivalTheme) {
             setTheme(R.style.Theme_SpringFestival)
         }
-        // enableEdgeToEdge()
+        enableEdgeToEdge()*/
         super.onCreate(savedInstanceState)
 
         // 深色模式
