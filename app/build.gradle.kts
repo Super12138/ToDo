@@ -7,7 +7,7 @@ ksp {
     arg("room.schemaLocation", "$projectDir/schemas")
 }
 
-val baseVersionName = "1.0.2"
+val baseVersionName = "1.0.3"
 val commitHash by lazy { "git rev-parse --short HEAD".exec() }
 val verCode by lazy { "git rev-list --count HEAD".exec().toInt() }
 
