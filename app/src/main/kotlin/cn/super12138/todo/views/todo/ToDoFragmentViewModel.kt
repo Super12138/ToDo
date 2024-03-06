@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cn.super12138.todo.logic.Repository
+import cn.super12138.todo.logic.dao.ToDoRoom
 import cn.super12138.todo.logic.model.ToDo
 import kotlinx.coroutines.launch
 
@@ -14,10 +15,10 @@ class ToDoFragmentViewModel : ViewModel() {
     val todoList = ArrayList<ToDo>()
 
     init {
-        loadToDos()
+        loadTasks()
     }
 
-    private fun loadToDos() {
+    private fun loadTasks() {
         viewModelScope.launch {
             val todos = Repository.getAllIncomplete()
             var count = 0
@@ -30,6 +31,24 @@ class ToDoFragmentViewModel : ViewModel() {
             } else {
                 emptyTipVis.value = View.GONE
             }
+        }
+    }
+
+    fun deleteTask(uuid: String) {
+        viewModelScope.launch {
+            Repository.deleteByUUID(uuid)
+        }
+    }
+
+    fun insertTask(todo: ToDoRoom) {
+        viewModelScope.launch {
+            Repository.insert(todo)
+        }
+    }
+
+    fun updateTask(uuid: String) {
+        viewModelScope.launch {
+            Repository.updateStateByUUID(uuid)
         }
     }
 }

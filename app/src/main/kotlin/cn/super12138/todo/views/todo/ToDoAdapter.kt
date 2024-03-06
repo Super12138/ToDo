@@ -48,10 +48,8 @@ class ToDoAdapter(val todoList: MutableList<ToDo>, val viewModelStoreOwner: View
             notifyItemRemoved(position)
             notifyItemRangeChanged(position, todoList.size)
 
-            GlobalScope.launch {
-                Repository.updateStateByUUID(todo.uuid)
-                progressViewModel.updateProgress()
-            }
+            todoViewModel.updateTask(todo.uuid)
+            progressViewModel.updateProgress()
 
             // 设置空项目提示可见性
             if (todoList.isEmpty()) {
@@ -72,12 +70,9 @@ class ToDoAdapter(val todoList: MutableList<ToDo>, val viewModelStoreOwner: View
             notifyItemRemoved(position)
             notifyItemRangeChanged(position, todoList.size)
 
-            GlobalScope.launch {
-                Repository.deleteByUUID(todo.uuid)
-                progressViewModel.updateProgress()
-            }
-
-
+            todoViewModel.deleteTask(todo.uuid)
+            progressViewModel.updateProgress()
+            
             // 设置空项目提示可见性
             if (todoList.isEmpty()) {
                 todoViewModel.emptyTipVis.value = View.VISIBLE
@@ -90,21 +85,19 @@ class ToDoAdapter(val todoList: MutableList<ToDo>, val viewModelStoreOwner: View
                     if (todoList.size + 1 > 0) {
                         todoViewModel.emptyTipVis.value = View.GONE
                     }
-                    todoList.add(ToDo(todo.uuid,0 , todo.content, todo.subject))
+                    todoList.add(ToDo(todo.uuid, 0, todo.content, todo.subject))
 
                     todoViewModel.refreshData.value = 1
 
-                    GlobalScope.launch {
-                        Repository.insert(
-                            ToDoRoom(
-                                todo.uuid,
-                                0,
-                                todo.subject,
-                                todo.content
-                            )
+                    todoViewModel.insertTask(
+                        ToDoRoom(
+                            todo.uuid,
+                            0,
+                            todo.subject,
+                            todo.content
                         )
-                        progressViewModel.updateProgress()
-                    }
+                    )
+                    progressViewModel.updateProgress()
                 }
                 .show()
         }
