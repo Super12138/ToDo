@@ -41,11 +41,11 @@ class AllTasksAdapter(private val todoList: MutableList<ToDo>,
             infoBottomSheet.show(fragmentManager, InfoBottomSheet.TAG)
         }
 
-        if (!todo.isAnimated) {
+        /*if (!todo.isAnimated) {
             holder.itemView.alpha = 0f
             holder.itemView.animate().alpha(1f).duration = 200
             todo.isAnimated = true
-        }
+        }*/
     }
 
     override fun getItemCount() = todoList.size

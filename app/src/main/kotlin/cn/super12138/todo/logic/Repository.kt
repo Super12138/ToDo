@@ -9,7 +9,7 @@ object Repository {
 
     // Room
     private val db get() = ToDoApp.db
-    val todoDao = db.toDoRoomDao()
+    private val todoDao = db.toDoRoomDao()
 
     /**
      * @param toDoRoom 要插入的数据

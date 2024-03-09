@@ -17,7 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class ToDoAdapter(val todoList: MutableList<ToDo>, val viewModelStoreOwner: ViewModelStoreOwner) :
+class ToDoAdapter(private val todoList: MutableList<ToDo>, private val viewModelStoreOwner: ViewModelStoreOwner) :
     RecyclerView.Adapter<ToDoAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -29,9 +29,9 @@ class ToDoAdapter(val todoList: MutableList<ToDo>, val viewModelStoreOwner: View
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val progressViewModel =
-            ViewModelProvider(viewModelStoreOwner).get(ProgressFragmentViewModel::class.java)
+            ViewModelProvider(viewModelStoreOwner)[ProgressFragmentViewModel::class.java]
         val todoViewModel =
-            ViewModelProvider(viewModelStoreOwner).get(ToDoFragmentViewModel::class.java)
+            ViewModelProvider(viewModelStoreOwner)[ToDoFragmentViewModel::class.java]
 
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_todo, parent, false)
@@ -87,8 +87,6 @@ class ToDoAdapter(val todoList: MutableList<ToDo>, val viewModelStoreOwner: View
                     }
                     todoList.add(ToDo(todo.uuid, 0, todo.content, todo.subject))
 
-                    todoViewModel.refreshData.value = 1
-
                     todoViewModel.insertTask(
                         ToDoRoom(
                             todo.uuid,
@@ -97,6 +95,9 @@ class ToDoAdapter(val todoList: MutableList<ToDo>, val viewModelStoreOwner: View
                             todo.content
                         )
                     )
+
+                    todoViewModel.refreshData.value = 1
+
                     progressViewModel.updateProgress()
                 }
                 .show()
@@ -108,11 +109,11 @@ class ToDoAdapter(val todoList: MutableList<ToDo>, val viewModelStoreOwner: View
         val todo = todoList[position]
         holder.todoContext.text = todo.content
         holder.todoSubject.text = todo.subject
-        if (!todo.isAnimated) {
+        /*if (!todo.isAnimated) {
             holder.itemView.alpha = 0f
             holder.itemView.animate().alpha(1f).duration = 200
             todo.isAnimated = true
-        }
+        }*/
     }
 
     override fun getItemCount() = todoList.size
