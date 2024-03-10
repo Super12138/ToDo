@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cn.super12138.todo.logic.Repository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ProgressFragmentViewModel : ViewModel() {
@@ -13,6 +14,7 @@ class ProgressFragmentViewModel : ViewModel() {
 
     fun updateProgress() {
         viewModelScope.launch {
+            delay(30)
             val total = Repository.getAll().size
             val complete = Repository.getAllComplete().size
 

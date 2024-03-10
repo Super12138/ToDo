@@ -85,6 +85,7 @@ class ToDoFragment : Fragment() {
                     .setPositiveButton(R.string.ok, null)
                     .setNegativeButton(R.string.cancel, null)
                     .show()
+
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                     val todoContent = toDoDialogBinding.todoContent.editText?.text.toString()
                     if (todoContent.isEmpty()) {
@@ -100,7 +101,9 @@ class ToDoFragment : Fragment() {
                             }
                             dialog.dismiss()
                         } else {
+                            // 随机UUID
                             val randomUUID = UUID.randomUUID().toString()
+                            // 待办学科
                             val todoSubject = when (toDoDialogBinding.todoSubject.checkedChipId) {
                                 R.id.subject_chinese -> getString(R.string.subject_chinese)
                                 R.id.subject_math -> getString(R.string.subject_math)
@@ -124,6 +127,7 @@ class ToDoFragment : Fragment() {
                                 ToDo(randomUUID, 0, todoContent, todoSubject)
                             )
 
+                            // 插入数据库
                             lifecycleScope.launch {
                                 Repository.insert(
                                     ToDoRoom(
@@ -149,13 +153,17 @@ class ToDoFragment : Fragment() {
                     .setTitle(R.string.warning)
                     .setMessage(R.string.delete_confirm)
                     .setPositiveButton(R.string.ok) { _, _ ->
+                        // 清除 Recycler View
                         todoList.clear()
+                        // 清除数据库
                         lifecycleScope.launch {
                             Repository.deleteAll()
                             progressViewModel.updateProgress()
                         }
+                        // 通知数据更改
                         binding.todoList.adapter?.notifyItemRangeRemoved(0, todoList.size + 1)
 
+                        // 显示空项目提示
                         todoViewModel.emptyTipVis.value = View.VISIBLE
                     }
                     .setNegativeButton(R.string.cancel, null)
@@ -167,9 +175,11 @@ class ToDoFragment : Fragment() {
         binding.todoList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             val fab = binding.addItem
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                // 列表下滑，隐藏FAB
                 if (dy > 0 && fab.isShown) {
                     fab.hide()
                 }
+                // 列表上滑，显示FAB
                 if (dy < 0 && !fab.isShown) {
                     fab.show()
                 }
