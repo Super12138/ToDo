@@ -30,7 +30,6 @@ class AllTasksAdapter(private val todoList: MutableList<ToDo>,
         holder.todoContext.text = todo.content
         holder.todoSubject.text = todo.subject
 
-
         holder.itemView.setOnClickListener {
             val infoBottomSheet = InfoBottomSheet.newInstance(
                 todo.content,

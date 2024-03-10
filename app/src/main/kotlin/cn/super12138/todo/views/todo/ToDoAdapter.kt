@@ -49,7 +49,6 @@ class ToDoAdapter(private val todoList: MutableList<ToDo>, private val viewModel
             notifyItemRangeChanged(position, todoList.size)
 
             todoViewModel.updateTask(todo.uuid)
-            progressViewModel.updateProgress()
 
             // 设置空项目提示可见性
             if (todoList.isEmpty()) {
@@ -57,6 +56,7 @@ class ToDoAdapter(private val todoList: MutableList<ToDo>, private val viewModel
             } else {
                 todoViewModel.emptyTipVis.value = View.GONE
             }
+            progressViewModel.updateProgress()
         }
 
         holder.delToDoBtn.setOnClickListener {
@@ -72,7 +72,7 @@ class ToDoAdapter(private val todoList: MutableList<ToDo>, private val viewModel
 
             todoViewModel.deleteTask(todo.uuid)
             progressViewModel.updateProgress()
-            
+
             // 设置空项目提示可见性
             if (todoList.isEmpty()) {
                 todoViewModel.emptyTipVis.value = View.VISIBLE
