@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import cn.super12138.todo.constant.Constants
-import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.databinding.ActivityAboutBinding
 import cn.super12138.todo.utils.showToast
 import cn.super12138.todo.views.BaseActivity

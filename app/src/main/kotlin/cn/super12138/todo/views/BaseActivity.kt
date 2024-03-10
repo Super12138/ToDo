@@ -5,11 +5,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import cn.super12138.todo.R
-import cn.super12138.todo.ToDoApp
-import cn.super12138.todo.constant.Constants
 import cn.super12138.todo.constant.GlobalValues
-import cn.super12138.todo.logic.Repository
 
 open class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

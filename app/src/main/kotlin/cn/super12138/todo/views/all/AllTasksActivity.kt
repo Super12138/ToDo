@@ -7,10 +7,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import cn.super12138.todo.ToDoApp
-import cn.super12138.todo.constant.Constants
 import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.databinding.ActivityAllTasksBinding
-import cn.super12138.todo.logic.Repository
 import cn.super12138.todo.views.BaseActivity
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 

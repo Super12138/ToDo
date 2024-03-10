@@ -5,10 +5,8 @@ import android.os.Bundle
 import android.view.WindowManager
 import cn.super12138.todo.R
 import cn.super12138.todo.ToDoApp
-import cn.super12138.todo.constant.Constants
 import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.databinding.ActivityMainBinding
-import cn.super12138.todo.logic.Repository
 import cn.super12138.todo.views.BaseActivity
 import cn.super12138.todo.views.settings.SettingsActivity
 

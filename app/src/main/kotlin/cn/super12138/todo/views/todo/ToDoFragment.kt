@@ -20,11 +20,11 @@ import cn.super12138.todo.databinding.FragmentTodoBinding
 import cn.super12138.todo.logic.Repository
 import cn.super12138.todo.logic.dao.ToDoRoom
 import cn.super12138.todo.logic.model.ToDo
+import cn.super12138.todo.utils.showToast
 import cn.super12138.todo.views.progress.ProgressFragmentViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
-import cn.super12138.todo.utils.showToast
 import java.util.UUID
 
 class ToDoFragment : Fragment() {
@@ -94,7 +94,7 @@ class ToDoFragment : Fragment() {
                     } else {
                         if (todoContent == Constants.STRING_DEV_MODE) {
                             if (GlobalValues.devMode) {
-                               GlobalValues.devMode = false
+                                GlobalValues.devMode = false
                             } else {
                                 GlobalValues.devMode = true
                                 "Dev Mode".showToast()

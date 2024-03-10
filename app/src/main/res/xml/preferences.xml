@@ -7,8 +7,8 @@
             app:entryValues="@array/appearance_value"
             app:icon="@drawable/ic_dark_mode"
             app:key="dark_mode"
-            app:title="@string/dark_mode"
-            app:summary="@string/dark_mode_summary" />
+            app:summary="@string/dark_mode_summary"
+            app:title="@string/dark_mode" />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/config">
@@ -21,8 +21,8 @@
             app:dialogMessage="多个项目请使用英文逗号隔开"
             app:summary="自定义创建待办时文本框的预测项" />-->
         <SwitchPreferenceCompat
-            app:icon="@drawable/ic_screenshot"
             app:defaultValue="false"
+            app:icon="@drawable/ic_screenshot"
             app:key="secure_mode"
             app:summary="@string/secure_mode_summary"
             app:title="@string/secure_mode" />

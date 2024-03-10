@@ -5,11 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import cn.super12138.todo.R
-import cn.super12138.todo.ToDoApp
 import cn.super12138.todo.constant.Constants
 import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.databinding.BottomSheetInfoBinding
-import cn.super12138.todo.logic.Repository
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

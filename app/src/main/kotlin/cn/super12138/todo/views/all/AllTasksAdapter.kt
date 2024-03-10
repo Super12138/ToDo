@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.model.ToDo
 
-class AllTasksAdapter(private val todoList: MutableList<ToDo>,
-                      private val fragmentManager: FragmentManager) :
+class AllTasksAdapter(
+    private val todoList: MutableList<ToDo>,
+    private val fragmentManager: FragmentManager
+) :
     RecyclerView.Adapter<AllTasksAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

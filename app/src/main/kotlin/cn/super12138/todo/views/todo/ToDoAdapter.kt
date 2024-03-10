@@ -14,7 +14,10 @@ import cn.super12138.todo.logic.model.ToDo
 import cn.super12138.todo.views.progress.ProgressFragmentViewModel
 import com.google.android.material.snackbar.Snackbar
 
-class ToDoAdapter(private val todoList: MutableList<ToDo>, private val viewModelStoreOwner: ViewModelStoreOwner) :
+class ToDoAdapter(
+    private val todoList: MutableList<ToDo>,
+    private val viewModelStoreOwner: ViewModelStoreOwner
+) :
     RecyclerView.Adapter<ToDoAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
