@@ -67,9 +67,9 @@ class InfoBottomSheet : BottomSheetDialogFragment() {
         binding.todoContentInfo.text = todoContent
         binding.todoSubjectInfo.text = String.format(getString(R.string.info_subject), todoSubject)
         if (todoState == 0) {
-            binding.todoState.text = getString(R.string.info_state_complete)
-        } else {
             binding.todoState.text = getString(R.string.info_state_incomplete)
+        } else {
+            binding.todoState.text = getString(R.string.info_state_complete)
         }
         if (GlobalValues.devMode) {
             binding.todoUuid.apply {
