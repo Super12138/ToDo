@@ -29,7 +29,11 @@
             android:name=".views.settings.SettingsActivity"
             android:exported="false"
             android:label="@string/settings_label"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".views.all.AllTasksActivity"
             android:exported="false"
