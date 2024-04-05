@@ -19,7 +19,7 @@ roomRuntime = "2.6.1"
 
 agp = "8.3.1"
 kotlin-android = "1.9.23"
-ksp = "1.9.23-1.0.19"
+ksp = "1.9.23-1.0.20"
 
 [libraries]
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
