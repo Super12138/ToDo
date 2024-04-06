@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import cn.super12138.todo.constant.Constants
 import cn.super12138.todo.databinding.ActivityAboutBinding
+import cn.super12138.todo.utils.VersionUtils
 import cn.super12138.todo.utils.showToast
 import cn.super12138.todo.views.BaseActivity
 
@@ -19,14 +20,7 @@ class AboutActivity : BaseActivity() {
         binding = ActivityAboutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val pkgInfo = packageManager.getPackageInfo(packageName, 0)
-        val verName = pkgInfo.versionName
-        val verCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            pkgInfo.longVersionCode.toInt()
-        } else {
-            pkgInfo.versionCode
-        }
-        binding.appVersion.text = "$verName($verCode)"
+        binding.appVersion.text = VersionUtils.getAppVersion(this)
 
         binding.toolBar.setNavigationOnClickListener {
             finish()

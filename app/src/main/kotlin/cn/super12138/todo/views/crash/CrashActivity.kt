@@ -8,6 +8,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import cn.super12138.todo.databinding.ActivityCrashBinding
+import cn.super12138.todo.utils.VersionUtils
 import cn.super12138.todo.views.BaseActivity
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -42,17 +43,8 @@ class CrashActivity : BaseActivity() {
         val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         val formattedDateTime = formatter.format(currentDateTime)
 
-        val pkgInfo = packageManager.getPackageInfo(packageName, 0)
-        val verName = pkgInfo.versionName
-        val verCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            pkgInfo.longVersionCode.toInt()
-        } else {
-            pkgInfo.versionCode
-        }
-        val mergeVer = "$verName($verCode)"
-
         val deviceInfo = StringBuilder().apply {
-            append("ToDo version: ").append(mergeVer).append('\n')
+            append("ToDo version: ").append(VersionUtils.getAppVersion(this@CrashActivity)).append('\n')
             append("Brand:      ").append("").append(deviceBrand).append('\n')
             append("Model:      ").append(deviceModel).append('\n')
             append("Device SDK: ").append(sdkLevel).append('\n').append('\n')
