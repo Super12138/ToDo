@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="todo_predicts">
-        <item>字词小故事</item>
         <item>诊断</item>
         <item>E 听说</item>
         <item>卷子</item>
-        <item>试卷整理</item>
+        <item>资料集</item>
         <item>改错</item>
         <item>每周一练</item>
-        <item>作文</item>
     </string-array>
     <string-array name="appearance">
         <item>跟随系统设置</item>
