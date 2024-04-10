@@ -25,19 +25,19 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Write sign info
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Super12138/ToDo'
+        run: |
+          if [ ! -z "${{ secrets.SIGNING_KEY }}" ]; then
+            echo releaseStorePassword='${{ secrets.KEY_STORE_PASSWORD }}' >> gradle.properties
+            echo releaseKeyAlias='${{ secrets.ALIAS }}' >> gradle.properties
+            echo releaseKeyPassword='${{ secrets.KEY_PASSWORD }}' >> gradle.properties
+            echo releaseStoreFile='${{ github.workspace }}/key.jks' >> gradle.properties
+            echo ${{ secrets.SIGNING_KEY }} | base64 --decode > ${{ github.workspace }}/key.jks
+          fi
+
       - name: Build with Gradle
         run: ./gradlew assembleRelease
-
-      - uses: ilharp/sign-android-release@nightly
-        name: Sign APK
-        id: sign_app
-        with:
-          releaseDir: app/build/outputs/apk/release
-          signingKey: ${{ secrets.ANDROID_SIGNING_KEY }}
-          keyAlias: ${{ secrets.ANDROID_KEY_ALIAS }}
-          keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
-          buildToolsVersion: 33.0.0
 
       - name: Upload APK
         uses: actions/upload-artifact@v4.3.1

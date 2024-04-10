@@ -15,6 +15,18 @@ android {
     namespace = "cn.super12138.todo"
     compileSdk = 34
 
+    // 获取 Release 签名
+    val releaseSigning = if (project.hasProperty("releaseStoreFile")) {
+        signingConfigs.create("release") {
+            storeFile = File(project.properties["releaseStoreFile"] as String)
+            storePassword = project.properties["releaseStorePassword"] as String
+            keyAlias = project.properties["releaseKeyAlias"] as String
+            keyPassword = project.properties["releaseKeyPassword"] as String
+        }
+    } else {
+        signingConfigs.getByName("debug")
+    }
+
     defaultConfig {
         applicationId = "cn.super12138.todo"
         minSdk = 24
@@ -29,6 +41,7 @@ android {
 
     buildTypes {
         release {
+            signingConfig = releaseSigning
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
