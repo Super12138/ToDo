@@ -40,8 +40,10 @@ android {
     }
 
     buildTypes {
-        release {
+        all {
             signingConfig = releaseSigning
+        }
+        release {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
