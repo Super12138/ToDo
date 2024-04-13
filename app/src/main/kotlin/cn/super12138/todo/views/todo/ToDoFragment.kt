@@ -84,6 +84,7 @@ class ToDoFragment : Fragment() {
                     .setView(toDoDialogBinding.root)
                     .setPositiveButton(R.string.ok, null)
                     .setNegativeButton(R.string.cancel, null)
+                    .setCancelable(false)
                     .show()
 
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
