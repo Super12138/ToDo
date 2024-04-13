@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import cn.super12138.todo.R
 import cn.super12138.todo.databinding.FragmentProgressBinding
 
 
@@ -26,18 +27,28 @@ class ProgressFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity()).get(ProgressFragmentViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity())[ProgressFragmentViewModel::class.java]
 
         viewModel.progress.observe(viewLifecycleOwner, Observer { value ->
             binding.progressBar.setProgressCompat(value, true)
         })
 
         viewModel.totalCount.observe(viewLifecycleOwner, Observer { total ->
-            binding.totalTextView.text = total.toString()
+            binding.totalCount.text = total.toString()
         })
 
         viewModel.completeCount.observe(viewLifecycleOwner, Observer { complete ->
-            binding.completeTextView.text = complete.toString()
+            binding.completeCount.text = complete.toString()
+        })
+
+        viewModel.remainCount.observe(viewLifecycleOwner, Observer { remain ->
+            if (remain == 0) {
+                binding.remainCount.visibility = View.GONE
+            } else {
+                binding.remainCount.visibility = View.VISIBLE
+                binding.remainCount.text =
+                    String.format(getString(R.string.remain_text), remain.toString())
+            }
         })
 
         viewModel.updateProgress()

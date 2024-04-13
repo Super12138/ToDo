@@ -12,7 +12,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:max="100"
-        app:indicatorSize="160dp"
+        app:indicatorSize="170dp"
         app:indicatorTrackGapSize="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,38 +26,54 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/completeTextView"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="0"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textStyle="bold" />
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/complete_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="0"
+                android:textAppearance="?attr/textAppearanceDisplaySmall"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/"
+                android:textAppearance="?attr/textAppearanceDisplayMedium"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/total_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:text="0"
+                android:textAppearance="?attr/textAppearanceDisplayMedium"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
+            android:id="@+id/remain_count"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="/"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/totalTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textStyle="bold" />
+            android:textAlignment="center"
+            android:visibility="gone"
+            android:textSize="12sp" />
     </LinearLayout>
 
 

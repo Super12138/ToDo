@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 class ProgressFragmentViewModel : ViewModel() {
     val totalCount: MutableLiveData<Int> = MutableLiveData()
     val completeCount: MutableLiveData<Int> = MutableLiveData()
+    val remainCount: MutableLiveData<Int> = MutableLiveData()
     val progress: MutableLiveData<Int> = MutableLiveData()
 
     fun updateProgress() {
@@ -22,6 +23,7 @@ class ProgressFragmentViewModel : ViewModel() {
             progress.postValue(calcProgress.toInt())
             completeCount.postValue(complete)
             totalCount.postValue(total)
+            remainCount.postValue(total - complete)
         }
     }
 }
