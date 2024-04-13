@@ -2,6 +2,9 @@ package cn.super12138.todo.views.settings
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
@@ -53,6 +56,7 @@ class SettingsActivity : BaseActivity() {
     class SettingsFragment : PreferenceFragmentCompat() {
         private lateinit var backupBinding: DialogBackupBinding
         private lateinit var restoreBinding: DialogRestoreBinding
+
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.preferences, rootKey)
             val gson = Gson()
@@ -161,6 +165,16 @@ class SettingsActivity : BaseActivity() {
                 }
             }
         }
+
+
+        override fun setDivider(divider: Drawable?) {
+            super.setDivider(ColorDrawable(Color.TRANSPARENT))
+        }
+
+        override fun setDividerHeight(height: Int) {
+            super.setDividerHeight(0)
+        }
+
 
         private fun restartApp(restartContext: Context) {
             val intent = Intent(restartContext, MainActivity::class.java).apply {
