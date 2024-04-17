@@ -1,7 +1,7 @@
 [versions]
 appcompat = "1.6.1"
 constraintlayout = "2.1.4"
-coreKtx = "1.12.0"
+coreKtx = "1.13.0"
 preference = "1.2.1"
 preferenceKtx = "1.2.1"
 lifecycleViewmodelKtx = "2.7.0"
