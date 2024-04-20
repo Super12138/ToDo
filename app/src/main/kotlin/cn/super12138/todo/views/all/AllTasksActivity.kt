@@ -3,8 +3,8 @@ package cn.super12138.todo.views.all
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import cn.super12138.todo.ToDoApp
 import cn.super12138.todo.constant.GlobalValues
@@ -13,6 +13,7 @@ import cn.super12138.todo.views.BaseActivity
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 
 class AllTasksActivity : BaseActivity() {
+    private val viewModel by viewModels<AllTasksViewModel>()
     private lateinit var binding: ActivityAllTasksBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,8 +29,6 @@ class AllTasksActivity : BaseActivity() {
 
         binding = ActivityAllTasksBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val viewModel = ViewModelProvider(this)[AllTasksViewModel::class.java]
 
         val layoutManager = LinearLayoutManager(ToDoApp.context)
         binding.allTasksList.layoutManager = layoutManager

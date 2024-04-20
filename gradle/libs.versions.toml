@@ -1,7 +1,9 @@
 [versions]
-appcompat = "1.6.1"
-constraintlayout = "2.1.4"
 coreKtx = "1.13.0"
+appcompat = "1.6.1"
+activity = "1.8.2"
+activityKtx = "1.8.2"
+constraintlayout = "2.1.4"
 preference = "1.2.1"
 preferenceKtx = "1.2.1"
 lifecycleViewmodelKtx = "2.7.0"
@@ -24,9 +26,11 @@ kotlin-android = "1.9.23"
 ksp = "1.9.23-1.0.20"
 
 [libraries]
-androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
-androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+androidx-activity-ktx = { group = "androidx.activity", name = "activity", version.ref = "activityKtx" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
 androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junitVersion" }
 androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preferenceKtx" }

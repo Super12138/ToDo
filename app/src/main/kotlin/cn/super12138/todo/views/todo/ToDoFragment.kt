@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -28,7 +29,8 @@ import me.zhanghai.android.fastscroll.FastScrollerBuilder
 import java.util.UUID
 
 class ToDoFragment : Fragment() {
-
+    private val progressViewModel by viewModels<ProgressFragmentViewModel>()
+    private val todoViewModel by viewModels<ToDoFragmentViewModel>()
     private lateinit var binding: FragmentTodoBinding
     private lateinit var toDoDialogBinding: DialogAddTodoBinding
 
@@ -53,11 +55,6 @@ class ToDoFragment : Fragment() {
             }
             WindowInsetsCompat.CONSUMED
         }*/
-
-        val progressViewModel =
-            ViewModelProvider(requireActivity())[ProgressFragmentViewModel::class.java]
-        val todoViewModel =
-            ViewModelProvider(requireActivity())[ToDoFragmentViewModel::class.java]
 
         val todoList = todoViewModel.todoList
 
