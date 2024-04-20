@@ -7,13 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import cn.super12138.todo.R
 import cn.super12138.todo.databinding.FragmentProgressBinding
 
 
 class ProgressFragment : Fragment() {
-    private val viewModel by viewModels<ProgressFragmentViewModel>()
+    private val viewModel: ProgressFragmentViewModel by viewModels({ requireActivity() })
     private lateinit var binding: FragmentProgressBinding
 
     override fun onCreateView(

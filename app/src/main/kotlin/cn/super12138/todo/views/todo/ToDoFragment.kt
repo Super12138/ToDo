@@ -8,7 +8,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,8 +28,8 @@ import me.zhanghai.android.fastscroll.FastScrollerBuilder
 import java.util.UUID
 
 class ToDoFragment : Fragment() {
-    private val progressViewModel by viewModels<ProgressFragmentViewModel>()
-    private val todoViewModel by viewModels<ToDoFragmentViewModel>()
+    private val progressViewModel: ProgressFragmentViewModel by viewModels({ requireActivity() })
+    private val todoViewModel: ToDoFragmentViewModel by viewModels({ requireActivity() })
     private lateinit var binding: FragmentTodoBinding
     private lateinit var toDoDialogBinding: DialogAddTodoBinding
 
@@ -136,9 +135,9 @@ class ToDoFragment : Fragment() {
                                     )
                                 )
                                 progressViewModel.updateProgress()
-                                binding.todoList.adapter?.notifyItemInserted(todoList.size + 1)
-                                dialog.dismiss()
                             }
+                            binding.todoList.adapter?.notifyItemInserted(todoList.size + 1)
+                            dialog.dismiss()
                         }
                     }
                 }
