@@ -12,6 +12,6 @@ object VersionUtils {
         } else {
             pkgInfo.versionCode
         }
-        return "$verName($verCode)"
+        return "$verName ($verCode)"
     }
 }
