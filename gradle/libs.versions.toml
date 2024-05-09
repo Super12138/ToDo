@@ -23,7 +23,7 @@ junitVersion = "1.1.5"
 
 agp = "8.4.0"
 kotlin-android = "1.9.23"
-ksp = "1.9.23-1.0.20"
+ksp = "1.9.24-1.0.20"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
