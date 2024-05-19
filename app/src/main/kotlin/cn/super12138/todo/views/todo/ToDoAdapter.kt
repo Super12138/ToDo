@@ -1,5 +1,6 @@
 package cn.super12138.todo.views.todo
 
+import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,6 +51,7 @@ class ToDoAdapter(
             ViewModelProvider(viewModelStoreOwner)[ToDoFragmentViewModel::class.java]
 
         holder.checkToDoBtn.setOnClickListener {
+            it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
             if (position < 0 || position >= todoList.size) {
                 return@setOnClickListener
             }
@@ -70,6 +72,7 @@ class ToDoAdapter(
         }
 
         holder.delToDoBtn.setOnClickListener {
+            it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
             if (position < 0 || position >= todoList.size) {
                 return@setOnClickListener
             }

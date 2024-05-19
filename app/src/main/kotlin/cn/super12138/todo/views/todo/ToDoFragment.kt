@@ -1,6 +1,7 @@
 package cn.super12138.todo.views.todo
 
 import android.os.Bundle
+import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,6 +73,7 @@ class ToDoFragment : Fragment() {
         }
 
         binding.addItem.setOnClickListener {
+            it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
             toDoDialogBinding = DialogAddTodoBinding.inflate(layoutInflater)
 
             activity?.let { it1 ->
