@@ -3,6 +3,8 @@ package cn.super12138.todo.views
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
+import androidx.activity.SystemBarStyle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import cn.super12138.todo.constant.GlobalValues
@@ -11,8 +13,8 @@ open class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         /*if (GlobalValues.springFestivalTheme) {
             setTheme(R.style.Theme_SpringFestival)
-        }
-        enableEdgeToEdge()*/
+        }*/
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
         // 深色模式
