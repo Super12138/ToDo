@@ -31,14 +31,9 @@ import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
 
-class SettingsActivity : BaseActivity() {
-    private lateinit var binding: ActivitySettingsBinding
-
+class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivitySettingsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         if (savedInstanceState == null) {
             supportFragmentManager
@@ -51,6 +46,10 @@ class SettingsActivity : BaseActivity() {
         binding.toolBar.setNavigationOnClickListener {
             finish()
         }
+    }
+
+    override fun getViewBinding(): ActivitySettingsBinding {
+        return ActivitySettingsBinding.inflate(layoutInflater)
     }
 
     class SettingsFragment : PreferenceFragmentCompat() {

@@ -12,9 +12,8 @@ import cn.super12138.todo.databinding.ActivityAllTasksBinding
 import cn.super12138.todo.views.BaseActivity
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 
-class AllTasksActivity : BaseActivity() {
+class AllTasksActivity : BaseActivity<ActivityAllTasksBinding>() {
     private val viewModel by viewModels<AllTasksViewModel>()
-    private lateinit var binding: ActivityAllTasksBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -26,9 +25,6 @@ class AllTasksActivity : BaseActivity() {
 
             false -> window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
         }
-
-        binding = ActivityAllTasksBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         val layoutManager = LinearLayoutManager(ToDoApp.context)
         binding.allTasksList.layoutManager = layoutManager
@@ -63,5 +59,9 @@ class AllTasksActivity : BaseActivity() {
                 binding.emptyTip.visibility = View.GONE
             }
         })
+    }
+
+    override fun getViewBinding(): ActivityAllTasksBinding {
+        return ActivityAllTasksBinding.inflate(layoutInflater)
     }
 }

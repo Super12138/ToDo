@@ -14,15 +14,10 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class CrashActivity : BaseActivity() {
-    private lateinit var binding: ActivityCrashBinding
-
+class CrashActivity : BaseActivity<ActivityCrashBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-
-        binding = ActivityCrashBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.exitApp) { view, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -44,7 +39,8 @@ class CrashActivity : BaseActivity() {
         val formattedDateTime = formatter.format(currentDateTime)
 
         val deviceInfo = StringBuilder().apply {
-            append("ToDo version: ").append(VersionUtils.getAppVersion(this@CrashActivity)).append('\n')
+            append("ToDo version: ").append(VersionUtils.getAppVersion(this@CrashActivity))
+                .append('\n')
             append("Brand:      ").append("").append(deviceBrand).append('\n')
             append("Model:      ").append(deviceModel).append('\n')
             append("Device SDK: ").append(sdkLevel).append('\n').append('\n')
@@ -60,5 +56,9 @@ class CrashActivity : BaseActivity() {
         binding.exitApp.setOnClickListener {
             this.finishAffinity()
         }
+    }
+
+    override fun getViewBinding(): ActivityCrashBinding {
+        return ActivityCrashBinding.inflate(layoutInflater)
     }
 }

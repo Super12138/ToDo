@@ -3,19 +3,22 @@ package cn.super12138.todo.views
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
-import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.viewbinding.ViewBinding
 import cn.super12138.todo.constant.GlobalValues
 
-open class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
+    lateinit var binding: T
     override fun onCreate(savedInstanceState: Bundle?) {
         /*if (GlobalValues.springFestivalTheme) {
             setTheme(R.style.Theme_SpringFestival)
         }*/
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+        binding = getViewBinding()
+        setContentView(binding.root)
 
         // 深色模式
         when (GlobalValues.darkMode) {
@@ -34,4 +37,6 @@ open class BaseActivity : AppCompatActivity() {
         }
         window.attributes = lp
     }
+
+    abstract fun getViewBinding(): T
 }
