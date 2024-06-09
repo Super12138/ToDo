@@ -1,13 +1,16 @@
 package cn.super12138.todo.views
 
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
+import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.viewbinding.ViewBinding
 import cn.super12138.todo.constant.GlobalValues
+import com.google.android.material.internal.EdgeToEdgeUtils
 
 abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
     lateinit var binding: T
@@ -15,7 +18,7 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
         /*if (GlobalValues.springFestivalTheme) {
             setTheme(R.style.Theme_SpringFestival)
         }*/
-        enableEdgeToEdge()
+        enableEdgeToEdge(navigationBarStyle = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT))
         super.onCreate(savedInstanceState)
         binding = getViewBinding()
         setContentView(binding.root)

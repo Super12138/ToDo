@@ -18,16 +18,6 @@ class CrashActivity : BaseActivity<ActivityCrashBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.exitApp) { view, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                leftMargin = if (insets.left == 0) 16 else insets.left
-                bottomMargin = if (insets.bottom == 0) 48 else insets.bottom + 32
-                rightMargin = if (insets.right == 0) 48 else insets.right + 32
-            }
-            WindowInsetsCompat.CONSUMED
-        }
-
         val crashLogs = intent.getStringExtra("crash_logs")
 
         val deviceBrand = Build.BRAND

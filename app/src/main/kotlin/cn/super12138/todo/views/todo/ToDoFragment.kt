@@ -1,9 +1,13 @@
 package cn.super12138.todo.views.todo
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -16,6 +20,7 @@ import cn.super12138.todo.databinding.FragmentTodoBinding
 import cn.super12138.todo.logic.Repository
 import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.views.bottomsheet.ToDoBottomSheet
+import cn.super12138.todo.views.crash.CrashActivity
 import cn.super12138.todo.views.progress.ProgressFragmentViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
@@ -38,16 +43,15 @@ class ToDoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        /*ViewCompat.setOnApplyWindowInsetsListener(binding.addItem) { view, windowInsets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.addItem) { v, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+            v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 leftMargin = if (insets.left == 0) 16 else insets.left
                 bottomMargin = if (insets.bottom == 0) 48 else insets.bottom + 32
                 rightMargin = if (insets.right == 0) 48 else insets.right + 32
             }
             WindowInsetsCompat.CONSUMED
-        }*/
-
+        }
         val todoList = todoViewModel.todoList
 
         val layoutManager = LinearLayoutManager(ToDoApp.context)
@@ -69,6 +73,8 @@ class ToDoFragment : Fragment() {
 
             val toDoBottomSheet = ToDoBottomSheet()
             toDoBottomSheet.show(parentFragmentManager, ToDoBottomSheet.TAG)
+
+            startActivity(Intent(ToDoApp.context, CrashActivity::class.java))
         }
 
         binding.addItem.setOnLongClickListener {
