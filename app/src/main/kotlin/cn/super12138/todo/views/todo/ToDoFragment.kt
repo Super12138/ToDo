@@ -73,8 +73,6 @@ class ToDoFragment : Fragment() {
 
             val toDoBottomSheet = ToDoBottomSheet()
             toDoBottomSheet.show(parentFragmentManager, ToDoBottomSheet.TAG)
-
-            startActivity(Intent(ToDoApp.context, CrashActivity::class.java))
         }
 
         binding.addItem.setOnLongClickListener {
