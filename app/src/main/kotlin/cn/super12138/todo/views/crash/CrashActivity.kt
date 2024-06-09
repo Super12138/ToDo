@@ -2,10 +2,6 @@ package cn.super12138.todo.views.crash
 
 import android.os.Build
 import android.os.Bundle
-import android.view.ViewGroup
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updateLayoutParams
 import cn.super12138.todo.databinding.ActivityCrashBinding
 import cn.super12138.todo.utils.VersionUtils
 import cn.super12138.todo.utils.VibrationUtils

@@ -55,6 +55,7 @@
 
     <style name="Theme.ToDo" parent="Base.Theme.ToDo">
         <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
     </style>
