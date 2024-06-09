@@ -78,4 +78,10 @@ object Repository {
             todoDao.updateStateByUUID(uuid)
         }
     }
+
+    suspend fun update(toDoRoom: ToDoRoom) {
+        withContext(Dispatchers.IO) {
+            todoDao.update(toDoRoom)
+        }
+    }
 }

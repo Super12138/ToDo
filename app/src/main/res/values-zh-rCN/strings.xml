@@ -32,8 +32,8 @@
     <string name="delete_all">删除全部代办</string>
     <string name="check_one">标记为已完成</string>
     <string name="no_tasks">无待办事项</string>
-    <string name="delete_undo">撤销</string>
-    <string name="task_deleted">该待办已删除</string>
+    <!--<string name="delete_undo">撤销</string>-->
+    <!--<string name="task_deleted">该待办已删除</string>-->
     <string name="content_cannot_be_empty">待办内容不能为空</string>
     <string name="settings_label">设置</string>
     <string name="appearance">外观</string>
@@ -69,4 +69,7 @@
     <string name="info_state_incomplete">状态：未完成</string>
     <string name="info_uuid">UUID：%s</string>
     <string name="remain_text">剩余 %s 项任务</string>
+    <string name="save">保存</string>
+    <string name="update_task">更新待办</string>
+    <string name="update">更新</string>
 </resources>

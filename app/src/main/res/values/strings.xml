@@ -32,8 +32,8 @@
     <string name="delete_all">Delete all tasks</string>
     <string name="check_one">Checked this task</string>
     <string name="no_tasks">No tasks</string>
-    <string name="delete_undo">Undo</string>
-    <string name="task_deleted">This task has been deleted</string>
+    <!--<string name="delete_undo">Undo</string>-->
+    <!--<string name="task_deleted">This task has been deleted</string>-->
     <string name="content_cannot_be_empty">Task content cannot be empty</string>
     <!--Settings-->
     <string name="settings_label">Settings</string>
@@ -69,4 +69,7 @@
     <string name="info_state_incomplete">State: incomplete</string>
     <string name="info_uuid">UUID: %s</string>
     <string name="remain_text">%s tasks remaining</string>
+    <string name="save">Save</string>
+    <string name="update_task">Update task</string>
+    <string name="update">Update</string>
 </resources>

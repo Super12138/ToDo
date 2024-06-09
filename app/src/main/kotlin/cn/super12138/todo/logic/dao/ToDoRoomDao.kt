@@ -3,6 +3,7 @@ package cn.super12138.todo.logic.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface ToDoRoomDao {
@@ -26,4 +27,7 @@ interface ToDoRoomDao {
 
     @Query("UPDATE todo SET state = 1 WHERE uuid = :uuid")
     suspend fun updateStateByUUID(uuid: String)
+
+    @Update
+    suspend fun update(toDoRoom: ToDoRoom)
 }

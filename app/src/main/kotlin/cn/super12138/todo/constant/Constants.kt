@@ -17,7 +17,10 @@ object Constants {
     const val STRING_DEV_MODE = "/DEV_MODE"
 
     const val TAG_INFO_BOTTOM_SHEET = "InfoBottomSheet"
+    const val TAG_TODO_BOTTOM_SHEET = "ToDoBottomSheet"
 
+    const val BUNDLE_EDIT_MODE = "editMode"
+    const val BUNDLE_POSITION = "todoPosition"
     const val BUNDLE_TODO_CONTENT = "todoContent"
     const val BUNDLE_TODO_SUBJECT = "todoSubject"
     const val BUNDLE_TODO_STATE = "todoState"

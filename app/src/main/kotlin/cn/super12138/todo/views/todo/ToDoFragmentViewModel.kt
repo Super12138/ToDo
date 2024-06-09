@@ -11,7 +11,11 @@ import kotlinx.coroutines.launch
 
 class ToDoFragmentViewModel : ViewModel() {
     val emptyTipVis = MutableLiveData<Int>(View.GONE)
+
+    val addData = MutableLiveData<Int>(0)
+    val removeData = MutableLiveData<Int>(0)
     val refreshData = MutableLiveData<Int>(0)
+
     val todoList = ArrayList<ToDo>()
 
     init {
@@ -34,7 +38,8 @@ class ToDoFragmentViewModel : ViewModel() {
         }
     }
 
-    fun deleteTask(uuid: String) {
+    fun deleteTask(position: Int, uuid: String) {
+        todoList.removeAt(position)
         viewModelScope.launch {
             Repository.deleteByUUID(uuid)
         }
@@ -46,9 +51,24 @@ class ToDoFragmentViewModel : ViewModel() {
         }
     }
 
-    fun updateTask(uuid: String) {
+    fun updateTaskState(uuid: String) {
         viewModelScope.launch {
             Repository.updateStateByUUID(uuid)
+        }
+    }
+
+    fun updateTask(position: Int, todo: ToDoRoom) {
+        todoList.removeAt(position)
+        todoList.add(
+            position, ToDo(
+                todo.uuid,
+                todo.state,
+                todo.content,
+                todo.subject
+            )
+        )
+        viewModelScope.launch {
+            Repository.update(todo)
         }
     }
 }

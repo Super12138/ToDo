@@ -7,7 +7,9 @@
     android:layout_marginLeft="10dp"
     android:layout_marginTop="5dp"
     android:layout_marginRight="10dp"
-    android:layout_marginBottom="5dp">
+    android:layout_marginBottom="5dp"
+    android:clickable="true"
+    android:focusable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,14 +44,14 @@
                 android:textSize="11sp" />
         </LinearLayout>
 
-        <Button
+        <!--<Button
             android:id="@+id/delete_item_btn"
             style="?attr/materialIconButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
             android:tooltipText="@string/delete_one"
-            app:icon="@drawable/ic_delete" />
+            app:icon="@drawable/ic_delete" />-->
 
         <Button
             android:id="@+id/check_item_btn"
