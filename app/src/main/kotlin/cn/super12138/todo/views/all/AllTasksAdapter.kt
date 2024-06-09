@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.super12138.todo.R
 import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.logic.model.ToDo
+import cn.super12138.todo.utils.VibrationUtils
 
 class AllTasksAdapter(
     private val todoList: MutableList<ToDo>,
@@ -35,9 +36,7 @@ class AllTasksAdapter(
         holder.todoSubject.text = todo.subject
 
         holder.itemView.setOnClickListener {
-            if (GlobalValues.hapticFeedback) {
-                it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-            }
+            VibrationUtils.performHapticFeedback(it)
 
             val infoBottomSheet = InfoBottomSheet.newInstance(
                 todo.content,

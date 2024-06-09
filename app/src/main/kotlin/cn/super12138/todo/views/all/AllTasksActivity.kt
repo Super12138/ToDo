@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import cn.super12138.todo.ToDoApp
 import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.databinding.ActivityAllTasksBinding
+import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.views.BaseActivity
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 
@@ -38,9 +39,7 @@ class AllTasksActivity : BaseActivity<ActivityAllTasksBinding>() {
         }
 
         binding.toolBar.setNavigationOnClickListener {
-            if (GlobalValues.hapticFeedback) {
-                it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-            }
+            VibrationUtils.performHapticFeedback(it)
 
             finish()
         }

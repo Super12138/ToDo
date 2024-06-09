@@ -1,10 +1,9 @@
 package cn.super12138.todo.views.settings
 
 import android.os.Bundle
-import android.view.HapticFeedbackConstants
 import cn.super12138.todo.R
-import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.databinding.ActivitySettingsBinding
+import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.views.BaseActivity
 
 class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
@@ -20,9 +19,7 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.toolBar.setNavigationOnClickListener {
-            if (GlobalValues.hapticFeedback) {
-                it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-            }
+            VibrationUtils.performHapticFeedback(it)
 
             finish()
         }

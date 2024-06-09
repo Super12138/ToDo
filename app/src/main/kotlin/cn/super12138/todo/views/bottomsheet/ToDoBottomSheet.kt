@@ -1,7 +1,6 @@
 package cn.super12138.todo.views.bottomsheet
 
 import android.os.Bundle
-import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,7 @@ import cn.super12138.todo.databinding.BottomSheetTodoBinding
 import cn.super12138.todo.logic.dao.ToDoRoom
 import cn.super12138.todo.logic.model.ToDo
 import cn.super12138.todo.utils.TextUtils
+import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.utils.showToast
 import cn.super12138.todo.utils.toEditable
 import cn.super12138.todo.views.progress.ProgressFragmentViewModel
@@ -104,9 +104,7 @@ class ToDoBottomSheet : BottomSheetDialogFragment() {
         }
 
         binding.btnSave.setOnClickListener {
-            if (GlobalValues.hapticFeedback) {
-                it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-            }
+            VibrationUtils.performHapticFeedback(it)
 
             val todoContent = binding.todoContent.editText?.text.toString()
             // 内容判空
@@ -168,17 +166,13 @@ class ToDoBottomSheet : BottomSheetDialogFragment() {
         }
 
         binding.btnCancel.setOnClickListener {
-            if (GlobalValues.hapticFeedback) {
-                it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-            }
+            VibrationUtils.performHapticFeedback(it)
 
             dismiss()
         }
 
         binding.btnDelete.setOnClickListener {
-            if (GlobalValues.hapticFeedback) {
-                it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-            }
+            VibrationUtils.performHapticFeedback(it)
 
             todoViewModel.deleteTask(todoPosition, todoUUID)
             progressViewModel.updateProgress()

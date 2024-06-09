@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.super12138.todo.R
 import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.logic.model.ToDo
+import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.utils.showToast
 import cn.super12138.todo.views.bottomsheet.ToDoBottomSheet
 import cn.super12138.todo.views.progress.ProgressFragmentViewModel
@@ -78,6 +79,7 @@ class ToDoAdapter(
 
         holder.itemView.setOnClickListener {
             if (GlobalValues.devMode) {
+                VibrationUtils.performHapticFeedback(it)
                 "Current position: $position".showToast()
             }
         }

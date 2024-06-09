@@ -11,6 +11,7 @@ import androidx.core.view.updateLayoutParams
 import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.databinding.ActivityCrashBinding
 import cn.super12138.todo.utils.VersionUtils
+import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.views.BaseActivity
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -18,7 +19,6 @@ import java.util.Locale
 
 class CrashActivity : BaseActivity<ActivityCrashBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.exitApp) { view, windowInsets ->
@@ -56,9 +56,8 @@ class CrashActivity : BaseActivity<ActivityCrashBinding>() {
         }
 
         binding.exitApp.setOnClickListener {
-            if (GlobalValues.hapticFeedback) {
-                it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-            }
+            VibrationUtils.performHapticFeedback(it)
+
             this.finishAffinity()
         }
     }

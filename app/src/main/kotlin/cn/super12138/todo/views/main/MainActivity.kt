@@ -8,6 +8,7 @@ import cn.super12138.todo.R
 import cn.super12138.todo.ToDoApp
 import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.databinding.ActivityMainBinding
+import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.views.BaseActivity
 import cn.super12138.todo.views.settings.SettingsActivity
 
@@ -19,9 +20,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 R.id.item_settings -> {
                     val intent = Intent(ToDoApp.context, SettingsActivity::class.java)
                     startActivity(intent)
-                    if (GlobalValues.hapticFeedback) {
-                        binding.toolBar.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-                    }
+
+                    VibrationUtils.performHapticFeedback(binding.toolBar)
+
                     true
                 }
 

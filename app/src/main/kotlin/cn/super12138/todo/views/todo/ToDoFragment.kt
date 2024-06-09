@@ -1,7 +1,6 @@
 package cn.super12138.todo.views.todo
 
 import android.os.Bundle
-import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.super12138.todo.R
 import cn.super12138.todo.ToDoApp
-import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.databinding.FragmentTodoBinding
 import cn.super12138.todo.logic.Repository
+import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.views.bottomsheet.ToDoBottomSheet
 import cn.super12138.todo.views.progress.ProgressFragmentViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -66,9 +65,8 @@ class ToDoFragment : Fragment() {
         }
 
         binding.addItem.setOnClickListener {
-            if (GlobalValues.hapticFeedback) {
-                it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-            }
+            VibrationUtils.performHapticFeedback(it)
+
             val toDoBottomSheet = ToDoBottomSheet()
             toDoBottomSheet.show(parentFragmentManager, ToDoBottomSheet.TAG)
         }
@@ -79,6 +77,8 @@ class ToDoFragment : Fragment() {
                     .setTitle(R.string.warning)
                     .setMessage(R.string.delete_confirm)
                     .setPositiveButton(R.string.ok) { _, _ ->
+                        VibrationUtils.performHapticFeedback(it)
+
                         // 清除 Recycler View
                         todoList.clear()
                         // 清除数据库

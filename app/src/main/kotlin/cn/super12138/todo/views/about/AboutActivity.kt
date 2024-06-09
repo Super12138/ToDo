@@ -8,6 +8,7 @@ import cn.super12138.todo.constant.Constants
 import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.databinding.ActivityAboutBinding
 import cn.super12138.todo.utils.VersionUtils
+import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.utils.showToast
 import cn.super12138.todo.views.BaseActivity
 
@@ -20,17 +21,13 @@ class AboutActivity : BaseActivity<ActivityAboutBinding>() {
         binding.appVersion.text = VersionUtils.getAppVersion(this)
 
         binding.toolBar.setNavigationOnClickListener {
-            if (GlobalValues.hapticFeedback) {
-                it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-            }
+            VibrationUtils.performHapticFeedback(it)
 
             finish()
         }
 
         binding.checkUpdate.setOnClickListener {
-            if (GlobalValues.hapticFeedback) {
-                it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-            }
+            VibrationUtils.performHapticFeedback(it)
 
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 data = Uri.parse(Constants.UPDATE_URL)
@@ -39,9 +36,7 @@ class AboutActivity : BaseActivity<ActivityAboutBinding>() {
         }
 
         binding.openSource.setOnClickListener {
-            if (GlobalValues.hapticFeedback) {
-                it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-            }
+            VibrationUtils.performHapticFeedback(it)
 
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 data = Uri.parse(Constants.REPO_GITHUB_URL)
@@ -51,9 +46,7 @@ class AboutActivity : BaseActivity<ActivityAboutBinding>() {
 
 
         binding.developerInfo.setOnClickListener {
-            if (GlobalValues.hapticFeedback) {
-                it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-            }
+            VibrationUtils.performHapticFeedback(it)
 
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 data = Uri.parse(Constants.AUTHOR_GITHUB_URL)
