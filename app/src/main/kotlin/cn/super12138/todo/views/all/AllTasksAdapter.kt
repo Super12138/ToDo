@@ -1,6 +1,5 @@
 package cn.super12138.todo.views.all
 
-import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +7,6 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.super12138.todo.R
-import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.logic.model.ToDo
 import cn.super12138.todo.utils.VibrationUtils
 

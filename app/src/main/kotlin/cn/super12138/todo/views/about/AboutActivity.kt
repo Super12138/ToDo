@@ -3,9 +3,7 @@ package cn.super12138.todo.views.about
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.HapticFeedbackConstants
 import cn.super12138.todo.constant.Constants
-import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.databinding.ActivityAboutBinding
 import cn.super12138.todo.utils.VersionUtils
 import cn.super12138.todo.utils.VibrationUtils

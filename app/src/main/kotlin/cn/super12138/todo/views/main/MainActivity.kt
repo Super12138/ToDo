@@ -2,7 +2,6 @@ package cn.super12138.todo.views.main
 // 2023.11.18立项
 import android.content.Intent
 import android.os.Bundle
-import android.view.HapticFeedbackConstants
 import android.view.WindowManager
 import cn.super12138.todo.R
 import cn.super12138.todo.ToDoApp
