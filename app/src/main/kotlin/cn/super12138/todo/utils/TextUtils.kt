@@ -5,6 +5,7 @@ import cn.super12138.todo.R
 import cn.super12138.todo.ToDoApp
 
 object TextUtils {
+    // 更换为id匹配（数据库）
     private val subjectMap = mapOf(
         globalGetString(R.string.subject_chinese) to R.id.subject_chinese,
         globalGetString(R.string.subject_math) to R.id.subject_math,

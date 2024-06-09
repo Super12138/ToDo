@@ -3,7 +3,9 @@ package cn.super12138.todo.views.about
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.HapticFeedbackConstants
 import cn.super12138.todo.constant.Constants
+import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.databinding.ActivityAboutBinding
 import cn.super12138.todo.utils.VersionUtils
 import cn.super12138.todo.utils.showToast
@@ -18,10 +20,18 @@ class AboutActivity : BaseActivity<ActivityAboutBinding>() {
         binding.appVersion.text = VersionUtils.getAppVersion(this)
 
         binding.toolBar.setNavigationOnClickListener {
+            if (GlobalValues.hapticFeedback) {
+                it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+            }
+
             finish()
         }
 
         binding.checkUpdate.setOnClickListener {
+            if (GlobalValues.hapticFeedback) {
+                it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+            }
+
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 data = Uri.parse(Constants.UPDATE_URL)
             }
@@ -29,6 +39,10 @@ class AboutActivity : BaseActivity<ActivityAboutBinding>() {
         }
 
         binding.openSource.setOnClickListener {
+            if (GlobalValues.hapticFeedback) {
+                it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+            }
+
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 data = Uri.parse(Constants.REPO_GITHUB_URL)
             }
@@ -37,6 +51,10 @@ class AboutActivity : BaseActivity<ActivityAboutBinding>() {
 
 
         binding.developerInfo.setOnClickListener {
+            if (GlobalValues.hapticFeedback) {
+                it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+            }
+
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 data = Uri.parse(Constants.AUTHOR_GITHUB_URL)
             }

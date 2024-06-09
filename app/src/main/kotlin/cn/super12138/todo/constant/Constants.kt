@@ -9,6 +9,9 @@ object Constants {
 
     const val PREF_DARK_MODE = "dark_mode"
     const val PREF_SECURE_MODE = "secure_mode"
+    const val PREF_HAPTIC_FEEDBACK = "haptic_feedback"
+    const val PREF_ALL_TASKS = "all_tasks"
+    const val PREF_ABOUT = "about"
     const val PREF_DEV_MODE = "dev_mode"
     const val PREF_SPRING_FESTIVAL_THEME = "spring_festival_theme"
     const val PREF_BACKUP_DB = "backup_db"

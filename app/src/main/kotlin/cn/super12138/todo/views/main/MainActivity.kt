@@ -2,6 +2,7 @@ package cn.super12138.todo.views.main
 // 2023.11.18立项
 import android.content.Intent
 import android.os.Bundle
+import android.view.HapticFeedbackConstants
 import android.view.WindowManager
 import cn.super12138.todo.R
 import cn.super12138.todo.ToDoApp
@@ -18,6 +19,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 R.id.item_settings -> {
                     val intent = Intent(ToDoApp.context, SettingsActivity::class.java)
                     startActivity(intent)
+                    if (GlobalValues.hapticFeedback) {
+                        binding.toolBar.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+                    }
                     true
                 }
 

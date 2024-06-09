@@ -26,6 +26,12 @@
             app:key="secure_mode"
             app:summary="@string/secure_mode_summary"
             app:title="@string/secure_mode" />
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:icon="@drawable/ic_vibration"
+            app:key="haptic_feedback"
+            app:summary="@string/haptic_feedback_summary"
+            app:title="@string/haptic_feedback" />
         <Preference
             android:icon="@drawable/ic_backup"
             app:key="backup_db"
@@ -40,19 +46,13 @@
 
     <PreferenceCategory app:title="@string/others">
         <Preference
-            app:icon="@drawable/ic_all_todos"
+            app:icon="@drawable/ic_all_tasks"
+            app:key="all_tasks"
             app:summary="@string/view_all_tasks_summary"
-            app:title="@string/view_all_tasks_label">
-            <intent
-                android:targetClass="cn.super12138.todo.views.all.AllTasksActivity"
-                android:targetPackage="cn.super12138.todo" />
-        </Preference>
+            app:title="@string/view_all_tasks_label" />
         <Preference
+            app:key="about"
             app:icon="@drawable/ic_about"
-            app:title="@string/about_label">
-            <intent
-                android:targetClass="cn.super12138.todo.views.about.AboutActivity"
-                android:targetPackage="cn.super12138.todo" />
-        </Preference>
+            app:title="@string/about_label" />
     </PreferenceCategory>
 </PreferenceScreen>

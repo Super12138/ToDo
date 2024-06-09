@@ -1,6 +1,7 @@
 package cn.super12138.todo.views.all
 
 import android.os.Bundle
+import android.view.HapticFeedbackConstants
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.viewModels
@@ -37,6 +38,10 @@ class AllTasksActivity : BaseActivity<ActivityAllTasksBinding>() {
         }
 
         binding.toolBar.setNavigationOnClickListener {
+            if (GlobalValues.hapticFeedback) {
+                it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+            }
+
             finish()
         }
 

@@ -54,7 +54,9 @@ class ToDoAdapter(
             ViewModelProvider(viewModelStoreOwner)[ToDoFragmentViewModel::class.java]
 
         holder.checkToDoBtn.setOnClickListener {
-            it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+            if (GlobalValues.hapticFeedback) {
+                it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+            }
             if (position < 0 || position >= todoList.size) {
                 return@setOnClickListener
             }

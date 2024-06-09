@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.super12138.todo.R
 import cn.super12138.todo.ToDoApp
+import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.databinding.FragmentTodoBinding
 import cn.super12138.todo.logic.Repository
 import cn.super12138.todo.views.bottomsheet.ToDoBottomSheet
@@ -65,7 +66,9 @@ class ToDoFragment : Fragment() {
         }
 
         binding.addItem.setOnClickListener {
-            it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+            if (GlobalValues.hapticFeedback) {
+                it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+            }
             val toDoBottomSheet = ToDoBottomSheet()
             toDoBottomSheet.show(parentFragmentManager, ToDoBottomSheet.TAG)
         }

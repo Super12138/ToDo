@@ -72,4 +72,6 @@
     <string name="save">Save</string>
     <string name="update_task">Update task</string>
     <string name="update">Update</string>
+    <string name="haptic_feedback">Haptic feedback</string>
+    <string name="haptic_feedback_summary">Some tap operations will cause a slight vibration</string>
 </resources>

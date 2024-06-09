@@ -7,4 +7,5 @@ object GlobalValues {
     var devMode: Boolean by SPDelegates(Constants.PREF_DEV_MODE, false)
     var springFestivalTheme: Boolean by SPDelegates(Constants.PREF_SPRING_FESTIVAL_THEME, false)
     var secureMode: Boolean by SPDelegates(Constants.PREF_SECURE_MODE, false)
+    var hapticFeedback: Boolean by SPDelegates(Constants.PREF_HAPTIC_FEEDBACK, true)
 }

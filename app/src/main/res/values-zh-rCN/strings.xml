@@ -72,4 +72,6 @@
     <string name="save">保存</string>
     <string name="update_task">更新待办</string>
     <string name="update">更新</string>
+    <string name="haptic_feedback">触感反馈</string>
+    <string name="haptic_feedback_summary">部分点按操作会有轻微震动</string>
 </resources>

@@ -1,6 +1,7 @@
 package cn.super12138.todo.views.bottomsheet
 
 import android.os.Bundle
+import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -103,6 +104,10 @@ class ToDoBottomSheet : BottomSheetDialogFragment() {
         }
 
         binding.btnSave.setOnClickListener {
+            if (GlobalValues.hapticFeedback) {
+                it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+            }
+
             val todoContent = binding.todoContent.editText?.text.toString()
             // 内容判空
             if (todoContent.isEmpty()) {
@@ -163,10 +168,18 @@ class ToDoBottomSheet : BottomSheetDialogFragment() {
         }
 
         binding.btnCancel.setOnClickListener {
+            if (GlobalValues.hapticFeedback) {
+                it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+            }
+
             dismiss()
         }
 
         binding.btnDelete.setOnClickListener {
+            if (GlobalValues.hapticFeedback) {
+                it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+            }
+
             todoViewModel.deleteTask(todoPosition, todoUUID)
             progressViewModel.updateProgress()
             todoViewModel.removeData.value = 1
