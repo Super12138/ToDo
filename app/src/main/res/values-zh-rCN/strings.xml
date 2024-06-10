@@ -29,7 +29,6 @@
     <string name="delete_confirm">即将删除全部待办，是否继续？</string>
     <string name="tasks_textfield_hint">待办内容</string>
     <string name="delete_one">删除</string>
-    <string name="delete_all">删除全部代办</string>
     <string name="check_one">标记为已完成</string>
     <string name="no_tasks">无待办事项</string>
     <!--<string name="delete_undo">撤销</string>-->

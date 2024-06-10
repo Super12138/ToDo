@@ -51,8 +51,8 @@
             app:summary="@string/view_all_tasks_summary"
             app:title="@string/view_all_tasks_label" />
         <Preference
-            app:key="about"
             app:icon="@drawable/ic_about"
+            app:key="about"
             app:title="@string/about_label" />
     </PreferenceCategory>
 </PreferenceScreen>

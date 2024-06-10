@@ -1,6 +1,5 @@
 package cn.super12138.todo.views.todo
 
-import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +28,6 @@ class ToDoAdapter(
         val todoContext: TextView = view.findViewById(R.id.todo_content)
         val todoSubject: TextView = view.findViewById(R.id.todo_subject)
         val checkToDoBtn: Button = view.findViewById(R.id.check_item_btn)
-        // val delToDoBtn: Button = view.findViewById(R.id.delete_item_btn)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

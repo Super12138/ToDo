@@ -1,19 +1,13 @@
 package cn.super12138.todo.views
 
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
-import androidx.activity.SystemBarStyle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.viewbinding.ViewBinding
 import cn.super12138.todo.constant.GlobalValues
-import com.google.android.material.internal.EdgeToEdgeUtils
 
 abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
     lateinit var binding: T

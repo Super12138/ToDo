@@ -1,6 +1,5 @@
 package cn.super12138.todo.views.todo
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +19,6 @@ import cn.super12138.todo.databinding.FragmentTodoBinding
 import cn.super12138.todo.logic.Repository
 import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.views.bottomsheet.ToDoBottomSheet
-import cn.super12138.todo.views.crash.CrashActivity
 import cn.super12138.todo.views.progress.ProgressFragmentViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
