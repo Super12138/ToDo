@@ -10,7 +10,7 @@ lifecycleViewmodelKtx = "2.8.2"
 lifecycleViewmodel = "2.8.2"
 recyclerview = "1.3.2"
 fragmentKtx = "1.7.1"
-fragment = "1.7.1"
+fragment = "1.8.0"
 roomRuntime = "2.6.1"
 
 fastScroll = "1.3.0"
