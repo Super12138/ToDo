@@ -3,10 +3,13 @@ package cn.super12138.todo.views.all
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.super12138.todo.R
+import cn.super12138.todo.ToDoApp
 import cn.super12138.todo.logic.model.ToDo
 import cn.super12138.todo.utils.VibrationUtils
 
@@ -19,6 +22,7 @@ class AllTasksAdapter(
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val todoContext: TextView = view.findViewById(R.id.todo_content_all)
         val todoSubject: TextView = view.findViewById(R.id.todo_subject_all)
+        val itemBackground: LinearLayout = view.findViewById(R.id.item_background)
     }
 
 
@@ -32,6 +36,11 @@ class AllTasksAdapter(
         val todo = todoList[position]
         holder.todoContext.text = todo.content
         holder.todoSubject.text = todo.subject
+
+        if (todo.state == 1) {
+            holder.itemBackground.background =
+                ContextCompat.getDrawable(ToDoApp.context, R.drawable.bg_item_complete)
+        }
 
         holder.itemView.setOnClickListener {
             VibrationUtils.performHapticFeedback(it)

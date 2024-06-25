@@ -101,6 +101,10 @@ class ToDoBottomSheet : BottomSheetDialogFragment() {
             binding.btnSave.text = getString(R.string.update)
 
             TextUtils.getSubjectID(todoOrigSubject)?.let { binding.todoSubject.check(it) }
+
+            if (GlobalValues.devMode) {
+                binding.todoUuid.text = "UUID: $todoUUID"
+            }
         }
 
         binding.btnSave.setOnClickListener {
