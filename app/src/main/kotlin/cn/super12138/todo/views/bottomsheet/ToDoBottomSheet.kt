@@ -103,7 +103,10 @@ class ToDoBottomSheet : BottomSheetDialogFragment() {
             TextUtils.getSubjectID(todoOrigSubject)?.let { binding.todoSubject.check(it) }
 
             if (GlobalValues.devMode) {
-                binding.todoUuid.text = "UUID: $todoUUID"
+                binding.todoUuid.apply {
+                    text = "UUID: $todoUUID"
+                    visibility = View.VISIBLE
+                }
             }
         }
 
