@@ -19,7 +19,7 @@ gson = "2.11.0"
 
 espressoCore = "3.6.0"
 junit = "4.13.2"
-junitVersion = "1.2.0"
+junitVersion = "1.2.1"
 
 agp = "8.5.0"
 kotlin-android = "2.0.0"
