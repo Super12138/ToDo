@@ -1,4 +1,6 @@
 [versions]
+# Android X
+core = "1.13.1"
 coreKtx = "1.13.1"
 appcompat = "1.7.0"
 activity = "1.9.0"
@@ -6,47 +8,55 @@ activityKtx = "1.9.0"
 constraintlayout = "2.1.4"
 preference = "1.2.1"
 preferenceKtx = "1.2.1"
-lifecycleViewmodelKtx = "2.8.2"
 lifecycleViewmodel = "2.8.2"
+lifecycleViewmodelKtx = "2.8.2"
 recyclerview = "1.3.2"
-fragmentKtx = "1.8.1"
 fragment = "1.8.1"
+fragmentKtx = "1.8.1"
 roomRuntime = "2.6.1"
-
-fastScroll = "1.3.0"
+# Material
 material = "1.13.0-alpha03"
+# Fast Scroll
+fastScroll = "1.3.0"
+# Gson
 gson = "2.11.0"
-
+# Test
 espressoCore = "3.6.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
-
+# Plugins
 agp = "8.5.0"
 kotlin-android = "2.0.0"
 ksp = "2.0.0-1.0.22"
 
 [libraries]
-androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
-androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
-androidx-activity = { module = "androidx.activity:activity", version.ref = "activity" }
-androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
-androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
-androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
-androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junitVersion" }
-androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preferenceKtx" }
-androidx-preference = { module = "androidx.preference:preference", version.ref = "preference" }
-androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
-androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "lifecycleViewmodel" }
-androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
-androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
-androidx-fragment = { module = "androidx.fragment:fragment", version.ref = "fragment" }
-androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
-androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
-androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
-gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
-junit = { module = "junit:junit", version.ref = "junit" }
-fast-scroll = { module = "me.zhanghai.android.fastscroll:library", version.ref = "fastScroll" }
-material = { module = "com.google.android.material:material", version.ref = "material" }
+# Android X
+androidx-core = { group = "androidx.core", name = "core", version.ref = "core" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activityKtx" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+androidx-preference = { group = "androidx.preference", name = "preference", version.ref = "preference" }
+androidx-preference-ktx = { group = "androidx.preference", name = "preference-ktx", version.ref = "preferenceKtx" }
+androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "lifecycleViewmodel" }
+androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
+androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
+androidx-fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
+androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragmentKtx" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomRuntime" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomRuntime" }
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomRuntime" }
+# Material
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+# Fast Scroll
+fast-scroll = { group = "me.zhanghai.android.fastscroll", name = "library", version.ref = "fastScroll" }
+# Gson
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+# Test
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

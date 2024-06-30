@@ -92,6 +92,10 @@ class ToDoBottomSheet : BottomSheetDialogFragment() {
 
         val todoList = todoViewModel.todoList
 
+        binding.todoSubject.setOnCheckedStateChangeListener { _, _ ->
+            VibrationUtils.performHapticFeedback(binding.todoSubject)
+        }
+
         // 编辑模式
         if (editMode) {
             binding.btnCancel.visibility = View.GONE

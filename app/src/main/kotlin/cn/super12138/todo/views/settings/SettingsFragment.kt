@@ -21,6 +21,7 @@ import cn.super12138.todo.databinding.DialogBackupBinding
 import cn.super12138.todo.databinding.DialogRestoreBinding
 import cn.super12138.todo.logic.Repository
 import cn.super12138.todo.logic.dao.ToDoRoom
+import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.views.about.AboutActivity
 import cn.super12138.todo.views.all.AllTasksActivity
 import cn.super12138.todo.views.main.MainActivity
@@ -42,9 +43,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         findPreference<ListPreference>(Constants.PREF_DARK_MODE)?.apply {
             setOnPreferenceClickListener {
-                if (GlobalValues.hapticFeedback) {
-                    view?.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-                }
+                view?.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
                 true
             }
             setOnPreferenceChangeListener { _, newValue ->
@@ -62,16 +61,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         findPreference<SwitchPreferenceCompat>(Constants.PREF_SECURE_MODE)?.apply {
             setOnPreferenceChangeListener { _, _ ->
-                if (GlobalValues.hapticFeedback) {
-                    view?.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-                }
+                view?.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+
 
                 view?.let {
                     Snackbar.make(it, R.string.need_restart_app, Snackbar.LENGTH_LONG)
                         .setAction(R.string.restart_app_now) {
-                            if (GlobalValues.hapticFeedback) {
-                                view?.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-                            }
+                            VibrationUtils.performHapticFeedback(view)
                             restartApp(context)
                         }
                         .show()
@@ -84,7 +80,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         findPreference<SwitchPreferenceCompat>(Constants.PREF_HAPTIC_FEEDBACK)?.apply {
             setOnPreferenceChangeListener { _, newValue ->
                 if (newValue as Boolean) {
-                    view?.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+                    VibrationUtils.performHapticFeedback(view)
                 }
 
                 true
@@ -93,10 +89,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         findPreference<Preference>(Constants.PREF_BACKUP_DB)?.apply {
             setOnPreferenceClickListener {
-                if (GlobalValues.hapticFeedback) {
-                    view?.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-                }
-
+                VibrationUtils.performHapticFeedback(view)
                 lifecycleScope.launch {
                     val data = Repository.getAll()
                     val jsonData = gson.toJson(data)
@@ -107,7 +100,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         MaterialAlertDialogBuilder(it)
                             .setTitle(R.string.export_data)
                             .setView(backupBinding.root)
-                            .setPositiveButton(R.string.ok, null)
+                            .setPositiveButton(R.string.ok) { _, _ ->
+                                VibrationUtils.performHapticFeedback(view)
+                            }
                             .show()
                     }
                 }
@@ -117,9 +112,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         findPreference<Preference>(Constants.PREF_RESTORE_DB)?.apply {
             setOnPreferenceClickListener {
-                if (GlobalValues.hapticFeedback) {
-                    view?.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-                }
+                VibrationUtils.performHapticFeedback(view)
+
 
                 restoreBinding = DialogRestoreBinding.inflate(layoutInflater)
                 activity?.let { it1 ->
@@ -131,6 +125,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         .show()
 
                     dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                        VibrationUtils.performHapticFeedback(view)
+
                         val jsonInput = restoreBinding.jsonInput.editText?.text.toString()
                         if (jsonInput.isEmpty()) {
                             restoreBinding.jsonInput.error =
@@ -152,9 +148,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                                     .setTitle(R.string.restore_successful)
                                     .setMessage(R.string.restore_need_restart_app)
                                     .setPositiveButton(R.string.ok) { _, _ ->
-                                        if (GlobalValues.hapticFeedback) {
-                                            view?.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-                                        }
+                                        VibrationUtils.performHapticFeedback(view)
 
                                         restartApp(context)
                                     }
@@ -182,9 +176,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
         findPreference<Preference>(Constants.PREF_ALL_TASKS)?.apply {
             setOnPreferenceClickListener {
                 startActivity(Intent(context, AllTasksActivity::class.java))
-                if (GlobalValues.hapticFeedback) {
-                    view?.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-                }
+                view?.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+
                 true
             }
         }
@@ -192,9 +185,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
         findPreference<Preference>(Constants.PREF_ABOUT)?.apply {
             setOnPreferenceClickListener {
                 startActivity(Intent(context, AboutActivity::class.java))
-                if (GlobalValues.hapticFeedback) {
-                    view?.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-                }
+                view?.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+
                 true
             }
         }
