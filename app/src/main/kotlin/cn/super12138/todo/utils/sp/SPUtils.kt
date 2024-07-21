@@ -1,4 +1,4 @@
-package cn.super12138.todo.utils
+package cn.super12138.todo.utils.sp
 
 import android.content.Context
 import android.content.SharedPreferences

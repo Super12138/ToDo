@@ -1,6 +1,6 @@
 package cn.super12138.todo.constant
 
-import cn.super12138.todo.utils.SPDelegates
+import cn.super12138.todo.utils.sp.SPDelegates
 
 object GlobalValues {
     var darkMode: String by SPDelegates(Constants.PREF_DARK_MODE, "0")

@@ -26,7 +26,7 @@
     <string name="ok">确定</string>
     <string name="add_task">添加待办</string>
     <string name="warning">警告</string>
-    <string name="delete_confirm">即将删除全部待办，是否继续？</string>
+    <string name="delete_confirm">删除后，全部待办将无法恢复。确定删除？</string>
     <string name="tasks_textfield_hint">待办内容</string>
     <string name="delete_one">删除</string>
     <string name="check_one">标记为已完成</string>
@@ -57,8 +57,8 @@
     <string name="restore_data">恢复数据</string>
     <string name="please_paste_data">请粘贴数据</string>
     <string name="restore_successful">数据恢复成功</string>
-    <string name="restore_need_restart_app">需要重启应用以应用恢复的数据</string>
-    <string name="json_data_incorrect">JSON 数据格式错误</string>
+    <string name="restore_need_restart_app">需要重启应用载入数据</string>
+    <string name="json_data_incorrect">JSON 数据格式错误，请检查粘贴数据格式</string>
     <string name="restore_failed">恢复失败，请检查是否重复恢复同一次备份的数据</string>
     <string name="view_all_tasks_label">查看全部待办</string>
     <string name="all_tasks_label">全部代办</string>

@@ -26,7 +26,7 @@
     <string name="ok">OK</string>
     <string name="add_task">Add Task</string>
     <string name="warning">Warning</string>
-    <string name="delete_confirm">Are you sure you want to delete all tasks?</string>
+    <string name="delete_confirm">After deleting, all to-do items cannot be restored. Are you sure to delete it?</string>
     <string name="tasks_textfield_hint">Tasks</string>
     <string name="delete_one">Delete</string>
     <string name="check_one">Checked this task</string>
@@ -58,7 +58,7 @@
     <string name="please_paste_data">Please paste the data</string>
     <string name="restore_successful">Data restore successful</string>
     <string name="restore_need_restart_app">Need to restart the app to apply the recovered data</string>
-    <string name="json_data_incorrect">JSON data format is incorrect</string>
+    <string name="json_data_incorrect">JSON data format is wrong. Please check the paste data format</string>
     <string name="restore_failed">Restore failed, please check if you are attempting to restore the same backup data again.</string>
     <string name="view_all_tasks_label">View all tasks</string>
     <string name="all_tasks_label">All tasks</string>
