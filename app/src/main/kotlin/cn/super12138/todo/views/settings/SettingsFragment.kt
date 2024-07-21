@@ -43,7 +43,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         findPreference<ListPreference>(Constants.PREF_DARK_MODE)?.apply {
             setOnPreferenceClickListener {
-                view?.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+                VibrationUtils.performHapticFeedback(view)
                 true
             }
             setOnPreferenceChangeListener { _, newValue ->
@@ -61,7 +61,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         findPreference<SwitchPreferenceCompat>(Constants.PREF_SECURE_MODE)?.apply {
             setOnPreferenceChangeListener { _, _ ->
-                view?.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+                VibrationUtils.performHapticFeedback(view)
 
 
                 view?.let {
@@ -176,7 +176,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         findPreference<Preference>(Constants.PREF_ALL_TASKS)?.apply {
             setOnPreferenceClickListener {
                 startActivity(Intent(context, AllTasksActivity::class.java))
-                view?.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+                VibrationUtils.performHapticFeedback(view)
 
                 true
             }
@@ -185,7 +185,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         findPreference<Preference>(Constants.PREF_ABOUT)?.apply {
             setOnPreferenceClickListener {
                 startActivity(Intent(context, AboutActivity::class.java))
-                view?.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+                VibrationUtils.performHapticFeedback(view)
 
                 true
             }
