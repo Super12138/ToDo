@@ -17,7 +17,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         binding.toolBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.item_settings -> {
-                    val intent = Intent(this@MainActivity.context, SettingsActivity::class.java)
+                    val intent = Intent(this@MainActivity, SettingsActivity::class.java)
                     startActivity(intent)
 
                     VibrationUtils.performHapticFeedback(binding.toolBar)
