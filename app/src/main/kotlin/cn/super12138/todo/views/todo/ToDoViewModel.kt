@@ -9,7 +9,7 @@ import cn.super12138.todo.logic.dao.ToDoRoom
 import cn.super12138.todo.logic.model.ToDo
 import kotlinx.coroutines.launch
 
-class ToDoFragmentViewModel : ViewModel() {
+class ToDoViewModel : ViewModel() {
     val emptyTipVis = MutableLiveData<Int>(View.GONE)
 
     val addData = MutableLiveData<Int>(0)

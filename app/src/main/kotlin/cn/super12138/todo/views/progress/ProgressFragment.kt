@@ -12,7 +12,7 @@ import cn.super12138.todo.databinding.FragmentProgressBinding
 
 
 class ProgressFragment : Fragment() {
-    private val viewModel: ProgressFragmentViewModel by viewModels({ requireActivity() })
+    private val viewModel: ProgressViewModel by viewModels({ requireActivity() })
     private lateinit var binding: FragmentProgressBinding
 
     override fun onCreateView(

@@ -19,14 +19,14 @@ import cn.super12138.todo.databinding.FragmentTodoBinding
 import cn.super12138.todo.logic.Repository
 import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.views.bottomsheet.ToDoBottomSheet
-import cn.super12138.todo.views.progress.ProgressFragmentViewModel
+import cn.super12138.todo.views.progress.ProgressViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 
 class ToDoFragment : Fragment() {
-    private val progressViewModel: ProgressFragmentViewModel by viewModels({ requireActivity() })
-    private val todoViewModel: ToDoFragmentViewModel by viewModels({ requireActivity() })
+    private val progressViewModel: ProgressViewModel by viewModels({ requireActivity() })
+    private val todoViewModel: ToDoViewModel by viewModels({ requireActivity() })
     private lateinit var binding: FragmentTodoBinding
 
     override fun onCreateView(

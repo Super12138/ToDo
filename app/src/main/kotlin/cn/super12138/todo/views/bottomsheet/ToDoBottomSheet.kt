@@ -15,8 +15,8 @@ import cn.super12138.todo.utils.TextUtils
 import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.utils.showToast
 import cn.super12138.todo.utils.toEditable
-import cn.super12138.todo.views.progress.ProgressFragmentViewModel
-import cn.super12138.todo.views.todo.ToDoFragmentViewModel
+import cn.super12138.todo.views.progress.ProgressViewModel
+import cn.super12138.todo.views.todo.ToDoViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -25,8 +25,8 @@ import java.util.UUID
 class ToDoBottomSheet : BottomSheetDialogFragment() {
     private lateinit var binding: BottomSheetTodoBinding
 
-    private val progressViewModel: ProgressFragmentViewModel by viewModels({ requireActivity() })
-    private val todoViewModel: ToDoFragmentViewModel by viewModels({ requireActivity() })
+    private val progressViewModel: ProgressViewModel by viewModels({ requireActivity() })
+    private val todoViewModel: ToDoViewModel by viewModels({ requireActivity() })
 
     private var editMode: Boolean = false
     private var todoState: Int = 0

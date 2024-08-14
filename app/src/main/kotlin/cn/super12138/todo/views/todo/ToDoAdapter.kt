@@ -15,7 +15,7 @@ import cn.super12138.todo.logic.model.ToDo
 import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.utils.showToast
 import cn.super12138.todo.views.bottomsheet.ToDoBottomSheet
-import cn.super12138.todo.views.progress.ProgressFragmentViewModel
+import cn.super12138.todo.views.progress.ProgressViewModel
 
 class ToDoAdapter(
     private val todoList: MutableList<ToDo>,
@@ -48,9 +48,9 @@ class ToDoAdapter(
         }*/
 
         val progressViewModel =
-            ViewModelProvider(viewModelStoreOwner)[ProgressFragmentViewModel::class.java]
+            ViewModelProvider(viewModelStoreOwner)[ProgressViewModel::class.java]
         val todoViewModel =
-            ViewModelProvider(viewModelStoreOwner)[ToDoFragmentViewModel::class.java]
+            ViewModelProvider(viewModelStoreOwner)[ToDoViewModel::class.java]
 
         holder.checkToDoBtn.setOnClickListener {
             VibrationUtils.performHapticFeedback(it)

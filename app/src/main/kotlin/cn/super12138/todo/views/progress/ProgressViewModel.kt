@@ -7,7 +7,7 @@ import cn.super12138.todo.logic.Repository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class ProgressFragmentViewModel : ViewModel() {
+class ProgressViewModel : ViewModel() {
     val totalCount: MutableLiveData<Int> = MutableLiveData()
     val completeCount: MutableLiveData<Int> = MutableLiveData()
     val remainCount: MutableLiveData<Int> = MutableLiveData()
