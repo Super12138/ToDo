@@ -28,4 +28,7 @@ object Constants {
     const val BUNDLE_TODO_SUBJECT = "todoSubject"
     const val BUNDLE_TODO_STATE = "todoState"
     const val BUNDLE_TODO_UUID = "todoUUID"
+
+    const val EMPTY_VIEW_TYPE = 0
+    const val DEFAULT_VIEW_TYPE = 1
 }

@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.RecyclerView
 import cn.super12138.todo.R
+import cn.super12138.todo.constant.Constants.DEFAULT_VIEW_TYPE
+import cn.super12138.todo.constant.Constants.EMPTY_VIEW_TYPE
 import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.logic.model.ToDo
 import cn.super12138.todo.utils.VibrationUtils
@@ -21,79 +23,85 @@ class ToDoAdapter(
     private val todoList: MutableList<ToDo>,
     private val viewModelStoreOwner: ViewModelStoreOwner,
     private val fragmentManager: FragmentManager
-) :
-    RecyclerView.Adapter<ToDoAdapter.ViewHolder>() {
-
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    // 默认待办项
+    inner class DefaultViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val todoContext: TextView = view.findViewById(R.id.todo_content)
         val todoSubject: TextView = view.findViewById(R.id.todo_subject)
         val checkToDoBtn: Button = view.findViewById(R.id.check_item_btn)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_todo, parent, false)
+    // 空项目提示
+    inner class EmptyViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
-        return ViewHolder(view)
+    // 判断列表是否为空，为空显示空项目提示
+    override fun getItemViewType(position: Int): Int {
+        return if (todoList.isEmpty()) EMPTY_VIEW_TYPE else DEFAULT_VIEW_TYPE
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val todo = todoList[position]
-        holder.todoContext.text = todo.content
-        holder.todoSubject.text = todo.subject
-        /*if (!todo.isAnimated) {
-            holder.itemView.alpha = 0f
-            holder.itemView.animate().alpha(1f).duration = 200
-            todo.isAnimated = true
-        }*/
-
-        val progressViewModel =
-            ViewModelProvider(viewModelStoreOwner)[ProgressViewModel::class.java]
-        val todoViewModel =
-            ViewModelProvider(viewModelStoreOwner)[ToDoViewModel::class.java]
-
-        holder.checkToDoBtn.setOnClickListener {
-            VibrationUtils.performHapticFeedback(it)
-
-            if (position < 0 || position >= todoList.size) {
-                return@setOnClickListener
-            }
-
-            todoList.removeAt(position)
-            notifyItemRemoved(position)
-            notifyItemRangeChanged(position, todoList.size)
-
-            todoViewModel.updateTaskState(todo.uuid)
-
-            // 设置空项目提示可见性
-            if (todoList.isEmpty()) {
-                todoViewModel.emptyTipVis.value = View.VISIBLE
-            } else {
-                todoViewModel.emptyTipVis.value = View.GONE
-            }
-            progressViewModel.updateProgress()
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return if (viewType == EMPTY_VIEW_TYPE) { // 如果列表是空的
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_empty, parent, false)
+            EmptyViewHolder(view)
+        } else {
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_todo, parent, false)
+            DefaultViewHolder(view)
         }
+    }
 
-        holder.itemView.setOnClickListener {
-            if (GlobalValues.devMode) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        // 判断当前的holder是不是待办项目的holder
+        if (holder is DefaultViewHolder) {
+            val todo = todoList[position]
+            holder.todoContext.text = todo.content
+            holder.todoSubject.text = todo.subject
+
+            val progressViewModel =
+                ViewModelProvider(viewModelStoreOwner)[ProgressViewModel::class.java]
+            val todoViewModel =
+                ViewModelProvider(viewModelStoreOwner)[ToDoViewModel::class.java]
+
+            holder.checkToDoBtn.setOnClickListener {
                 VibrationUtils.performHapticFeedback(it)
-                "Current position: $position".showToast()
-            }
-        }
 
-        holder.itemView.setOnLongClickListener {
-            val toDoBottomSheet = ToDoBottomSheet.newInstance(
-                true,
-                position,
-                todo.uuid,
-                todo.state,
-                todo.subject,
-                todo.content
-            )
-            toDoBottomSheet.show(fragmentManager, ToDoBottomSheet.TAG)
-            true
+                if (position >= todoList.size) {
+                    return@setOnClickListener
+                }
+
+                todoList.removeAt(position)
+                notifyItemRemoved(position)
+                notifyItemRangeChanged(position, todoList.size)
+
+                todoViewModel.updateTaskState(todo.uuid)
+
+                progressViewModel.updateProgress()
+            }
+
+            holder.itemView.setOnClickListener {
+                if (GlobalValues.devMode) {
+                    VibrationUtils.performHapticFeedback(it)
+                    "Current position: $position".showToast()
+                }
+            }
+
+            holder.itemView.setOnLongClickListener {
+                val toDoBottomSheet = ToDoBottomSheet.newInstance(
+                    true,
+                    position,
+                    todo.uuid,
+                    todo.state,
+                    todo.subject,
+                    todo.content
+                )
+                toDoBottomSheet.show(fragmentManager, ToDoBottomSheet.TAG)
+                true
+            }
         }
     }
 
-    override fun getItemCount() = todoList.size
+    override fun getItemCount(): Int {
+        return if (todoList.isEmpty()) 1 else todoList.size
+    }
 }

@@ -27,9 +27,10 @@ class AllTasksActivity : BaseActivity<ActivityAllTasksBinding>() {
             false -> window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
         }
 
+        val todoListAll = viewModel.todoListAll
         val layoutManager = LinearLayoutManager(ToDoApp.context)
         binding.allTasksList.layoutManager = layoutManager
-        val adapter = AllTasksAdapter(viewModel.todoListAll, supportFragmentManager)
+        val adapter = AllTasksAdapter(todoListAll, supportFragmentManager)
         binding.allTasksList.adapter = adapter
 
         FastScrollerBuilder(binding.allTasksList).apply {
@@ -43,24 +44,8 @@ class AllTasksActivity : BaseActivity<ActivityAllTasksBinding>() {
             finish()
         }
 
-        viewModel.emptyTipVis.observe(this, Observer { visibility ->
-            if (visibility == View.VISIBLE) {
-                binding.allTasksList.alpha = 1f
-                binding.allTasksList.animate().alpha(0f).duration = 200
-                binding.allTasksList.visibility = View.GONE
-
-                binding.emptyTip.alpha = 0f
-                binding.emptyTip.visibility = View.VISIBLE
-                binding.emptyTip.animate().alpha(1f).duration = 200
-            } else {
-                binding.allTasksList.alpha = 0f
-                binding.allTasksList.visibility = View.VISIBLE
-                binding.allTasksList.animate().alpha(1f).duration = 200
-
-                binding.emptyTip.alpha = 1f
-                binding.emptyTip.animate().alpha(0f).duration = 200
-                binding.emptyTip.visibility = View.GONE
-            }
+        viewModel.refreshData.observe(this, Observer {
+            binding.allTasksList.adapter?.notifyItemRangeChanged(0, todoListAll.size + 1)
         })
     }
 

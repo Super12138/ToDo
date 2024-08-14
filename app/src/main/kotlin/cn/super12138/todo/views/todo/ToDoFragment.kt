@@ -18,6 +18,7 @@ import cn.super12138.todo.ToDoApp
 import cn.super12138.todo.databinding.FragmentTodoBinding
 import cn.super12138.todo.logic.Repository
 import cn.super12138.todo.utils.VibrationUtils
+import cn.super12138.todo.utils.showToast
 import cn.super12138.todo.views.bottomsheet.ToDoBottomSheet
 import cn.super12138.todo.views.progress.ProgressViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -50,21 +51,17 @@ class ToDoFragment : Fragment() {
             }
             WindowInsetsCompat.CONSUMED
         }
-        val todoList = todoViewModel.todoList
-
-        val layoutManager = LinearLayoutManager(ToDoApp.context)
-        binding.todoList.layoutManager = layoutManager
-        val adapter = ToDoAdapter(todoList, requireActivity(), parentFragmentManager)
-        binding.todoList.adapter = adapter
 
         FastScrollerBuilder(binding.todoList).apply {
             useMd2Style()
             build()
         }
 
-        if (todoList.isEmpty()) {
-            todoViewModel.emptyTipVis.value = View.VISIBLE
-        }
+        val layoutManager = LinearLayoutManager(ToDoApp.context)
+        binding.todoList.layoutManager = layoutManager
+        val todoList = todoViewModel.todoList
+        val adapter = ToDoAdapter(todoList, requireActivity(), parentFragmentManager)
+        binding.todoList.adapter = adapter
 
         binding.addItem.setOnClickListener {
             VibrationUtils.performHapticFeedback(it)
@@ -90,9 +87,6 @@ class ToDoFragment : Fragment() {
                         }
                         // 通知数据更改
                         binding.todoList.adapter?.notifyItemRangeRemoved(0, todoList.size + 1)
-
-                        // 显示空项目提示
-                        todoViewModel.emptyTipVis.value = View.VISIBLE
                     }
                     .setNegativeButton(R.string.cancel, null)
                     .show()
@@ -111,29 +105,6 @@ class ToDoFragment : Fragment() {
                 if (dy < 0 && !fab.isShown) {
                     fab.show()
                 }
-            }
-        })
-
-        todoViewModel.emptyTipVis.observe(viewLifecycleOwner, Observer { visibility ->
-            if (visibility == View.VISIBLE) {
-                binding.todoList.alpha = 1f
-                binding.todoList.animate().alpha(0f).duration = 200
-                binding.todoList.visibility = View.GONE
-
-                binding.emptyTip.alpha = 0f
-                binding.emptyTip.visibility = View.VISIBLE
-                binding.emptyTip.animate().alpha(1f).duration = 200
-            } else {
-                binding.todoList.alpha = 0f
-                binding.todoList.visibility = View.VISIBLE
-                binding.todoList.animate().alpha(1f).duration = 200
-
-                binding.emptyTip.alpha = 1f
-                binding.emptyTip.animate().alpha(0f).duration = 200
-                binding.emptyTip.visibility = View.GONE
-            }
-            if (todoList.size == 0 && !binding.addItem.isShown) {
-                binding.addItem.show()
             }
         })
 

@@ -1,6 +1,5 @@
 package cn.super12138.todo.views.todo
 
-import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,8 +9,6 @@ import cn.super12138.todo.logic.model.ToDo
 import kotlinx.coroutines.launch
 
 class ToDoViewModel : ViewModel() {
-    val emptyTipVis = MutableLiveData<Int>(View.GONE)
-
     val addData = MutableLiveData<Int>(0)
     val removeData = MutableLiveData<Int>(0)
     val refreshData = MutableLiveData<Int>(0)
@@ -25,15 +22,11 @@ class ToDoViewModel : ViewModel() {
     private fun loadTasks() {
         viewModelScope.launch {
             val todos = Repository.getAllIncomplete()
-            var count = 0
             for (todo in todos) {
                 todoList.add(ToDo(todo.uuid, todo.state, todo.content, todo.subject))
-                count++
             }
-            if (count == 0) {
-                emptyTipVis.value = View.VISIBLE
-            } else {
-                emptyTipVis.value = View.GONE
+            if (todoList.size > 0) {
+                refreshData.value = 1
             }
         }
     }

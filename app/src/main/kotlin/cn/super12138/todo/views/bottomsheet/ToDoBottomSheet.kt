@@ -152,9 +152,6 @@ class ToDoBottomSheet : BottomSheetDialogFragment() {
                         todoViewModel.refreshData.value = 1
                     } else {
                         // 添加到 RecyclerView
-                        if (todoList.size + 1 > 0) {
-                            todoViewModel.emptyTipVis.value = View.GONE
-                        }
                         todoList.add(
                             ToDo(randomUUID, 0, todoContent, todoSubject)
                         )
@@ -188,13 +185,6 @@ class ToDoBottomSheet : BottomSheetDialogFragment() {
             todoViewModel.deleteTask(todoPosition, todoUUID)
             progressViewModel.updateProgress()
             todoViewModel.removeData.value = 1
-
-            // 空项目提示显示判断
-            if (todoList.isEmpty()) {
-                todoViewModel.emptyTipVis.value = View.VISIBLE
-            } else {
-                todoViewModel.emptyTipVis.value = View.GONE
-            }
 
             dismiss()
         }
