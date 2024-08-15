@@ -50,7 +50,8 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="20dp"
-                android:text="@string/error_tips" />
+                android:text="@string/error_tips"
+                android:textColor="?attr/colorOnSurfaceVariant" />
 
             <TextView
                 android:id="@+id/crash_log"
@@ -61,6 +62,7 @@
                 android:layout_marginEnd="20dp"
                 android:fontFamily="monospace"
                 android:text="@string/no_crash_logs"
+                android:textColor="?attr/colorOnSurface"
                 android:textIsSelectable="true"
                 android:textSize="13sp" />
         </LinearLayout>

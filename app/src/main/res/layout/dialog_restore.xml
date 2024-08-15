@@ -15,7 +15,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/restore_tips" />
+            android:text="@string/restore_tips"
+            android:textColor="?attr/colorOnSurfaceVariant" />
 
         <CheckBox
             android:id="@+id/overwrite_data"

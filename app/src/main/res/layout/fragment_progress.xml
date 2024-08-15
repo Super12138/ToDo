@@ -45,7 +45,7 @@
                 android:layout_marginStart="10dp"
                 android:text="0"
                 android:textAppearance="?attr/textAppearanceDisplaySmall"
-                android:textColor="?android:attr/textColorPrimary"
+                android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold" />
 
             <TextView
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:text="/"
                 android:textAppearance="?attr/textAppearanceDisplayMedium"
-                android:textColor="?android:attr/textColorPrimary"
+                android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold" />
 
             <TextView
@@ -63,7 +63,7 @@
                 android:layout_marginEnd="10dp"
                 android:text="0"
                 android:textAppearance="?attr/textAppearanceDisplayMedium"
-                android:textColor="?android:attr/textColorPrimary"
+                android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold" />
         </LinearLayout>
 

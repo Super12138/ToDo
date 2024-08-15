@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/add_task"
                 android:textAlignment="center"
-                android:textColor="?android:attr/textColorPrimary"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="25sp" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -137,7 +137,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:textColor="?android:attr/textColorPrimary"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="15sp"
                 android:visibility="gone" />
 
@@ -162,7 +162,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/delete_one"
-                    android:textColor="?android:attr/textColorPrimary"
+                    android:textColor="?attr/colorOnSurface"
                     android:visibility="gone"
                     app:backgroundTint="?attr/colorErrorContainer" />
 
