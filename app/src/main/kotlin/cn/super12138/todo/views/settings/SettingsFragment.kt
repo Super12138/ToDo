@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.HapticFeedbackConstants
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
@@ -25,6 +24,7 @@ import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.views.about.AboutActivity
 import cn.super12138.todo.views.all.AllTasksActivity
 import cn.super12138.todo.views.main.MainActivity
+import cn.super12138.todo.views.welcome.WelcomeActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
@@ -177,7 +177,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
             setOnPreferenceClickListener {
                 startActivity(Intent(context, AllTasksActivity::class.java))
                 VibrationUtils.performHapticFeedback(view)
-
                 true
             }
         }
@@ -186,7 +185,17 @@ class SettingsFragment : PreferenceFragmentCompat() {
             setOnPreferenceClickListener {
                 startActivity(Intent(context, AboutActivity::class.java))
                 VibrationUtils.performHapticFeedback(view)
+                true
+            }
+        }
 
+        findPreference<Preference>(Constants.PREF_REENTER_WELCOME_ACTIVITY)?.apply {
+            setOnPreferenceClickListener {
+                val intent = Intent(context, WelcomeActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                }
+                startActivity(intent)
+                VibrationUtils.performHapticFeedback(view)
                 true
             }
         }

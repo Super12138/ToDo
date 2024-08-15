@@ -46,6 +46,11 @@
             android:label="@string/about_label"
             android:launchMode="singleTask" />
         <activity
+            android:name=".views.welcome.WelcomeActivity"
+            android:exported="false"
+            android:label="@string/welcome_label"
+            android:launchMode="singleTask" />
+        <activity
             android:name=".views.crash.CrashActivity"
             android:exported="false" />
     </application>

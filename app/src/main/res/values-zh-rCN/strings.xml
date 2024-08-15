@@ -73,4 +73,21 @@
     <string name="update">更新</string>
     <string name="haptic_feedback">触感反馈</string>
     <string name="haptic_feedback_summary">部分点按操作会有轻微震动</string>
+    <string name="previous_page">上一页</string>
+    <string name="next_page">下一页</string>
+    <string name="start">开始</string>
+    <string name="welcome_label">欢迎</string>
+    <string name="intro_title">欢迎使用待办</string>
+    <string name="intro_description">一个轻量且易用的待办应用</string>
+    <string name="enter_app">立即进入</string>
+    <string name="reenter_welcome_activity">再次进入欢迎页面</string>
+    <string name="progress_title">定睛看</string>
+    <string name="progress_description">这是待办进度条，它会提示你任务完成进度。当你添加待办或把待办标记成已完成时，它都会更新。左边的数字是你完成的任务数，右边的数字是全部的任务数；它也会在它们下面显示一行小字来提示你剩余任务数。</string>
+    <string name="todo_btn_title">掌控尽在指尖</string>
+    <string name="todo_btn_description">这是添加待办的按钮，点击它你就可以添加一个新的待办事项了。长按它你就可以删除你目前所有的待办（这不能恢复，谨慎点击哦！）。</string>
+    <string name="todo_item_title">长按一下，功能多多</string>
+    <string name="todo_item_item_title">这是待办内容</string>
+    <string name="todo_item_item_subject">这是待办学科</string>
+    <string name="todo_item_description_1">这是待办列表的项目。点击右边的 √ 就可以把这个待办标记为已完成。如果你需要修改这个待办，只需长按即可修改。</string>
+    <string name="todo_item_description_2">以上就是待办的主要功能。当然，待办应用还有丰富的个性化选项和功能供你使用，立即点击下方按钮来进入应用吧！</string>
 </resources>

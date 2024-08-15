@@ -3,8 +3,11 @@ package cn.super12138.todo
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import android.content.Intent
+import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.logic.dao.ToDoRoomDB
 import cn.super12138.todo.views.crash.CrashHandler
+import cn.super12138.todo.views.welcome.WelcomeActivity
 import com.google.android.material.color.DynamicColors
 
 class ToDoApp : Application() {
@@ -25,5 +28,12 @@ class ToDoApp : Application() {
         Thread.setDefaultUncaughtExceptionHandler(crashHandler)
 
         db = database
+
+        if (!GlobalValues.welcomePage) {
+            val intent = Intent(this, WelcomeActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+            startActivity(intent)
+        }
     }
 }

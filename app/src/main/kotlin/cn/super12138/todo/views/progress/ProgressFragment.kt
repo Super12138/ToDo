@@ -27,7 +27,6 @@ class ProgressFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel.progress.observe(viewLifecycleOwner, Observer { value ->
             binding.progressBar.setProgressCompat(value, true)
         })

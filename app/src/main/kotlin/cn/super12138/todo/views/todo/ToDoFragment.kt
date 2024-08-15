@@ -18,7 +18,6 @@ import cn.super12138.todo.ToDoApp
 import cn.super12138.todo.databinding.FragmentTodoBinding
 import cn.super12138.todo.logic.Repository
 import cn.super12138.todo.utils.VibrationUtils
-import cn.super12138.todo.utils.showToast
 import cn.super12138.todo.views.bottomsheet.ToDoBottomSheet
 import cn.super12138.todo.views.progress.ProgressViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder

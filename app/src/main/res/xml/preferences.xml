@@ -50,6 +50,12 @@
             app:key="all_tasks"
             app:summary="@string/view_all_tasks_summary"
             app:title="@string/view_all_tasks_label" />
+
+        <Preference
+            app:icon="@drawable/ic_arrow_forward"
+            app:key="reenter_welcome_activity"
+            app:title="@string/reenter_welcome_activity" />
+
         <Preference
             app:icon="@drawable/ic_about"
             app:key="about"
