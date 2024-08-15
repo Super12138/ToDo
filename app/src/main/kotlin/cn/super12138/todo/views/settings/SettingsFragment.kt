@@ -78,10 +78,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         findPreference<SwitchPreferenceCompat>(Constants.PREF_HAPTIC_FEEDBACK)?.apply {
-            setOnPreferenceChangeListener { _, newValue ->
-                if (newValue as Boolean) {
-                    VibrationUtils.performHapticFeedback(view)
-                }
+            setOnPreferenceChangeListener { _, _ ->
+                VibrationUtils.performHapticFeedback(view)
 
                 true
             }
