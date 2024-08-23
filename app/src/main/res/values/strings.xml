@@ -17,6 +17,7 @@
     <string name="subject_english">English</string>
     <string name="subject_biology">Biology</string>
     <string name="subject_physics">Physics</string>
+    <string name="subject_chemistry">Chemistry</string>
     <string name="subject_history">History</string>
     <string name="subject_geography">Geography</string>
     <string name="subject_law">Law</string>

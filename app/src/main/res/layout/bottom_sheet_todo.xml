@@ -103,6 +103,13 @@
                     android:text="@string/subject_physics" />
 
                 <com.google.android.material.chip.Chip
+                    android:id="@+id/subject_chemistry"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/subject_chemistry" />
+
+                <com.google.android.material.chip.Chip
                     android:id="@+id/subject_history"
                     style="@style/Widget.Material3.Chip.Filter"
                     android:layout_width="wrap_content"
