@@ -25,7 +25,7 @@ espressoCore = "3.6.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 # Plugins
-agp = "8.5.2"
+agp = "8.6.0"
 kotlin-android = "2.0.20"
 ksp = "2.0.20-1.0.24"
 
