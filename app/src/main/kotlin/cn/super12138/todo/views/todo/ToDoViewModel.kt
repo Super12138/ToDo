@@ -53,7 +53,8 @@ class ToDoViewModel : ViewModel() {
     fun updateTask(position: Int, todo: ToDoRoom) {
         todoList.removeAt(position)
         todoList.add(
-            position, ToDo(
+            position,
+            ToDo(
                 todo.uuid,
                 todo.state,
                 todo.content,

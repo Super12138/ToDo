@@ -48,7 +48,6 @@
         <item name="colorSurfaceContainerHigh">@color/md_theme_surfaceContainerHigh</item>
         <item name="colorSurfaceContainerHighest">@color/md_theme_surfaceContainerHighest</item>
 
-
         <item name="android:textColorHighlight">@color/md_theme_secondary</item>
         <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
         <item name="alertDialogTheme">@style/ToDo.M3AlertDialog</item>

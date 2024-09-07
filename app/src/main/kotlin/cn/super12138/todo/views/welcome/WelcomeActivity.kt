@@ -1,6 +1,5 @@
 package cn.super12138.todo.views.welcome
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
@@ -8,7 +7,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.lifecycle.Observer
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import cn.super12138.todo.R
 import cn.super12138.todo.constant.GlobalValues
 import cn.super12138.todo.databinding.ActivityWelcomeBinding
@@ -20,11 +21,11 @@ import cn.super12138.todo.views.welcome.pages.IntroPage
 import cn.super12138.todo.views.welcome.pages.ProgressPage
 import cn.super12138.todo.views.welcome.pages.ToDoBtnPage
 import cn.super12138.todo.views.welcome.pages.ToDoItemPage
+import kotlinx.coroutines.launch
 
 class WelcomeActivity : BaseActivity<ActivityWelcomeBinding>() {
     private val viewModel by viewModels<WelcomeViewModel>()
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -47,7 +48,7 @@ class WelcomeActivity : BaseActivity<ActivityWelcomeBinding>() {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             } else {
-                currentPage.value = 1
+                viewModel.setCurrentPage(1)
                 nextPage(1)
             }
         }
@@ -57,58 +58,62 @@ class WelcomeActivity : BaseActivity<ActivityWelcomeBinding>() {
 
             supportFragmentManager.popBackStack()
 
-            currentPage.value = currentPage.value?.minus(1)
+            viewModel.decreasePage()
         }
 
         nextBtn.setOnIntervalClickListener {
             VibrationUtils.performHapticFeedback(it)
 
-            nextPage(currentPage.value!!.plus(1))
+            nextPage(currentPage.value + 1)
 
-            currentPage.value = currentPage.value?.plus(1)
+            viewModel.increasePage()
         }
 
-        currentPage.observe(this, Observer { page ->
-            when (page) {
-                0 -> {
-                    centerBtn.apply {
-                        text = getString(R.string.start)
-                        icon = AppCompatResources.getDrawable(
-                            this@WelcomeActivity,
-                            R.drawable.ic_arrow_forward
-                        )
-                        show()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.currentPage.collect { page ->
+                    when (page) {
+                        0 -> {
+                            centerBtn.apply {
+                                text = getString(R.string.start)
+                                icon = AppCompatResources.getDrawable(
+                                    this@WelcomeActivity,
+                                    R.drawable.ic_arrow_forward
+                                )
+                                show()
+                            }
+                            nextBtn.hide()
+                            previousBtn.hide()
+                        }
+
+                        in 1..2 -> {
+                            centerBtn.hide()
+                            previousBtn.show()
+                            nextBtn.show()
+                        }
+
+                        3 -> {
+                            centerBtn.apply {
+                                text = getString(R.string.enter_app)
+                                icon = AppCompatResources.getDrawable(
+                                    this@WelcomeActivity,
+                                    R.drawable.ic_focus
+                                )
+                                show()
+                            }
+                            previousBtn.show()
+                            nextBtn.hide()
+                        }
+
+                        else -> {
+                            if (page > 3) viewModel.setCurrentPage(3)
+
+                            if (page < 0) viewModel.setCurrentPage(0)
+                        }
                     }
-                    nextBtn.hide()
-                    previousBtn.hide()
-                }
-
-                in 1..2 -> {
-                    centerBtn.hide()
-                    previousBtn.show()
-                    nextBtn.show()
-                }
-
-                3 -> {
-                    centerBtn.apply {
-                        text = getString(R.string.enter_app)
-                        icon = AppCompatResources.getDrawable(
-                            this@WelcomeActivity,
-                            R.drawable.ic_focus
-                        )
-                        show()
-                    }
-                    previousBtn.show()
-                    nextBtn.hide()
-                }
-
-                else -> {
-                    if (page > 3) currentPage.value = 3
-
-                    if (page < 0) currentPage.value = 0
                 }
             }
-        })
+        }
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -116,7 +121,7 @@ class WelcomeActivity : BaseActivity<ActivityWelcomeBinding>() {
                     finish()
                 } else {
                     supportFragmentManager.popBackStack()
-                    currentPage.value = currentPage.value?.minus(1)
+                    viewModel.decreasePage()
                 }
             }
         })
