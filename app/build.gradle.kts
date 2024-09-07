@@ -13,7 +13,7 @@ val verCode by lazy { "git rev-list --count HEAD".exec().toInt() }
 
 android {
     namespace = "cn.super12138.todo"
-    compileSdk = 34
+    compileSdk = 35
 
     // 获取 Release 签名
     val releaseSigning = if (project.hasProperty("releaseStoreFile")) {
@@ -30,7 +30,7 @@ android {
     defaultConfig {
         applicationId = "cn.super12138.todo"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = verCode
         versionName = "${baseVersionName}-${commitHash}"
 
