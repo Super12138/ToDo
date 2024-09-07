@@ -139,6 +139,14 @@
 
             </com.google.android.material.chip.ChipGroup>
 
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/todo_checked"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:checked="false"
+                android:text="@string/check_one"
+                android:visibility="gone" />
+
             <TextView
                 android:id="@+id/todo_uuid"
                 android:layout_width="wrap_content"

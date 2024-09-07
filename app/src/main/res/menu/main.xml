@@ -6,12 +6,5 @@
         android:icon="@drawable/ic_settings"
         android:title="@string/settings_label"
         android:tooltipText="@string/settings_label"
-        app:showAsAction="always" />
-    <!--<item
-        android:id="@+id/item_about"
-        android:title="@string/about_label"
-        android:tooltipText="@string/about_label"/>
-    <item
-        android:id="@+id/item_make_crash"
-        android:title="制造崩溃"/>-->
+        app:showAsAction="ifRoom" />
 </menu>
