@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.Toast
 import cn.super12138.todo.ToDoApp
 
-private var clickInterval = 400L
+private var clickInterval = 380L
 private var lastTime = 0L
 
 /**

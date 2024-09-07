@@ -3,8 +3,6 @@ package cn.super12138.todo.views.welcome
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.view.MotionEvent
-import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.content.res.AppCompatResources
@@ -25,6 +23,7 @@ import cn.super12138.todo.views.welcome.pages.ToDoItemPage
 
 class WelcomeActivity : BaseActivity<ActivityWelcomeBinding>() {
     private val viewModel by viewModels<WelcomeViewModel>()
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +41,6 @@ class WelcomeActivity : BaseActivity<ActivityWelcomeBinding>() {
             nextBtn.show()
             previousBtn.show()
 
-
             if (currentPage.value == 3) {
                 GlobalValues.welcomePage = true
                 finish()
@@ -50,11 +48,14 @@ class WelcomeActivity : BaseActivity<ActivityWelcomeBinding>() {
                 startActivity(intent)
             } else {
                 currentPage.value = 1
+                nextPage(1)
             }
         }
 
         previousBtn.setOnIntervalClickListener {
             VibrationUtils.performHapticFeedback(it)
+
+            supportFragmentManager.popBackStack()
 
             currentPage.value = currentPage.value?.minus(1)
         }
@@ -62,16 +63,12 @@ class WelcomeActivity : BaseActivity<ActivityWelcomeBinding>() {
         nextBtn.setOnIntervalClickListener {
             VibrationUtils.performHapticFeedback(it)
 
+            nextPage(currentPage.value!!.plus(1))
+
             currentPage.value = currentPage.value?.plus(1)
         }
 
         currentPage.observe(this, Observer { page ->
-            supportFragmentManager.commit {
-                addToBackStack(System.currentTimeMillis().toString())
-                hide(supportFragmentManager.fragments.last())
-                add(R.id.welcome_page_container, getCurrentPage(page))
-            }
-
             when (page) {
                 0 -> {
                     centerBtn.apply {
@@ -118,6 +115,7 @@ class WelcomeActivity : BaseActivity<ActivityWelcomeBinding>() {
                 if (currentPage.value == 0) {
                     finish()
                 } else {
+                    supportFragmentManager.popBackStack()
                     currentPage.value = currentPage.value?.minus(1)
                 }
             }
@@ -135,6 +133,14 @@ class WelcomeActivity : BaseActivity<ActivityWelcomeBinding>() {
             2 -> ToDoBtnPage()
             3 -> ToDoItemPage()
             else -> IntroPage()
+        }
+    }
+
+    private fun nextPage(page: Int) {
+        supportFragmentManager.commit {
+            addToBackStack(System.currentTimeMillis().toString())
+            hide(supportFragmentManager.fragments.last())
+            add(R.id.welcome_page_container, getCurrentPage(page))
         }
     }
 }

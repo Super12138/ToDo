@@ -19,8 +19,9 @@ abstract class ToDoRoomDB : RoomDatabase() {
                     ToDoRoomDB::class.java,
                     "todo"
                 ).build()
+
                 INSTANCE = instance
-                instance
+                return instance
             }
         }
     }
