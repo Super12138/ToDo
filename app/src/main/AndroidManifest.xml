@@ -17,41 +17,19 @@
         tools:targetApi="35">
 
         <activity
-            android:name=".views.main.MainActivity"
+            android:name=".views.activities.MainActivity"
             android:exported="true"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".views.settings.SettingsActivity"
-            android:exported="false"
-            android:label="@string/settings_label"
-            android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".views.all.AllTasksActivity"
-            android:exported="false"
-            android:label="@string/all_tasks_label"
-            android:launchMode="singleTask" />
-        <activity
-            android:name=".views.about.AboutActivity"
-            android:exported="false"
-            android:label="@string/about_label"
-            android:launchMode="singleTask" />
-        <activity
-            android:name=".views.welcome.WelcomeActivity"
-            android:exported="false"
-            android:label="@string/welcome_label"
-            android:launchMode="singleTask" />
-        <activity
-            android:name=".views.crash.CrashActivity"
+            android:name=".views.activities.CrashActivity"
             android:exported="false" />
     </application>
 

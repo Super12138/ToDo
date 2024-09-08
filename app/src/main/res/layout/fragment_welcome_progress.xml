@@ -22,7 +22,7 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/welcome_progress"
-            android:name="cn.super12138.todo.views.progress.ProgressFragment"
+            android:name="cn.super12138.todo.views.fragments.ProgressFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:layout="@layout/fragment_progress" />

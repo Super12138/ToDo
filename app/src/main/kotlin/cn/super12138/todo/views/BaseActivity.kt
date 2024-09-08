@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.view.WindowCompat
 import androidx.viewbinding.ViewBinding
 import cn.super12138.todo.constant.GlobalValues
 
@@ -19,7 +18,7 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // 确保 Navigation Bar 区域会被显示
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        // WindowCompat.setDecorFitsSystemWindows(window, false)
 
         binding = getViewBinding()
         setContentView(binding.root)
