@@ -61,6 +61,16 @@
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
     </style>
 
+
+    <style name="Theme.ToDo.Starting" parent="Theme.SplashScreen">
+        <!-- Splash Screen 背景颜色 -->
+        <item name="windowSplashScreenBackground">#0061A4</item>
+        <!-- Splash Screen 图标 -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_screen</item>
+        <!-- 应用默认主题 -->
+        <item name="postSplashScreenTheme">@style/Theme.ToDo</item>
+    </style>
+
     <style name="AppPreferenceThemeOverlay" parent="@style/PreferenceThemeOverlay">
         <item name="switchPreferenceCompatStyle">@style/AppSwitchPreference</item>
     </style>
