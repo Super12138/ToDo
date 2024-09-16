@@ -14,6 +14,7 @@ object TextUtils {
         globalGetString(R.string.subject_geography) to R.id.subject_geography,
         globalGetString(R.string.subject_history) to R.id.subject_history,
         globalGetString(R.string.subject_physics) to R.id.subject_physics,
+        globalGetString(R.string.subject_chemistry) to R.id.subject_chemistry,
         globalGetString(R.string.subject_law) to R.id.subject_law,
         globalGetString(R.string.subject_other) to R.id.subject_other
     )
@@ -27,6 +28,7 @@ object TextUtils {
             R.id.subject_geography -> globalGetString(R.string.subject_geography)
             R.id.subject_history -> globalGetString(R.string.subject_history)
             R.id.subject_physics -> globalGetString(R.string.subject_physics)
+            R.id.subject_chemistry -> globalGetString(R.string.subject_chemistry)
             R.id.subject_law -> globalGetString(R.string.subject_law)
             R.id.subject_other -> globalGetString(R.string.subject_other)
             else -> globalGetString(R.string.subject_unknown)
@@ -36,7 +38,6 @@ object TextUtils {
     fun getSubjectID(name: String): Int? {
         return subjectMap[name]
     }
-
 }
 
 fun globalGetString(resID: Int): String {
