@@ -28,7 +28,7 @@ junitVersion = "1.2.1"
 # Plugins
 agp = "8.7.0"
 kotlin-android = "2.0.21"
-ksp = "2.0.20-1.0.25"
+ksp = "2.0.21-1.0.25"
 
 [libraries]
 # Android X
