@@ -1,7 +1,7 @@
 [versions]
 # Android X
 core = "1.13.1"
-coreKtx = "1.13.1"
+coreKtx = "1.15.0"
 appcompat = "1.7.0"
 activity = "1.9.3"
 activityKtx = "1.9.3"
