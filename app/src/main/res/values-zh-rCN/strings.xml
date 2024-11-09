@@ -83,11 +83,11 @@
     <string name="enter_app">立即进入</string>
     <string name="reenter_welcome_activity">再次进入欢迎页面</string>
     <string name="progress_title">定睛看</string>
-    <string name="progress_description">这是待办进度条，它会提示你任务完成进度。\n当你添加待办或把待办标记成已完成时，它都会更新。\n左边的数字是你完成的任务数，右边的数字是全部的任务数；它也会在它们下面显示一行小字来提示你剩余任务数。</string>
+    <string name="progress_description">这是待办进度条，它会提示你任务完成进度\n当你添加待办或把待办标记成已完成时，它都会更新\n左边的数字是你完成的任务数，右边的数字是全部任务数\n在它们下面显示了一行小字来提示你剩余任务数</string>
     <string name="todo_btn_title">掌控尽在指尖</string>
-    <string name="todo_btn_description">这是添加待办的按钮，点击它你就可以添加一个新的待办事项了。\n长按它你就可以删除你目前所有的待办（这不能恢复，谨慎点击哦）。</string>
+    <string name="todo_btn_description">这是添加待办按钮，点击它就可以添加一个新的待办事项\n长按它你就可以删除目前所有的待办（这不能恢复，谨慎点击哦）</string>
     <string name="todo_item_title">长按一下，功能多多</string>
     <string name="todo_item_item_title">这是待办内容</string>
     <string name="todo_item_item_subject">这是待办学科</string>
-    <string name="todo_item_description_1">这是待办列表的项目。\n点击右边的 √ 就可以把这个待办标记为已完成。\n如果你需要修改这个待办，只需长按即可修改。</string>
+    <string name="todo_item_description_1">这是待办列表的项目\n点击右边的 √ 就可以把这个待办标记为已完成\n长按需要修改的待办项目即可修改其信息</string>
 </resources>
