@@ -40,41 +40,40 @@
 
             <TextView
                 android:id="@+id/complete_count"
+                style="?attr/textAppearanceDisplaySmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="0"
-                android:textAppearance="?attr/textAppearanceDisplaySmall"
                 android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold" />
 
             <TextView
+                style="?attr/textAppearanceDisplayMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="/"
-                android:textAppearance="?attr/textAppearanceDisplayMedium"
                 android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/total_count"
+                style="?attr/textAppearanceDisplayMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:text="0"
-                android:textAppearance="?attr/textAppearanceDisplayMedium"
                 android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/remain_count"
+            style="?attr/textAppearanceLabelMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:textSize="12sp"
             android:visibility="gone" />
     </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

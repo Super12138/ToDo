@@ -27,20 +27,20 @@
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
+            style="?attr/textAppearanceHeadlineMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:text="@string/intro_title"
             android:textAlignment="center"
-            android:textAppearance="?attr/textAppearanceHeadlineMedium"
             android:textColor="?attr/colorOnSurface" />
 
         <TextView
+            style="?attr/textAppearanceBodyMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/intro_description"
             android:textAlignment="center"
-            android:textAppearance="?attr/textAppearanceBodyMedium"
             android:textColor="?attr/colorOnSurfaceVariant" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

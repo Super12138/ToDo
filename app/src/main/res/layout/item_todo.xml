@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="?attr/materialCardViewElevatedStyle"
     android:layout_width="match_parent"
     android:layout_height="80dp"
@@ -26,6 +27,7 @@
 
             <TextView
                 android:id="@+id/todo_content"
+                style="?attr/textAppearanceTitleLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -33,16 +35,18 @@
                 android:ellipsize="marquee"
                 android:singleLine="true"
                 android:textColor="?attr/colorOnSurface"
-                android:textSize="20sp" />
+                tools:text="Title" />
 
             <TextView
                 android:id="@+id/todo_subject"
+                style="?attr/textAppearanceLabelLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:singleLine="true"
                 android:textColor="?attr/colorOnSurface"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+                tools:text="Subject" />
         </LinearLayout>
 
         <Button

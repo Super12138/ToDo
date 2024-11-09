@@ -13,11 +13,11 @@
         android:padding="20dp">
 
         <TextView
+            style="?attr/textAppearanceHeadlineMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/progress_title"
             android:textAlignment="center"
-            android:textAppearance="?attr/textAppearanceHeadlineMedium"
             android:textColor="?attr/colorOnSurface" />
 
         <androidx.fragment.app.FragmentContainerView
@@ -28,6 +28,7 @@
             tools:layout="@layout/fragment_progress" />
 
         <TextView
+            style="?attr/textAppearanceBodyMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/progress_description"

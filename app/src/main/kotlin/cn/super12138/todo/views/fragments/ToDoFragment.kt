@@ -86,7 +86,7 @@ class ToDoFragment : Fragment() {
                             progressViewModel.updateProgress()
                         }
                         // 通知数据更改
-                        binding.todoList.adapter?.notifyItemRangeRemoved(0, todoList.size + 1)
+                        binding.todoList.adapter?.notifyDataSetChanged()
                     }
                     .setNegativeButton(R.string.cancel, null)
                     .show()
@@ -108,16 +108,16 @@ class ToDoFragment : Fragment() {
             }
         })
 
-        todoViewModel.addData.observe(viewLifecycleOwner, Observer {
+        todoViewModel.addData.observe(viewLifecycleOwner) {
             binding.todoList.adapter?.notifyItemInserted(todoList.size + 1)
-        })
+        }
 
-        todoViewModel.removeData.observe(viewLifecycleOwner, Observer {
+        todoViewModel.removeData.observe(viewLifecycleOwner) {
             binding.todoList.adapter?.notifyItemRemoved(todoList.size + 1)
-        })
+        }
 
-        todoViewModel.refreshData.observe(viewLifecycleOwner, Observer {
+        todoViewModel.refreshData.observe(viewLifecycleOwner) {
             binding.todoList.adapter?.notifyItemRangeChanged(0, todoList.size + 1)
-        })
+        }
     }
 }

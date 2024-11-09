@@ -6,6 +6,7 @@
 
     <TextView
         android:id="@+id/empty_tip"
+        style="?attr/textAppearanceLabelLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/no_tasks"

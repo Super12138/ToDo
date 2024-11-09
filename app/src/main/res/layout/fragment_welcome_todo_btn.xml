@@ -13,11 +13,11 @@
         android:padding="20dp">
 
         <TextView
+            style="?attr/textAppearanceHeadlineMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/todo_btn_title"
             android:textAlignment="center"
-            android:textAppearance="?attr/textAppearanceHeadlineMedium"
             android:textColor="?attr/colorOnSurface" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -31,6 +31,7 @@
             app:icon="@drawable/ic_add" />
 
         <TextView
+            style="?attr/textAppearanceBodyMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/todo_btn_description"

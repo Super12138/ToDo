@@ -79,16 +79,15 @@
     <string name="start">Start</string>
     <string name="welcome_label">Welcome</string>
     <string name="intro_title">Welcome to use To Do</string>
-    <string name="intro_description">A lite and useful to-do app</string>
+    <string name="intro_description">A simple to-do app</string>
     <string name="enter_app">Enter at once</string>
     <string name="reenter_welcome_activity">Reenter welcome page</string>
     <string name="progress_title">Take a look!</string>
-    <string name="progress_description">This is the to-do progress bar that tracks your task completion. It updates when you add or mark tasks as done. The number on the left shows your completed tasks, while the number on the right indicates the total tasks. Below these numbers, a small line of text will show how many tasks are remaining.</string>
+    <string name="progress_description">This is the to-do progress bar that tracks your task completion.\n It updates when you add or mark tasks as done.\n The number on the left shows your completed tasks, while the number on the right indicates the total tasks. Below these numbers, a small line of text will show how many tasks are remaining.</string>
     <string name="todo_btn_title">Control is at your fingertips!</string>
-    <string name="todo_btn_description">This is the button to add new to-dos. Click it to create a new task. Long press to delete all your current to-dos (this action cannot be undone, so be cautious!).</string>
+    <string name="todo_btn_description">This is the button to add new to-dos. Click it to create a new task. Long press to delete all your current to-dos (this action cannot be undone, so be cautious).</string>
     <string name="todo_item_title">Long press for more options!</string>
     <string name="todo_item_item_title">This is the task content</string>
     <string name="todo_item_item_subject">This is the task subject</string>
     <string name="todo_item_description_1">"This is an item in your to-do list. Click the checkmark on the right to mark it as completed. If you need to edit this to-do, just long press to make changes. "</string>
-    <string name="todo_item_description_2">That covers the main features of the to-do list. Of course, the app also offers a range of personalization options and additional features. Click the button below to explore the app now!</string>
 </resources>
