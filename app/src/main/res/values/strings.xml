@@ -50,14 +50,6 @@
     <string name="backup_summary">Backup to-do database</string>
     <string name="restore">Restore database</string>
     <string name="restore_summary">Restore the previously backed up to-do database</string>
-    <string name="backup_tips">The following is the database file, please select all and copy to export.</string>
-    <string name="restore_tips">Paste the exported database below.</string>
-    <string name="overwrite_data">Overwrite old data</string>
-    <string name="paste_data">Paste exported data</string>
-    <string name="export_data">Export data</string>
-    <string name="restore_data">Restore data</string>
-    <string name="please_paste_data">Please paste the data</string>
-    <string name="restore_successful">Data restore successful</string>
     <string name="restore_need_restart_app">Need to restart the app to apply the recovered data</string>
     <string name="json_data_incorrect">JSON data format is wrong. Please check the paste data format</string>
     <string name="restore_failed">Restore failed, please check if you are attempting to restore the same backup data again.</string>
@@ -90,4 +82,8 @@
     <string name="todo_item_item_title">This is the task content</string>
     <string name="todo_item_item_subject">This is the task subject</string>
     <string name="todo_item_description_1">"This is an item in your to-do list.\n Click the checkmark on the right to mark it as completed.\n If you need to edit this to-do, just long press to make changes. "</string>
+    <string name="tips_backup_success">Backup successful</string>
+    <string name="tips_backup_failed">Backup failed (Exit code: %d)</string>
+    <string name="tips_restore_success">Restore Successful</string>
+    <string name="tips_restore_failed">Restore failed (Exit code: %d)</string>
 </resources>

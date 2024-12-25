@@ -81,6 +81,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.preference)
     implementation(libs.androidx.preference.ktx)
+    implementation(libs.androidx.security)
     // Material Design
     implementation(libs.material)
     // Room
@@ -88,8 +89,8 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     annotationProcessor(libs.androidx.room.compiler)
     ksp(libs.androidx.room.compiler)
-    // Gson
-    implementation(libs.gson)
+    // Room Backup
+    // implementation(libs.room.backup)
     // Fast Scroll
     implementation(libs.fast.scroll)
     // Test
@@ -100,7 +101,6 @@ dependencies {
 
 fun String.exec(): String = exec(this)
 
-@Suppress("UnstableApiUsage")
 fun Project.exec(command: String): String = providers.exec {
     commandLine(command.split(" "))
 }.standardOutput.asText.get().trim()

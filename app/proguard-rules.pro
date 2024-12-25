@@ -19,12 +19,5 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
-
-# Gson
--keepattributes Signature
--keep class com.google.gson.reflect.TypeToken { *; }
--keep class * extends com.google.gson.reflect.TypeToken
--keepattributes AnnotationDefault,RuntimeVisibleAnnotations
-
-# ToDo Room
--keep class cn.super12138.todo.logic.dao.ToDoRoom { *; }
+-dontwarn javax.annotation.Nullable
+-dontwarn javax.annotation.concurrent.GuardedBy

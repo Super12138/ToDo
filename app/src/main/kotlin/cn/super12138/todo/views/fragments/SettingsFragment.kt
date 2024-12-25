@@ -6,9 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.lifecycleScope
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -16,29 +14,22 @@ import androidx.preference.SwitchPreferenceCompat
 import cn.super12138.todo.R
 import cn.super12138.todo.constant.Constants
 import cn.super12138.todo.constant.GlobalValues
-import cn.super12138.todo.databinding.DialogBackupBinding
-import cn.super12138.todo.databinding.DialogRestoreBinding
-import cn.super12138.todo.logic.Repository
-import cn.super12138.todo.logic.dao.ToDoRoom
+import cn.super12138.todo.logic.dao.ToDoRoomDB
 import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.views.activities.MainActivity
 import cn.super12138.todo.views.fragments.welcome.WelcomeFragment
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.google.gson.Gson
-import com.google.gson.JsonSyntaxException
-import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.launch
+import de.raphaelebner.roomdatabasebackup.core.RoomBackup
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import kotlin.system.exitProcess
 
 class SettingsFragment : PreferenceFragmentCompat() {
-    private lateinit var backupBinding: DialogBackupBinding
-    private lateinit var restoreBinding: DialogRestoreBinding
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
         val mainActivity = requireActivity() as MainActivity
-        val gson = Gson()
+        val roomBackup = mainActivity.roomBackup
 
         findPreference<ListPreference>(Constants.PREF_DARK_MODE)?.apply {
             setOnPreferenceClickListener {
@@ -87,22 +78,35 @@ class SettingsFragment : PreferenceFragmentCompat() {
         findPreference<Preference>(Constants.PREF_BACKUP_DB)?.apply {
             setOnPreferenceClickListener {
                 VibrationUtils.performHapticFeedback(view)
-                lifecycleScope.launch {
-                    val data = Repository.getAll()
-                    val jsonData = gson.toJson(data)
-                    backupBinding = DialogBackupBinding.inflate(layoutInflater)
-                    backupBinding.jsonOutput.text = jsonData
-
-                    activity?.let {
-                        MaterialAlertDialogBuilder(it)
-                            .setTitle(R.string.export_data)
-                            .setView(backupBinding.root)
-                            .setPositiveButton(R.string.ok) { _, _ ->
-                                VibrationUtils.performHapticFeedback(view)
+                val simpleDateFormat =
+                    SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.getDefault())
+                val formattedDate = simpleDateFormat.format(Date())
+                roomBackup
+                    .database(ToDoRoomDB.getDatabase(requireContext()))
+                    .enableLogDebug(GlobalValues.devMode)
+                    .backupLocation(RoomBackup.BACKUP_FILE_LOCATION_CUSTOM_DIALOG)
+                    .customBackupFileName("ToDo-DataBase-$formattedDate.sqlite3")
+                    .apply {
+                        onCompleteListener { success, _, exitCode ->
+                            if (success) {
+                                view?.let { it1 ->
+                                    Snackbar.make(
+                                        it1, R.string.tips_backup_success, Snackbar.LENGTH_LONG
+                                    ).show()
+                                }
+                            } else {
+                                view?.let { it1 ->
+                                    Snackbar.make(
+                                        it1, getString(
+                                            R.string.tips_backup_failed,
+                                            exitCode
+                                        ), Snackbar.LENGTH_LONG
+                                    ).show()
+                                }
                             }
-                            .show()
+                        }
                     }
-                }
+                    .backup()
                 true
             }
         }
@@ -111,61 +115,39 @@ class SettingsFragment : PreferenceFragmentCompat() {
             setOnPreferenceClickListener {
                 VibrationUtils.performHapticFeedback(view)
 
+                roomBackup
+                    .database(ToDoRoomDB.getDatabase(requireContext()))
+                    .enableLogDebug(GlobalValues.devMode)
+                    .backupLocation(RoomBackup.BACKUP_FILE_LOCATION_CUSTOM_DIALOG)
+                    .apply {
+                        onCompleteListener { success, _, exitCode ->
+                            if (success) {
+                                view?.let { it1 ->
+                                    Snackbar.make(
+                                        it1,
+                                        R.string.tips_restore_success,
+                                        Snackbar.LENGTH_LONG
+                                    )
+                                        .setAction(R.string.restart_app_now) {
+                                            VibrationUtils.performHapticFeedback(view)
+                                            restartApp(context)
+                                        }
+                                        .show()
+                                }
 
-                restoreBinding = DialogRestoreBinding.inflate(layoutInflater)
-                activity?.let { it1 ->
-                    val dialog = MaterialAlertDialogBuilder(it1)
-                        .setTitle(R.string.restore_data)
-                        .setView(restoreBinding.root)
-                        .setPositiveButton(R.string.ok, null)
-                        .setNegativeButton(R.string.cancel, null)
-                        .show()
-
-                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-                        VibrationUtils.performHapticFeedback(view)
-
-                        val jsonInput = restoreBinding.jsonInput.editText?.text.toString()
-                        if (jsonInput.isEmpty()) {
-                            restoreBinding.jsonInput.error =
-                                getString(R.string.please_paste_data)
-                            return@setOnClickListener
-                        }
-
-                        lifecycleScope.launch {
-                            if (restoreBinding.overwriteData.isChecked) {
-                                Repository.deleteAll()
-                            }
-                            try {
-                                val listType = object : TypeToken<List<ToDoRoom>>() {}.type
-                                val taskList: List<ToDoRoom> =
-                                    gson.fromJson(jsonInput, listType)
-                                taskList.forEach { Repository.insert(it) }
-                                dialog.dismiss()
-                                MaterialAlertDialogBuilder(it1)
-                                    .setTitle(R.string.restore_successful)
-                                    .setMessage(R.string.restore_need_restart_app)
-                                    .setPositiveButton(R.string.ok) { _, _ ->
-                                        VibrationUtils.performHapticFeedback(view)
-
-                                        restartApp(context)
-                                    }
-                                    .setNegativeButton(R.string.cancel, null)
-                                    .setCancelable(false)
-                                    .show()
-                            } catch (e: JsonSyntaxException) {
-                                restoreBinding.jsonInput.error =
-                                    getString(R.string.json_data_incorrect)
-                            } catch (e: Exception) {
-                                if (GlobalValues.devMode) {
-                                    restoreBinding.jsonInput.error = e.toString()
-                                } else {
-                                    restoreBinding.jsonInput.error =
-                                        getString(R.string.restore_failed)
+                            } else {
+                                view?.let { it1 ->
+                                    Snackbar.make(
+                                        it1, getString(
+                                            R.string.tips_restore_failed,
+                                            exitCode
+                                        ), Snackbar.LENGTH_LONG
+                                    ).show()
                                 }
                             }
                         }
                     }
-                }
+                    .restore()
                 true
             }
         }
@@ -195,7 +177,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
-
     override fun setDivider(divider: Drawable?) {
         super.setDivider(ColorDrawable(Color.TRANSPARENT))
     }
@@ -203,7 +184,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun setDividerHeight(height: Int) {
         super.setDividerHeight(0)
     }
-
 
     private fun restartApp(restartContext: Context) {
         val intent = Intent(restartContext, MainActivity::class.java).apply {

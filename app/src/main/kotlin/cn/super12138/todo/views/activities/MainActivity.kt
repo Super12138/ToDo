@@ -13,8 +13,10 @@ import cn.super12138.todo.databinding.ActivityMainBinding
 import cn.super12138.todo.views.BaseActivity
 import cn.super12138.todo.views.fragments.SettingsParentFragment
 import cn.super12138.todo.views.fragments.welcome.WelcomeFragment
+import de.raphaelebner.roomdatabasebackup.core.RoomBackup
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
+    lateinit var roomBackup: RoomBackup
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
@@ -32,6 +34,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             false -> window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
         }
         handleIntent(intent)
+
+        roomBackup = RoomBackup(this)
     }
 
     override fun onNewIntent(intent: Intent, caller: ComponentCaller) {
