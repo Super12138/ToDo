@@ -53,11 +53,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_18
+        targetCompatibility = JavaVersion.VERSION_18
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "18"
     }
     buildFeatures {
         viewBinding = true
@@ -89,10 +89,8 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     annotationProcessor(libs.androidx.room.compiler)
     ksp(libs.androidx.room.compiler)
-    // Room Backup
-    // implementation(libs.room.backup)
-    // Fast Scroll
-    implementation(libs.fast.scroll)
+    // FastScroll
+    implementation(project(":fastscroll"))
     // Test
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
