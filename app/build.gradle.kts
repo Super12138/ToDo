@@ -64,6 +64,8 @@ dependencies {
     // About Libraries
     implementation(libs.aboutlibraries.core)
     implementation(libs.aboutlibraries.compose)
+    // M3 Color
+    implementation(libs.com.kyant0.m3color)
     // Kotlin Coroutines
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)

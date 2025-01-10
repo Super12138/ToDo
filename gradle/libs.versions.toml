@@ -13,6 +13,8 @@ navigation = "2.8.5"
 material3 = "1.4.0-alpha05"
 # AboutLibraries
 aboutLibsRelease = "11.3.0-rc02"
+# M3 Color
+m3color = "2024.6"
 # Kotlin
 kotlinCoroutines = "1.9.0"
 # Test
@@ -56,6 +58,9 @@ androidx-room-runtime = { group = "androidx.room", name = "room-runtime", versio
 # About Libraries
 aboutlibraries-core = { group = "com.mikepenz", name = "aboutlibraries-core", version.ref = "aboutLibsRelease" }
 aboutlibraries-compose = { group = "com.mikepenz", name = "aboutlibraries-compose-m3", version.ref = "aboutLibsRelease" }
+
+# M3 Color
+com-kyant0-m3color = { group = "com.github.Kyant0", name = "m3color", version.ref = "m3color" }
 
 # Kotlin
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
