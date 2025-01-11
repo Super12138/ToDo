@@ -6,6 +6,10 @@ plugins {
     alias(libs.plugins.aboutlibraries)
 }
 
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
+
 android {
     namespace = "cn.super12138.todo"
     compileSdk = 35

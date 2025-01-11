@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">待办</string>
+    <string name="pages_settings">设置</string>
+    <string name="action_add_todo">添加待办</string>
+</resources>
