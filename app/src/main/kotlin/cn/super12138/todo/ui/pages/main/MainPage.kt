@@ -95,7 +95,8 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
             ProgressFragment(
-                viewModel = viewModel,
+                totalTasks = toDoList.value.size,
+                completedTasks = toDoList.value.count { it.isCompleted },
                 modifier = Modifier
                     .weight(2f)
                     .fillMaxSize()

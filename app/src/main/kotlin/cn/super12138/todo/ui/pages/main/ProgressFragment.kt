@@ -10,21 +10,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import cn.super12138.todo.ui.viewmodels.MainViewModel
 
 @Composable
-fun ProgressFragment(viewModel: MainViewModel, modifier: Modifier = Modifier) {
-    val toDoList = viewModel.toDos.collectAsState(initial = emptyList())
-    val totalTask = toDoList.value.size
-    val completedTasks = toDoList.value.count { it.isCompleted }
-    val progress = if (toDoList.value.isNotEmpty()) {
-        completedTasks / totalTask.toFloat()
+fun ProgressFragment(
+    totalTasks: Int,
+    completedTasks: Int,
+    modifier: Modifier = Modifier
+) {
+    val progress = if (totalTasks != 0) {
+        completedTasks / totalTasks.toFloat()
     } else {
         // 没有任务时
         0f
@@ -59,7 +58,7 @@ fun ProgressFragment(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                     )
                 )
                 Text(
-                    text = totalTask.toString(),
+                    text = totalTasks.toString(),
                     style = MaterialTheme.typography.displayMedium.copy(
                         fontWeight = FontWeight.Bold
                     )
