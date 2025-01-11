@@ -3,5 +3,5 @@
     <string name="app_name">待办</string>
     <string name="pages_settings">设置</string>
     <string name="action_add_todo">添加待办</string>
-    <string name="tips_no_task">目前没有任务要完成的，好好休息一些下吧~</string>
+    <string name="tips_no_task">目前没有任务要完成的，好好休息一下吧~</string>
 </resources>
