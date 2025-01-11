@@ -16,11 +16,16 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -28,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.ui.viewmodels.MainViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,6 +45,10 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
             listState.firstVisibleItemIndex == 0
         }
     }
+
+    var openBottomSheet by rememberSaveable { mutableStateOf(false) }
+    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val scope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
@@ -61,12 +71,7 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    viewModel.addTodo(
-                        TodoEntity(
-                            content = "测试内容",
-                            subject = "测试学科"
-                        )
-                    )
+                    openBottomSheet = true
                 }
             ) {
                 Row(
@@ -99,7 +104,9 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
             ManagerFragment(
                 state = listState,
                 list = toDoList.value.filter { item -> !item.isCompleted },
-                onItemClick = {},
+                onItemClick = {
+
+                },
                 onItemChecked = { item ->
                     item.apply {
                         viewModel.updateTodo(
@@ -116,6 +123,34 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                     .weight(3f)
                     .fillMaxSize()
             )
+
+            if (openBottomSheet) {
+                TodoBottomSheet(
+                    sheetState = bottomSheetState,
+                    onDismissRequest = {
+                        openBottomSheet = false
+                    },
+                    onSave = { toDo ->
+                        viewModel.addTodo(toDo)
+                        scope
+                            .launch { bottomSheetState.hide() }
+                            .invokeOnCompletion {
+                                if (!bottomSheetState.isVisible) {
+                                    openBottomSheet = false
+                                }
+                            }
+                    },
+                    onClose = {
+                        scope
+                            .launch { bottomSheetState.hide() }
+                            .invokeOnCompletion {
+                                if (!bottomSheetState.isVisible) {
+                                    openBottomSheet = false
+                                }
+                            }
+                    }
+                )
+            }
         }
     }
 }
