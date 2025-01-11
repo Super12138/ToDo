@@ -14,6 +14,8 @@ import cn.super12138.todo.ui.pages.main.components.TodoCard
 @Composable
 fun ManagerFragment(
     state: LazyListState,
+    onItemClick: (TodoEntity) -> Unit = {},
+    onItemChecked: (TodoEntity) -> Unit = {},
     list: List<TodoEntity>,
     modifier: Modifier = Modifier
 ) {
@@ -32,6 +34,8 @@ fun ManagerFragment(
             TodoCard(
                 content = item.content,
                 subject = item.subject,
+                onCardClick = { onItemClick(item) },
+                onChecked = { onItemChecked(item) },
                 modifier = Modifier
                     .padding(vertical = 5.dp)
                     .animateItem()

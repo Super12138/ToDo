@@ -15,4 +15,10 @@ class MainViewModel : ViewModel() {
             Repository.insertTodo(toDo)
         }
     }
+
+    fun updateTodo(toDo: TodoEntity) {
+        viewModelScope.launch {
+            Repository.updateTodo(toDo)
+        }
+    }
 }

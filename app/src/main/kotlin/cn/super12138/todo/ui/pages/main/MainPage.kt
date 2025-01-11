@@ -2,12 +2,9 @@ package cn.super12138.todo.ui.pages.main
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
@@ -30,7 +27,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.database.TodoEntity
-import cn.super12138.todo.ui.pages.main.components.TodoCard
 import cn.super12138.todo.ui.viewmodels.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,7 +39,6 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
             listState.firstVisibleItemIndex == 0
         }
     }
-
 
     Scaffold(
         topBar = {
@@ -95,6 +90,7 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
             ProgressFragment(
+                viewModel = viewModel,
                 modifier = Modifier
                     .weight(2f)
                     .fillMaxSize()
@@ -103,6 +99,19 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
             ManagerFragment(
                 state = listState,
                 list = toDoList.value,
+                onItemClick = {},
+                onItemChecked = { item ->
+                    item.apply {
+                        viewModel.updateTodo(
+                            TodoEntity(
+                                content = content,
+                                subject = subject,
+                                isCompleted = true,
+                                id = id
+                            )
+                        )
+                    }
+                },
                 modifier = Modifier
                     .weight(3f)
                     .fillMaxSize()

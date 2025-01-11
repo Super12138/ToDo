@@ -10,18 +10,25 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import cn.super12138.todo.ui.viewmodels.MainViewModel
 
 @Composable
-fun ProgressFragment(modifier: Modifier = Modifier) {
-    var progress by rememberSaveable { mutableFloatStateOf(0.1f) }
+fun ProgressFragment(viewModel: MainViewModel, modifier: Modifier = Modifier) {
+    val toDoList = viewModel.toDos.collectAsState(initial = emptyList())
+    val totalTask = toDoList.value.size
+    val completedTasks = toDoList.value.count { it.isCompleted }
+    val progress = if (toDoList.value.isNotEmpty()) {
+        completedTasks / totalTask.toFloat()
+    } else {
+        // 没有任务时
+        0f
+    }
     val animatedProgress by animateFloatAsState(
         targetValue = progress,
         animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
@@ -40,7 +47,7 @@ fun ProgressFragment(modifier: Modifier = Modifier) {
         Column {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "0",
+                    text = completedTasks.toString(),
                     style = MaterialTheme.typography.displaySmall.copy(
                         fontWeight = FontWeight.Bold
                     )
@@ -52,7 +59,7 @@ fun ProgressFragment(modifier: Modifier = Modifier) {
                     )
                 )
                 Text(
-                    text = "0",
+                    text = totalTask.toString(),
                     style = MaterialTheme.typography.displayMedium.copy(
                         fontWeight = FontWeight.Bold
                     )
