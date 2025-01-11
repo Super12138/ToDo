@@ -98,7 +98,7 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
 
             ManagerFragment(
                 state = listState,
-                list = toDoList.value,
+                list = toDoList.value.filter { item -> !item.isCompleted },
                 onItemClick = {},
                 onItemChecked = { item ->
                     item.apply {
