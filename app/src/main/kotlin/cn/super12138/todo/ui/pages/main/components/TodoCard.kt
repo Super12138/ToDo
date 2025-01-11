@@ -1,5 +1,6 @@
 package cn.super12138.todo.ui.pages.main.components
 
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -37,7 +39,7 @@ fun TodoCard(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 15.dp, end = 15.dp)
+                .padding(horizontal = 15.dp)
         ) {
             Column(
                 verticalArrangement = Arrangement.Center,
@@ -47,11 +49,15 @@ fun TodoCard(
             ) {
                 Text(
                     text = content,
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleLarge,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.basicMarquee() // TODO: 后续评估性能影响
                 )
                 Text(
                     text = subject,
-                    style = MaterialTheme.typography.labelMedium
+                    style = MaterialTheme.typography.labelMedium,
+                    maxLines = 1
                 )
             }
 
@@ -59,7 +65,7 @@ fun TodoCard(
                 Icon(
                     imageVector = Icons.Outlined.Check,
                     tint = MaterialTheme.colorScheme.primary,
-                    contentDescription = ""
+                    contentDescription = "" // TODO: 无障碍适配
                 )
             }
 
