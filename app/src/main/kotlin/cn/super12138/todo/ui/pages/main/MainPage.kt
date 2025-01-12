@@ -80,11 +80,11 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Add,
-                        contentDescription = stringResource(R.string.action_add_todo)
+                        contentDescription = stringResource(R.string.actions_add_task)
                     )
                     AnimatedVisibility(isExpanded) {
                         Text(
-                            text = stringResource(R.string.action_add_todo),
+                            text = stringResource(R.string.actions_add_task),
                             modifier = Modifier.padding(start = 8.dp)
                         )
                     }

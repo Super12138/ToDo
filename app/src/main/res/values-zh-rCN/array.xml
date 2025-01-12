@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="subjects">
+        <item>语文</item>
+        <item>数学</item>
+        <item>英语</item>
+        <item>生物</item>
+        <item>地理</item>
+        <item>物理</item>
+        <item>化学</item>
+        <item>道法</item>
+        <item>历史</item>
+        <item>其它</item>
+    </string-array>
+</resources>

@@ -18,8 +18,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import cn.super12138.todo.R
 
 @Composable
 fun TodoCard(
@@ -65,7 +67,7 @@ fun TodoCard(
                 Icon(
                     imageVector = Icons.Outlined.Check,
                     tint = MaterialTheme.colorScheme.primary,
-                    contentDescription = "" // TODO: 无障碍适配
+                    contentDescription = stringResource(R.string.tips_mark_completed)
                 )
             }
 

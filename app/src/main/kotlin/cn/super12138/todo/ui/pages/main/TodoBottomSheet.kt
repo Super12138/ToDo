@@ -20,10 +20,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
@@ -39,6 +41,8 @@ fun TodoBottomSheet(
     onClose: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
+
     ModalBottomSheet(
         sheetState = sheetState,
         onDismissRequest = onDismissRequest,
@@ -49,40 +53,30 @@ fun TodoBottomSheet(
             modifier = Modifier.padding(horizontal = 16.dp)
         ) {
             Text(
-                text = stringResource(R.string.action_add_todo),
+                text = stringResource(R.string.actions_add_task),
                 style = MaterialTheme.typography.headlineMedium
             )
 
             Spacer(Modifier.size(25.dp))
+
             var text by rememberSaveable { mutableStateOf("") }
             var isError by rememberSaveable { mutableStateOf(false) }
             TextField(
                 value = text,
                 onValueChange = { text = it },
-                label = { Text("待办内容") },
+                label = { Text(stringResource(R.string.placeholder_add_todo)) },
                 isError = isError,
                 supportingText = {
                     AnimatedVisibility(isError) {
-                        Text("没有内容")
+                        Text(stringResource(R.string.error_no_task_content))
                     }
                 },
                 modifier = Modifier.fillMaxWidth()
             )
-            Spacer(Modifier.size(5.dp))
-            val subjects =
-                listOf(
-                    "语文",
-                    "数学",
-                    "英语",
-                    "生物",
-                    "地理",
-                    "物理",
-                    "化学",
-                    "道法",
-                    "历史",
-                    "其它"
-                )
 
+            Spacer(Modifier.size(5.dp))
+
+            val subjects = remember { context.resources.getStringArray(R.array.subjects).toList() }
             var selectedItemIndex by rememberSaveable { mutableIntStateOf(0) }
             FilterChipGroup(
                 items = subjects,
@@ -94,17 +88,17 @@ fun TodoBottomSheet(
             Spacer(Modifier.size(20.dp))
 
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                OutlinedButton(
-                    onClick = onClose
-                ) {
-                    Text("取消")
+                OutlinedButton(onClick = onClose) {
+                    Text(stringResource(R.string.actions_cancel))
                 }
                 FilledTonalButton(
                     onClick = {
+                        // 文本为空
                         if (text.trim().isEmpty()) {
                             isError = true
                             return@FilledTonalButton
                         }
+
                         isError = false
                         onSave(
                             TodoEntity(
@@ -114,7 +108,7 @@ fun TodoBottomSheet(
                         )
                     }
                 ) {
-                    Text("添加")
+                    Text(stringResource(R.string.actions_save))
                 }
             }
             Spacer(Modifier.size(30.dp))

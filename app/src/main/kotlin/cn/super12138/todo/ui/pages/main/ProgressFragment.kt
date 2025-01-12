@@ -65,9 +65,5 @@ fun ProgressFragment(
                 )
             }
         }
-        /*Slider(
-            value = progress,
-            onValueChange = { progress = it }
-        )*/
     }
 }

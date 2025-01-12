@@ -17,7 +17,9 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import cn.super12138.todo.R
 
 /**
  * 部分参考：https://github.com/Rhythamtech/FilterChipGroup-Compose-Android/blob/main/FilterChipGroup.kt
@@ -46,7 +48,7 @@ fun FilterChipGroup(
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Check,
-                            contentDescription = "", // TODO: 添加字符串
+                            contentDescription = stringResource(R.string.tips_select_this),
                             modifier = Modifier.size(FilterChipDefaults.IconSize)
                         )
                     }
