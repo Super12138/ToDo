@@ -46,6 +46,7 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
         }
     }
 
+    var selectedTodoItem by remember { mutableStateOf<TodoEntity?>(null) }
     var openBottomSheet by rememberSaveable { mutableStateOf(false) }
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
@@ -105,8 +106,9 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
             ManagerFragment(
                 state = listState,
                 list = toDoList.value.filter { item -> !item.isCompleted },
-                onItemClick = {
-
+                onItemClick = { item ->
+                    openBottomSheet = true
+                    selectedTodoItem = item
                 },
                 onItemChecked = { item ->
                     item.apply {
@@ -130,8 +132,11 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                     sheetState = bottomSheetState,
                     onDismissRequest = {
                         openBottomSheet = false
+                        selectedTodoItem = null
                     },
+                    toDo = selectedTodoItem,
                     onSave = { toDo ->
+                        selectedTodoItem = null
                         viewModel.addTodo(toDo)
                         scope
                             .launch { bottomSheetState.hide() }
@@ -142,6 +147,7 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                             }
                     },
                     onClose = {
+                        selectedTodoItem = null
                         scope
                             .launch { bottomSheetState.hide() }
                             .invokeOnCompletion {

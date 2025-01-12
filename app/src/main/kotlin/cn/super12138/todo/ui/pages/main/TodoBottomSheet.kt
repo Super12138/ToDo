@@ -38,6 +38,7 @@ import cn.super12138.todo.ui.pages.main.components.FilterChipGroup
 fun TodoBottomSheet(
     sheetState: SheetState,
     onDismissRequest: () -> Unit,
+    toDo: TodoEntity? = null,
     onSave: (TodoEntity) -> Unit,
     onClose: () -> Unit,
     modifier: Modifier = Modifier
@@ -54,13 +55,13 @@ fun TodoBottomSheet(
             modifier = Modifier.padding(horizontal = 16.dp)
         ) {
             Text(
-                text = stringResource(R.string.action_add_task),
+                text = stringResource(if (toDo != null) R.string.title_edit_task else R.string.action_add_task),
                 style = MaterialTheme.typography.headlineMedium
             )
 
             Spacer(Modifier.size(25.dp))
 
-            var text by rememberSaveable { mutableStateOf("") }
+            var text by rememberSaveable { mutableStateOf(toDo?.content ?: "") }
             var isError by rememberSaveable { mutableStateOf(false) }
             TextField(
                 value = text,
@@ -82,9 +83,10 @@ fun TodoBottomSheet(
                     it.getDisplayName(context)
                 }
             }
-            var selectedItemIndex by rememberSaveable { mutableIntStateOf(0) }
+            var selectedItemIndex by rememberSaveable { mutableIntStateOf(toDo?.subject ?: 0) }
             FilterChipGroup(
                 items = subjects,
+                defaultSelectedItemIndex = toDo?.subject ?: 0,
                 onSelectedChanged = {
                     selectedItemIndex = it
                 },
@@ -109,7 +111,9 @@ fun TodoBottomSheet(
                         onSave(
                             TodoEntity(
                                 content = text,
-                                subject = selectedItemIndex
+                                subject = selectedItemIndex,
+                                isCompleted = toDo?.isCompleted ?: false,
+                                id = toDo?.id ?: 0
                             )
                         )
                     }
