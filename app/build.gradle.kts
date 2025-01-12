@@ -70,6 +70,8 @@ dependencies {
     implementation(libs.aboutlibraries.compose)
     // M3 Color
     implementation(libs.com.kyant0.m3color)
+    // Konfetti
+    implementation(libs.nl.dionsegijn.konfetti.compose)
     // Kotlin Coroutines
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)

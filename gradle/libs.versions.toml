@@ -1,7 +1,7 @@
 [versions]
 # Android X
 coreKtx = "1.15.0"
-security = "1.1.0-alpha06"
+# security = "1.1.0-alpha06"
 lifecycleRuntimeKtx = "2.8.7"
 # Compose
 activityCompose = "1.9.3"
@@ -15,6 +15,8 @@ material3 = "1.4.0-alpha05"
 aboutLibsRelease = "11.3.0-rc02"
 # M3 Color
 m3color = "2024.6"
+# Confetti
+konfetti = "2.0.5"
 # Kotlin
 kotlinCoroutines = "1.9.0"
 # Test
@@ -61,6 +63,9 @@ aboutlibraries-compose = { group = "com.mikepenz", name = "aboutlibraries-compos
 
 # M3 Color
 com-kyant0-m3color = { group = "com.github.Kyant0", name = "m3color", version.ref = "m3color" }
+
+# Konfetti
+nl-dionsegijn-konfetti-compose = { group = "nl.dionsegijn", name = "konfetti-compose", version.ref = "konfetti" }
 
 # Kotlin
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
