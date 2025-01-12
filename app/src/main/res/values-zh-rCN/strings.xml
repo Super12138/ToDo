@@ -21,4 +21,5 @@
     <string name="subject_history">历史</string>
     <string name="subject_others">其它</string>
     <string name="title_edit_task">修改待办</string>
+    <string name="tip_remain_tasks">剩余 %s 项任务</string>
 </resources>
