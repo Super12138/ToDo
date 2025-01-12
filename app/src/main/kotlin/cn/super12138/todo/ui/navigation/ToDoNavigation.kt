@@ -1,5 +1,6 @@
 package cn.super12138.todo.ui.navigation
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -22,7 +23,8 @@ fun ToDoNavigation(
     ) {
         composable(ToDoScreen.Main.name) {
             MainPage(
-                viewModel = viewModel()
+                viewModel = viewModel(),
+                modifier = Modifier.fillMaxSize()
             )
         }
     }

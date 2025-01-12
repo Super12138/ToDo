@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
@@ -52,14 +54,16 @@ fun TodoBottomSheet(
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .verticalScroll(rememberScrollState())
         ) {
             Text(
                 text = stringResource(if (toDo != null) R.string.title_edit_task else R.string.action_add_task),
                 style = MaterialTheme.typography.headlineMedium
             )
 
-            Spacer(Modifier.size(25.dp))
+            Spacer(Modifier.size(20.dp))
 
             var text by rememberSaveable { mutableStateOf(toDo?.content ?: "") }
             var isError by rememberSaveable { mutableStateOf(false) }

@@ -92,7 +92,7 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                 }
             }
         },
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
             ProgressFragment(
