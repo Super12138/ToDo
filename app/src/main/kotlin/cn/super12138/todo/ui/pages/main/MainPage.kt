@@ -1,5 +1,6 @@
 package cn.super12138.todo.ui.pages.main
 
+import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,10 +29,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.database.TodoEntity
+import cn.super12138.todo.logic.model.Orientation
 import cn.super12138.todo.ui.viewmodels.MainViewModel
 import kotlinx.coroutines.launch
 
@@ -50,6 +53,15 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
     var openBottomSheet by rememberSaveable { mutableStateOf(false) }
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
+
+
+    // TODO: 寻找更好的适配方式
+    val configuration = LocalConfiguration.current
+    val orientation = when (configuration.orientation) {
+        Configuration.ORIENTATION_PORTRAIT -> Orientation.Portrait
+        Configuration.ORIENTATION_LANDSCAPE -> Orientation.Landscape
+        else -> Orientation.Portrait
+    }
 
     Scaffold(
         topBar = {
@@ -94,70 +106,109 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
         },
         modifier = modifier
     ) { innerPadding ->
-        Column(modifier = Modifier.padding(innerPadding)) {
-            ProgressFragment(
-                totalTasks = toDoList.value.size,
-                completedTasks = toDoList.value.count { it.isCompleted },
-                modifier = Modifier
-                    .weight(2f)
-                    .fillMaxSize()
-            )
+        when (orientation) {
+            Orientation.Portrait -> {
+                Column(modifier = Modifier.padding(innerPadding)) {
+                    ProgressFragment(
+                        totalTasks = toDoList.value.size,
+                        completedTasks = toDoList.value.count { it.isCompleted },
+                        modifier = Modifier
+                            .weight(2f)
+                            .fillMaxSize()
+                    )
 
-            ManagerFragment(
-                state = listState,
-                list = toDoList.value.filter { item -> !item.isCompleted },
-                onItemClick = { item ->
-                    openBottomSheet = true
-                    selectedTodoItem = item
-                },
-                onItemChecked = { item ->
-                    item.apply {
-                        viewModel.updateTodo(
-                            TodoEntity(
-                                content = content,
-                                subject = subject,
-                                isCompleted = true,
-                                id = id
-                            )
-                        )
-                    }
-                },
-                modifier = Modifier
-                    .weight(3f)
-                    .fillMaxSize()
-            )
+                    ManagerFragment(
+                        state = listState,
+                        list = toDoList.value.filter { item -> !item.isCompleted },
+                        onItemClick = { item ->
+                            openBottomSheet = true
+                            selectedTodoItem = item
+                        },
+                        onItemChecked = { item ->
+                            item.apply {
+                                viewModel.updateTodo(
+                                    TodoEntity(
+                                        content = content,
+                                        subject = subject,
+                                        isCompleted = true,
+                                        id = id
+                                    )
+                                )
+                            }
+                        },
+                        modifier = Modifier
+                            .weight(3f)
+                            .fillMaxSize()
+                    )
+                }
+            }
 
-            if (openBottomSheet) {
-                TodoBottomSheet(
-                    sheetState = bottomSheetState,
-                    onDismissRequest = {
-                        openBottomSheet = false
-                        selectedTodoItem = null
-                    },
-                    toDo = selectedTodoItem,
-                    onSave = { toDo ->
-                        selectedTodoItem = null
-                        viewModel.addTodo(toDo)
-                        scope
-                            .launch { bottomSheetState.hide() }
-                            .invokeOnCompletion {
-                                if (!bottomSheetState.isVisible) {
-                                    openBottomSheet = false
-                                }
+            Orientation.Landscape -> {
+                Row(modifier = Modifier.padding(innerPadding)) {
+                    ProgressFragment(
+                        totalTasks = toDoList.value.size,
+                        completedTasks = toDoList.value.count { it.isCompleted },
+                        modifier = Modifier
+                            .weight(2f)
+                            .fillMaxSize()
+                    )
+
+                    ManagerFragment(
+                        state = listState,
+                        list = toDoList.value.filter { item -> !item.isCompleted },
+                        onItemClick = { item ->
+                            openBottomSheet = true
+                            selectedTodoItem = item
+                        },
+                        onItemChecked = { item ->
+                            item.apply {
+                                viewModel.updateTodo(
+                                    TodoEntity(
+                                        content = content,
+                                        subject = subject,
+                                        isCompleted = true,
+                                        id = id
+                                    )
+                                )
                             }
-                    },
-                    onClose = {
-                        selectedTodoItem = null
-                        scope
-                            .launch { bottomSheetState.hide() }
-                            .invokeOnCompletion {
-                                if (!bottomSheetState.isVisible) {
-                                    openBottomSheet = false
-                                }
-                            }
-                    }
-                )
+                        },
+                        modifier = Modifier
+                            .weight(3f)
+                            .fillMaxSize()
+                    )
+                }
             }
         }
+    }
+    if (openBottomSheet) {
+        TodoBottomSheet(
+            sheetState = bottomSheetState,
+            onDismissRequest = {
+                openBottomSheet = false
+                selectedTodoItem = null
+            },
+            toDo = selectedTodoItem,
+            onSave = { toDo ->
+                selectedTodoItem = null
+                viewModel.addTodo(toDo)
+                scope
+                    .launch { bottomSheetState.hide() }
+                    .invokeOnCompletion {
+                        if (!bottomSheetState.isVisible) {
+                            openBottomSheet = false
+                        }
+                    }
+            },
+            onClose = {
+                selectedTodoItem = null
+                scope
+                    .launch { bottomSheetState.hide() }
+                    .invokeOnCompletion {
+                        if (!bottomSheetState.isVisible) {
+                            openBottomSheet = false
+                        }
+                    }
+            }
+        )
     }
 }
