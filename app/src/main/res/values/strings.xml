@@ -9,4 +9,14 @@
     <string name="error_no_task_content">No task content entered</string>
     <string name="tip_select_this">Select this</string>
     <string name="tip_mark_completed">Mark as completed</string>
+    <string name="subject_chinese">Chinese</string>
+    <string name="subject_math">Math</string>
+    <string name="subject_english">English</string>
+    <string name="subject_biology">Biology</string>
+    <string name="subject_geography">Geography</string>
+    <string name="subject_physics">Physics</string>
+    <string name="subject_moral">Morality and Rule of Law</string>
+    <string name="subject_chemistry">Chemistry</string>
+    <string name="subject_history">History</string>
+    <string name="subject_others">Others</string>
 </resources>

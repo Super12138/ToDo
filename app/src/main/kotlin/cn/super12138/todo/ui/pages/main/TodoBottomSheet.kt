@@ -30,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.database.TodoEntity
+import cn.super12138.todo.logic.model.Subjects
 import cn.super12138.todo.ui.pages.main.components.FilterChipGroup
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -76,7 +77,11 @@ fun TodoBottomSheet(
 
             Spacer(Modifier.size(5.dp))
 
-            val subjects = remember { context.resources.getStringArray(R.array.subjects).toList() }
+            val subjects = remember {
+                Subjects.entries.map {
+                    it.getDisplayName(context)
+                }
+            }
             var selectedItemIndex by rememberSaveable { mutableIntStateOf(0) }
             FilterChipGroup(
                 items = subjects,
@@ -85,6 +90,7 @@ fun TodoBottomSheet(
                 },
                 modifier = Modifier.fillMaxWidth()
             )
+
             Spacer(Modifier.size(20.dp))
 
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -103,7 +109,7 @@ fun TodoBottomSheet(
                         onSave(
                             TodoEntity(
                                 content = text,
-                                subject = subjects[selectedItemIndex]
+                                subject = selectedItemIndex
                             )
                         )
                     }

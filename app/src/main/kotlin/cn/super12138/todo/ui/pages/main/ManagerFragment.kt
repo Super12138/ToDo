@@ -13,10 +13,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.database.TodoEntity
+import cn.super12138.todo.logic.model.Subjects
 import cn.super12138.todo.ui.pages.main.components.TodoCard
 
 @Composable
@@ -27,6 +29,7 @@ fun ManagerFragment(
     onItemChecked: (TodoEntity) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
     LazyColumn(
         modifier = modifier,
         state = state,
@@ -55,7 +58,7 @@ fun ManagerFragment(
             ) { item ->
                 TodoCard(
                     content = item.content,
-                    subject = item.subject,
+                    subject = Subjects.fromId(item.subject).getDisplayName(context),
                     onCardClick = { onItemClick(item) },
                     onChecked = { onItemChecked(item) },
                     modifier = Modifier
