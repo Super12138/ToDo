@@ -48,7 +48,7 @@ fun FilterChipGroup(
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Check,
-                            contentDescription = stringResource(R.string.tips_select_this),
+                            contentDescription = stringResource(R.string.tip_select_this),
                             modifier = Modifier.size(FilterChipDefaults.IconSize)
                         )
                     }

@@ -67,7 +67,7 @@ fun TodoCard(
                 Icon(
                     imageVector = Icons.Outlined.Check,
                     tint = MaterialTheme.colorScheme.primary,
-                    contentDescription = stringResource(R.string.tips_mark_completed)
+                    contentDescription = stringResource(R.string.tip_mark_completed)
                 )
             }
 

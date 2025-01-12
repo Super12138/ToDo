@@ -62,7 +62,7 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Settings,
-                            contentDescription = stringResource(R.string.pages_settings)
+                            contentDescription = stringResource(R.string.page_settings)
                         )
                     }
                 }
@@ -80,11 +80,11 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Add,
-                        contentDescription = stringResource(R.string.actions_add_task)
+                        contentDescription = stringResource(R.string.action_add_task)
                     )
                     AnimatedVisibility(isExpanded) {
                         Text(
-                            text = stringResource(R.string.actions_add_task),
+                            text = stringResource(R.string.action_add_task),
                             modifier = Modifier.padding(start = 8.dp)
                         )
                     }

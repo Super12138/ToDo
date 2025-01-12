@@ -43,7 +43,7 @@ fun ManagerFragment(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     Text(
-                        text = stringResource(R.string.tips_no_task),
+                        text = stringResource(R.string.tip_no_task),
                         style = MaterialTheme.typography.titleMedium
                     )
                 }

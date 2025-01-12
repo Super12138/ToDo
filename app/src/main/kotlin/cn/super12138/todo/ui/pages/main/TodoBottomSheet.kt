@@ -53,7 +53,7 @@ fun TodoBottomSheet(
             modifier = Modifier.padding(horizontal = 16.dp)
         ) {
             Text(
-                text = stringResource(R.string.actions_add_task),
+                text = stringResource(R.string.action_add_task),
                 style = MaterialTheme.typography.headlineMedium
             )
 
@@ -89,7 +89,7 @@ fun TodoBottomSheet(
 
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 OutlinedButton(onClick = onClose) {
-                    Text(stringResource(R.string.actions_cancel))
+                    Text(stringResource(R.string.action_cancel))
                 }
                 FilledTonalButton(
                     onClick = {
@@ -108,7 +108,7 @@ fun TodoBottomSheet(
                         )
                     }
                 ) {
-                    Text(stringResource(R.string.actions_save))
+                    Text(stringResource(R.string.action_save))
                 }
             }
             Spacer(Modifier.size(30.dp))

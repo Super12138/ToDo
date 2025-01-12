@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">待办</string>
-    <string name="pages_settings">设置</string>
-    <string name="actions_add_task">添加待办</string>
-    <string name="tips_no_task">目前没有任务要完成的，好好休息一下吧~</string>
+    <string name="page_settings">设置</string>
+    <string name="action_add_task">添加待办</string>
+    <string name="tip_no_task">目前没有任务要完成的，好好休息一下吧~</string>
     <string name="placeholder_add_todo">待办内容</string>
-    <string name="actions_cancel">取消</string>
-    <string name="actions_save">保存</string>
+    <string name="action_cancel">取消</string>
+    <string name="action_save">保存</string>
     <string name="error_no_task_content">没有输入待办内容</string>
-    <string name="tips_select_this">选择该项</string>
-    <string name="tips_mark_completed">标记为已完成</string>
+    <string name="tip_select_this">选择该项</string>
+    <string name="tip_mark_completed">标记为已完成</string>
 </resources>
