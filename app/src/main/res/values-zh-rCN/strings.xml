@@ -3,7 +3,7 @@
     <string name="app_name">待办</string>
     <string name="page_settings">设置</string>
     <string name="action_add_task">添加待办</string>
-    <string name="tip_no_task">目前没有任务要完成的，好好休息一下吧~</string>
+    <string name="tip_no_task">目前没有要完成的任务，好好休息一下吧~</string>
     <string name="placeholder_add_todo">待办内容</string>
     <string name="action_cancel">取消</string>
     <string name="action_save">保存</string>
