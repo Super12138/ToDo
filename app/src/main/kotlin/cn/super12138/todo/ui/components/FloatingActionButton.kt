@@ -39,9 +39,12 @@ fun AnimatedExtendedFloatingActionButton(
             verticalAlignment = Alignment.CenterVertically
         ) {
             icon()
-            Spacer(Modifier.width(8.dp))
+            // Spacer(Modifier.width(if (expanded) 8.dp else 0.dp))
             AnimatedVisibility(expanded) {
-                text()
+                Row {
+                    Spacer(Modifier.width(8.dp))
+                    text()
+                }
             }
         }
     }
