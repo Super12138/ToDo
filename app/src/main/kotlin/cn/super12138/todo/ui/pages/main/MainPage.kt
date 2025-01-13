@@ -49,7 +49,7 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
         }
     }
 
-    var selectedTodoItem by remember { mutableStateOf<TodoEntity?>(null) }
+    val selectedEditTodoItem = viewModel.selectedEditTodoItem
     var openBottomSheet by rememberSaveable { mutableStateOf(false) }
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
@@ -121,7 +121,7 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                         list = toDoList.value.filter { item -> !item.isCompleted },
                         onItemClick = { item ->
                             openBottomSheet = true
-                            selectedTodoItem = item
+                            viewModel.setEditTodoItem(item)
                         },
                         onItemChecked = { item ->
                             item.apply {
@@ -158,7 +158,7 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                         list = toDoList.value.filter { item -> !item.isCompleted },
                         onItemClick = { item ->
                             openBottomSheet = true
-                            selectedTodoItem = item
+                            viewModel.setEditTodoItem(item)
                         },
                         onItemChecked = { item ->
                             item.apply {
@@ -186,11 +186,11 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
             sheetState = bottomSheetState,
             onDismissRequest = {
                 openBottomSheet = false
-                selectedTodoItem = null
+                viewModel.setEditTodoItem(null)
             },
-            toDo = selectedTodoItem,
+            toDo = selectedEditTodoItem,
             onSave = { toDo ->
-                selectedTodoItem = null
+                viewModel.setEditTodoItem(null)
                 viewModel.addTodo(toDo)
                 scope
                     .launch { bottomSheetState.hide() }
@@ -201,7 +201,7 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                     }
             },
             onClose = {
-                selectedTodoItem = null
+                viewModel.setEditTodoItem(null)
                 scope
                     .launch { bottomSheetState.hide() }
                     .invokeOnCompletion {
