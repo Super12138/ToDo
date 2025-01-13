@@ -1,6 +1,5 @@
 package cn.super12138.todo.ui.pages.main
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +13,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -25,11 +25,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
+import androidx.window.core.layout.WindowWidthSizeClass
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.database.TodoEntity
-import cn.super12138.todo.logic.model.Orientation
 import cn.super12138.todo.ui.pages.main.components.TodoFAB
 import cn.super12138.todo.ui.viewmodels.MainViewModel
 import kotlinx.coroutines.launch
@@ -50,13 +49,7 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
 
-    // TODO: 寻找更好的适配方式
-    val configuration = LocalConfiguration.current
-    val orientation = when (configuration.orientation) {
-        Configuration.ORIENTATION_PORTRAIT -> Orientation.Portrait
-        Configuration.ORIENTATION_LANDSCAPE -> Orientation.Landscape
-        else -> Orientation.Portrait
-    }
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
 
     Scaffold(
         topBar = {
@@ -86,79 +79,75 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
         },
         modifier = modifier
     ) { innerPadding ->
-        when (orientation) {
-            Orientation.Portrait -> {
-                Column(modifier = Modifier.padding(innerPadding)) {
-                    ProgressFragment(
-                        totalTasks = toDoList.value.size,
-                        completedTasks = toDoList.value.count { it.isCompleted },
-                        modifier = Modifier
-                            .weight(2f)
-                            .fillMaxSize()
-                    )
+        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT) {
+            Column(modifier = Modifier.padding(innerPadding)) {
+                ProgressFragment(
+                    totalTasks = toDoList.value.size,
+                    completedTasks = toDoList.value.count { it.isCompleted },
+                    modifier = Modifier
+                        .weight(2f)
+                        .fillMaxSize()
+                )
 
-                    ManagerFragment(
-                        state = listState,
-                        list = toDoList.value.filter { item -> !item.isCompleted },
-                        onItemClick = { item ->
-                            openBottomSheet = true
-                            viewModel.setEditTodoItem(item)
-                        },
-                        onItemChecked = { item ->
-                            item.apply {
-                                viewModel.updateTodo(
-                                    TodoEntity(
-                                        content = content,
-                                        subject = subject,
-                                        isCompleted = true,
-                                        id = id
-                                    )
+                ManagerFragment(
+                    state = listState,
+                    list = toDoList.value.filter { item -> !item.isCompleted },
+                    onItemClick = { item ->
+                        openBottomSheet = true
+                        viewModel.setEditTodoItem(item)
+                    },
+                    onItemChecked = { item ->
+                        item.apply {
+                            viewModel.updateTodo(
+                                TodoEntity(
+                                    content = content,
+                                    subject = subject,
+                                    isCompleted = true,
+                                    id = id
                                 )
-                                viewModel.playConfetti()
-                            }
-                        },
-                        modifier = Modifier
-                            .weight(3f)
-                            .fillMaxSize()
-                    )
-                }
+                            )
+                            viewModel.playConfetti()
+                        }
+                    },
+                    modifier = Modifier
+                        .weight(3f)
+                        .fillMaxSize()
+                )
             }
+        } else {
+            Row(modifier = Modifier.padding(innerPadding)) {
+                ProgressFragment(
+                    totalTasks = toDoList.value.size,
+                    completedTasks = toDoList.value.count { it.isCompleted },
+                    modifier = Modifier
+                        .weight(2f)
+                        .fillMaxSize()
+                )
 
-            Orientation.Landscape -> {
-                Row(modifier = Modifier.padding(innerPadding)) {
-                    ProgressFragment(
-                        totalTasks = toDoList.value.size,
-                        completedTasks = toDoList.value.count { it.isCompleted },
-                        modifier = Modifier
-                            .weight(2f)
-                            .fillMaxSize()
-                    )
-
-                    ManagerFragment(
-                        state = listState,
-                        list = toDoList.value.filter { item -> !item.isCompleted },
-                        onItemClick = { item ->
-                            openBottomSheet = true
-                            viewModel.setEditTodoItem(item)
-                        },
-                        onItemChecked = { item ->
-                            item.apply {
-                                viewModel.updateTodo(
-                                    TodoEntity(
-                                        content = content,
-                                        subject = subject,
-                                        isCompleted = true,
-                                        id = id
-                                    )
+                ManagerFragment(
+                    state = listState,
+                    list = toDoList.value.filter { item -> !item.isCompleted },
+                    onItemClick = { item ->
+                        openBottomSheet = true
+                        viewModel.setEditTodoItem(item)
+                    },
+                    onItemChecked = { item ->
+                        item.apply {
+                            viewModel.updateTodo(
+                                TodoEntity(
+                                    content = content,
+                                    subject = subject,
+                                    isCompleted = true,
+                                    id = id
                                 )
-                                viewModel.playConfetti()
-                            }
-                        },
-                        modifier = Modifier
-                            .weight(3f)
-                            .fillMaxSize()
-                    )
-                }
+                            )
+                            viewModel.playConfetti()
+                        }
+                    },
+                    modifier = Modifier
+                        .weight(3f)
+                        .fillMaxSize()
+                )
             }
         }
     }

@@ -58,6 +58,7 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.animation)
     implementation(libs.androidx.navigation)
+    implementation(libs.androidx.material3.adaptive)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.android)
     implementation(libs.androidx.ui.graphics)
