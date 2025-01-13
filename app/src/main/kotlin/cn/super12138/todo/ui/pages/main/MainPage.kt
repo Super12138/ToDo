@@ -54,7 +54,6 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
 
-
     // TODO: 寻找更好的适配方式
     val configuration = LocalConfiguration.current
     val orientation = when (configuration.orientation) {
@@ -134,6 +133,7 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                                         id = id
                                     )
                                 )
+                                viewModel.playConfetti()
                             }
                         },
                         modifier = Modifier
@@ -170,6 +170,7 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                                         id = id
                                     )
                                 )
+                                viewModel.playConfetti()
                             }
                         },
                         modifier = Modifier

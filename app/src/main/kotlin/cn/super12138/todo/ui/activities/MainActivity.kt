@@ -6,8 +6,11 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.lifecycle.viewmodel.compose.viewModel
+import cn.super12138.todo.ui.components.Konfetti
 import cn.super12138.todo.ui.navigation.ToDoNavigation
 import cn.super12138.todo.ui.theme.ToDoTheme
+import cn.super12138.todo.ui.viewmodels.MainViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,7 +19,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             ToDoTheme {
                 Surface(color = MaterialTheme.colorScheme.background) {
-                    ToDoNavigation()
+                    val mainViewModel: MainViewModel = viewModel()
+                    val showConfetti = mainViewModel.showConfetti
+                    ToDoNavigation(viewModel = mainViewModel)
+                    Konfetti(state = showConfetti)
                 }
             }
         }
