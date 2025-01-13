@@ -1,4 +1,4 @@
-package cn.super12138.todo.ui.pages.main.components
+package cn.super12138.todo.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
