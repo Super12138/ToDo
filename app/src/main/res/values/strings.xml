@@ -21,4 +21,7 @@
     <string name="subject_others">Others</string>
     <string name="title_edit_task">Edit Task</string>
     <string name="tip_remain_tasks">%s tasks remaining</string>
+    <string name="page_crash">Oops! App went wrong</string>
+    <string name="tip_no_crash_logs">No crash logs</string>
+    <string name="action_exit_app">Exit app</string>
 </resources>

@@ -22,4 +22,7 @@
     <string name="subject_others">其它</string>
     <string name="title_edit_task">修改待办</string>
     <string name="tip_remain_tasks">剩余 %s 项任务</string>
+    <string name="page_crash">应用程序出现错误</string>
+    <string name="tip_no_crash_logs">没有日志传入</string>
+    <string name="action_exit_app">退出应用</string>
 </resources>
