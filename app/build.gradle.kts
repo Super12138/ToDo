@@ -50,6 +50,7 @@ dependencies {
 
     // Android X
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.compose.runtime.livedata)
@@ -74,6 +75,8 @@ dependencies {
     implementation(libs.com.kyant0.m3color)
     // Konfetti
     implementation(libs.nl.dionsegijn.konfetti.compose)
+    // Lazy Column Scrollbar
+    implementation(libs.lazycolumnscrollbar)
     // Kotlin Coroutines
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)

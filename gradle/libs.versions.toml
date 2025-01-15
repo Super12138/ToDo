@@ -1,6 +1,7 @@
 [versions]
 # Android X
 coreKtx = "1.15.0"
+splashScreen = "1.2.0-alpha02"
 # security = "1.1.0-alpha06"
 lifecycleRuntimeKtx = "2.8.7"
 # Compose
@@ -16,8 +17,10 @@ adaptive = "1.1.0-alpha08"
 aboutLibsRelease = "11.3.0-rc02"
 # M3 Color
 m3color = "2024.6"
-# Confetti
+# Konfetti
 konfetti = "2.0.5"
+# Lazy Column Scrollbar
+lazycolumnscrollbar = "2.2.0"
 # Kotlin
 kotlinCoroutines = "1.9.0"
 # Test
@@ -32,6 +35,7 @@ ksp = "2.1.0-1.0.29"
 [libraries]
 # Android X
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashScreen" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleRuntimeKtx" }
 androidx-compose-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "liveData" }
@@ -68,6 +72,9 @@ com-kyant0-m3color = { group = "com.github.Kyant0", name = "m3color", version.re
 
 # Konfetti
 nl-dionsegijn-konfetti-compose = { group = "nl.dionsegijn", name = "konfetti-compose", version.ref = "konfetti" }
+
+# Lazy Column Scrollbar
+lazycolumnscrollbar = { group = "com.github.nanihadesuka", name = "LazyColumnScrollbar", version.ref = "lazycolumnscrollbar" }
 
 # Kotlin
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
