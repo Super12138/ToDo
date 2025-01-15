@@ -19,6 +19,14 @@ object Repository {
     }
 
     suspend fun deleteTodo(toDo: TodoEntity) {
-        toDoDao.delete(toDo.id)
+        toDoDao.delete(toDo)
     }
+
+    suspend fun deleteTodoFromIds(toDoItems: List<Int>) {
+        toDoDao.deleteFromIds(toDoItems.toSet())
+    }
+
+    /*suspend fun deleteAllTodo() {
+        toDoDao.deleteAllTodo()
+    }*/
 }

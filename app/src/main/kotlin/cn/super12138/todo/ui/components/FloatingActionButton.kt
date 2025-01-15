@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import cn.super12138.todo.ui.TodoDefaults
 
 /**
  * 带动画且比 Material 3 内置组件动画好看的的可扩展 FAB
@@ -36,7 +35,7 @@ fun AnimatedExtendedFloatingActionButton(
         modifier = modifier
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = TodoDefaults.screenPadding),
+            modifier = Modifier.padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             icon()

@@ -25,4 +25,7 @@
     <string name="tip_no_crash_logs">No crash logs</string>
     <string name="action_exit_app">Exit app</string>
     <string name="action_delete">Delete</string>
+    <string name="tip_clear_selected_items">Clear selected items</string>
+    <string name="tip_select_all">Select all</string>
+    <string name="title_selected_count">%s selected</string>
 </resources>

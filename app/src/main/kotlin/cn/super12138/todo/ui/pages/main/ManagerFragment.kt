@@ -29,7 +29,9 @@ fun ManagerFragment(
     state: LazyListState,
     list: List<TodoEntity>,
     onItemClick: (TodoEntity) -> Unit = {},
+    onItemLongClick: (TodoEntity) -> Unit = {},
     onItemChecked: (TodoEntity) -> Unit = {},
+    selectedTodoIds: List<Int>,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -67,10 +69,12 @@ fun ManagerFragment(
                         content = item.content,
                         subject = Subjects.fromId(item.subject).getDisplayName(context),
                         onCardClick = { onItemClick(item) },
+                        onCardLongClick = { onItemLongClick(item) },
                         onChecked = { onItemChecked(item) },
+                        selected = selectedTodoIds.contains(item.id),
                         modifier = Modifier
                             .padding(vertical = 5.dp)
-                            .animateItem()
+                            .animateItem() // TODO: 设置动画时间
                     )
                 }
             }

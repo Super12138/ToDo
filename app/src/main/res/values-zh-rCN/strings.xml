@@ -26,4 +26,7 @@
     <string name="tip_no_crash_logs">没有日志传入</string>
     <string name="action_exit_app">退出应用</string>
     <string name="action_delete">删除</string>
+    <string name="tip_clear_selected_items">清除已选择的项目</string>
+    <string name="tip_select_all">全选</string>
+    <string name="title_selected_count">已选择 %s 项</string>
 </resources>

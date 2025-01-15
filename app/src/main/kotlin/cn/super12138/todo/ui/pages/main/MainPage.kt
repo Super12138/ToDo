@@ -1,18 +1,31 @@
 package cn.super12138.todo.ui.pages.main
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.expandIn
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkOut
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -44,36 +57,100 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
         }
     }
 
-    val selectedEditTodoItem = viewModel.selectedEditTodoItem
+    val selectedEditTodoItem = viewModel.selectedEditTodo
+    val selectedTodoIds = viewModel.selectedTodoIds.collectAsState()
     var openBottomSheet by rememberSaveable { mutableStateOf(false) }
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
 
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
 
+    val isSelectedIdsEmpty by remember {
+        derivedStateOf {
+            selectedTodoIds.value.isEmpty()
+        }
+    }
+
+    val animatedTopAppBarColors by animateColorAsState(
+        targetValue = if (isSelectedIdsEmpty) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.surfaceContainerHighest
+    )
+
+    BackHandler(enabled = !isSelectedIdsEmpty) {
+        // 当按下返回键（或进行返回操作）时清空选择
+        viewModel.clearAllTodoSelection()
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
+                navigationIcon = {
+                    AnimatedVisibility(!isSelectedIdsEmpty) {
+                        IconButton(onClick = { viewModel.clearAllTodoSelection() }) {
+                            Icon(
+                                imageVector = Icons.Outlined.Close,
+                                contentDescription = stringResource(R.string.tip_clear_selected_items)
+                            )
+                        }
+                    }
+                },
                 title = {
-                    Text(stringResource(R.string.app_name))
+                    Text(
+                        text = if (isSelectedIdsEmpty) {
+                            stringResource(R.string.app_name)
+                        } else {
+                            stringResource(
+                                R.string.title_selected_count,
+                                selectedTodoIds.value.size
+                            )
+                        }
+                    )
                 },
                 actions = {
-                    IconButton(
-                        onClick = {}
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.Settings,
-                            contentDescription = stringResource(R.string.page_settings)
-                        )
+                    AnimatedContent(isSelectedIdsEmpty) { isEmpty ->
+                        if (isEmpty) {
+                            IconButton(
+                                onClick = {}
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Settings,
+                                    contentDescription = stringResource(R.string.page_settings)
+                                )
+                            }
+                        } else {
+                            Row {
+                                IconButton(onClick = { viewModel.toggleAllSelected() }) {
+                                    Icon(
+                                        imageVector = Icons.Outlined.SelectAll,
+                                        contentDescription = stringResource(R.string.tip_select_all)
+                                    )
+                                }
+                                IconButton(onClick = { viewModel.deleteSelectedTodo() }) {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Delete,
+                                        contentDescription = stringResource(R.string.action_delete)
+                                    )
+                                }
+                            }
+                        }
                     }
-                }
+
+                },
+                colors = TopAppBarDefaults.largeTopAppBarColors().copy(
+                    containerColor = animatedTopAppBarColors
+                )
             )
         },
         floatingActionButton = {
-            TodoFAB(
-                expanded = isExpanded,
-                onClick = { openBottomSheet = true }
-            )
+            AnimatedVisibility(
+                visible = isSelectedIdsEmpty,
+                enter = fadeIn() + expandIn(),
+                exit = shrinkOut() + fadeOut()
+            ) {
+                TodoFAB(
+                    expanded = isExpanded,
+                    onClick = { openBottomSheet = true }
+                )
+            }
         },
         modifier = modifier
     ) { innerPadding ->
@@ -91,8 +168,15 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                     state = listState,
                     list = toDoList.value.filter { item -> !item.isCompleted },
                     onItemClick = { item ->
-                        openBottomSheet = true
-                        viewModel.setEditTodoItem(item)
+                        if (isSelectedIdsEmpty) {
+                            openBottomSheet = true
+                            viewModel.setEditTodoItem(item)
+                        } else {
+                            viewModel.toggleTodoSelection(item)
+                        }
+                    },
+                    onItemLongClick = { item ->
+                        viewModel.toggleTodoSelection(item)
                     },
                     onItemChecked = { item ->
                         item.apply {
@@ -107,6 +191,7 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                             viewModel.playConfetti()
                         }
                     },
+                    selectedTodoIds = selectedTodoIds.value,
                     modifier = Modifier
                         .weight(3f)
                         .fillMaxSize()
@@ -126,8 +211,15 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                     state = listState,
                     list = toDoList.value.filter { item -> !item.isCompleted },
                     onItemClick = { item ->
-                        openBottomSheet = true
-                        viewModel.setEditTodoItem(item)
+                        if (isSelectedIdsEmpty) {
+                            openBottomSheet = true
+                            viewModel.setEditTodoItem(item)
+                        } else {
+                            viewModel.toggleTodoSelection(item)
+                        }
+                    },
+                    onItemLongClick = { item ->
+                        viewModel.toggleTodoSelection(item)
                     },
                     onItemChecked = { item ->
                         item.apply {
@@ -142,6 +234,7 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                             viewModel.playConfetti()
                         }
                     },
+                    selectedTodoIds = selectedTodoIds.value,
                     modifier = Modifier
                         .weight(3f)
                         .fillMaxSize()
