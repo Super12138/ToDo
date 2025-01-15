@@ -158,15 +158,7 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
             },
             toDo = selectedEditTodoItem,
             onSave = { toDo ->
-                viewModel.setEditTodoItem(null)
                 viewModel.addTodo(toDo)
-                scope
-                    .launch { bottomSheetState.hide() }
-                    .invokeOnCompletion {
-                        if (!bottomSheetState.isVisible) {
-                            openBottomSheet = false
-                        }
-                    }
             },
             onClose = {
                 viewModel.setEditTodoItem(null)
@@ -177,6 +169,9 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                             openBottomSheet = false
                         }
                     }
+            },
+            onDelete = {
+                if (selectedEditTodoItem !== null) viewModel.deleteTodo(selectedEditTodoItem)
             }
         )
     }

@@ -14,7 +14,11 @@ object Repository {
 
     fun getAllTodos(): Flow<List<TodoEntity>> = toDoDao.getAll()
 
-    suspend fun updateTodo(toDo: TodoEntity){
+    suspend fun updateTodo(toDo: TodoEntity) {
         toDoDao.update(toDo)
+    }
+
+    suspend fun deleteTodo(toDo: TodoEntity) {
+        toDoDao.delete(toDo.id)
     }
 }

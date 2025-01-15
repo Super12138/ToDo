@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
@@ -44,6 +45,7 @@ fun TodoBottomSheet(
     toDo: TodoEntity? = null,
     onSave: (TodoEntity) -> Unit,
     onClose: () -> Unit,
+    onDelete: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -104,6 +106,22 @@ fun TodoBottomSheet(
                 OutlinedButton(onClick = onClose) {
                     Text(stringResource(R.string.action_cancel))
                 }
+                if (toDo !== null) {
+                    FilledTonalButton(
+                        onClick = {
+                            onDelete()
+                            onClose()
+                        },
+                        colors = ButtonColors(
+                            containerColor = MaterialTheme.colorScheme.errorContainer,
+                            contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                            disabledContainerColor = MaterialTheme.colorScheme.onSurface,
+                            disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    ) {
+                        Text(stringResource(R.string.action_delete))
+                    }
+                }
                 FilledTonalButton(
                     onClick = {
                         // 文本为空
@@ -121,6 +139,7 @@ fun TodoBottomSheet(
                                 id = toDo?.id ?: 0
                             )
                         )
+                        onClose()
                     }
                 ) {
                     Text(stringResource(R.string.action_save))

@@ -35,4 +35,10 @@ class MainViewModel : ViewModel() {
     fun setEditTodoItem(toDo: TodoEntity?) {
         selectedEditTodoItem = toDo
     }
+
+    fun deleteTodo(toDo: TodoEntity) {
+        viewModelScope.launch {
+            Repository.deleteTodo(toDo)
+        }
+    }
 }

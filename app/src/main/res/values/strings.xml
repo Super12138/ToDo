@@ -24,4 +24,5 @@
     <string name="page_crash">Oops! App went wrong</string>
     <string name="tip_no_crash_logs">No crash logs</string>
     <string name="action_exit_app">Exit app</string>
+    <string name="action_delete">Delete</string>
 </resources>
