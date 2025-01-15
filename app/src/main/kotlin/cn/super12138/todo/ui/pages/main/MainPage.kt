@@ -72,9 +72,7 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
         floatingActionButton = {
             TodoFAB(
                 expanded = isExpanded,
-                onClick = {
-                    openBottomSheet = true
-                }
+                onClick = { openBottomSheet = true }
             )
         },
         modifier = modifier
