@@ -2,6 +2,8 @@ package cn.super12138.todo.ui.pages.main.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.FloatingActionButtonElevation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +22,7 @@ import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
 fun TodoFAB(
     expanded: Boolean,
     onClick: () -> Unit,
+    elevation: FloatingActionButtonElevation = FloatingActionButtonDefaults.elevation(),
     modifier: Modifier = Modifier
 ) {
     AnimatedExtendedFloatingActionButton(
@@ -33,6 +36,7 @@ fun TodoFAB(
             Text(stringResource(R.string.action_add_task))
         },
         expanded = expanded,
+        elevation = elevation,
         onClick = onClick,
         modifier = modifier
     )
