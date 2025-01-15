@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
@@ -35,6 +36,7 @@ import cn.super12138.todo.R
 fun TodoCard(
     content: String,
     subject: String,
+    completed: Boolean,
     onCardClick: () -> Unit = {},
     onCardLongClick: () -> Unit = {},
     onChecked: () -> Unit = {},
@@ -82,16 +84,18 @@ fun TodoCard(
                     style = MaterialTheme.typography.titleLarge,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
+                    textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
                     modifier = Modifier.basicMarquee() // TODO: 后续评估性能影响
                 )
                 Text(
                     text = subject,
                     style = MaterialTheme.typography.labelMedium,
+                    textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
                     maxLines = 1
                 )
             }
 
-            AnimatedVisibility(!selected) {
+            AnimatedVisibility(!selected && !completed) {
                 IconButton(onClick = onChecked) {
                     Icon(
                         imageVector = Icons.Outlined.Check,

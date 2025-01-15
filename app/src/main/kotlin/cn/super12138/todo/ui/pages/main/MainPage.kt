@@ -1,9 +1,7 @@
 package cn.super12138.todo.ui.pages.main
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.expandIn
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -13,19 +11,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.SelectAll
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -38,9 +25,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.window.core.layout.WindowWidthSizeClass
-import cn.super12138.todo.R
 import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.ui.pages.main.components.TodoFAB
 import cn.super12138.todo.ui.pages.main.components.TodoTopAppBar
@@ -71,6 +56,10 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
             selectedTodoIds.value.isEmpty()
         }
     }
+
+    val showCompleted = true // 后续替换成用户设置
+    val filteredTodoList =
+        if (showCompleted) toDoList.value else toDoList.value.filter { item -> !item.isCompleted }
 
     BackHandler(enabled = !isSelectedIdsEmpty) {
         // 当按下返回键（或进行返回操作）时清空选择
@@ -114,7 +103,7 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
 
                 ManagerFragment(
                     state = listState,
-                    list = toDoList.value.filter { item -> !item.isCompleted },
+                    list = filteredTodoList,
                     onItemClick = { item ->
                         if (isSelectedIdsEmpty) {
                             openBottomSheet = true
@@ -154,10 +143,9 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                         .weight(2f)
                         .fillMaxSize()
                 )
-
                 ManagerFragment(
                     state = listState,
-                    list = toDoList.value.filter { item -> !item.isCompleted },
+                    list = filteredTodoList,
                     onItemClick = { item ->
                         if (isSelectedIdsEmpty) {
                             openBottomSheet = true

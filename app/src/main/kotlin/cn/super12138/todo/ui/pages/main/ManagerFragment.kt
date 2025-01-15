@@ -68,6 +68,7 @@ fun ManagerFragment(
                     TodoCard(
                         content = item.content,
                         subject = Subjects.fromId(item.subject).getDisplayName(context),
+                        completed = item.isCompleted,
                         onCardClick = { onItemClick(item) },
                         onCardLongClick = { onItemLongClick(item) },
                         onChecked = { onItemChecked(item) },
