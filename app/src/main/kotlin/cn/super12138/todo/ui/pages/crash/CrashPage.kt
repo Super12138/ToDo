@@ -13,7 +13,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ExitToApp
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
@@ -21,6 +20,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
@@ -28,6 +30,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
+import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,6 +40,13 @@ fun CrashPage(
     modifier: Modifier = Modifier
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val scrollState = rememberScrollState()
+    val isExpanded by remember {
+        derivedStateOf {
+            scrollState.value == 0
+        }
+    }
+
     Scaffold(
         modifier = modifier
             .fillMaxSize()
@@ -54,7 +64,7 @@ fun CrashPage(
             )
         },
         floatingActionButton = {
-            ExtendedFloatingActionButton(
+            AnimatedExtendedFloatingActionButton(
                 onClick = exitApp,
                 icon = {
                     Icon(
@@ -67,6 +77,7 @@ fun CrashPage(
                         text = stringResource(R.string.action_exit_app)
                     )
                 },
+                expanded = isExpanded
             )
         },
         contentWindowInsets = WindowInsets.safeContent
@@ -76,7 +87,7 @@ fun CrashPage(
                 .padding(innerPadding)
                 .padding(horizontal = 16.dp)
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(scrollState)
         ) {
             Spacer(Modifier.height(5.dp))
             SelectionContainer {
