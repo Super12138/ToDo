@@ -43,6 +43,7 @@ import androidx.window.core.layout.WindowWidthSizeClass
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.ui.pages.main.components.TodoFAB
+import cn.super12138.todo.ui.pages.main.components.TodoTopAppBar
 import cn.super12138.todo.ui.viewmodels.MainViewModel
 import kotlinx.coroutines.launch
 
@@ -71,10 +72,6 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
         }
     }
 
-    val animatedTopAppBarColors by animateColorAsState(
-        targetValue = if (isSelectedIdsEmpty) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.surfaceContainerHighest
-    )
-
     BackHandler(enabled = !isSelectedIdsEmpty) {
         // 当按下返回键（或进行返回操作）时清空选择
         viewModel.clearAllTodoSelection()
@@ -82,62 +79,13 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                navigationIcon = {
-                    AnimatedVisibility(!isSelectedIdsEmpty) {
-                        IconButton(onClick = { viewModel.clearAllTodoSelection() }) {
-                            Icon(
-                                imageVector = Icons.Outlined.Close,
-                                contentDescription = stringResource(R.string.tip_clear_selected_items)
-                            )
-                        }
-                    }
-                },
-                title = {
-                    Text(
-                        text = if (isSelectedIdsEmpty) {
-                            stringResource(R.string.app_name)
-                        } else {
-                            stringResource(
-                                R.string.title_selected_count,
-                                selectedTodoIds.value.size
-                            )
-                        }
-                    )
-                },
-                actions = {
-                    AnimatedContent(isSelectedIdsEmpty) { isEmpty ->
-                        if (isEmpty) {
-                            IconButton(
-                                onClick = {}
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Outlined.Settings,
-                                    contentDescription = stringResource(R.string.page_settings)
-                                )
-                            }
-                        } else {
-                            Row {
-                                IconButton(onClick = { viewModel.toggleAllSelected() }) {
-                                    Icon(
-                                        imageVector = Icons.Outlined.SelectAll,
-                                        contentDescription = stringResource(R.string.tip_select_all)
-                                    )
-                                }
-                                IconButton(onClick = { viewModel.deleteSelectedTodo() }) {
-                                    Icon(
-                                        imageVector = Icons.Outlined.Delete,
-                                        contentDescription = stringResource(R.string.action_delete)
-                                    )
-                                }
-                            }
-                        }
-                    }
-
-                },
-                colors = TopAppBarDefaults.largeTopAppBarColors().copy(
-                    containerColor = animatedTopAppBarColors
-                )
+            TodoTopAppBar(
+                selectedTodoIds = selectedTodoIds.value,
+                selectedMode = !isSelectedIdsEmpty,
+                onCancelSelect = { viewModel.clearAllTodoSelection() },
+                onSelectAll = { viewModel.toggleAllSelected() },
+                onDeleteSelectedTodo = { viewModel.deleteSelectedTodo() },
+                toSettingsPage = {}
             )
         },
         floatingActionButton = {
