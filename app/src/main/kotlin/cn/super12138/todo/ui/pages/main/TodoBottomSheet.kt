@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.logic.model.Subjects
+import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.FilterChipGroup
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,7 +56,7 @@ fun TodoBottomSheet(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = TodoDefaults.screenPadding)
                 .verticalScroll(rememberScrollState())
         ) {
             Text(

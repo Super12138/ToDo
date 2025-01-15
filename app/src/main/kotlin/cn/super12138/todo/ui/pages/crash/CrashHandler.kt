@@ -1,4 +1,5 @@
 package cn.super12138.todo.ui.pages.crash
+
 import android.content.Context
 import android.content.Intent
 import android.os.Process

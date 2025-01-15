@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.logic.model.Subjects
+import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.pages.main.components.TodoCard
 import my.nanihadesuka.compose.LazyColumnScrollbar
 import my.nanihadesuka.compose.ScrollbarSettings
@@ -42,10 +43,7 @@ fun ManagerFragment(
     ) {
         LazyColumn(
             state = state,
-            contentPadding = PaddingValues(
-                start = 10.dp,
-                end = 10.dp,
-            )
+            contentPadding = PaddingValues(horizontal = TodoDefaults.screenPadding)
         ) {
             if (list.isEmpty()) {
                 item {
