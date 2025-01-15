@@ -27,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.window.core.layout.WindowWidthSizeClass
 import cn.super12138.todo.logic.database.TodoEntity
+import cn.super12138.todo.ui.pages.main.components.TodoDeleteConfirmDialog
 import cn.super12138.todo.ui.pages.main.components.TodoFAB
 import cn.super12138.todo.ui.pages.main.components.TodoTopAppBar
 import cn.super12138.todo.ui.viewmodels.MainViewModel
@@ -45,7 +46,8 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
 
     val selectedEditTodoItem = viewModel.selectedEditTodo
     val selectedTodoIds = viewModel.selectedTodoIds.collectAsState()
-    var openBottomSheet by rememberSaveable { mutableStateOf(false) }
+    var showBottomSheet by rememberSaveable { mutableStateOf(false) }
+    var showDeleteConfirmDialog by rememberSaveable { mutableStateOf(false) }
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
 
@@ -73,7 +75,7 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                 selectedMode = !isSelectedIdsEmpty,
                 onCancelSelect = { viewModel.clearAllTodoSelection() },
                 onSelectAll = { viewModel.toggleAllSelected() },
-                onDeleteSelectedTodo = { viewModel.deleteSelectedTodo() },
+                onDeleteSelectedTodo = { showDeleteConfirmDialog = true },
                 toSettingsPage = {}
             )
         },
@@ -85,7 +87,7 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
             ) {
                 TodoFAB(
                     expanded = isExpanded,
-                    onClick = { openBottomSheet = true }
+                    onClick = { showBottomSheet = true }
                 )
             }
         },
@@ -106,7 +108,7 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                     list = filteredTodoList,
                     onItemClick = { item ->
                         if (isSelectedIdsEmpty) {
-                            openBottomSheet = true
+                            showBottomSheet = true
                             viewModel.setEditTodoItem(item)
                         } else {
                             viewModel.toggleTodoSelection(item)
@@ -148,7 +150,7 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                     list = filteredTodoList,
                     onItemClick = { item ->
                         if (isSelectedIdsEmpty) {
-                            openBottomSheet = true
+                            showBottomSheet = true
                             viewModel.setEditTodoItem(item)
                         } else {
                             viewModel.toggleTodoSelection(item)
@@ -178,11 +180,11 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
             }
         }
     }
-    if (openBottomSheet) {
+    if (showBottomSheet) {
         TodoBottomSheet(
             sheetState = bottomSheetState,
             onDismissRequest = {
-                openBottomSheet = false
+                showBottomSheet = false
                 viewModel.setEditTodoItem(null)
             },
             toDo = selectedEditTodoItem,
@@ -195,13 +197,26 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                     .launch { bottomSheetState.hide() }
                     .invokeOnCompletion {
                         if (!bottomSheetState.isVisible) {
-                            openBottomSheet = false
+                            showBottomSheet = false
                         }
                     }
             },
             onDelete = {
                 if (selectedEditTodoItem !== null) viewModel.deleteTodo(selectedEditTodoItem)
             }
+        )
+    }
+    if (showDeleteConfirmDialog) {
+        TodoDeleteConfirmDialog(
+            onConfirm = {
+                showDeleteConfirmDialog = false
+                viewModel.apply {
+                    deleteSelectedTodo()
+                    clearAllTodoSelection()
+                }
+            },
+            onDismiss = { showDeleteConfirmDialog = false },
+            deleteTodoCount = selectedTodoIds.value.size
         )
     }
 }

@@ -28,4 +28,7 @@
     <string name="tip_clear_selected_items">Clear selected items</string>
     <string name="tip_select_all">Select all</string>
     <string name="title_selected_count">%s selected</string>
+    <string name="action_confirm">Confirm</string>
+    <string name="title_warning">Warning</string>
+    <string name="tip_delete_task">You are about to delete the %s selected tasks. Once deleted, these tasks cannot be recovered. Are you sure you want to delete them?</string>
 </resources>
