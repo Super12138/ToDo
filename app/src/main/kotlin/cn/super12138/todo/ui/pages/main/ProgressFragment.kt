@@ -56,7 +56,7 @@ fun ProgressFragment(
                     )
                 )
                 Text(
-                    text = "/",
+                    text = stringResource(R.string.placeholder_divider),
                     style = MaterialTheme.typography.displayMedium.copy(
                         fontWeight = FontWeight.Bold
                     )

@@ -212,7 +212,6 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                 showDeleteConfirmDialog = false
                 viewModel.apply {
                     deleteSelectedTodo()
-                    clearAllTodoSelection()
                 }
             },
             onDismiss = { showDeleteConfirmDialog = false },
