@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -175,6 +176,7 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                     selectedTodoIds = selectedTodoIds.value,
                     modifier = Modifier
                         .weight(3f)
+                        .safeContentPadding()
                         .fillMaxSize()
                 )
             }
