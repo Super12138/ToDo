@@ -6,6 +6,8 @@ import android.view.HapticFeedbackConstants
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import cn.super12138.todo.R
@@ -58,7 +60,8 @@ class CrashActivity : ComponentActivity() {
                     exitApp = {
                         view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
                         finishAffinity()
-                    }
+                    },
+                    modifier = Modifier.fillMaxSize()
                 )
             }
         }

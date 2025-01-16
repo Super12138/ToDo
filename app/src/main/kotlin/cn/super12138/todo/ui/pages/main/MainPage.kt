@@ -9,10 +9,11 @@ import androidx.compose.animation.shrinkOut
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.exclude
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContent
-import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -98,7 +99,7 @@ fun MainPage(
                 )
             }
         },
-        contentWindowInsets = WindowInsets.safeContent,
+        contentWindowInsets = WindowInsets.safeContent.exclude(WindowInsets.ime),
         modifier = modifier
     ) { innerPadding ->
         if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT) {
