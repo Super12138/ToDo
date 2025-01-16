@@ -4,7 +4,11 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.exclude
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.safeContent
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Delete
@@ -68,7 +72,11 @@ fun TodoTopAppBar(
         actions = {
             AnimatedContent(
                 targetState = selectedMode,
-                modifier = Modifier.safeContentPadding()
+                modifier = Modifier.windowInsetsPadding(
+                    WindowInsets.safeContent.exclude(
+                        WindowInsets.ime
+                    )
+                )
             ) { inSelectedMode ->
                 if (!inSelectedMode) {
                     IconButton(
