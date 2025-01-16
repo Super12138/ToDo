@@ -8,7 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.lifecycle.viewmodel.compose.viewModel
 import cn.super12138.todo.ui.components.Konfetti
-import cn.super12138.todo.ui.navigation.ToDoNavigation
+import cn.super12138.todo.ui.navigation.TodoNavigation
 import cn.super12138.todo.ui.theme.ToDoTheme
 import cn.super12138.todo.ui.viewmodels.MainViewModel
 
@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
                 Surface(color = MaterialTheme.colorScheme.background) {
                     val mainViewModel: MainViewModel = viewModel()
                     val showConfetti = mainViewModel.showConfetti
-                    ToDoNavigation(viewModel = mainViewModel)
+                    TodoNavigation(viewModel = mainViewModel)
                     Konfetti(state = showConfetti)
                 }
             }

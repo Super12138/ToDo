@@ -41,6 +41,9 @@ android {
     kotlinOptions {
         jvmTarget = "21"
     }
+    aboutLibraries {
+        configPath = "$projectDir/licences"
+    }
     buildFeatures {
         compose = true
     }

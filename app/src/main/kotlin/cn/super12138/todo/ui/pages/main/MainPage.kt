@@ -36,7 +36,11 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
+fun MainPage(
+    viewModel: MainViewModel,
+    toSettingsPage: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     val toDoList = viewModel.toDos.collectAsState(initial = emptyList())
     val listState = rememberLazyListState()
     val isExpanded by remember {
@@ -77,7 +81,7 @@ fun MainPage(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                 onCancelSelect = { viewModel.clearAllTodoSelection() },
                 onSelectAll = { viewModel.toggleAllSelected() },
                 onDeleteSelectedTodo = { showDeleteConfirmDialog = true },
-                toSettingsPage = {}
+                toSettingsPage = toSettingsPage
             )
         },
         floatingActionButton = {
