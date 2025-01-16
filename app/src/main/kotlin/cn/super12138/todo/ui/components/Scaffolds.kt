@@ -58,7 +58,8 @@ fun LargeTopAppBarScaffold(
                 )
             }
         },
-        scrollBehavior = scrollBehavior
+        scrollBehavior = scrollBehavior,
+        contentWindowInsets = contentWindowInsets
     ) { innerPadding ->
         Box { content(innerPadding) }
     }

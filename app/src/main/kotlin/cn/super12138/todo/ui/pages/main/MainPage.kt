@@ -8,8 +8,10 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkOut
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -96,6 +98,7 @@ fun MainPage(
                 )
             }
         },
+        contentWindowInsets = WindowInsets.safeContent,
         modifier = modifier
     ) { innerPadding ->
         if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT) {
@@ -180,7 +183,6 @@ fun MainPage(
                     selectedTodoIds = selectedTodoIds.value,
                     modifier = Modifier
                         .weight(3f)
-                        .safeContentPadding()
                         .fillMaxSize()
                 )
             }
