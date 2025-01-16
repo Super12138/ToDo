@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Delete
@@ -18,8 +19,12 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import cn.super12138.todo.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -61,7 +66,10 @@ fun TodoTopAppBar(
             )
         },
         actions = {
-            AnimatedContent(selectedMode) { inSelectedMode ->
+            AnimatedContent(
+                targetState = selectedMode,
+                modifier = Modifier.safeContentPadding()
+            ) { inSelectedMode ->
                 if (!inSelectedMode) {
                     IconButton(
                         onClick = toSettingsPage
@@ -93,5 +101,19 @@ fun TodoTopAppBar(
         colors = TopAppBarDefaults.largeTopAppBarColors().copy(
             containerColor = animatedTopAppBarColors
         )
+    )
+}
+
+@Preview(locale = "zh-rCN", showBackground = true)
+@Composable
+private fun TodoTopAppBarPreview() {
+    var selectedMode by remember { mutableStateOf(false) }
+    TodoTopAppBar(
+        selectedTodoIds = (1..10).toList(),
+        selectedMode = selectedMode,
+        onCancelSelect = { selectedMode = !selectedMode },
+        onSelectAll = { },
+        onDeleteSelectedTodo = { },
+        toSettingsPage = { selectedMode = !selectedMode }
     )
 }

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -45,7 +46,8 @@ fun ManagerFragment(
     ) {
         LazyColumn(
             state = state,
-            contentPadding = PaddingValues(horizontal = TodoDefaults.screenPadding)
+            contentPadding = PaddingValues(horizontal = TodoDefaults.screenPadding),
+            modifier = Modifier.safeContentPadding()
         ) {
             if (list.isEmpty()) {
                 item {
