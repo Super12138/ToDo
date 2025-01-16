@@ -1,10 +1,11 @@
-package cn.super12138.todo.ui.pages.main
+package cn.super12138.todo.ui.pages.editor
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -14,11 +15,9 @@ import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -26,7 +25,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -36,38 +34,32 @@ import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.logic.model.Subjects
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.FilterChipGroup
+import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TodoBottomSheet(
-    sheetState: SheetState,
-    onDismissRequest: () -> Unit,
+fun TodoEditorPage(
     toDo: TodoEntity? = null,
     onSave: (TodoEntity) -> Unit,
-    onClose: () -> Unit,
     onDelete: () -> Unit,
+    onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-
-    ModalBottomSheet(
-        sheetState = sheetState,
-        onDismissRequest = onDismissRequest,
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    LargeTopAppBarScaffold(
+        title = stringResource(if (toDo != null) R.string.title_edit_task else R.string.action_add_task),
+        scrollBehavior = scrollBehavior,
+        onBack = onNavigateUp,
         modifier = modifier
-    ) {
+    ) { innerPadding ->
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
+                .padding(innerPadding)
                 .padding(horizontal = TodoDefaults.screenPadding)
+                .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            Text(
-                text = stringResource(if (toDo != null) R.string.title_edit_task else R.string.action_add_task),
-                style = MaterialTheme.typography.headlineMedium
-            )
-
-            Spacer(Modifier.size(20.dp))
-
             var text by rememberSaveable { mutableStateOf(toDo?.content ?: "") }
             var isError by rememberSaveable { mutableStateOf(false) }
             TextField(
@@ -91,6 +83,10 @@ fun TodoBottomSheet(
                 }
             }
             var selectedItemIndex by rememberSaveable { mutableIntStateOf(toDo?.subject ?: 0) }
+            Text(
+                text = stringResource(R.string.label_subject),
+                style = MaterialTheme.typography.titleMedium
+            )
             FilterChipGroup(
                 items = subjects,
                 defaultSelectedItemIndex = toDo?.subject ?: 0,
@@ -102,15 +98,12 @@ fun TodoBottomSheet(
 
             Spacer(Modifier.size(20.dp))
 
+            // 操作按钮
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                OutlinedButton(onClick = onClose) {
-                    Text(stringResource(R.string.action_cancel))
-                }
                 if (toDo !== null) {
                     FilledTonalButton(
                         onClick = {
                             onDelete()
-                            onClose()
                         },
                         colors = ButtonColors(
                             containerColor = MaterialTheme.colorScheme.errorContainer,
@@ -139,13 +132,11 @@ fun TodoBottomSheet(
                                 id = toDo?.id ?: 0
                             )
                         )
-                        onClose()
                     }
                 ) {
                     Text(stringResource(R.string.action_save))
                 }
             }
-            Spacer(Modifier.size(30.dp))
         }
     }
 }

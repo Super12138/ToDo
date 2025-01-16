@@ -15,17 +15,14 @@ import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -35,12 +32,11 @@ import cn.super12138.todo.ui.pages.main.components.TodoDeleteConfirmDialog
 import cn.super12138.todo.ui.pages.main.components.TodoFAB
 import cn.super12138.todo.ui.pages.main.components.TodoTopAppBar
 import cn.super12138.todo.ui.viewmodels.MainViewModel
-import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainPage(
     viewModel: MainViewModel,
+    toTodoEditPage: () -> Unit,
     toSettingsPage: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -52,12 +48,8 @@ fun MainPage(
         }
     }
 
-    val selectedEditTodoItem = viewModel.selectedEditTodo
     val selectedTodoIds = viewModel.selectedTodoIds.collectAsState()
-    var showBottomSheet by rememberSaveable { mutableStateOf(false) }
     var showDeleteConfirmDialog by rememberSaveable { mutableStateOf(false) }
-    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val scope = rememberCoroutineScope()
 
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
 
@@ -95,7 +87,7 @@ fun MainPage(
             ) {
                 TodoFAB(
                     expanded = isExpanded,
-                    onClick = { showBottomSheet = true }
+                    onClick = toTodoEditPage
                 )
             }
         },
@@ -117,8 +109,8 @@ fun MainPage(
                     list = filteredTodoList,
                     onItemClick = { item ->
                         if (isSelectedIdsEmpty) {
-                            showBottomSheet = true
                             viewModel.setEditTodoItem(item)
+                            toTodoEditPage()
                         } else {
                             viewModel.toggleTodoSelection(item)
                         }
@@ -159,7 +151,6 @@ fun MainPage(
                     list = filteredTodoList,
                     onItemClick = { item ->
                         if (isSelectedIdsEmpty) {
-                            showBottomSheet = true
                             viewModel.setEditTodoItem(item)
                         } else {
                             viewModel.toggleTodoSelection(item)
@@ -188,32 +179,6 @@ fun MainPage(
                 )
             }
         }
-    }
-    if (showBottomSheet) {
-        TodoBottomSheet(
-            sheetState = bottomSheetState,
-            onDismissRequest = {
-                showBottomSheet = false
-                viewModel.setEditTodoItem(null)
-            },
-            toDo = selectedEditTodoItem,
-            onSave = { toDo ->
-                viewModel.addTodo(toDo)
-            },
-            onClose = {
-                viewModel.setEditTodoItem(null)
-                scope
-                    .launch { bottomSheetState.hide() }
-                    .invokeOnCompletion {
-                        if (!bottomSheetState.isVisible) {
-                            showBottomSheet = false
-                        }
-                    }
-            },
-            onDelete = {
-                if (selectedEditTodoItem !== null) viewModel.deleteTodo(selectedEditTodoItem)
-            }
-        )
     }
     if (showDeleteConfirmDialog) {
         TodoDeleteConfirmDialog(

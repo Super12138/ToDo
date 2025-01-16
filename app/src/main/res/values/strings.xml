@@ -40,4 +40,5 @@
     <string name="pref_developer">Developer</string>
     <string name="pref_licence">Open Source Licences</string>
     <string name="pref_licence_desc">Check the open source libraries used by the application and their licences.</string>
+    <string name="label_subject">Subject</string>
 </resources>

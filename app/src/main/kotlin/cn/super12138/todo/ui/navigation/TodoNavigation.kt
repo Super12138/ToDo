@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import cn.super12138.todo.ui.pages.editor.TodoEditorPage
 import cn.super12138.todo.ui.pages.main.MainPage
 import cn.super12138.todo.ui.pages.settings.SettingsAbout
 import cn.super12138.todo.ui.pages.settings.SettingsAboutLicence
@@ -51,7 +52,29 @@ fun TodoNavigation(
         composable(TodoScreen.Main.name) {
             MainPage(
                 viewModel = viewModel,
+                toTodoEditPage = { navController.navigate(TodoScreen.TodoEditor.name) },
                 toSettingsPage = { navController.navigate(TodoScreen.SettingsMain.name) }
+            )
+        }
+
+        composable(TodoScreen.TodoEditor.name) {
+            TodoEditorPage(
+                toDo = viewModel.selectedEditTodo,
+                onSave = {
+                    viewModel.addTodo(it)
+                    navController.navigateUp()
+                },
+                onDelete = {
+                    if (viewModel.selectedEditTodo !== null) {
+                        viewModel.deleteTodo(viewModel.selectedEditTodo!!)
+                        viewModel.setEditTodoItem(null)
+                    }
+                    navController.navigateUp()
+                },
+                onNavigateUp = {
+                    viewModel.setEditTodoItem(null)
+                    navController.navigateUp()
+                }
             )
         }
 
