@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.safeContent
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
@@ -38,6 +39,8 @@ fun LargeTopAppBarScaffold(
     scrollBehavior: TopAppBarScrollBehavior,
     onBack: () -> Unit,
     snackbarHost: @Composable () -> Unit = {},
+    floatingActionButton: @Composable () -> Unit = {},
+    floatingActionButtonPosition: FabPosition = FabPosition.End,
     contentWindowInsets: WindowInsets = WindowInsets.safeContent,
     modifier: Modifier = Modifier,
     content: @Composable (PaddingValues) -> Unit
@@ -73,6 +76,8 @@ fun LargeTopAppBarScaffold(
     actions: @Composable RowScope.() -> Unit = {},
     scrollBehavior: TopAppBarScrollBehavior,
     snackbarHost: @Composable () -> Unit = {},
+    floatingActionButton: @Composable () -> Unit = {},
+    floatingActionButtonPosition: FabPosition = FabPosition.End,
     contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
     modifier: Modifier = Modifier,
     content: @Composable (PaddingValues) -> Unit
@@ -89,6 +94,8 @@ fun LargeTopAppBarScaffold(
             )
         },
         snackbarHost = snackbarHost,
+        floatingActionButton = floatingActionButton,
+        floatingActionButtonPosition = floatingActionButtonPosition,
         contentWindowInsets = contentWindowInsets
     ) { innerPadding ->
         Box { content(innerPadding) }
