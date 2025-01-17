@@ -1,6 +1,8 @@
 package cn.super12138.todo.ui.pages.editor
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,17 +11,26 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ButtonColors
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Label
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.PlainTooltip
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,13 +39,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.logic.model.Subjects
 import cn.super12138.todo.ui.TodoDefaults
+import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
 import cn.super12138.todo.ui.components.FilterChipGroup
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
+import cn.super12138.todo.ui.pages.main.components.getPriorityString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,11 +60,65 @@ fun TodoEditorPage(
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    BackHandler {
+        onNavigateUp()
+    }
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+
+    var text by rememberSaveable { mutableStateOf(toDo?.content ?: "") }
+    var isError by rememberSaveable { mutableStateOf(false) }
+    var selectedItemIndex by rememberSaveable { mutableIntStateOf(toDo?.subject ?: 0) }
+    var sliderPosition by rememberSaveable { mutableFloatStateOf(toDo?.priority ?: 0f) }
+
     LargeTopAppBarScaffold(
         title = stringResource(if (toDo != null) R.string.title_edit_task else R.string.action_add_task),
         scrollBehavior = scrollBehavior,
+        floatingActionButton = {
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                if (toDo !== null) {
+                    AnimatedExtendedFloatingActionButton(
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Outlined.Delete,
+                                contentDescription = stringResource(R.string.action_delete)
+                            )
+                        },
+                        text = { Text(stringResource(R.string.action_delete)) },
+                        expanded = true,
+                        containerColor = MaterialTheme.colorScheme.errorContainer,
+                        onClick = onDelete
+                    )
+                }
+                AnimatedExtendedFloatingActionButton(
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Outlined.Save,
+                            contentDescription = stringResource(R.string.action_save)
+                        )
+                    },
+                    text = { Text(stringResource(R.string.action_save)) },
+                    expanded = true,
+                    onClick = {
+                        if (text.trim().isEmpty()) {
+                            isError = true
+                            return@AnimatedExtendedFloatingActionButton
+                        }
+
+                        isError = false
+                        onSave(
+                            TodoEntity(
+                                content = text,
+                                subject = selectedItemIndex,
+                                isCompleted = toDo?.isCompleted ?: false,
+                                priority = sliderPosition,
+                                id = toDo?.id ?: 0
+                            )
+                        )
+                    }
+                )
+            }
+        },
         onBack = onNavigateUp,
         modifier = modifier
     ) { innerPadding ->
@@ -60,8 +129,6 @@ fun TodoEditorPage(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            var text by rememberSaveable { mutableStateOf(toDo?.content ?: "") }
-            var isError by rememberSaveable { mutableStateOf(false) }
             TextField(
                 value = text,
                 onValueChange = { text = it },
@@ -82,11 +149,13 @@ fun TodoEditorPage(
                     it.getDisplayName(context)
                 }
             }
-            var selectedItemIndex by rememberSaveable { mutableIntStateOf(toDo?.subject ?: 0) }
             Text(
                 text = stringResource(R.string.label_subject),
                 style = MaterialTheme.typography.titleMedium
             )
+
+            Spacer(Modifier.size(5.dp))
+
             FilterChipGroup(
                 items = subjects,
                 defaultSelectedItemIndex = toDo?.subject ?: 0,
@@ -96,47 +165,45 @@ fun TodoEditorPage(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Spacer(Modifier.size(20.dp))
+            Spacer(Modifier.size(10.dp))
 
-            // 操作按钮
-            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                if (toDo !== null) {
-                    FilledTonalButton(
-                        onClick = {
-                            onDelete()
+            Text(
+                text = stringResource(R.string.label_priority),
+                style = MaterialTheme.typography.titleMedium
+            )
+
+            Spacer(Modifier.size(5.dp))
+
+            val interactionSource = remember { MutableInteractionSource() }
+
+            Slider(
+                modifier = Modifier.semantics {
+                    contentDescription = context.getString(R.string.label_priority)
+                },
+                value = sliderPosition,
+                onValueChange = { sliderPosition = it },
+                valueRange = -10f..10f,
+                steps = 3,
+                interactionSource = interactionSource,
+                thumb = {
+                    Label(
+                        label = {
+                            PlainTooltip(
+                                modifier = Modifier
+                                    .sizeIn(45.dp, 25.dp)
+                                    .wrapContentWidth()
+                            ) {
+                                Text(stringResource(getPriorityString(sliderPosition)))
+                            }
                         },
-                        colors = ButtonColors(
-                            containerColor = MaterialTheme.colorScheme.errorContainer,
-                            contentColor = MaterialTheme.colorScheme.onErrorContainer,
-                            disabledContainerColor = MaterialTheme.colorScheme.onSurface,
-                            disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
+                        interactionSource = interactionSource
                     ) {
-                        Text(stringResource(R.string.action_delete))
+                        SliderDefaults.Thumb(interactionSource)
                     }
                 }
-                FilledTonalButton(
-                    onClick = {
-                        // 文本为空
-                        if (text.trim().isEmpty()) {
-                            isError = true
-                            return@FilledTonalButton
-                        }
+            )
 
-                        isError = false
-                        onSave(
-                            TodoEntity(
-                                content = text,
-                                subject = selectedItemIndex,
-                                isCompleted = toDo?.isCompleted ?: false,
-                                id = toDo?.id ?: 0
-                            )
-                        )
-                    }
-                ) {
-                    Text(stringResource(R.string.action_save))
-                }
-            }
+            Spacer(Modifier.size(40.dp))
         }
     }
 }

@@ -62,6 +62,7 @@ fun TodoNavigation(
                 toDo = viewModel.selectedEditTodo,
                 onSave = {
                     viewModel.addTodo(it)
+                    viewModel.setEditTodoItem(null)
                     navController.navigateUp()
                 },
                 onDelete = {
@@ -72,8 +73,8 @@ fun TodoNavigation(
                     navController.navigateUp()
                 },
                 onNavigateUp = {
-                    viewModel.setEditTodoItem(null)
                     navController.navigateUp()
+                    viewModel.setEditTodoItem(null)
                 }
             )
         }

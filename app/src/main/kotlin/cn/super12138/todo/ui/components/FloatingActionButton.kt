@@ -8,9 +8,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.FloatingActionButtonElevation
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 /**
@@ -28,14 +30,18 @@ import androidx.compose.ui.unit.dp
 fun AnimatedExtendedFloatingActionButton(
     icon: @Composable () -> Unit,
     text: @Composable () -> Unit,
-    elevation: FloatingActionButtonElevation = FloatingActionButtonDefaults.elevation(),
     expanded: Boolean,
+    containerColor: Color = FloatingActionButtonDefaults.containerColor,
+    contentColor: Color = contentColorFor(containerColor),
+    elevation: FloatingActionButtonElevation = FloatingActionButtonDefaults.elevation(),
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     FloatingActionButton(
         onClick = onClick,
         elevation = elevation,
+        containerColor = containerColor,
+        contentColor = contentColor,
         modifier = modifier
     ) {
         Row(

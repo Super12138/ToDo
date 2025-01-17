@@ -41,4 +41,10 @@
     <string name="pref_licence">Open Source Licences</string>
     <string name="pref_licence_desc">Check the open source libraries used by the application and their licences.</string>
     <string name="label_subject">Subject</string>
+    <string name="priority_not_urgent">Not Urgent</string>
+    <string name="priority_not_important">Not Important</string>
+    <string name="priority_default">Default</string>
+    <string name="priority_important">Important</string>
+    <string name="priority_urgent">Urgent</string>
+    <string name="label_priority">Priority</string>
 </resources>

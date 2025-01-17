@@ -56,7 +56,7 @@ fun FilterChipGroup(
                 label = {
                     Text(item)
                 },
-                modifier = Modifier.padding(horizontal = 5.dp)
+                modifier = Modifier.padding(end = 10.dp)
             )
         }
     }

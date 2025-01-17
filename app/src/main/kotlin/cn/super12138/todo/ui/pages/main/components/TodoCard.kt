@@ -26,8 +26,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 
@@ -37,10 +39,11 @@ fun TodoCard(
     content: String,
     subject: String,
     completed: Boolean,
+    priority: Float,
+    selected: Boolean,
     onCardClick: () -> Unit = {},
     onCardLongClick: () -> Unit = {},
     onChecked: () -> Unit = {},
-    selected: Boolean,
     modifier: Modifier = Modifier
 ) {
     ElevatedCard(
@@ -85,14 +88,27 @@ fun TodoCard(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
-                    modifier = Modifier.basicMarquee() // TODO: 后续评估性能影响
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .basicMarquee() // TODO: 后续评估性能影响
                 )
-                Text(
-                    text = subject,
-                    style = MaterialTheme.typography.labelMedium,
-                    textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
-                    maxLines = 1
-                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = subject,
+                        style = MaterialTheme.typography.labelMedium,
+                        textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
+                        maxLines = 1
+                    )
+
+
+                    PriorityText(
+                        priority = priority,
+                        isCompleted = completed
+                    )
+                }
             }
 
             AnimatedVisibility(!selected && !completed) {
@@ -123,4 +139,54 @@ fun TodoCard(
             }*/
         }
     }
+}
+
+@Composable
+fun PriorityText(
+    priority: Float,
+    isCompleted: Boolean,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = stringResource(getPriorityString(priority)),
+        style = MaterialTheme.typography.labelMedium.copy(
+            fontWeight = FontWeight.Bold,
+            color = when (priority) {
+                -10f -> MaterialTheme.colorScheme.outline
+                -5f -> MaterialTheme.colorScheme.onSurfaceVariant
+                0f -> MaterialTheme.colorScheme.secondary
+                5f -> MaterialTheme.colorScheme.tertiary
+                10f -> MaterialTheme.colorScheme.onErrorContainer
+                else -> MaterialTheme.colorScheme.secondary
+            }
+        ),
+        textDecoration = if (isCompleted) TextDecoration.LineThrough else TextDecoration.None,
+        maxLines = 1
+    )
+}
+
+fun getPriorityString(priority: Float): Int {
+    return when (priority) {
+        -10f -> R.string.priority_not_urgent
+        -5f -> R.string.priority_not_important
+        0f -> R.string.priority_default
+        5f -> R.string.priority_important
+        10f -> R.string.priority_urgent
+        else -> R.string.priority_default
+    }
+}
+
+@Preview(locale = "zh-rCN", showBackground = true)
+@Composable
+private fun TodoCardPreview() {
+    TodoCard(
+        content = "背《岳阳楼记》《出师表》《琵琶行》",
+        subject = "语文",
+        completed = false,
+        priority = 5f,
+        selected = false,
+        onCardClick = {},
+        onCardLongClick = {},
+        onChecked = {}
+    )
 }

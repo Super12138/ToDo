@@ -69,10 +69,11 @@ fun ManagerFragment(
                         content = item.content,
                         subject = Subjects.fromId(item.subject).getDisplayName(context),
                         completed = item.isCompleted,
+                        priority = item.priority,
+                        selected = selectedTodoIds.contains(item.id),
                         onCardClick = { onItemClick(item) },
                         onCardLongClick = { onItemLongClick(item) },
                         onChecked = { onItemChecked(item) },
-                        selected = selectedTodoIds.contains(item.id),
                         modifier = Modifier
                             .padding(vertical = 5.dp)
                             .animateItem() // TODO: 设置动画时间

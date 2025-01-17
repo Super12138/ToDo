@@ -125,6 +125,7 @@ fun MainPage(
                                     content = content,
                                     subject = subject,
                                     isCompleted = true,
+                                    priority = priority,
                                     id = id
                                 )
                             )
@@ -166,6 +167,7 @@ fun MainPage(
                                     content = content,
                                     subject = subject,
                                     isCompleted = true,
+                                    priority = priority,
                                     id = id
                                 )
                             )

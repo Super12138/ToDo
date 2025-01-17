@@ -40,4 +40,10 @@
     <string name="pref_licence">开放源代码许可</string>
     <string name="pref_licence_desc">查看应用使用的开源库及其许可</string>
     <string name="label_subject">学科</string>
+    <string name="priority_not_urgent">不紧急</string>
+    <string name="priority_not_important">不重要</string>
+    <string name="priority_default">默认</string>
+    <string name="priority_important">重要</string>
+    <string name="priority_urgent">紧急</string>
+    <string name="label_priority">优先级</string>
 </resources>
