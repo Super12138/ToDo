@@ -153,6 +153,7 @@ fun MainPage(
                     onItemClick = { item ->
                         if (isSelectedIdsEmpty) {
                             viewModel.setEditTodoItem(item)
+                            toTodoEditPage()
                         } else {
                             viewModel.toggleTodoSelection(item)
                         }
