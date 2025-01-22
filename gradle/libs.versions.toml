@@ -17,7 +17,7 @@ roomRuntime = "2.6.1"
 splashScreen = "1.2.0-alpha02"
 security = "1.1.0-alpha06"
 # Material
-material = "1.13.0-alpha09"
+material = "1.13.0-alpha10"
 # Fast Scroll
 fastScroll = "1.3.0"
 # Room Backup
