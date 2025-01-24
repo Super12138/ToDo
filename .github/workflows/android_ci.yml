@@ -26,7 +26,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Write sign info
-        if: github.event_name != 'pull_request' && github.repository == 'Super12138/ToDo'
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Super12138/ToDo'
         run: |
           if [ ! -z "${{ secrets.SIGNING_KEY }}" ]; then
             echo releaseStorePassword='${{ secrets.KEY_STORE_PASSWORD }}' >> gradle.properties
