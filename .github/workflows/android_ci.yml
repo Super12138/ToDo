@@ -40,7 +40,7 @@ jobs:
         run: ./gradlew assembleRelease
 
       - name: Upload APK
-        if: success() && github.event_name != 'pull_request' && github.repository == 'Super12138/ToDo'
+        if: success() && github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Super12138/ToDo'
         uses: actions/upload-artifact@v4.5.0
         with:
           name: Release
