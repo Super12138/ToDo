@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,13 +27,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
+import cn.super12138.todo.logic.model.Priority
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -46,6 +49,7 @@ fun TodoCard(
     onChecked: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
     ElevatedCard(
         modifier = modifier
             .fillMaxWidth()
@@ -82,33 +86,39 @@ fun TodoCard(
                     .weight(1f)
                     .fillMaxSize()
             ) {
-                Text(
-                    text = content,
-                    style = MaterialTheme.typography.titleLarge,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .basicMarquee() // TODO: 后续评估性能影响
-                )
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    modifier = Modifier.fillMaxWidth()
+                BadgedBox(
+                    badge = {
+                        Badge(
+                            containerColor = when (priority) {
+                                -10f -> MaterialTheme.colorScheme.surfaceContainerHighest
+                                -5f -> MaterialTheme.colorScheme.surfaceContainerHighest
+                                0f -> MaterialTheme.colorScheme.secondary
+                                5f -> MaterialTheme.colorScheme.tertiary
+                                10f -> MaterialTheme.colorScheme.error
+                                else -> MaterialTheme.colorScheme.secondary
+                            },
+                            modifier = Modifier.padding(start = 5.dp)
+                        ) {
+                            Text(Priority.fromFloat(priority).getDisplayName(context))
+                        }
+                    }
                 ) {
                     Text(
-                        text = subject,
-                        style = MaterialTheme.typography.labelMedium,
+                        text = content,
+                        style = MaterialTheme.typography.titleLarge,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
                         textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
-                        maxLines = 1
-                    )
-
-
-                    PriorityText(
-                        priority = priority,
-                        isCompleted = completed
+                        modifier = Modifier.basicMarquee() // TODO: 后续评估性能影响
                     )
                 }
+
+                Text(
+                    text = subject,
+                    style = MaterialTheme.typography.labelMedium,
+                    textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
+                    maxLines = 1
+                )
             }
 
             AnimatedVisibility(!selected && !completed) {
@@ -141,41 +151,6 @@ fun TodoCard(
     }
 }
 
-@Composable
-fun PriorityText(
-    priority: Float,
-    isCompleted: Boolean,
-    modifier: Modifier = Modifier
-) {
-    Text(
-        text = stringResource(getPriorityString(priority)),
-        style = MaterialTheme.typography.labelMedium.copy(
-            fontWeight = FontWeight.Bold,
-            color = when (priority) {
-                -10f -> MaterialTheme.colorScheme.outline
-                -5f -> MaterialTheme.colorScheme.onSurfaceVariant
-                0f -> MaterialTheme.colorScheme.secondary
-                5f -> MaterialTheme.colorScheme.tertiary
-                10f -> MaterialTheme.colorScheme.onErrorContainer
-                else -> MaterialTheme.colorScheme.secondary
-            }
-        ),
-        textDecoration = if (isCompleted) TextDecoration.LineThrough else TextDecoration.None,
-        maxLines = 1
-    )
-}
-
-fun getPriorityString(priority: Float): Int {
-    return when (priority) {
-        -10f -> R.string.priority_not_urgent
-        -5f -> R.string.priority_not_important
-        0f -> R.string.priority_default
-        5f -> R.string.priority_important
-        10f -> R.string.priority_urgent
-        else -> R.string.priority_default
-    }
-}
-
 @Preview(locale = "zh-rCN", showBackground = true)
 @Composable
 private fun TodoCardPreview() {
@@ -183,7 +158,7 @@ private fun TodoCardPreview() {
         content = "背《岳阳楼记》《出师表》《琵琶行》",
         subject = "语文",
         completed = false,
-        priority = 5f,
+        priority = Priority.Important.value,
         selected = false,
         onCardClick = {},
         onCardLongClick = {},

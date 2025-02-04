@@ -44,12 +44,12 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.database.TodoEntity
+import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.logic.model.Subjects
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
 import cn.super12138.todo.ui.components.FilterChipGroup
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
-import cn.super12138.todo.ui.pages.main.components.getPriorityString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -193,7 +193,7 @@ fun TodoEditorPage(
                                     .sizeIn(45.dp, 25.dp)
                                     .wrapContentWidth()
                             ) {
-                                Text(stringResource(getPriorityString(sliderPosition)))
+                                Text(Priority.fromFloat(sliderPosition).getDisplayName(context))
                             }
                         },
                         interactionSource = interactionSource
