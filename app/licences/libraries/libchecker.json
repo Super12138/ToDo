@@ -1,0 +1,16 @@
+{
+  "uniqueId": "com.absinthe.libchecker:2.5.0",
+  "artifactVersion": "2.5.0",
+  "name": "LibChecker",
+  "developers": [
+    {
+      "name": "LibChecker"
+    }
+  ],
+  "description": "An app to view libraries used in apps in your device.",
+  "website": "https://github.com/LibChecker/LibChecker",
+  "tag": "custom",
+  "licenses": [
+    "Apache-2.0"
+  ]
+}

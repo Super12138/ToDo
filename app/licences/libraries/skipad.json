@@ -1,0 +1,13 @@
+{
+  "uniqueId": "com.github.crayonxiaoxin.abc:1.0.1",
+  "artifactVersion": "1.0.1",
+  "name": "SkipAD",
+  "developers": [
+    {
+      "name": "crayonxiaoxin"
+    }
+  ],
+  "description": "Android无障碍跳过开屏广告",
+  "website": "https://github.com/crayonxiaoxin/SkipAD",
+  "tag": "custom"
+}
