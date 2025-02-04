@@ -10,21 +10,43 @@ ksp {
     arg("room.schemaLocation", "$projectDir/schemas")
 }
 
+// 配置版本信息
+val baseVersionName = "compose-refactor"
+val commitHash by lazy { "git rev-parse --short HEAD".exec() }
+val verCode by lazy { "git rev-list --count HEAD".exec().toInt() }
+
 android {
     namespace = "cn.super12138.todo"
     compileSdk = 35
+
+    // 获取 Release 签名
+    val releaseSigning = if (project.hasProperty("releaseStoreFile")) {
+        signingConfigs.create("release") {
+            storeFile = File(project.properties["releaseStoreFile"] as String)
+            storePassword = project.properties["releaseStorePassword"] as String
+            keyAlias = project.properties["releaseKeyAlias"] as String
+            keyPassword = project.properties["releaseKeyPassword"] as String
+        }
+    } else {
+        signingConfigs.getByName("debug")
+    }
 
     defaultConfig {
         applicationId = "cn.super12138.todo"
         minSdk = 24
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = verCode
+        versionName = "${baseVersionName}-${commitHash}"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        base.archivesName.set("todo-${baseVersionName}")
     }
 
     buildTypes {
+        all {
+            signingConfig = releaseSigning
+        }
         release {
             isMinifyEnabled = true
             isShrinkResources = true
@@ -97,3 +119,10 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
+
+// 命令执行工具类
+fun String.exec(): String = exec(this)
+
+fun Project.exec(command: String): String = providers.exec {
+    commandLine(command.split(" "))
+}.standardOutput.asText.get().trim()
