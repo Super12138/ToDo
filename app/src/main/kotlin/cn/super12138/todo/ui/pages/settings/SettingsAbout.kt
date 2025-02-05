@@ -1,5 +1,7 @@
 package cn.super12138.todo.ui.pages.settings
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,6 +19,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import cn.super12138.todo.R
+import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
 import cn.super12138.todo.ui.pages.settings.components.SettingsItem
 import cn.super12138.todo.utils.getAppVersion
@@ -45,14 +48,16 @@ fun SettingsAbout(
             SettingsItem(
                 leadingIcon = Icons.Outlined.Numbers,
                 title = stringResource(R.string.pref_app_version),
-                description = getAppVersion(context),
-                enableClick = false
+                description = getAppVersion(context)
             )
             SettingsItem(
                 leadingIcon = Icons.Outlined.Person4,
                 title = stringResource(R.string.pref_developer),
                 description = stringResource(R.string.developer_name),
-                enableClick = false
+                onClick = {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(Constants.DEVELOPER_GITHUB))
+                    context.startActivity(intent)
+                }
             )
             SettingsItem(
                 leadingIcon = Icons.Outlined.Balance,

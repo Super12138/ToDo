@@ -1,6 +1,9 @@
 package cn.super12138.todo.constants
 
 object Constants {
+    const val DEVELOPER_GITHUB = "https://github.com/Super12138/"
+    const val GITHUB_REPO = "https://github.com/Super12138/ToDo/"
+
     const val SP_NAME = "cn.super12138.todo_preferences"
 
     const val PREF_DYNAMIC_COLOR = "dynamic_color"
