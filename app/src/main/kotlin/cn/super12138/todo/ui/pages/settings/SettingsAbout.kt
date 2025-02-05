@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
+import cn.super12138.todo.ui.icons.GithubIcon
 import cn.super12138.todo.ui.pages.settings.components.SettingsItem
 import cn.super12138.todo.utils.getAppVersion
 
@@ -56,6 +57,15 @@ fun SettingsAbout(
                 description = stringResource(R.string.developer_name),
                 onClick = {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(Constants.DEVELOPER_GITHUB))
+                    context.startActivity(intent)
+                }
+            )
+            SettingsItem(
+                leadingIcon = GithubIcon,
+                title = stringResource(R.string.pref_view_on_github),
+                description = stringResource(R.string.pref_view_on_github_desc),
+                onClick = {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(Constants.GITHUB_REPO))
                     context.startActivity(intent)
                 }
             )

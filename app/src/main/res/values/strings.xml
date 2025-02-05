@@ -80,4 +80,6 @@
     <string name="pref_show_completed">Show Completed Tasks</string>
     <string name="pref_show_completed_desc">Show completed tasks in to-do list</string>
     <string name="pref_category_todo_list">To-Do List</string>
+    <string name="pref_view_on_github">View On GitHub</string>
+    <string name="pref_view_on_github_desc">View source code, submit bug reports, and improvement suggestions</string>
 </resources>

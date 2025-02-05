@@ -79,4 +79,6 @@
     <string name="pref_show_completed">显示已完成待办</string>
     <string name="pref_show_completed_desc">在待办列表里显示已完成的待办</string>
     <string name="pref_category_todo_list">待办列表</string>
+    <string name="pref_view_on_github">在 GitHub 上查看</string>
+    <string name="pref_view_on_github_desc">查看源代码、提交错误报告和改进建议</string>
 </resources>
