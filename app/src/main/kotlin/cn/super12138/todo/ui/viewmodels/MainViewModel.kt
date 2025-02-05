@@ -20,9 +20,10 @@ import kotlinx.coroutines.launch
 class MainViewModel : ViewModel() {
     // 待办
     val toDos: Flow<List<TodoEntity>> = Repository.getAllTodos()
+    val showConfetti = mutableStateOf(false)
     var selectedEditTodo by mutableStateOf<TodoEntity?>(null)
         private set
-    val showConfetti = mutableStateOf(false)
+    var showCompletedTodos by mutableStateOf(GlobalValues.showCompleted)
 
     // 深色模式
     var appDarkMode by mutableStateOf(DarkMode.fromId(GlobalValues.darkMode))
@@ -118,11 +119,18 @@ class MainViewModel : ViewModel() {
         showConfetti.value = true
     }
 
+    /**
+     * 应用设置
+     */
     fun setDarkMode(darkMode: DarkMode) {
         appDarkMode = darkMode
     }
 
     fun setContrastLevel(contrastLevel: ContrastLevel) {
         appContrastLevel = contrastLevel
+    }
+
+    fun setShowCompleted(show: Boolean) {
+        showCompletedTodos = show
     }
 }

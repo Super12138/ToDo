@@ -19,4 +19,8 @@ object GlobalValues {
         Constants.PREF_CONTRAST_LEVEL,
         Constants.PREF_CONTRAST_LEVEL_DEFAULT
     )
+    var showCompleted: Boolean by SPDelegates(
+        Constants.PREF_SHOW_COMPLETED,
+        Constants.PREF_SHOW_COMPLETED_DEFAULT
+    )
 }

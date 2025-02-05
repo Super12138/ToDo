@@ -73,4 +73,10 @@
     <string name="contrast_default">默认</string>
     <string name="contrast_medium">中</string>
     <string name="contrast_high">高</string>
+    <string name="tip_change_contrast_level">更改颜色对比度</string>
+    <string name="pref_interface">界面</string>
+    <string name="pref_interface_desc">待办列表、排序方式</string>
+    <string name="pref_show_completed">显示已完成待办</string>
+    <string name="pref_show_completed_desc">在待办列表里显示已完成的待办</string>
+    <string name="pref_category_todo_list">待办列表</string>
 </resources>

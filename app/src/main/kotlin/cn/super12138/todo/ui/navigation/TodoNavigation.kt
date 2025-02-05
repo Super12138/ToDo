@@ -11,6 +11,7 @@ import cn.super12138.todo.ui.pages.main.MainPage
 import cn.super12138.todo.ui.pages.settings.SettingsAbout
 import cn.super12138.todo.ui.pages.settings.SettingsAboutLicence
 import cn.super12138.todo.ui.pages.settings.SettingsAppearance
+import cn.super12138.todo.ui.pages.settings.SettingsInterface
 import cn.super12138.todo.ui.pages.settings.SettingsMain
 import cn.super12138.todo.ui.theme.materialSharedAxisXIn
 import cn.super12138.todo.ui.theme.materialSharedAxisXOut
@@ -82,14 +83,22 @@ fun TodoNavigation(
 
         composable(TodoScreen.SettingsMain.name) {
             SettingsMain(
-                onNavigateUp = { navController.navigateUp() },
                 toAppearancePage = { navController.navigate(TodoScreen.SettingsAppearance.name) },
-                toAboutPage = { navController.navigate(TodoScreen.SettingsAbout.name) }
+                toAboutPage = { navController.navigate(TodoScreen.SettingsAbout.name) },
+                toInterfacePage = { navController.navigate(TodoScreen.SettingsInterface.name) },
+                onNavigateUp = { navController.navigateUp() },
             )
         }
 
         composable(TodoScreen.SettingsAppearance.name) {
             SettingsAppearance(
+                viewModel = viewModel,
+                onNavigateUp = { navController.navigateUp() }
+            )
+        }
+
+        composable(TodoScreen.SettingsInterface.name) {
+            SettingsInterface(
                 viewModel = viewModel,
                 onNavigateUp = { navController.navigateUp() }
             )

@@ -59,7 +59,7 @@ fun MainPage(
         }
     }
 
-    val showCompleted = true // 后续替换成用户设置
+    val showCompleted = viewModel.showCompletedTodos
     val filteredTodoList =
         if (showCompleted) toDoList.value else toDoList.value.filter { item -> !item.isCompleted }
 
