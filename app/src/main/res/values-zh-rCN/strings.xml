@@ -51,6 +51,7 @@
     <string name="pref_appearance_dynamic_color">动态配色</string>
     <string name="pref_appearance_dynamic_color_desc">使用系统壁纸的主题颜色，仅在 Android 12+ 上生效</string>
     <string name="pref_palette_style">主题样式</string>
+    <string name="pref_palette_style_desc">选择应用主题色的配色方式</string>
     <string name="palette_tonal_spot">色调点</string>
     <string name="palette_neutral">中性</string>
     <string name="palette_vibrant">鲜艳</string>

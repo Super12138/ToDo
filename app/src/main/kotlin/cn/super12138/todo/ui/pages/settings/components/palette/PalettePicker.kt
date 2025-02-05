@@ -31,6 +31,7 @@ fun PalettePicker(
 
     RowSettingsItem(
         title = stringResource(R.string.pref_palette_style),
+        description = stringResource(R.string.pref_palette_style_desc),
         horizontalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         items(items = paletteOptions, key = { it.id }) { paletteStyle ->

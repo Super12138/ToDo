@@ -52,6 +52,7 @@
     <string name="pref_appearance_dynamic_color">Dynamic Color</string>
     <string name="pref_appearance_dynamic_color_desc">Use the system wallpaper\'s theme color, available on Android 12+</string>
     <string name="pref_palette_style">Palette Style</string>
+    <string name="pref_palette_style_desc">Choose the color scheme method for applying the theme color</string>
     <string name="palette_tonal_spot">Tonal Spot</string>
     <string name="palette_neutral">Neutral</string>
     <string name="palette_vibrant">Vibrant</string>
