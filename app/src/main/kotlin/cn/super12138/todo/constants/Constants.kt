@@ -8,4 +8,7 @@ object Constants {
 
     const val PREF_PALETTE_STYLE = "palette_style"
     const val PREF_PALETTE_STYLE_DEFAULT = 1 // TonalSpot
+
+    const val PREF_DARK_MODE = "dark_mode"
+    const val PREF_DARK_MODE_DEFAULT = 1 // Follow System
 }

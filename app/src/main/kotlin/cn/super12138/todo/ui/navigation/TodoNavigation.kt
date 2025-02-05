@@ -90,6 +90,7 @@ fun TodoNavigation(
 
         composable(TodoScreen.SettingsAppearance.name) {
             SettingsAppearance(
+                viewModel = viewModel,
                 onNavigateUp = { navController.navigateUp() }
             )
         }

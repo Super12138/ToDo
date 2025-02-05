@@ -11,4 +11,8 @@ object GlobalValues {
         Constants.PREF_PALETTE_STYLE,
         Constants.PREF_PALETTE_STYLE_DEFAULT
     )
+    var darkMode: Int by SPDelegates(
+        Constants.PREF_DARK_MODE,
+        Constants.PREF_DARK_MODE_DEFAULT
+    )
 }

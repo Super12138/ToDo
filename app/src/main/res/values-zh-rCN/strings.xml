@@ -61,4 +61,9 @@
     <string name="palette_monochrome">单色</string>
     <string name="palette_fidelity">高保真</string>
     <string name="palette_content">内容</string>
+    <string name="pref_dark_mode">深色模式</string>
+    <string name="pref_dark_mode_desc">开启或关闭应用深色模式</string>
+    <string name="dark_mode_system">跟随系统</string>
+    <string name="dark_mode_light">浅色模式</string>
+    <string name="dark_mode_dark">深色模式</string>
 </resources>

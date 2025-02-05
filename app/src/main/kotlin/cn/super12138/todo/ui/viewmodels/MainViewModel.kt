@@ -5,8 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import cn.super12138.todo.constants.GlobalValues
 import cn.super12138.todo.logic.Repository
 import cn.super12138.todo.logic.database.TodoEntity
+import cn.super12138.todo.logic.model.DarkMode
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,6 +22,10 @@ class MainViewModel : ViewModel() {
     var selectedEditTodo by mutableStateOf<TodoEntity?>(null)
         private set
     val showConfetti = mutableStateOf(false)
+
+    // 深色模式
+    var appDarkMode by mutableStateOf(DarkMode.fromId(GlobalValues.darkMode))
+        private set
 
     // 多选逻辑参考：https://github.com/X1nto/Mauth
     private val _selectedTodoIds = MutableStateFlow(listOf<Int>())
@@ -107,5 +113,9 @@ class MainViewModel : ViewModel() {
 
     fun playConfetti() {
         showConfetti.value = true
+    }
+
+    fun setDarkMode(darkMode: DarkMode) {
+        appDarkMode = darkMode
     }
 }
