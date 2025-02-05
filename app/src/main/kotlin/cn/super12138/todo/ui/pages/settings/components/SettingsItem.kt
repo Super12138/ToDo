@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun DefaultSettingsItem(
+fun SettingsItem(
     leadingIcon: ImageVector? = null,
     title: String,
     description: String? = null,
@@ -28,7 +28,7 @@ fun DefaultSettingsItem(
     onClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    DefaultSettingsItem(
+    SettingsItem(
         leadingIcon = leadingIcon,
         title = title,
         description = description,
@@ -40,7 +40,7 @@ fun DefaultSettingsItem(
 }
 
 @Composable
-fun DefaultSettingsItem(
+fun SettingsItem(
     leadingIcon: ImageVector? = null,
     title: String,
     description: String? = null,
@@ -49,7 +49,7 @@ fun DefaultSettingsItem(
     onClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    DefaultSettingsItem(
+    SettingsItem(
         leadingIcon = {
             leadingIcon?.let {
                 Icon(
@@ -70,7 +70,7 @@ fun DefaultSettingsItem(
 }
 
 @Composable
-fun DefaultSettingsItem(
+fun SettingsItem(
     leadingIcon: (@Composable () -> Unit)? = null,
     title: String,
     description: String? = null,

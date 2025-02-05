@@ -4,17 +4,24 @@ import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import cn.super12138.todo.constants.GlobalValues
+
+var isDynamicColorEnable by mutableStateOf(GlobalValues.dynamicColor)
+var appPaletteStyle by mutableStateOf(PaletteStyle.fromId(GlobalValues.paletteStyle))
 
 @Composable
 fun ToDoTheme(
     color: Color? = null,
     darkTheme: Boolean = isSystemInDarkTheme(),
-    style: PaletteStyle = PaletteStyle.TonalSpot,
+    style: PaletteStyle = appPaletteStyle,
     contrastLevel: Double = 0.0,
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = isDynamicColorEnable,
     content: @Composable () -> Unit
 ) {
     val baseColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && dynamicColor) {

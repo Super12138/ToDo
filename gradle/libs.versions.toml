@@ -2,8 +2,8 @@
 # Android X
 coreKtx = "1.15.0"
 splashScreen = "1.2.0-alpha02"
-# security = "1.1.0-alpha06"
 lifecycleRuntimeKtx = "2.8.7"
+# security = "1.1.0-alpha06"
 # Compose
 activityCompose = "1.9.3"
 composeBom = "2024.12.01"

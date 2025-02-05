@@ -14,7 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import cn.super12138.todo.R
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
-import cn.super12138.todo.ui.pages.settings.components.DefaultSettingsItem
+import cn.super12138.todo.ui.pages.settings.components.SettingsItem
 import cn.super12138.todo.utils.getAppVersion
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -29,8 +29,7 @@ fun SettingsAbout(
         title = stringResource(R.string.pref_about),
         onBack = onNavigateUp,
         scrollBehavior = scrollBehavior,
-        modifier = modifier
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
     ) { innerPadding ->
         val context = LocalContext.current
         Column(
@@ -39,17 +38,17 @@ fun SettingsAbout(
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
         ) {
-            DefaultSettingsItem(
+            SettingsItem(
                 title = stringResource(R.string.pref_app_version),
                 description = getAppVersion(context),
                 enableClick = false
             )
-            DefaultSettingsItem(
+            SettingsItem(
                 title = stringResource(R.string.pref_developer),
                 description = stringResource(R.string.developer_name),
                 enableClick = false
             )
-            DefaultSettingsItem(
+            SettingsItem(
                 title = stringResource(R.string.pref_licence),
                 description = stringResource(R.string.pref_licence_desc),
                 onClick = toLicencePage

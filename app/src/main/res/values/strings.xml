@@ -47,4 +47,18 @@
     <string name="priority_important">Important</string>
     <string name="priority_urgent">Urgent</string>
     <string name="label_priority">Priority</string>
+    <string name="pref_appearance">Appearance</string>
+    <string name="pref_appearance_desc">Theme, color style</string>
+    <string name="pref_appearance_dynamic_color">Dynamic Color</string>
+    <string name="pref_appearance_dynamic_color_desc">Use the system wallpaper\'s theme color, available on Android 12+</string>
+    <string name="pref_palette_style">Palette Style</string>
+    <string name="palette_tonal_spot">Tonal Spot</string>
+    <string name="palette_neutral">Neutral</string>
+    <string name="palette_vibrant">Vibrant</string>
+    <string name="palette_expressive">Expressive</string>
+    <string name="palette_rainbow">Rainbow</string>
+    <string name="palette_fruit_salad">Fruit Salad</string>
+    <string name="palette_monochrome">Monochrome</string>
+    <string name="palette_fidelity">Fidelity</string>
+    <string name="palette_content">Content</string>
 </resources>
