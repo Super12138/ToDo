@@ -5,6 +5,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Balance
+import androidx.compose.material.icons.outlined.Numbers
+import androidx.compose.material.icons.outlined.Person4
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -39,16 +43,19 @@ fun SettingsAbout(
                 .verticalScroll(rememberScrollState())
         ) {
             SettingsItem(
+                leadingIcon = Icons.Outlined.Numbers,
                 title = stringResource(R.string.pref_app_version),
                 description = getAppVersion(context),
                 enableClick = false
             )
             SettingsItem(
+                leadingIcon = Icons.Outlined.Person4,
                 title = stringResource(R.string.pref_developer),
                 description = stringResource(R.string.developer_name),
                 enableClick = false
             )
             SettingsItem(
+                leadingIcon = Icons.Outlined.Balance,
                 title = stringResource(R.string.pref_licence),
                 description = stringResource(R.string.pref_licence_desc),
                 onClick = toLicencePage
