@@ -39,7 +39,6 @@ fun PaletteItem(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    // 单个主题最外层布局
     Column(
         modifier = Modifier
             .width(90.dp)
