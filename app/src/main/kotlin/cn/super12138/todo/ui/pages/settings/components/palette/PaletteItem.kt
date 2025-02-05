@@ -56,7 +56,7 @@ fun PaletteItem(
                 keyColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && GlobalValues.dynamicColor) {
                     colorResource(id = android.R.color.system_accent1_500)
                 } else {
-                    Color(0xFFFF0000)
+                    Color(0xFF0061A4)
                 },
                 isDark = isSystemInDarkTheme(),
                 style = paletteStyle
