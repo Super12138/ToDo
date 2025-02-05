@@ -11,12 +11,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
+import cn.super12138.todo.logic.model.ContrastLevel
 import cn.super12138.todo.ui.pages.settings.components.RowSettingsItem
 import cn.super12138.todo.ui.pages.settings.state.rememberPrefIntState
 import cn.super12138.todo.ui.theme.PaletteStyle
 
 @Composable
 fun PalettePicker(
+    contrastLevel: ContrastLevel,
     onPaletteChange: (paletteStyle: PaletteStyle) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -38,6 +40,7 @@ fun PalettePicker(
             PaletteItem(
                 paletteStyle = paletteStyle,
                 selected = PaletteStyle.fromId(paletteState) == paletteStyle,
+                contrastLevel = contrastLevel,
                 onSelect = {
                     paletteState = paletteStyle.id
                     onPaletteChange(paletteStyle)

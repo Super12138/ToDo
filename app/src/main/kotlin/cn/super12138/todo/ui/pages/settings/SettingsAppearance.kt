@@ -17,6 +17,7 @@ import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
 import cn.super12138.todo.ui.pages.settings.components.SwitchSettingsItem
+import cn.super12138.todo.ui.pages.settings.components.contrast.ContrastPicker
 import cn.super12138.todo.ui.pages.settings.components.darkmode.DarkModePicker
 import cn.super12138.todo.ui.pages.settings.components.palette.PalettePicker
 import cn.super12138.todo.ui.theme.appPaletteStyle
@@ -45,7 +46,12 @@ fun SettingsAppearance(
         ) {
             DarkModePicker(onDarkModeChange = { viewModel.setDarkMode(it) })
 
-            PalettePicker(onPaletteChange = { appPaletteStyle = it })
+            PalettePicker(
+                contrastLevel = viewModel.appContrastLevel,
+                onPaletteChange = { appPaletteStyle = it }
+            )
+
+            ContrastPicker(onContrastChange = { viewModel.setContrastLevel(it) })
 
             SwitchSettingsItem(
                 key = Constants.PREF_DYNAMIC_COLOR,

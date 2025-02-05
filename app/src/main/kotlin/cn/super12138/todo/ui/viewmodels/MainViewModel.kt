@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import cn.super12138.todo.constants.GlobalValues
 import cn.super12138.todo.logic.Repository
 import cn.super12138.todo.logic.database.TodoEntity
+import cn.super12138.todo.logic.model.ContrastLevel
 import cn.super12138.todo.logic.model.DarkMode
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,6 +26,8 @@ class MainViewModel : ViewModel() {
 
     // 深色模式
     var appDarkMode by mutableStateOf(DarkMode.fromId(GlobalValues.darkMode))
+        private set
+    var appContrastLevel by mutableStateOf(ContrastLevel.fromFloat(GlobalValues.contrastLevel))
         private set
 
     // 多选逻辑参考：https://github.com/X1nto/Mauth
@@ -117,5 +120,9 @@ class MainViewModel : ViewModel() {
 
     fun setDarkMode(darkMode: DarkMode) {
         appDarkMode = darkMode
+    }
+
+    fun setContrastLevel(contrastLevel: ContrastLevel) {
+        appContrastLevel = contrastLevel
     }
 }

@@ -27,11 +27,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             val mainViewModel: MainViewModel = viewModel()
             val showConfetti = mainViewModel.showConfetti
+            // 深色模式
             val darkTheme = when (mainViewModel.appDarkMode) {
                 FollowSystem -> isSystemInDarkTheme()
                 Light -> false
                 Dark -> true
             }
+            // 配置状态栏和底部导航栏的颜色（在用户切换深色模式时）
             // https://github.com/dn0ne/lotus/blob/master/app/src/main/java/com/dn0ne/player/MainActivity.kt#L266
             LaunchedEffect(mainViewModel.appDarkMode) {
                 WindowCompat.getInsetsController(window, window.decorView).apply {
@@ -39,7 +41,11 @@ class MainActivity : ComponentActivity() {
                     isAppearanceLightNavigationBars = !darkTheme
                 }
             }
-            ToDoTheme(darkTheme = darkTheme) {
+
+            ToDoTheme(
+                darkTheme = darkTheme,
+                contrastLevel = mainViewModel.appContrastLevel.value.toDouble()
+            ) {
                 Surface(color = MaterialTheme.colorScheme.background) {
                     TodoNavigation(
                         viewModel = mainViewModel,

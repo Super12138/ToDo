@@ -67,4 +67,12 @@
     <string name="dark_mode_system">Follow System</string>
     <string name="dark_mode_light">Light</string>
     <string name="dark_mode_dark">Dark</string>
+    <string name="pref_contrast_level">Contrast Level</string>
+    <string name="pref_contrast_level_desc">Change the app\'s color contrast</string>
+    <string name="contrast_very_low">Very Low</string>
+    <string name="contrast_low">Low</string>
+    <string name="contrast_default">Default</string>
+    <string name="contrast_medium">Medium</string>
+    <string name="contrast_high">High</string>
+    <string name="tip_change_contrast_level">Change the contrast level</string>
 </resources>

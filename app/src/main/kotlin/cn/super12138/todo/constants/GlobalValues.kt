@@ -15,4 +15,8 @@ object GlobalValues {
         Constants.PREF_DARK_MODE,
         Constants.PREF_DARK_MODE_DEFAULT
     )
+    var contrastLevel: Float by SPDelegates(
+        Constants.PREF_CONTRAST_LEVEL,
+        Constants.PREF_CONTRAST_LEVEL_DEFAULT
+    )
 }

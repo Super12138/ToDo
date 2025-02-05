@@ -1,8 +1,10 @@
 package cn.super12138.todo.ui.pages.settings.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.gestures.ScrollableDefaults
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -41,6 +43,34 @@ fun RowSettingsItem(
     userScrollEnabled: Boolean = true,
     content: LazyListScope.() -> Unit
 ) {
+    MoreContentSettingsItem(
+        title = title,
+        description = description,
+        shape = shape,
+        modifier = modifier
+    ) {
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            state = state,
+            contentPadding = contentPadding,
+            reverseLayout = reverseLayout,
+            horizontalArrangement = horizontalArrangement,
+            verticalAlignment = verticalAlignment,
+            flingBehavior = flingBehavior,
+            userScrollEnabled = userScrollEnabled,
+            content = content
+        )
+    }
+}
+
+@Composable
+fun MoreContentSettingsItem(
+    title: String,
+    description: String? = null,
+    shape: Shape = MaterialTheme.shapes.large,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -70,16 +100,12 @@ fun RowSettingsItem(
 
         Spacer(Modifier.size(8.dp))
 
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            state = state,
-            contentPadding = contentPadding,
-            reverseLayout = reverseLayout,
-            horizontalArrangement = horizontalArrangement,
-            verticalAlignment = verticalAlignment,
-            flingBehavior = flingBehavior,
-            userScrollEnabled = userScrollEnabled,
-            content = content
-        )
+        /*Box(
+            Modifier
+                .fillMaxWidth()
+                .clip(MaterialTheme.shapes.large)
+                .background(MaterialTheme.colorScheme.surfaceContainer)
+        ) {*/
+        content()
     }
 }

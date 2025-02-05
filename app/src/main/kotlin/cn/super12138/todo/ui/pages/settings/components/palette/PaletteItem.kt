@@ -28,12 +28,14 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
 import cn.super12138.todo.constants.GlobalValues
+import cn.super12138.todo.logic.model.ContrastLevel
 import cn.super12138.todo.ui.theme.PaletteStyle
 import cn.super12138.todo.ui.theme.dynamicColorScheme
 
 @Composable
 fun PaletteItem(
     paletteStyle: PaletteStyle,
+    contrastLevel: ContrastLevel,
     selected: Boolean,
     onSelect: () -> Unit,
     modifier: Modifier = Modifier
@@ -58,6 +60,7 @@ fun PaletteItem(
                     Color(0xFF0061A4)
                 },
                 isDark = isSystemInDarkTheme(),
+                contrastLevel = contrastLevel.value.toDouble(),
                 style = paletteStyle
             )
         ) {

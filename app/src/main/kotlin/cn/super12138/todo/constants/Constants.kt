@@ -11,4 +11,7 @@ object Constants {
 
     const val PREF_DARK_MODE = "dark_mode"
     const val PREF_DARK_MODE_DEFAULT = 1 // Follow System
+
+    const val PREF_CONTRAST_LEVEL = "contrast_level"
+    const val PREF_CONTRAST_LEVEL_DEFAULT = 0f // Normal
 }
