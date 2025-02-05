@@ -2,6 +2,9 @@ package cn.super12138.todo.ui.pages.main
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.expandIn
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -27,17 +30,21 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.window.core.layout.WindowWidthSizeClass
+import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.ui.pages.main.components.TodoDeleteConfirmDialog
 import cn.super12138.todo.ui.pages.main.components.TodoFAB
 import cn.super12138.todo.ui.pages.main.components.TodoTopAppBar
 import cn.super12138.todo.ui.viewmodels.MainViewModel
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun MainPage(
     viewModel: MainViewModel,
     toTodoEditPage: () -> Unit,
     toSettingsPage: () -> Unit,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     modifier: Modifier = Modifier
 ) {
     val toDoList = viewModel.toDos.collectAsState(initial = emptyList())
@@ -80,15 +87,21 @@ fun MainPage(
             )
         },
         floatingActionButton = {
-            AnimatedVisibility(
-                visible = isSelectedIdsEmpty,
-                enter = fadeIn() + expandIn(),
-                exit = shrinkOut() + fadeOut()
-            ) {
-                TodoFAB(
-                    expanded = isExpanded,
-                    onClick = toTodoEditPage
-                )
+            with(sharedTransitionScope) {
+                AnimatedVisibility(
+                    visible = isSelectedIdsEmpty,
+                    enter = fadeIn() + expandIn(),
+                    exit = shrinkOut() + fadeOut()
+                ) {
+                    TodoFAB(
+                        expanded = isExpanded,
+                        onClick = toTodoEditPage,
+                        modifier = Modifier.sharedElement(
+                            state = rememberSharedContentState(key = Constants.KEY_TODO_FAB_TRANSITION),
+                            animatedVisibilityScope = animatedVisibilityScope
+                        )
+                    )
+                }
             }
         },
         contentWindowInsets = WindowInsets.safeContent.exclude(WindowInsets.ime),

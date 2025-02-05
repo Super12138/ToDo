@@ -2,6 +2,9 @@ package cn.super12138.todo.ui.pages.editor
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -43,6 +46,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
+import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.logic.model.Subjects
@@ -51,13 +55,15 @@ import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
 import cn.super12138.todo.ui.components.FilterChipGroup
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
 @Composable
 fun TodoEditorPage(
     toDo: TodoEntity? = null,
     onSave: (TodoEntity) -> Unit,
     onDelete: () -> Unit,
     onNavigateUp: () -> Unit,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     modifier: Modifier = Modifier
 ) {
     BackHandler {
@@ -75,48 +81,54 @@ fun TodoEditorPage(
         title = stringResource(if (toDo != null) R.string.title_edit_task else R.string.action_add_task),
         scrollBehavior = scrollBehavior,
         floatingActionButton = {
-            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                if (toDo !== null) {
+            with(sharedTransitionScope) {
+                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    if (toDo !== null) {
+                        AnimatedExtendedFloatingActionButton(
+                            icon = {
+                                Icon(
+                                    imageVector = Icons.Outlined.Delete,
+                                    contentDescription = stringResource(R.string.action_delete)
+                                )
+                            },
+                            text = { Text(stringResource(R.string.action_delete)) },
+                            expanded = true,
+                            containerColor = MaterialTheme.colorScheme.errorContainer,
+                            onClick = onDelete
+                        )
+                    }
                     AnimatedExtendedFloatingActionButton(
                         icon = {
                             Icon(
-                                imageVector = Icons.Outlined.Delete,
-                                contentDescription = stringResource(R.string.action_delete)
+                                imageVector = Icons.Outlined.Save,
+                                contentDescription = stringResource(R.string.action_save)
                             )
                         },
-                        text = { Text(stringResource(R.string.action_delete)) },
+                        text = { Text(stringResource(R.string.action_save)) },
                         expanded = true,
-                        containerColor = MaterialTheme.colorScheme.errorContainer,
-                        onClick = onDelete
+                        onClick = {
+                            if (text.trim().isEmpty()) {
+                                isError = true
+                                return@AnimatedExtendedFloatingActionButton
+                            }
+
+                            isError = false
+                            onSave(
+                                TodoEntity(
+                                    content = text,
+                                    subject = selectedItemIndex,
+                                    isCompleted = toDo?.isCompleted ?: false,
+                                    priority = sliderPosition,
+                                    id = toDo?.id ?: 0
+                                )
+                            )
+                        },
+                        modifier = Modifier.sharedElement(
+                            state = rememberSharedContentState(key = Constants.KEY_TODO_FAB_TRANSITION),
+                            animatedVisibilityScope = animatedVisibilityScope
+                        )
                     )
                 }
-                AnimatedExtendedFloatingActionButton(
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Outlined.Save,
-                            contentDescription = stringResource(R.string.action_save)
-                        )
-                    },
-                    text = { Text(stringResource(R.string.action_save)) },
-                    expanded = true,
-                    onClick = {
-                        if (text.trim().isEmpty()) {
-                            isError = true
-                            return@AnimatedExtendedFloatingActionButton
-                        }
-
-                        isError = false
-                        onSave(
-                            TodoEntity(
-                                content = text,
-                                subject = selectedItemIndex,
-                                isCompleted = toDo?.isCompleted ?: false,
-                                priority = sliderPosition,
-                                id = toDo?.id ?: 0
-                            )
-                        )
-                    }
-                )
             }
         },
         onBack = onNavigateUp,

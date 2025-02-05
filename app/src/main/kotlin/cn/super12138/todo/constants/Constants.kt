@@ -4,6 +4,8 @@ object Constants {
     const val DEVELOPER_GITHUB = "https://github.com/Super12138/"
     const val GITHUB_REPO = "https://github.com/Super12138/ToDo/"
 
+    const val KEY_TODO_FAB_TRANSITION = "todo_fab"
+
     const val SP_NAME = "cn.super12138.todo_preferences"
 
     const val PREF_DYNAMIC_COLOR = "dynamic_color"
