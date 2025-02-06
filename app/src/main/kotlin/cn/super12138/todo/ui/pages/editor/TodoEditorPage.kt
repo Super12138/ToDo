@@ -66,7 +66,7 @@ fun TodoEditorPage(
     animatedVisibilityScope: AnimatedVisibilityScope,
     modifier: Modifier = Modifier
 ) {
-    BackHandler {
+    BackHandler { // TODO: 实现用户更改后的阻止返回
         onNavigateUp()
     }
     val context = LocalContext.current
@@ -141,18 +141,25 @@ fun TodoEditorPage(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            TextField(
-                value = text,
-                onValueChange = { text = it },
-                label = { Text(stringResource(R.string.placeholder_add_todo)) },
-                isError = isError,
-                supportingText = {
-                    AnimatedVisibility(isError) {
-                        Text(stringResource(R.string.error_no_task_content))
-                    }
-                },
-                modifier = Modifier.fillMaxWidth()
-            )
+            with(sharedTransitionScope) {
+                TextField(
+                    value = text,
+                    onValueChange = { text = it },
+                    label = { Text(stringResource(R.string.placeholder_add_todo)) },
+                    isError = isError,
+                    supportingText = {
+                        AnimatedVisibility(isError) {
+                            Text(stringResource(R.string.error_no_task_content))
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .sharedBounds(
+                            sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_CONTENT_TRANSITION}_${toDo?.id}"),
+                            animatedVisibilityScope = animatedVisibilityScope
+                        )
+                )
+            }
 
             Spacer(Modifier.size(5.dp))
 

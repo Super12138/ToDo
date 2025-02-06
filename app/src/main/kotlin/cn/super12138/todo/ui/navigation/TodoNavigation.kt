@@ -70,7 +70,7 @@ fun TodoNavigation(
                     toDo = viewModel.selectedEditTodo,
                     onSave = {
                         viewModel.addTodo(it)
-                        viewModel.setEditTodoItem(null)
+                        // viewModel.setEditTodoItem(null)
                         navController.navigateUp()
                     },
                     onDelete = {
@@ -82,7 +82,7 @@ fun TodoNavigation(
                     },
                     onNavigateUp = {
                         navController.navigateUp()
-                        viewModel.setEditTodoItem(null)
+                        // viewModel.setEditTodoItem(null)
                     },
                     sharedTransitionScope = this@SharedTransitionLayout,
                     animatedVisibilityScope = this@composable

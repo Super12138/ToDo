@@ -95,7 +95,10 @@ fun MainPage(
                 ) {
                     TodoFAB(
                         expanded = isExpanded,
-                        onClick = toTodoEditPage,
+                        onClick = {
+                            viewModel.setEditTodoItem(null) // 每次添加待办前清除上一次已选待办
+                            toTodoEditPage()
+                        },
                         modifier = Modifier.sharedElement(
                             state = rememberSharedContentState(key = Constants.KEY_TODO_FAB_TRANSITION),
                             animatedVisibilityScope = animatedVisibilityScope
@@ -146,6 +149,8 @@ fun MainPage(
                         }
                     },
                     selectedTodoIds = selectedTodoIds.value,
+                    sharedTransitionScope = sharedTransitionScope,
+                    animatedVisibilityScope = animatedVisibilityScope,
                     modifier = Modifier
                         .weight(3f)
                         .fillMaxSize()
@@ -189,6 +194,8 @@ fun MainPage(
                         }
                     },
                     selectedTodoIds = selectedTodoIds.value,
+                    sharedTransitionScope = sharedTransitionScope,
+                    animatedVisibilityScope = animatedVisibilityScope,
                     modifier = Modifier
                         .weight(3f)
                         .fillMaxSize()

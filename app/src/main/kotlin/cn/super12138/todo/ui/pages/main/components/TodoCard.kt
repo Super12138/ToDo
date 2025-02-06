@@ -1,6 +1,9 @@
 package cn.super12138.todo.ui.pages.main.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
@@ -31,14 +34,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
+import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.model.Priority
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalSharedTransitionApi::class)
 @Composable
 fun TodoCard(
+    id: Int,
     content: String,
     subject: String,
     completed: Boolean,
@@ -47,6 +51,8 @@ fun TodoCard(
     onCardClick: () -> Unit = {},
     onCardLongClick: () -> Unit = {},
     onChecked: () -> Unit = {},
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -103,14 +109,21 @@ fun TodoCard(
                         }
                     }
                 ) {
-                    Text(
-                        text = content,
-                        style = MaterialTheme.typography.titleLarge,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
-                        modifier = Modifier.basicMarquee() // TODO: 后续评估性能影响
-                    )
+                    with(sharedTransitionScope) {
+                        Text(
+                            text = content,
+                            style = MaterialTheme.typography.titleLarge,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
+                            modifier = Modifier
+                                .sharedBounds(
+                                    sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_CONTENT_TRANSITION}_$id"),
+                                    animatedVisibilityScope = animatedVisibilityScope
+                                )
+                                .basicMarquee() // TODO: 后续评估性能影响
+                        )
+                    }
                 }
 
                 Text(
@@ -151,6 +164,7 @@ fun TodoCard(
     }
 }
 
+/*
 @Preview(locale = "zh-rCN", showBackground = true)
 @Composable
 private fun TodoCardPreview() {
@@ -162,6 +176,8 @@ private fun TodoCardPreview() {
         selected = false,
         onCardClick = {},
         onCardLongClick = {},
-        onChecked = {}
+        onChecked = {},
+        sharedTransitionScope = ,
+        animatedVisibilityScope =
     )
-}
+}*/

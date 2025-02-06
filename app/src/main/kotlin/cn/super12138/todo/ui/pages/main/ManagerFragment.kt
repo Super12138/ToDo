@@ -1,5 +1,8 @@
 package cn.super12138.todo.ui.pages.main
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -24,6 +27,7 @@ import cn.super12138.todo.ui.pages.main.components.TodoCard
 import my.nanihadesuka.compose.LazyColumnScrollbar
 import my.nanihadesuka.compose.ScrollbarSettings
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun ManagerFragment(
     state: LazyListState,
@@ -32,6 +36,8 @@ fun ManagerFragment(
     onItemLongClick: (TodoEntity) -> Unit = {},
     onItemChecked: (TodoEntity) -> Unit = {},
     selectedTodoIds: List<Int>,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -66,6 +72,7 @@ fun ManagerFragment(
                     key = { it.id }
                 ) { item ->
                     TodoCard(
+                        id = item.id,
                         content = item.content,
                         subject = Subjects.fromId(item.subject).getDisplayName(context),
                         completed = item.isCompleted,
@@ -74,6 +81,8 @@ fun ManagerFragment(
                         onCardClick = { onItemClick(item) },
                         onCardLongClick = { onItemLongClick(item) },
                         onChecked = { onItemChecked(item) },
+                        sharedTransitionScope = sharedTransitionScope,
+                        animatedVisibilityScope = animatedVisibilityScope,
                         modifier = Modifier
                             .padding(vertical = 5.dp)
                             .animateItem() // TODO: 设置动画时间
