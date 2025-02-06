@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
@@ -26,7 +25,6 @@ import cn.super12138.todo.logic.model.ContrastLevel
 import cn.super12138.todo.ui.pages.settings.components.MoreContentSettingsItem
 import cn.super12138.todo.ui.pages.settings.state.rememberPrefFloatState
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContrastPicker(
     onContrastChange: (ContrastLevel) -> Unit,
@@ -54,7 +52,9 @@ fun ContrastPicker(
             valueRange = -1f..1f,
             steps = 3,
         )
+
         Spacer(Modifier.size(5.dp))
+
         CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.bodyMedium) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
