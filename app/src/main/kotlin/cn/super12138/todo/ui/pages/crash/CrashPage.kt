@@ -25,7 +25,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
@@ -33,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
-import cn.super12138.todo.utils.VibrationUtils
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,7 +40,6 @@ fun CrashPage(
     exitApp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val view = LocalView.current
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val scrollState = rememberScrollState()
     val isExpanded by remember {
@@ -69,10 +66,7 @@ fun CrashPage(
         },
         floatingActionButton = {
             AnimatedExtendedFloatingActionButton(
-                onClick = {
-                    VibrationUtils.performHapticFeedback(view)
-                    exitApp()
-                },
+                onClick = exitApp,
                 icon = {
                     Icon(
                         imageVector = Icons.AutoMirrored.Outlined.ExitToApp,
