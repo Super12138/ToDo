@@ -47,6 +47,7 @@ fun SettingsAppearance(
             DarkModePicker(onDarkModeChange = { viewModel.setDarkMode(it) })
 
             PalettePicker(
+                isDarkMode = viewModel.appDarkMode,
                 contrastLevel = viewModel.appContrastLevel,
                 onPaletteChange = { appPaletteStyle = it }
             )
