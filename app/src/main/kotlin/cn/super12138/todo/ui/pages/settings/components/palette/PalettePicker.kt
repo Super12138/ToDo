@@ -1,5 +1,6 @@
 package cn.super12138.todo.ui.pages.settings.components.palette
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -12,12 +13,14 @@ import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.model.ContrastLevel
+import cn.super12138.todo.logic.model.DarkMode
 import cn.super12138.todo.ui.pages.settings.components.RowSettingsItem
 import cn.super12138.todo.ui.pages.settings.state.rememberPrefIntState
 import cn.super12138.todo.ui.theme.PaletteStyle
 
 @Composable
 fun PalettePicker(
+    isDarkMode: DarkMode,
     contrastLevel: ContrastLevel,
     onPaletteChange: (paletteStyle: PaletteStyle) -> Unit,
     modifier: Modifier = Modifier
@@ -38,6 +41,11 @@ fun PalettePicker(
     ) {
         items(items = paletteOptions, key = { it.id }) { paletteStyle ->
             PaletteItem(
+                isDark = when (isDarkMode) {
+                    DarkMode.FollowSystem -> isSystemInDarkTheme()
+                    DarkMode.Light -> false
+                    DarkMode.Dark -> true
+                },
                 paletteStyle = paletteStyle,
                 selected = PaletteStyle.fromId(paletteState) == paletteStyle,
                 contrastLevel = contrastLevel,

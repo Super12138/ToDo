@@ -36,6 +36,7 @@ import cn.super12138.todo.utils.VibrationUtils
 
 @Composable
 fun PaletteItem(
+    isDark: Boolean,
     paletteStyle: PaletteStyle,
     contrastLevel: ContrastLevel,
     selected: Boolean,
@@ -63,7 +64,7 @@ fun PaletteItem(
                 } else {
                     Color(0xFF0061A4)
                 },
-                isDark = isSystemInDarkTheme(),
+                isDark = isDark,
                 contrastLevel = contrastLevel.value.toDouble(),
                 style = paletteStyle
             )
