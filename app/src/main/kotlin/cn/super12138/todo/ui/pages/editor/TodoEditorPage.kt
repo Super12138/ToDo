@@ -1,5 +1,6 @@
 package cn.super12138.todo.ui.pages.editor
 
+import android.view.HapticFeedbackConstants
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
@@ -42,6 +43,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -56,6 +58,7 @@ import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
 import cn.super12138.todo.ui.components.FilterChipGroup
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
 import cn.super12138.todo.ui.components.WarningDialog
+import cn.super12138.todo.utils.VibrationUtils
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
 @Composable
@@ -71,6 +74,7 @@ fun TodoEditorPage(
     var showExitConfirmDialog by rememberSaveable { mutableStateOf(false) }
     var showDeleteConfirmDialog by rememberSaveable { mutableStateOf(false) }
 
+    val view = LocalView.current
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
@@ -220,7 +224,10 @@ fun TodoEditorPage(
                     contentDescription = context.getString(R.string.label_priority)
                 },
                 value = priorityState,
-                onValueChange = { priorityState = it },
+                onValueChange = {
+                    VibrationUtils.performHapticFeedback(view, HapticFeedbackConstants.LONG_PRESS)
+                    priorityState = it
+                },
                 valueRange = -10f..10f,
                 steps = 3,
                 interactionSource = interactionSource,

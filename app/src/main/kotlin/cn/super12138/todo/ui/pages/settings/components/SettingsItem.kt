@@ -15,9 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cn.super12138.todo.utils.VibrationUtils
 
 @Composable
 fun SettingsItem(
@@ -80,6 +82,7 @@ fun SettingsItem(
     onClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
+    val view = LocalView.current
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -87,7 +90,10 @@ fun SettingsItem(
             .clip(shape)
             .clickable(
                 enabled = enableClick,
-                onClick = onClick // TODO: HapticFeedback
+                onClick = {
+                    VibrationUtils.performHapticFeedback(view)
+                    onClick()
+                }
             )
             .padding(horizontal = 24.dp, vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically

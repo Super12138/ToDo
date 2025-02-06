@@ -47,8 +47,8 @@ fun SettingsMain(
             )
             SettingsItem(
                 leadingIcon = Icons.Outlined.ViewComfy,
-                title = stringResource(R.string.pref_interface),
-                description = stringResource(R.string.pref_interface_desc),
+                title = stringResource(R.string.pref_interface_interaction),
+                description = stringResource(R.string.pref_interface_interaction_desc),
                 onClick = toInterfacePage
             )
             SettingsItem(

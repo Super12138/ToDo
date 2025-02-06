@@ -74,8 +74,8 @@
     <string name="contrast_high">高</string>
     <string name="contrast_very_high">极高</string>
     <string name="tip_change_contrast_level">更改颜色对比度</string>
-    <string name="pref_interface">界面</string>
-    <string name="pref_interface_desc">待办列表、排序方式</string>
+    <string name="pref_interface_interaction">界面与交互</string>
+    <string name="pref_interface_interaction_desc">待办列表、触感反馈</string>
     <string name="pref_show_completed">显示已完成待办</string>
     <string name="pref_show_completed_desc">在待办列表里显示已完成的待办</string>
     <string name="pref_category_todo_list">待办列表</string>
@@ -89,4 +89,7 @@
     <string name="sorting_alphabetical_ascending">首字母（升序）</string>
     <string name="sorting_alphabetical_descending">首字母（降序）</string>
     <string name="pref_sorting_method">排序方式</string>
+    <string name="pref_category_global_interaction">全局交互</string>
+    <string name="pref_haptic_feedback">触感反馈</string>
+    <string name="pref_haptic_feedback_desc">为某些操作提供轻微的震动反馈（须先在系统设置开启）</string>
 </resources>

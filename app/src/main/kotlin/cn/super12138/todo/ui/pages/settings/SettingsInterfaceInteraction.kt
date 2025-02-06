@@ -8,6 +8,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Sort
 import androidx.compose.material.icons.outlined.Checklist
+import androidx.compose.material.icons.outlined.Vibration
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -42,7 +43,7 @@ fun SettingsInterface(
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     var showSortingMethodDialog by rememberSaveable { mutableStateOf(false) }
     LargeTopAppBarScaffold(
-        title = stringResource(R.string.pref_interface),
+        title = stringResource(R.string.pref_interface_interaction),
         onBack = onNavigateUp,
         scrollBehavior = scrollBehavior,
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -69,6 +70,16 @@ fun SettingsInterface(
                 title = stringResource(R.string.pref_sorting_method),
                 description = viewModel.appSortingMethod.getDisplayName(context),
                 onClick = { showSortingMethodDialog = true }
+            )
+
+            SettingsCategory(stringResource(R.string.pref_category_global_interaction))
+            SwitchSettingsItem(
+                key = Constants.PREF_HAPTIC_FEEDBACK,
+                default = Constants.PREF_HAPTIC_FEEDBACK_DEFAULT,
+                leadingIcon = Icons.Outlined.Vibration,
+                title = stringResource(R.string.pref_haptic_feedback),
+                description = stringResource(R.string.pref_haptic_feedback_desc),
+                onCheckedChange = {}
             )
         }
     }

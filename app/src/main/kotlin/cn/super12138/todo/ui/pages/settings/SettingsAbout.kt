@@ -23,7 +23,7 @@ import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
 import cn.super12138.todo.ui.icons.GithubIcon
 import cn.super12138.todo.ui.pages.settings.components.SettingsItem
-import cn.super12138.todo.utils.getAppVersion
+import cn.super12138.todo.utils.SystemUtils
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,7 +49,7 @@ fun SettingsAbout(
             SettingsItem(
                 leadingIcon = Icons.Outlined.Numbers,
                 title = stringResource(R.string.pref_app_version),
-                description = getAppVersion(context)
+                description = SystemUtils.getAppVersion(context)
             )
             SettingsItem(
                 leadingIcon = Icons.Outlined.Person4,

@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
@@ -31,6 +32,7 @@ import cn.super12138.todo.constants.GlobalValues
 import cn.super12138.todo.logic.model.ContrastLevel
 import cn.super12138.todo.ui.theme.PaletteStyle
 import cn.super12138.todo.ui.theme.dynamicColorScheme
+import cn.super12138.todo.utils.VibrationUtils
 
 @Composable
 fun PaletteItem(
@@ -40,12 +42,14 @@ fun PaletteItem(
     onSelect: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val view = LocalView.current
     val context = LocalContext.current
     Column(
         modifier = Modifier
             .width(90.dp)
             .clip(MaterialTheme.shapes.large)
             .clickable {
+                VibrationUtils.performHapticFeedback(view)
                 onSelect()
             }
             .padding(8.dp),

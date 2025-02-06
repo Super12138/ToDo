@@ -1,5 +1,6 @@
 package cn.super12138.todo.ui.pages.settings.components.contrast
 
+import android.view.HapticFeedbackConstants
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -24,12 +26,14 @@ import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.model.ContrastLevel
 import cn.super12138.todo.ui.pages.settings.components.MoreContentSettingsItem
 import cn.super12138.todo.ui.pages.settings.state.rememberPrefFloatState
+import cn.super12138.todo.utils.VibrationUtils
 
 @Composable
 fun ContrastPicker(
     onContrastChange: (ContrastLevel) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val view = LocalView.current
     val context = LocalContext.current
     MoreContentSettingsItem(
         title = stringResource(R.string.pref_contrast_level),
@@ -46,6 +50,7 @@ fun ContrastPicker(
             },
             value = contrastState,
             onValueChange = {
+                VibrationUtils.performHapticFeedback(view, HapticFeedbackConstants.LONG_PRESS)
                 contrastState = it
                 onContrastChange(ContrastLevel.fromFloat(it))
             },

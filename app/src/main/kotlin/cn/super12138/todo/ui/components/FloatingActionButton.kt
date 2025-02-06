@@ -13,7 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
+import cn.super12138.todo.utils.VibrationUtils
 
 /**
  * 带动画且比 Material 3 内置组件动画好看的的可扩展 FAB
@@ -37,8 +39,12 @@ fun AnimatedExtendedFloatingActionButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val view = LocalView.current
     FloatingActionButton(
-        onClick = onClick,
+        onClick = {
+            VibrationUtils.performHapticFeedback(view)
+            onClick()
+        },
         elevation = elevation,
         containerColor = containerColor,
         contentColor = contentColor,

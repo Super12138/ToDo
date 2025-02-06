@@ -15,10 +15,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.ui.components.BasicDialog
 import cn.super12138.todo.ui.pages.settings.state.rememberPrefIntState
+import cn.super12138.todo.utils.VibrationUtils
 
 @Composable
 fun SettingsRadioDialog(
@@ -31,6 +33,7 @@ fun SettingsRadioDialog(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val view = LocalView.current
     SettingsDialog(
         visible = visible,
         title = title,
@@ -47,6 +50,7 @@ fun SettingsRadioDialog(
                                 selected = option.id == selectedItemIndex,
                                 onClick = {
                                     selectedItemIndex = option.id
+                                    VibrationUtils.performHapticFeedback(view)
                                     onSelect(option.id)
                                     onDismiss()
                                 },

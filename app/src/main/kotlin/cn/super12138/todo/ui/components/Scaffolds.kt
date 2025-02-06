@@ -21,9 +21,11 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import cn.super12138.todo.R
+import cn.super12138.todo.utils.VibrationUtils
 
 /**
  * 带有顶部大标题栏的通用脚手架
@@ -47,6 +49,7 @@ fun LargeTopAppBarScaffold(
     modifier: Modifier = Modifier,
     content: @Composable (PaddingValues) -> Unit
 ) {
+    val view = LocalView.current
     LargeTopAppBarScaffold(
         title = {
             Text(
@@ -56,7 +59,12 @@ fun LargeTopAppBarScaffold(
             )
         },
         navigationIcon = {
-            IconButton(onClick = onBack) {
+            IconButton(
+                onClick = {
+                    VibrationUtils.performHapticFeedback(view)
+                    onBack()
+                }
+            ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
                     contentDescription = stringResource(R.string.action_back)

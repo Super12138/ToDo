@@ -17,9 +17,11 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
+import cn.super12138.todo.utils.VibrationUtils
 
 /**
  * 部分参考：https://github.com/Rhythamtech/FilterChipGroup-Compose-Android/blob/main/FilterChipGroup.kt
@@ -32,6 +34,7 @@ fun FilterChipGroup(
     onSelectedChanged: (Int) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
+    val view = LocalView.current
     var selectedItemIndex by rememberSaveable { mutableIntStateOf(defaultSelectedItemIndex) }
 
     FlowRow(modifier = modifier) {
@@ -40,6 +43,7 @@ fun FilterChipGroup(
                 selected = items[selectedItemIndex] == items[index],
                 onClick = {
                     selectedItemIndex = index
+                    VibrationUtils.performHapticFeedback(view)
                     onSelectedChanged(index)
                 },
                 leadingIcon = {

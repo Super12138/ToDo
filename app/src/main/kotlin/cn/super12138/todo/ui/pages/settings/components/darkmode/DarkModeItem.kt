@@ -19,7 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
+import cn.super12138.todo.utils.VibrationUtils
 
 @Composable
 fun DarkModeItem(
@@ -31,11 +33,15 @@ fun DarkModeItem(
     onSelect: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val view = LocalView.current
     val borderWidth by animateDpAsState(if (selected) 3.dp else (-1).dp)
     Column(
         modifier = modifier
             .clip(MaterialTheme.shapes.large)
-            .clickable { onSelect() }
+            .clickable {
+                VibrationUtils.performHapticFeedback(view)
+                onSelect()
+            }
             .padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

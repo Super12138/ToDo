@@ -1,5 +1,6 @@
 package cn.super12138.todo.ui.pages.main.components
 
+import android.view.HapticFeedbackConstants
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
@@ -32,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
@@ -39,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.model.Priority
+import cn.super12138.todo.utils.VibrationUtils
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalSharedTransitionApi::class)
 @Composable
@@ -56,6 +59,7 @@ fun TodoCard(
     animatedVisibilityScope: AnimatedVisibilityScope,
     modifier: Modifier = Modifier
 ) {
+    val view = LocalView.current
     val context = LocalContext.current
     ElevatedCard(
         modifier = modifier
@@ -67,8 +71,17 @@ fun TodoCard(
             modifier = Modifier
                 .fillMaxSize()
                 .combinedClickable(
-                    onClick = onCardClick,
-                    onLongClick = onCardLongClick
+                    onClick = {
+                        VibrationUtils.performHapticFeedback(view)
+                        onCardClick()
+                    },
+                    onLongClick = {
+                        VibrationUtils.performHapticFeedback(
+                            view,
+                            HapticFeedbackConstants.LONG_PRESS
+                        )
+                        onCardLongClick()
+                    }
                 )
                 .padding(horizontal = 15.dp)
         ) {
@@ -137,7 +150,12 @@ fun TodoCard(
             }
 
             AnimatedVisibility(!selected && !completed) {
-                IconButton(onClick = onChecked) {
+                IconButton(
+                    onClick = {
+                        VibrationUtils.performHapticFeedback(view)
+                        onChecked()
+                    }
+                ) {
                     Icon(
                         imageVector = Icons.Outlined.Check,
                         tint = MaterialTheme.colorScheme.primary,

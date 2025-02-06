@@ -10,8 +10,10 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import cn.super12138.todo.R
+import cn.super12138.todo.utils.VibrationUtils
 
 @Composable
 fun WarningDialog(
@@ -50,6 +52,7 @@ fun BasicDialog(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val view = LocalView.current
     BasicDialog(
         visible = visible,
         icon = {
@@ -61,12 +64,22 @@ fun BasicDialog(
         title = { Text(title) },
         text = text,
         confirmButton = {
-            FilledTonalButton(onClick = onConfirm) {
+            FilledTonalButton(
+                onClick = {
+                    VibrationUtils.performHapticFeedback(view)
+                    onConfirm()
+                }
+            ) {
                 Text(confirmButton)
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
+            TextButton(
+                onClick = {
+                    VibrationUtils.performHapticFeedback(view)
+                    onDismiss()
+                }
+            ) {
                 Text(dismissButton)
             }
         },

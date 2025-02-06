@@ -7,8 +7,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.ui.pages.settings.state.rememberPrefBooleanState
+import cn.super12138.todo.utils.VibrationUtils
 
 @Composable
 fun SwitchSettingsItem(
@@ -20,6 +22,7 @@ fun SwitchSettingsItem(
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val view = LocalView.current
     var switchState by rememberPrefBooleanState(key, default)
     SettingsItem(
         leadingIcon = leadingIcon,
@@ -30,6 +33,7 @@ fun SwitchSettingsItem(
                 checked = switchState,
                 onCheckedChange = {
                     switchState = it
+                    VibrationUtils.performHapticFeedback(view)
                     onCheckedChange(it)
                 },
                 modifier = Modifier.padding(start = 14.dp)

@@ -27,9 +27,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import cn.super12138.todo.R
+import cn.super12138.todo.utils.VibrationUtils
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,6 +44,7 @@ fun TodoTopAppBar(
     toSettingsPage: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val view = LocalView.current
     val animatedTopAppBarColors by animateColorAsState(
         targetValue = if (selectedMode) MaterialTheme.colorScheme.surfaceContainerHighest else MaterialTheme.colorScheme.surface
     )
@@ -49,7 +52,12 @@ fun TodoTopAppBar(
     TopAppBar(
         navigationIcon = {
             AnimatedVisibility(selectedMode) {
-                IconButton(onClick = onCancelSelect) {
+                IconButton(
+                    onClick = {
+                        VibrationUtils.performHapticFeedback(view)
+                        onCancelSelect()
+                    }
+                ) {
                     Icon(
                         imageVector = Icons.Outlined.Close,
                         contentDescription = stringResource(R.string.tip_clear_selected_items)
@@ -73,14 +81,15 @@ fun TodoTopAppBar(
             AnimatedContent(
                 targetState = selectedMode,
                 modifier = Modifier.windowInsetsPadding(
-                    WindowInsets.safeContent.exclude(
-                        WindowInsets.ime
-                    )
+                    WindowInsets.safeContent.exclude(WindowInsets.ime)
                 )
             ) { inSelectedMode ->
                 if (!inSelectedMode) {
                     IconButton(
-                        onClick = toSettingsPage
+                        onClick = {
+                            VibrationUtils.performHapticFeedback(view)
+                            toSettingsPage()
+                        }
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Settings,
@@ -89,13 +98,23 @@ fun TodoTopAppBar(
                     }
                 } else {
                     Row {
-                        IconButton(onClick = onSelectAll) {
+                        IconButton(
+                            onClick = {
+                                VibrationUtils.performHapticFeedback(view)
+                                onSelectAll()
+                            }
+                        ) {
                             Icon(
                                 imageVector = Icons.Outlined.SelectAll,
                                 contentDescription = stringResource(R.string.tip_select_all)
                             )
                         }
-                        IconButton(onClick = onDeleteSelectedTodo) {
+                        IconButton(
+                            onClick = {
+                                VibrationUtils.performHapticFeedback(view)
+                                onDeleteSelectedTodo()
+                            }
+                        ) {
                             Icon(
                                 imageVector = Icons.Outlined.Delete,
                                 contentDescription = stringResource(R.string.action_delete)
