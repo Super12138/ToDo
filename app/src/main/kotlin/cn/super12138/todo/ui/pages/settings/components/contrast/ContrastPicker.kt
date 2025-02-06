@@ -1,17 +1,18 @@
 package cn.super12138.todo.ui.pages.settings.components.contrast
 
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Label
-import androidx.compose.material3.PlainTooltip
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -40,7 +41,6 @@ fun ContrastPicker(
             Constants.PREF_CONTRAST_LEVEL,
             Constants.PREF_CONTRAST_LEVEL_DEFAULT
         )
-        val interactionSource = remember { MutableInteractionSource() }
 
         Slider(
             modifier = Modifier.semantics {
@@ -53,23 +53,19 @@ fun ContrastPicker(
             },
             valueRange = -1f..1f,
             steps = 3,
-            interactionSource = interactionSource,
-            thumb = {
-                Label(
-                    label = {
-                        PlainTooltip(
-                            modifier = Modifier
-                                .sizeIn(45.dp, 25.dp)
-                                .wrapContentWidth()
-                        ) {
-                            Text(ContrastLevel.fromFloat(contrastState).getDisplayName(context))
-                        }
-                    },
-                    interactionSource = interactionSource
-                ) {
-                    SliderDefaults.Thumb(interactionSource)
-                }
-            }
         )
+        Spacer(Modifier.size(5.dp))
+        CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.bodyMedium) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(stringResource(R.string.contrast_very_low))
+                Text(stringResource(R.string.contrast_low))
+                Text(stringResource(R.string.contrast_default))
+                Text(stringResource(R.string.contrast_high))
+                Text(stringResource(R.string.contrast_very_high))
+            }
+        }
     }
 }

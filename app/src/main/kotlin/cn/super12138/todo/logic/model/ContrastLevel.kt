@@ -15,8 +15,8 @@ enum class ContrastLevel(val value: Float) {
             VeryLow -> R.string.contrast_very_low
             Low -> R.string.contrast_low
             Default -> R.string.contrast_default
-            Medium -> R.string.contrast_medium
-            High -> R.string.contrast_high
+            Medium -> R.string.contrast_high
+            High -> R.string.contrast_very_high
         }
         return context.getString(resId)
     }

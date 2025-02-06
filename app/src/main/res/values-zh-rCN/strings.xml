@@ -68,11 +68,11 @@
     <string name="dark_mode_dark">深色模式</string>
     <string name="pref_contrast_level">对比度</string>
     <string name="pref_contrast_level_desc">调整应用的颜色对比度</string>
-    <string name="contrast_very_low">非常低</string>
+    <string name="contrast_very_low">极低</string>
     <string name="contrast_low">低</string>
     <string name="contrast_default">默认</string>
-    <string name="contrast_medium">中</string>
     <string name="contrast_high">高</string>
+    <string name="contrast_very_high">极高</string>
     <string name="tip_change_contrast_level">更改颜色对比度</string>
     <string name="pref_interface">界面</string>
     <string name="pref_interface_desc">待办列表、排序方式</string>
