@@ -70,41 +70,29 @@ fun TodoEditorPage(
 ) {
     var showConfirmDialog by rememberSaveable { mutableStateOf(false) }
 
+    val context = LocalContext.current
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+
+    var toDoContent by rememberSaveable { mutableStateOf(toDo?.content ?: "") }
+    var isError by rememberSaveable { mutableStateOf(false) }
+    var selectedSubjectIndex by rememberSaveable { mutableIntStateOf(toDo?.subject ?: 0) }
+    var priorityState by rememberSaveable { mutableFloatStateOf(toDo?.priority ?: 0f) }
+
     fun checkModifiedBeforeBack() {
-        if (toDo !== null) {
-            val newTodo = TodoEntity(
-                content = toDo.content,
-                subject = toDo.subject,
-                isCompleted = toDo.isCompleted,
-                priority = toDo.priority,
-                id = toDo.id
-            )
-            /*val newTodo = TodoEntity( // TODO: 只要用户有修改就阻止返回（当前是在编辑状态下检测）
-                content = toDo?.content ?: "",
-                subject = toDo?.subject ?: 0,
-                isCompleted = toDo?.isCompleted ?: false,
-                priority = toDo?.priority ?: 0f,
-                id = toDo?.id ?: 0
-            )*/
-            if (newTodo !== toDo) {
-                showConfirmDialog = true
-            } else {
-                onNavigateUp()
-            }
+        var isModified = false
+        if ((toDo?.content ?: "") != toDoContent) isModified = true
+        if ((toDo?.subject ?: 0) != selectedSubjectIndex) isModified = true
+        if ((toDo?.priority ?: 0f) != priorityState) isModified = true
+        if (isModified) {
+            showConfirmDialog = true
         } else {
             onNavigateUp()
         }
     }
+
     BackHandler {
         checkModifiedBeforeBack()
     }
-    val context = LocalContext.current
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-
-    var text by rememberSaveable { mutableStateOf(toDo?.content ?: "") }
-    var isError by rememberSaveable { mutableStateOf(false) }
-    var selectedItemIndex by rememberSaveable { mutableIntStateOf(toDo?.subject ?: 0) }
-    var sliderPosition by rememberSaveable { mutableFloatStateOf(toDo?.priority ?: 0f) }
 
     LargeTopAppBarScaffold(
         title = stringResource(if (toDo != null) R.string.title_edit_task else R.string.action_add_task),
@@ -136,7 +124,7 @@ fun TodoEditorPage(
                         text = { Text(stringResource(R.string.action_save)) },
                         expanded = true,
                         onClick = {
-                            if (text.trim().isEmpty()) {
+                            if (toDoContent.trim().isEmpty()) {
                                 isError = true
                                 return@AnimatedExtendedFloatingActionButton
                             }
@@ -144,10 +132,10 @@ fun TodoEditorPage(
                             isError = false
                             onSave(
                                 TodoEntity(
-                                    content = text,
-                                    subject = selectedItemIndex,
+                                    content = toDoContent,
+                                    subject = selectedSubjectIndex,
                                     isCompleted = toDo?.isCompleted ?: false,
-                                    priority = sliderPosition,
+                                    priority = priorityState,
                                     id = toDo?.id ?: 0
                                 )
                             )
@@ -174,8 +162,8 @@ fun TodoEditorPage(
         ) {
             with(sharedTransitionScope) {
                 TextField(
-                    value = text,
-                    onValueChange = { text = it },
+                    value = toDoContent,
+                    onValueChange = { toDoContent = it },
                     label = { Text(stringResource(R.string.placeholder_add_todo)) },
                     isError = isError,
                     supportingText = {
@@ -210,7 +198,7 @@ fun TodoEditorPage(
                 items = subjects,
                 defaultSelectedItemIndex = toDo?.subject ?: 0,
                 onSelectedChanged = {
-                    selectedItemIndex = it
+                    selectedSubjectIndex = it
                 },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -230,8 +218,8 @@ fun TodoEditorPage(
                 modifier = Modifier.semantics {
                     contentDescription = context.getString(R.string.label_priority)
                 },
-                value = sliderPosition,
-                onValueChange = { sliderPosition = it },
+                value = priorityState,
+                onValueChange = { priorityState = it },
                 valueRange = -10f..10f,
                 steps = 3,
                 interactionSource = interactionSource,
@@ -243,7 +231,7 @@ fun TodoEditorPage(
                                     .sizeIn(45.dp, 25.dp)
                                     .wrapContentWidth()
                             ) {
-                                Text(Priority.fromFloat(sliderPosition).getDisplayName(context))
+                                Text(Priority.fromFloat(priorityState).getDisplayName(context))
                             }
                         },
                         interactionSource = interactionSource
