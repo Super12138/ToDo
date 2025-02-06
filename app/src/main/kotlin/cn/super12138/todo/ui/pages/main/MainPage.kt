@@ -38,6 +38,7 @@ import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.ui.components.BasicDialog
+import cn.super12138.todo.ui.components.WarningDialog
 import cn.super12138.todo.ui.pages.main.components.TodoFAB
 import cn.super12138.todo.ui.pages.main.components.TodoTopAppBar
 import cn.super12138.todo.ui.viewmodels.MainViewModel
@@ -209,15 +210,10 @@ fun MainPage(
         }
     }
 
-    BasicDialog(
+    WarningDialog(
         visible = showDeleteConfirmDialog,
         icon = Icons.Outlined.Delete,
-        title = stringResource(R.string.title_warning),
-        text = {
-            Text(stringResource(R.string.tip_delete_task, selectedTodoIds.value.size))
-        },
-        confirmButton = stringResource(R.string.action_confirm),
-        dismissButton = stringResource(R.string.action_cancel),
+        description = stringResource(R.string.tip_delete_task, selectedTodoIds.value.size),
         onConfirm = {
             showDeleteConfirmDialog = false
             viewModel.deleteSelectedTodo()

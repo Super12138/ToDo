@@ -1,5 +1,7 @@
 package cn.super12138.todo.ui.components
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
@@ -8,6 +10,30 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import cn.super12138.todo.R
+
+@Composable
+fun WarningDialog(
+    visible: Boolean,
+    icon: ImageVector = Icons.Outlined.ErrorOutline,
+    description: String,
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    BasicDialog(
+        visible = visible,
+        icon = icon,
+        title = stringResource(R.string.title_warning),
+        text = { Text(description) },
+        confirmButton = stringResource(R.string.action_confirm),
+        dismissButton = stringResource(R.string.action_cancel),
+        onConfirm = onConfirm,
+        onDismiss = onDismiss,
+        modifier = modifier
+    )
+}
 
 @Composable
 fun BasicDialog(
@@ -29,9 +55,7 @@ fun BasicDialog(
                 contentDescription = null // 会跟下面的文本重复，所以设置为 null
             )
         },
-        title = {
-            Text(title)
-        },
+        title = { Text(title) },
         text = text,
         confirmButton = {
             FilledTonalButton(onClick = onConfirm) {

@@ -19,8 +19,8 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.Undo
 import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -53,9 +53,9 @@ import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.logic.model.Subjects
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
-import cn.super12138.todo.ui.components.BasicDialog
 import cn.super12138.todo.ui.components.FilterChipGroup
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
+import cn.super12138.todo.ui.components.WarningDialog
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
 @Composable
@@ -245,13 +245,10 @@ fun TodoEditorPage(
         }
     }
 
-    BasicDialog(
+    WarningDialog(
         visible = showConfirmDialog,
-        icon = Icons.Outlined.ErrorOutline,
-        title = stringResource(R.string.title_warning),
-        text = { Text(stringResource(R.string.tip_discard_changes)) },
-        confirmButton = stringResource(R.string.action_confirm),
-        dismissButton = stringResource(R.string.action_cancel),
+        icon = Icons.AutoMirrored.Outlined.Undo,
+        description = stringResource(R.string.tip_discard_changes),
         onConfirm = {
             showConfirmDialog = false
             onNavigateUp()
