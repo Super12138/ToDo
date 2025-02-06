@@ -26,6 +26,7 @@ class MainViewModel : ViewModel() {
     val sortedTodos: Flow<List<TodoEntity>> = toDos.map { list ->
         when (appSortingMethod) {
             SortingMethod.Date -> list.sortedBy { it.id }
+            SortingMethod.Subject -> list.sortedBy { it.subject }
             SortingMethod.Priority -> list.sortedByDescending { it.priority } // 优先级高的在前
             SortingMethod.Completion -> list.sortedBy { it.isCompleted } // 未完成的在前
             SortingMethod.AlphabeticalAscending -> list.sortedBy { it.content }
@@ -37,7 +38,7 @@ class MainViewModel : ViewModel() {
         private set
     var showCompletedTodos by mutableStateOf(GlobalValues.showCompleted)
 
-    // 深色模式
+    // 主题颜色
     var appDarkMode by mutableStateOf(DarkMode.fromId(GlobalValues.darkMode))
         private set
     var appContrastLevel by mutableStateOf(ContrastLevel.fromFloat(GlobalValues.contrastLevel))
