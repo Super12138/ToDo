@@ -92,5 +92,7 @@
     <string name="pref_sorting_method">Sorting Method</string>
     <string name="pref_category_global_interaction">Global Interaction</string>
     <string name="pref_haptic_feedback">Haptic Feedback</string>
-    <string name="pref_haptic_feedback_desc">Provide slight vibration feedback for some operations (must be enabled in system settings first)</string>
+    <string name="pref_haptic_feedback_desc">Provide slight vibration feedback for some operations</string>
+    <string name="tip_tips">Tips</string>
+    <string name="pref_haptic_feedback_more_info">Before using this feature, you need to enable haptic feedback in the system settings (usually under the \\\"Sound &amp; Vibration\\\" section in the \\\"Haptic Feedback\\\" option)</string>
 </resources>

@@ -27,6 +27,7 @@ import cn.super12138.todo.logic.model.SortingMethod
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
 import cn.super12138.todo.ui.pages.settings.components.SettingsCategory
 import cn.super12138.todo.ui.pages.settings.components.SettingsItem
+import cn.super12138.todo.ui.pages.settings.components.SettingsPlainBox
 import cn.super12138.todo.ui.pages.settings.components.SettingsRadioDialog
 import cn.super12138.todo.ui.pages.settings.components.SettingsRadioOptions
 import cn.super12138.todo.ui.pages.settings.components.SwitchSettingsItem
@@ -81,6 +82,7 @@ fun SettingsInterface(
                 description = stringResource(R.string.pref_haptic_feedback_desc),
                 onCheckedChange = {}
             )
+            SettingsPlainBox(stringResource(R.string.pref_haptic_feedback_more_info))
         }
     }
 

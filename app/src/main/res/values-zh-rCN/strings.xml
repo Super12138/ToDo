@@ -91,5 +91,7 @@
     <string name="pref_sorting_method">排序方式</string>
     <string name="pref_category_global_interaction">全局交互</string>
     <string name="pref_haptic_feedback">触感反馈</string>
-    <string name="pref_haptic_feedback_desc">为某些操作提供轻微的震动反馈（须先在系统设置开启）</string>
+    <string name="pref_haptic_feedback_desc">为某些操作提供轻微的震动反馈</string>
+    <string name="tip_tips">提示</string>
+    <string name="pref_haptic_feedback_more_info">使用此项前须先在系统设置中打开触感反馈（通常在“声音与震动”里的“触感反馈”一项）</string>
 </resources>
