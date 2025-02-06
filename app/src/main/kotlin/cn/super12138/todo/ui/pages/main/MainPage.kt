@@ -21,7 +21,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -37,7 +36,6 @@ import androidx.window.core.layout.WindowWidthSizeClass
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.database.TodoEntity
-import cn.super12138.todo.ui.components.BasicDialog
 import cn.super12138.todo.ui.components.WarningDialog
 import cn.super12138.todo.ui.pages.main.components.TodoFAB
 import cn.super12138.todo.ui.pages.main.components.TodoTopAppBar
@@ -53,7 +51,7 @@ fun MainPage(
     animatedVisibilityScope: AnimatedVisibilityScope,
     modifier: Modifier = Modifier
 ) {
-    val toDoList = viewModel.toDos.collectAsState(initial = emptyList())
+    val toDoList = viewModel.sortedTodos.collectAsState(initial = emptyList())
     val listState = rememberLazyListState()
     val isExpanded by remember {
         derivedStateOf {

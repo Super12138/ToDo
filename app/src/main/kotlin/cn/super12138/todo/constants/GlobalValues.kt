@@ -4,23 +4,27 @@ import cn.super12138.todo.utils.SPDelegates
 
 object GlobalValues {
     var dynamicColor: Boolean by SPDelegates(
-        Constants.PREF_DYNAMIC_COLOR,
-        Constants.PREF_DYNAMIC_COLOR_DEFAULT
+        key = Constants.PREF_DYNAMIC_COLOR,
+        default = Constants.PREF_DYNAMIC_COLOR_DEFAULT
     )
     var paletteStyle: Int by SPDelegates(
-        Constants.PREF_PALETTE_STYLE,
-        Constants.PREF_PALETTE_STYLE_DEFAULT
+        key = Constants.PREF_PALETTE_STYLE,
+        default = Constants.PREF_PALETTE_STYLE_DEFAULT
     )
     var darkMode: Int by SPDelegates(
-        Constants.PREF_DARK_MODE,
-        Constants.PREF_DARK_MODE_DEFAULT
+        key = Constants.PREF_DARK_MODE,
+        default = Constants.PREF_DARK_MODE_DEFAULT
     )
     var contrastLevel: Float by SPDelegates(
-        Constants.PREF_CONTRAST_LEVEL,
-        Constants.PREF_CONTRAST_LEVEL_DEFAULT
+        key = Constants.PREF_CONTRAST_LEVEL,
+        default = Constants.PREF_CONTRAST_LEVEL_DEFAULT
     )
     var showCompleted: Boolean by SPDelegates(
-        Constants.PREF_SHOW_COMPLETED,
-        Constants.PREF_SHOW_COMPLETED_DEFAULT
+        key = Constants.PREF_SHOW_COMPLETED,
+        default = Constants.PREF_SHOW_COMPLETED_DEFAULT
+    )
+    var sortingMethod: Int by SPDelegates(
+        key = Constants.PREF_SORTING_METHOD,
+        default = Constants.PREF_SORTING_METHOD_DEFAULT
     )
 }

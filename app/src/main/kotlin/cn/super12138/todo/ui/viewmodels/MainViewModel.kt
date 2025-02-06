@@ -10,16 +10,28 @@ import cn.super12138.todo.logic.Repository
 import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.logic.model.ContrastLevel
 import cn.super12138.todo.logic.model.DarkMode
+import cn.super12138.todo.logic.model.SortingMethod
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
     // 待办
-    val toDos: Flow<List<TodoEntity>> = Repository.getAllTodos()
+    private val toDos: Flow<List<TodoEntity>> = Repository.getAllTodos()
+    var appSortingMethod by mutableStateOf(SortingMethod.fromId(GlobalValues.sortingMethod))
+    val sortedTodos: Flow<List<TodoEntity>> = toDos.map { list ->
+        when (appSortingMethod) {
+            SortingMethod.Date -> list.sortedBy { it.id }
+            SortingMethod.Priority -> list.sortedByDescending { it.priority } // 优先级高的在前
+            SortingMethod.Completion -> list.sortedBy { it.isCompleted } // 未完成的在前
+            SortingMethod.AlphabeticalAscending -> list.sortedBy { it.content }
+            SortingMethod.AlphabeticalDescending -> list.sortedByDescending { it.content }
+        }
+    }
     val showConfetti = mutableStateOf(false)
     var selectedEditTodo by mutableStateOf<TodoEntity?>(null)
         private set
@@ -132,5 +144,9 @@ class MainViewModel : ViewModel() {
 
     fun setShowCompleted(show: Boolean) {
         showCompletedTodos = show
+    }
+
+    fun setSortingMethod(sortingMethod: SortingMethod) {
+        appSortingMethod = sortingMethod
     }
 }

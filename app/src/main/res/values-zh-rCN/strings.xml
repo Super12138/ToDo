@@ -82,4 +82,10 @@
     <string name="pref_view_on_github">在 GitHub 上查看</string>
     <string name="pref_view_on_github_desc">查看源代码、提交错误报告和改进建议</string>
     <string name="tip_discard_changes">退出编辑后将无法找回你修改过的数据。确定退出编辑吗？</string>
+    <string name="sorting_date">日期</string>
+    <string name="sorting_priority">优先级</string>
+    <string name="sorting_completion">完成状态</string>
+    <string name="sorting_alphabetical_ascending">首字母（升序）</string>
+    <string name="sorting_alphabetical_descending">首字母（降序）</string>
+    <string name="pref_sorting_method">排序方式</string>
 </resources>
