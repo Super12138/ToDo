@@ -26,6 +26,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -76,16 +77,17 @@ fun TodoCard(
                     Modifier
                         .padding(end = 15.dp)
                         .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.onSecondaryContainer)
+                        .background(MaterialTheme.colorScheme.secondary)
                         .padding(5.dp)
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Check,
-                        tint = MaterialTheme.colorScheme.onSecondary,
+                        tint = contentColorFor(MaterialTheme.colorScheme.secondary),
                         contentDescription = stringResource(R.string.tip_select_this)
                     )
                 }
             }
+
             Column(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier
