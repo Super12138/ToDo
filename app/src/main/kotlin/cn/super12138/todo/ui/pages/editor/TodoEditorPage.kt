@@ -20,6 +20,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -52,6 +53,7 @@ import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.logic.model.Subjects
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
+import cn.super12138.todo.ui.components.BasicDialog
 import cn.super12138.todo.ui.components.FilterChipGroup
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
 
@@ -66,8 +68,35 @@ fun TodoEditorPage(
     animatedVisibilityScope: AnimatedVisibilityScope,
     modifier: Modifier = Modifier
 ) {
-    BackHandler { // TODO: 实现用户更改后的阻止返回
-        onNavigateUp()
+    var showConfirmDialog by rememberSaveable { mutableStateOf(false) }
+
+    fun checkModifiedBeforeBack() {
+        if (toDo !== null) {
+            val newTodo = TodoEntity(
+                content = toDo.content,
+                subject = toDo.subject,
+                isCompleted = toDo.isCompleted,
+                priority = toDo.priority,
+                id = toDo.id
+            )
+            /*val newTodo = TodoEntity( // TODO: 只要用户有修改就阻止返回（当前是在编辑状态下检测）
+                content = toDo?.content ?: "",
+                subject = toDo?.subject ?: 0,
+                isCompleted = toDo?.isCompleted ?: false,
+                priority = toDo?.priority ?: 0f,
+                id = toDo?.id ?: 0
+            )*/
+            if (newTodo !== toDo) {
+                showConfirmDialog = true
+            } else {
+                onNavigateUp()
+            }
+        } else {
+            onNavigateUp()
+        }
+    }
+    BackHandler {
+        checkModifiedBeforeBack()
     }
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
@@ -131,7 +160,9 @@ fun TodoEditorPage(
                 }
             }
         },
-        onBack = onNavigateUp,
+        onBack = {
+            checkModifiedBeforeBack()
+        },
         modifier = modifier
     ) { innerPadding ->
         Column(
@@ -225,4 +256,18 @@ fun TodoEditorPage(
             Spacer(Modifier.size(40.dp))
         }
     }
+
+    BasicDialog(
+        visible = showConfirmDialog,
+        icon = Icons.Outlined.ErrorOutline,
+        title = stringResource(R.string.title_warning),
+        text = { Text(stringResource(R.string.tip_discard_changes)) },
+        confirmButton = stringResource(R.string.action_confirm),
+        dismissButton = stringResource(R.string.action_cancel),
+        onConfirm = {
+            showConfirmDialog = false
+            onNavigateUp()
+        },
+        onDismiss = { showConfirmDialog = false }
+    )
 }
