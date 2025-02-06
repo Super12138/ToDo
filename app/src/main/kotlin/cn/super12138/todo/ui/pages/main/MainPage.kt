@@ -18,7 +18,10 @@ import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -29,10 +32,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.window.core.layout.WindowWidthSizeClass
+import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.database.TodoEntity
-import cn.super12138.todo.ui.pages.main.components.TodoDeleteConfirmDialog
+import cn.super12138.todo.ui.components.BasicDialog
 import cn.super12138.todo.ui.pages.main.components.TodoFAB
 import cn.super12138.todo.ui.pages.main.components.TodoTopAppBar
 import cn.super12138.todo.ui.viewmodels.MainViewModel
@@ -203,16 +208,20 @@ fun MainPage(
             }
         }
     }
-    if (showDeleteConfirmDialog) {
-        TodoDeleteConfirmDialog(
-            onConfirm = {
-                showDeleteConfirmDialog = false
-                viewModel.apply {
-                    deleteSelectedTodo()
-                }
-            },
-            onDismiss = { showDeleteConfirmDialog = false },
-            deleteTodoCount = selectedTodoIds.value.size
-        )
-    }
+
+    BasicDialog(
+        visible = showDeleteConfirmDialog,
+        icon = Icons.Outlined.Delete,
+        title = stringResource(R.string.title_warning),
+        text = {
+            Text(stringResource(R.string.tip_delete_task, selectedTodoIds.value.size))
+        },
+        confirmButton = stringResource(R.string.action_confirm),
+        dismissButton = stringResource(R.string.action_cancel),
+        onConfirm = {
+            showDeleteConfirmDialog = false
+            viewModel.deleteSelectedTodo()
+        },
+        onDismiss = { showDeleteConfirmDialog = false }
+    )
 }
