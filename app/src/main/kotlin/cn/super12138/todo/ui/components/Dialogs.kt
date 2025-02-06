@@ -29,7 +29,10 @@ fun WarningDialog(
         text = { Text(description) },
         confirmButton = stringResource(R.string.action_confirm),
         dismissButton = stringResource(R.string.action_cancel),
-        onConfirm = onConfirm,
+        onConfirm = {
+            onConfirm()
+            onDismiss()
+        },
         onDismiss = onDismiss,
         modifier = modifier
     )

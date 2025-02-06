@@ -31,7 +31,7 @@
     <string name="title_selected_count">已选择 %s 项</string>
     <string name="action_confirm">确定</string>
     <string name="title_warning">警告</string>
-    <string name="tip_delete_task">即将删除你选择的 %s 项待办。删除后将无法恢复这些待办，确定删除？</string>
+    <string name="tip_delete_task">即将删除 %s 项待办。删除后将无法恢复这些待办，确定删除？</string>
     <string name="action_back">返回</string>
     <string name="pref_about">关于</string>
     <string name="pref_about_desc">关于本应用</string>

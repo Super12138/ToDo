@@ -212,10 +212,7 @@ fun MainPage(
         visible = showDeleteConfirmDialog,
         icon = Icons.Outlined.Delete,
         description = stringResource(R.string.tip_delete_task, selectedTodoIds.value.size),
-        onConfirm = {
-            showDeleteConfirmDialog = false
-            viewModel.deleteSelectedTodo()
-        },
+        onConfirm = { viewModel.deleteSelectedTodo() },
         onDismiss = { showDeleteConfirmDialog = false }
     )
 }

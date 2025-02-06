@@ -68,7 +68,8 @@ fun TodoEditorPage(
     animatedVisibilityScope: AnimatedVisibilityScope,
     modifier: Modifier = Modifier
 ) {
-    var showConfirmDialog by rememberSaveable { mutableStateOf(false) }
+    var showExitConfirmDialog by rememberSaveable { mutableStateOf(false) }
+    var showDeleteConfirmDialog by rememberSaveable { mutableStateOf(false) }
 
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
@@ -84,7 +85,7 @@ fun TodoEditorPage(
         if ((toDo?.subject ?: 0) != selectedSubjectIndex) isModified = true
         if ((toDo?.priority ?: 0f) != priorityState) isModified = true
         if (isModified) {
-            showConfirmDialog = true
+            showExitConfirmDialog = true
         } else {
             onNavigateUp()
         }
@@ -105,20 +106,20 @@ fun TodoEditorPage(
                             icon = {
                                 Icon(
                                     imageVector = Icons.Outlined.Delete,
-                                    contentDescription = stringResource(R.string.action_delete)
+                                    contentDescription = null
                                 )
                             },
                             text = { Text(stringResource(R.string.action_delete)) },
                             expanded = true,
                             containerColor = MaterialTheme.colorScheme.errorContainer,
-                            onClick = onDelete
+                            onClick = { showDeleteConfirmDialog = true }
                         )
                     }
                     AnimatedExtendedFloatingActionButton(
                         icon = {
                             Icon(
                                 imageVector = Icons.Outlined.Save,
-                                contentDescription = stringResource(R.string.action_save)
+                                contentDescription = null
                             )
                         },
                         text = { Text(stringResource(R.string.action_save)) },
@@ -246,13 +247,21 @@ fun TodoEditorPage(
     }
 
     WarningDialog(
-        visible = showConfirmDialog,
+        visible = showExitConfirmDialog,
         icon = Icons.AutoMirrored.Outlined.Undo,
         description = stringResource(R.string.tip_discard_changes),
         onConfirm = {
-            showConfirmDialog = false
+            showExitConfirmDialog = false
             onNavigateUp()
         },
-        onDismiss = { showConfirmDialog = false }
+        onDismiss = { showExitConfirmDialog = false }
+    )
+
+    WarningDialog(
+        visible = showDeleteConfirmDialog,
+        icon = Icons.Outlined.Delete,
+        description = stringResource(R.string.tip_delete_task, 1),
+        onConfirm = onDelete,
+        onDismiss = { showDeleteConfirmDialog = false }
     )
 }
