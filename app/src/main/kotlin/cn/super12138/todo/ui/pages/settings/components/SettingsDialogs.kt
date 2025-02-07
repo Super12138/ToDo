@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.BasicDialog
 import cn.super12138.todo.ui.pages.settings.state.rememberPrefIntState
 import cn.super12138.todo.utils.VibrationUtils
@@ -77,8 +78,8 @@ fun RadioItem(
                     onClick()
                 },
                 role = Role.RadioButton
-            ),
-        // .padding(horizontal = TodoDefaults.screenPadding),
+            )
+            .padding(horizontal = TodoDefaults.screenPadding),
         verticalAlignment = Alignment.CenterVertically
     ) {
         RadioButton(
