@@ -14,7 +14,7 @@ navigation = "2.8.6"
 material3 = "1.4.0-alpha07"
 adaptive = "1.1.0-beta01"
 # AboutLibraries
-aboutLibsRelease = "11.3.0-rc02"
+aboutLibsRelease = "11.5.0"
 # M3 Color
 m3color = "2024.6"
 # Konfetti
