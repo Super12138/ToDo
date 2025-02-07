@@ -1,0 +1,16 @@
+{
+  "uniqueId": "com.xinto.mauth:0.9.0",
+  "artifactVersion": "0.9.0",
+  "name": "Mauth",
+  "developers": [
+    {
+      "name": "X1nto"
+    }
+  ],
+  "description": "A Material You Two-factor Authentication app",
+  "website": "https://github.com/X1nto/Mauth/",
+  "tag": "custom",
+  "licenses": [
+    "GPL-3.0-or-later"
+  ]
+}

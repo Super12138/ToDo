@@ -1,0 +1,16 @@
+{
+  "uniqueId": "com.dede.android_eggs:3.4.0",
+  "artifactVersion": "3.4.0",
+  "name": "AndroidEasterEggs",
+  "developers": [
+    {
+      "name": "hushenghao"
+    }
+  ],
+  "description": "Collections the Android release Easter Egg",
+  "website": "https://github.com/hushenghao/AndroidEasterEggs",
+  "tag": "custom",
+  "licenses": [
+    "Apache-2.0"
+  ]
+}

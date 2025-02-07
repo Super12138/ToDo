@@ -3,11 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
-        android:name=".ToDoApp"
+        android:name=".TodoApp"
         android:allowBackup="true"
-        android:appCategory="productivity"
         android:dataExtractionRules="@xml/data_extraction_rules"
-        android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,22 +13,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ToDo.Starting"
         tools:targetApi="35">
-
         <activity
-            android:name=".views.activities.MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:exported="true"
-            android:launchMode="singleTask">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
-                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".views.activities.CrashActivity"
+            android:name=".ui.activities.CrashActivity"
             android:exported="false"
             android:theme="@style/Theme.ToDo" />
     </application>
+
 </manifest>

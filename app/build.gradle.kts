@@ -1,13 +1,17 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.aboutlibraries)
 }
+
 ksp {
     arg("room.schemaLocation", "$projectDir/schemas")
 }
 
-val baseVersionName = "1.0.6"
+// 配置版本信息
+val baseVersionName = "compose-refactor"
 val commitHash by lazy { "git rev-parse --short HEAD".exec() }
 val verCode by lazy { "git rev-list --count HEAD".exec().toInt() }
 
@@ -53,50 +57,70 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_18
-        targetCompatibility = JavaVersion.VERSION_18
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     kotlinOptions {
-        jvmTarget = "18"
+        jvmTarget = "21"
+    }
+    aboutLibraries {
+        configPath = "$projectDir/licences"
     }
     buildFeatures {
-        viewBinding = true
+        compose = true
     }
 }
 
 dependencies {
 
     // Android X
-    implementation(libs.androidx.core)
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.core.core.splashscreen)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.activity.ktx)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.fragment)
-    implementation(libs.androidx.fragment.ktx)
-    implementation(libs.androidx.recyclerview)
-    implementation(libs.androidx.lifecycle.viewmodel)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.preference)
-    implementation(libs.androidx.preference.ktx)
-    implementation(libs.androidx.security)
-    // Material Design
-    implementation(libs.material)
+    implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.compose.runtime.livedata)
+    // implementation(libs.androidx.security)
+    // Compose
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.animation)
+    implementation(libs.androidx.navigation)
+    implementation(libs.androidx.material3.adaptive)
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.android)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.material.icon.core)
+    implementation(libs.androidx.material.icon.extended)
+    // About Libraries
+    implementation(libs.aboutlibraries.core)
+    implementation(libs.aboutlibraries.compose)
+    // M3 Color
+    implementation(libs.com.kyant0.m3color)
+    // Konfetti
+    implementation(libs.nl.dionsegijn.konfetti.compose)
+    // Lazy Column Scrollbar
+    implementation(libs.lazycolumnscrollbar)
+    // Kotlin Coroutines
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
     // Room
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     annotationProcessor(libs.androidx.room.compiler)
     ksp(libs.androidx.room.compiler)
-    // FastScroll
-    implementation(project(":fastscroll"))
     // Test
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
 }
 
+// 命令执行工具类
 fun String.exec(): String = exec(this)
 
 fun Project.exec(command: String): String = providers.exec {
