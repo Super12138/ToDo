@@ -128,7 +128,7 @@ fun TodoTopAppBar(
             }
 
         },
-        colors = TopAppBarDefaults.largeTopAppBarColors().copy(
+        colors = TopAppBarDefaults.topAppBarColors().copy(
             containerColor = animatedTopAppBarColors
         )
     )
