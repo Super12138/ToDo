@@ -5,14 +5,14 @@ splashScreen = "1.2.0-alpha02"
 lifecycleRuntimeKtx = "2.8.7"
 # security = "1.1.0-alpha06"
 # Compose
-activityCompose = "1.9.3"
-composeBom = "2024.12.01"
+activityCompose = "1.10.0"
+composeBom = "2025.01.01"
 liveData = "1.7.6"
-icons = "1.7.6"
+icons = "1.7.7"
 room = "2.6.1"
-navigation = "2.8.5"
-material3 = "1.4.0-alpha05"
-adaptive = "1.1.0-alpha08"
+navigation = "2.8.6"
+material3 = "1.4.0-alpha07"
+adaptive = "1.1.0-beta01"
 # AboutLibraries
 aboutLibsRelease = "11.3.0-rc02"
 # M3 Color
@@ -29,8 +29,8 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 # Plugins
 agp = "8.8.0"
-kotlin = "2.1.0"
-ksp = "2.1.0-1.0.29"
+kotlin = "2.1.10"
+ksp = "2.1.10-1.0.29"
 
 [libraries]
 # Android X
