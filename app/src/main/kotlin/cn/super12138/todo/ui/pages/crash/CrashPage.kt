@@ -67,17 +67,8 @@ fun CrashPage(
         floatingActionButton = {
             AnimatedExtendedFloatingActionButton(
                 onClick = exitApp,
-                icon = {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Outlined.ExitToApp,
-                        contentDescription = stringResource(R.string.action_exit_app)
-                    )
-                },
-                text = {
-                    Text(
-                        text = stringResource(R.string.action_exit_app)
-                    )
-                },
+                icon = Icons.AutoMirrored.Outlined.ExitToApp,
+                text = stringResource(R.string.action_exit_app),
                 expanded = isExpanded
             )
         },

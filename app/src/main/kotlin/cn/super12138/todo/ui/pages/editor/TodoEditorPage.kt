@@ -107,26 +107,16 @@ fun TodoEditorPage(
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     if (toDo !== null) {
                         AnimatedExtendedFloatingActionButton(
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.Outlined.Delete,
-                                    contentDescription = null
-                                )
-                            },
-                            text = { Text(stringResource(R.string.action_delete)) },
+                            icon = Icons.Outlined.Delete,
+                            text = stringResource(R.string.action_delete),
                             expanded = true,
                             containerColor = MaterialTheme.colorScheme.errorContainer,
                             onClick = { showDeleteConfirmDialog = true }
                         )
                     }
                     AnimatedExtendedFloatingActionButton(
-                        icon = {
-                            Icon(
-                                imageVector = Icons.Outlined.Save,
-                                contentDescription = null
-                            )
-                        },
-                        text = { Text(stringResource(R.string.action_save)) },
+                        icon = Icons.Outlined.Save,
+                        text = stringResource(R.string.action_save),
                         expanded = true,
                         onClick = {
                             if (toDoContent.trim().isEmpty()) {

@@ -27,19 +27,8 @@ fun TodoFAB(
     modifier: Modifier = Modifier
 ) {
     AnimatedExtendedFloatingActionButton(
-        icon = {
-            Icon(
-                imageVector = Icons.Outlined.Add,
-                contentDescription = stringResource(R.string.action_add_task)
-            )
-        },
-        text = {
-            Text(
-                text = stringResource(R.string.action_add_task),
-                maxLines = 1,
-                overflow = TextOverflow.Clip
-            )
-        },
+        icon = Icons.Outlined.Add,
+        text = stringResource(R.string.action_add_task),
         expanded = expanded,
         elevation = elevation,
         onClick = onClick,
