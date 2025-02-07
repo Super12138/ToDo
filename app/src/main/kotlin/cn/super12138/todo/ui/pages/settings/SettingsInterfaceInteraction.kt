@@ -32,6 +32,7 @@ import cn.super12138.todo.ui.pages.settings.components.SettingsRadioDialog
 import cn.super12138.todo.ui.pages.settings.components.SettingsRadioOptions
 import cn.super12138.todo.ui.pages.settings.components.SwitchSettingsItem
 import cn.super12138.todo.ui.viewmodels.MainViewModel
+import cn.super12138.todo.utils.VibrationUtils
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -80,7 +81,7 @@ fun SettingsInterface(
                 leadingIcon = Icons.Outlined.Vibration,
                 title = stringResource(R.string.pref_haptic_feedback),
                 description = stringResource(R.string.pref_haptic_feedback_desc),
-                onCheckedChange = {}
+                onCheckedChange = { VibrationUtils.setEnabled(it) }
             )
             SettingsPlainBox(stringResource(R.string.pref_haptic_feedback_more_info))
         }
