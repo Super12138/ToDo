@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.model.Priority
+import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.utils.VibrationUtils
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalSharedTransitionApi::class)
@@ -64,7 +65,7 @@ fun TodoCard(
     ElevatedCard(
         modifier = modifier
             .fillMaxWidth()
-            .height(80.dp)
+            .height(TodoDefaults.toDoCardHeight)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

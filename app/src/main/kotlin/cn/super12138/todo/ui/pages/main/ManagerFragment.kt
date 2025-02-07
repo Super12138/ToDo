@@ -45,11 +45,11 @@ fun ManagerFragment(
             thumbUnselectedColor = MaterialTheme.colorScheme.secondary,
             thumbSelectedColor = MaterialTheme.colorScheme.primary
         ),
-        modifier = modifier,
+        modifier = modifier
     ) {
         LazyColumn(
             state = state,
-            contentPadding = PaddingValues(horizontal = TodoDefaults.screenPadding)
+            contentPadding = PaddingValues(start = TodoDefaults.screenPadding, bottom = TodoDefaults.toDoCardHeight / 2, end = TodoDefaults.screenPadding)
         ) {
             if (list.isEmpty()) {
                 item {

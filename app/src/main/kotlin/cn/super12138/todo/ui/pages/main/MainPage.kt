@@ -53,11 +53,11 @@ fun MainPage(
 ) {
     val toDoList = viewModel.sortedTodos.collectAsState(initial = emptyList())
     val listState = rememberLazyListState()
-    val isExpanded by remember {
+    /*val isExpanded by remember {
         derivedStateOf {
             listState.firstVisibleItemIndex == 0
         }
-    }
+    }*/
 
     val selectedTodoIds = viewModel.selectedTodoIds.collectAsState()
     var showDeleteConfirmDialog by rememberSaveable { mutableStateOf(false) }
@@ -97,9 +97,9 @@ fun MainPage(
                     enter = fadeIn() + expandIn(),
                     exit = shrinkOut() + fadeOut()
                 ) {
-                    // TODO: 修复在滑动列表时FAB位移导致的动画不连贯
+                    // TODO: 修复在滑动列表时FAB位移导致的动画不连贯（临时方案为底部加padding）
                     TodoFAB(
-                        expanded = isExpanded,
+                        expanded = true,
                         onClick = {
                             viewModel.setEditTodoItem(null) // 每次添加待办前清除上一次已选待办
                             toTodoEditPage()
