@@ -29,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import cn.super12138.todo.R
 import cn.super12138.todo.utils.VibrationUtils
@@ -74,7 +75,9 @@ fun TodoTopAppBar(
                         R.string.title_selected_count,
                         selectedTodoIds.size
                     )
-                }
+                },
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         },
         actions = {

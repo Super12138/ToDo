@@ -33,7 +33,6 @@ fun SettingsRadioDialog(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val view = LocalView.current
     SettingsDialog(
         visible = visible,
         title = title,
@@ -42,39 +41,56 @@ fun SettingsRadioDialog(
             // Modifier.selectableGroup() 用来确保无障碍功能运行正确
             Column(Modifier.selectableGroup()) {
                 options.forEach { option ->
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .height(56.dp)
-                            .selectable(
-                                selected = option.id == selectedItemIndex,
-                                onClick = {
-                                    selectedItemIndex = option.id
-                                    VibrationUtils.performHapticFeedback(view)
-                                    onSelect(option.id)
-                                    onDismiss()
-                                },
-                                role = Role.RadioButton
-                            )
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        RadioButton(
-                            selected = option.id == selectedItemIndex,
-                            onClick = null // 设置为 null 有利于屏幕阅读器
-                        )
-                        Text(
-                            text = option.text,
-                            style = MaterialTheme.typography.bodyLarge,
-                            modifier = Modifier.padding(start = 16.dp)
-                        )
-                    }
+                    RadioItem(
+                        selected = option.id == selectedItemIndex,
+                        text = option.text,
+                        onClick = {
+                            selectedItemIndex = option.id
+                            onSelect(option.id)
+                            onDismiss()
+                        }
+                    )
                 }
             }
         },
         onDismissRequest = onDismiss,
         modifier = modifier
     )
+}
+
+@Composable
+fun RadioItem(
+    selected: Boolean,
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val view = LocalView.current
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .height(56.dp)
+            .selectable(
+                selected = selected,
+                onClick = {
+                    VibrationUtils.performHapticFeedback(view)
+                    onClick()
+                },
+                role = Role.RadioButton
+            ),
+        // .padding(horizontal = TodoDefaults.screenPadding),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        RadioButton(
+            selected = selected,
+            onClick = null // 设置为 null 有利于屏幕阅读器
+        )
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.padding(start = 16.dp)
+        )
+    }
 }
 
 data class SettingsRadioOptions(

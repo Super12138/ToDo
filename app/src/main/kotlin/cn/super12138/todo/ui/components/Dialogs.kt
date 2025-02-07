@@ -1,5 +1,8 @@
 package cn.super12138.todo.ui.components
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material3.AlertDialog
@@ -103,7 +106,11 @@ fun BasicDialog(
         AlertDialog(
             icon = icon,
             title = title,
-            text = text,
+            text = {
+                Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                    text?.let { it() }
+                }
+            },
             confirmButton = confirmButton,
             dismissButton = dismissButton,
             onDismissRequest = onDismissRequest,

@@ -97,6 +97,7 @@ fun MainPage(
                     enter = fadeIn() + expandIn(),
                     exit = shrinkOut() + fadeOut()
                 ) {
+                    // TODO: 修复在滑动列表时FAB位移导致的动画不连贯
                     TodoFAB(
                         expanded = isExpanded,
                         onClick = {
