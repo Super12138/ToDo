@@ -24,7 +24,6 @@ import androidx.compose.material.icons.automirrored.outlined.Undo
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Label
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PlainTooltip
@@ -207,8 +206,8 @@ fun TodoEditorPage(
 
             Spacer(Modifier.size(5.dp))
 
+            val priorityName = Priority.entries.map { it.getDisplayName(context) } // 要不要用 remember 呢
             val interactionSource = remember { MutableInteractionSource() }
-
             Slider(
                 modifier = Modifier.semantics {
                     contentDescription = context.getString(R.string.label_priority)
@@ -218,7 +217,7 @@ fun TodoEditorPage(
                     VibrationUtils.performHapticFeedback(view, HapticFeedbackConstants.LONG_PRESS)
                     priorityState = it
                 },
-                valueRange = -10f..10f,
+                valueRange = -2f..2f,
                 steps = 3,
                 interactionSource = interactionSource,
                 thumb = {
@@ -229,7 +228,7 @@ fun TodoEditorPage(
                                     .sizeIn(45.dp, 25.dp)
                                     .wrapContentWidth()
                             ) {
-                                Text(Priority.fromFloat(priorityState).getDisplayName(context))
+                                Text(priorityName[Priority.fromFloat(priorityState).ordinal])
                             }
                         },
                         interactionSource = interactionSource
