@@ -11,7 +11,7 @@ ksp {
 }
 
 // 配置版本信息
-val baseVersionName = "compose-refactor"
+val baseVersionName = "2.0.0"
 val commitHash by lazy { "git rev-parse --short HEAD".exec() }
 val verCode by lazy { "git rev-list --count HEAD".exec().toInt() }
 
