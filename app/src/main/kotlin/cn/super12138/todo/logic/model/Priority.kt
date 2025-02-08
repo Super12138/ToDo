@@ -4,11 +4,11 @@ import android.content.Context
 import cn.super12138.todo.R
 
 enum class Priority(val value: Float) {
-    Urgent(10f),
-    Important(5f),
+    Urgent(2f),
+    Important(1f),
     Default(0f),
-    NotImportant(-5f),
-    NotUrgent(-10f);
+    NotImportant(-1f),
+    NotUrgent(-2f);
 
     fun getDisplayName(context: Context): String {
         val resId = when (this) {

@@ -51,7 +51,7 @@ fun TodoCard(
     content: String,
     subject: String,
     completed: Boolean,
-    priority: Float,
+    priority: Priority,
     selected: Boolean,
     onCardClick: () -> Unit = {},
     onCardLongClick: () -> Unit = {},
@@ -112,16 +112,15 @@ fun TodoCard(
                     badge = {
                         Badge(
                             containerColor = when (priority) {
-                                -10f -> MaterialTheme.colorScheme.surfaceContainerHighest
-                                -5f -> MaterialTheme.colorScheme.surfaceContainerHighest
-                                0f -> MaterialTheme.colorScheme.secondary
-                                5f -> MaterialTheme.colorScheme.tertiary
-                                10f -> MaterialTheme.colorScheme.error
-                                else -> MaterialTheme.colorScheme.secondary
+                                Priority.NotUrgent -> MaterialTheme.colorScheme.surfaceContainerHighest
+                                Priority.NotImportant -> MaterialTheme.colorScheme.surfaceContainerHighest
+                                Priority.Default -> MaterialTheme.colorScheme.secondary
+                                Priority.Important -> MaterialTheme.colorScheme.tertiary
+                                Priority.Urgent -> MaterialTheme.colorScheme.error
                             },
                             modifier = Modifier.padding(start = 5.dp)
                         ) {
-                            Text(Priority.fromFloat(priority).getDisplayName(context))
+                            Text(priority.getDisplayName(context))
                         }
                     }
                 ) {

@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.database.TodoEntity
+import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.logic.model.Subjects
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.pages.main.components.TodoCard
@@ -71,7 +72,7 @@ fun ManagerFragment(
                         content = item.content,
                         subject = Subjects.fromId(item.subject).getDisplayName(context),
                         completed = item.isCompleted,
-                        priority = item.priority,
+                        priority = Priority.fromFloat(item.priority),
                         selected = selectedTodoIds.contains(item.id),
                         onCardClick = { onItemClick(item) },
                         onCardLongClick = { onItemLongClick(item) },
