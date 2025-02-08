@@ -1,8 +1,5 @@
 package cn.super12138.todo.logic.model
 
-import android.content.Context
-import cn.super12138.todo.R
-
 enum class ContrastLevel(val value: Float) {
     VeryLow(-1f),
     Low(-0.5f),
@@ -10,7 +7,7 @@ enum class ContrastLevel(val value: Float) {
     Medium(0.5f),
     High(1f);
 
-    fun getDisplayName(context: Context): String {
+    /*fun getDisplayName(context: Context): String {
         val resId = when (this) {
             VeryLow -> R.string.contrast_very_low
             Low -> R.string.contrast_low
@@ -19,7 +16,7 @@ enum class ContrastLevel(val value: Float) {
             High -> R.string.contrast_very_high
         }
         return context.getString(resId)
-    }
+    }*/
 
     companion object {
         fun fromFloat(float: Float): ContrastLevel {
