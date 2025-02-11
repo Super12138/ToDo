@@ -90,7 +90,7 @@
     <string name="sorting_alphabetical_ascending">Alphabetical (Ascending)</string>
     <string name="sorting_alphabetical_descending">Alphabetical (Descending)</string>
     <string name="pref_sorting_method">Sorting Method</string>
-    <string name="pref_category_global_interaction">Global Interaction</string>
+    <string name="pref_category_global">Global Settings</string>
     <string name="pref_haptic_feedback">Haptic Feedback</string>
     <string name="pref_haptic_feedback_desc">Provide slight vibration feedback for some operations</string>
     <string name="tip_tips">Tips</string>
@@ -105,4 +105,6 @@
     <string name="tip_backup_failed">Backup failed</string>
     <string name="tip_restore_success">Restore successful, restart the app to load data</string>
     <string name="tip_restore_failed">Restore failed</string>
+    <string name="pref_secure_mode">Secure Mode</string>
+    <string name="pref_secure_mode_desc">Prevent screenshots and protect the background preview image</string>
 </resources>

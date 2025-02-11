@@ -27,6 +27,10 @@ object GlobalValues {
         key = Constants.PREF_SORTING_METHOD,
         default = Constants.PREF_SORTING_METHOD_DEFAULT
     )
+    var secureMode: Boolean by SPDelegates(
+        key = Constants.PREF_SECURE_MODE,
+        default = Constants.PREF_SECURE_MODE_DEFAULT
+    )
     var hapticFeedback: Boolean by SPDelegates(
         key = Constants.PREF_HAPTIC_FEEDBACK,
         default = Constants.PREF_HAPTIC_FEEDBACK_DEFAULT

@@ -15,6 +15,8 @@ import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.logic.model.ContrastLevel
 import cn.super12138.todo.logic.model.DarkMode
 import cn.super12138.todo.logic.model.SortingMethod
+import cn.super12138.todo.ui.theme.PaletteStyle
+import cn.super12138.todo.utils.FileUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,7 +29,6 @@ import kotlinx.coroutines.withContext
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.File
-import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
@@ -54,9 +55,15 @@ class MainViewModel : ViewModel() {
     var showCompletedTodos by mutableStateOf(GlobalValues.showCompleted)
 
     // 主题颜色
+    var appDynamicColorEnable by mutableStateOf(GlobalValues.dynamicColor)
+        private set
+    var appPaletteStyle by mutableStateOf(PaletteStyle.fromId(GlobalValues.paletteStyle))
+        private set
     var appDarkMode by mutableStateOf(DarkMode.fromId(GlobalValues.darkMode))
         private set
     var appContrastLevel by mutableStateOf(ContrastLevel.fromFloat(GlobalValues.contrastLevel))
+        private set
+    var appSecureMode by mutableStateOf(GlobalValues.secureMode)
         private set
 
     // 多选逻辑参考：https://github.com/X1nto/Mauth
@@ -150,6 +157,14 @@ class MainViewModel : ViewModel() {
     /**
      * 应用设置
      */
+    fun setDynamicColor(enabled: Boolean) {
+        appDynamicColorEnable = enabled
+    }
+
+    fun setPaletteStyle(paletteStyle: PaletteStyle) {
+        appPaletteStyle = paletteStyle
+    }
+
     fun setDarkMode(darkMode: DarkMode) {
         appDarkMode = darkMode
     }
@@ -166,6 +181,10 @@ class MainViewModel : ViewModel() {
         appSortingMethod = sortingMethod
     }
 
+    fun setSecureMode(enabled: Boolean) {
+        appSecureMode = enabled
+    }
+
     fun backupDatabase(uri: Uri, context: Context, onResult: (completed: Boolean) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -178,9 +197,9 @@ class MainViewModel : ViewModel() {
                         val dbWal = File("$dbPath-wal")
                         val dbShm = File("$dbPath-shm")
 
-                        addFileToZip(dbFile, dbFile.name, zipOutStream)
-                        addFileToZip(dbWal, dbWal.name, zipOutStream)
-                        addFileToZip(dbShm, dbShm.name, zipOutStream)
+                        FileUtils.addFileToZip(dbFile, dbFile.name, zipOutStream)
+                        FileUtils.addFileToZip(dbWal, dbWal.name, zipOutStream)
+                        FileUtils.addFileToZip(dbShm, dbShm.name, zipOutStream)
                     }
                 }
 
@@ -227,28 +246,6 @@ class MainViewModel : ViewModel() {
                 withContext(Dispatchers.Main) {
                     onResult(false) // 失败
                 }
-            }
-        }
-    }
-
-    private fun addFileToZip(file: File, fileName: String, zipOut: ZipOutputStream) {
-        if (file.isHidden) {
-            return // 忽略隐藏文件
-        }
-        if (file.isDirectory) {
-            // 如果是文件夹，递归处理
-            val children = file.listFiles()
-            if (children != null) {
-                for (childFile in children) {
-                    addFileToZip(childFile, "$fileName/${childFile.name}", zipOut)
-                }
-            }
-        } else {
-            // 如果是文件，写入 ZIP
-            FileInputStream(file).use { fis ->
-                val zipEntry = ZipEntry(fileName)
-                zipOut.putNextEntry(zipEntry)
-                fis.copyTo(zipOut)
             }
         }
     }

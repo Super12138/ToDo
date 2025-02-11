@@ -29,6 +29,9 @@ object Constants {
     const val PREF_SORTING_METHOD = "sorting_method"
     const val PREF_SORTING_METHOD_DEFAULT = 1
 
+    const val PREF_SECURE_MODE = "secure_mode"
+    const val PREF_SECURE_MODE_DEFAULT = false
+
     const val PREF_HAPTIC_FEEDBACK = "haptic_feedback"
     const val PREF_HAPTIC_FEEDBACK_DEFAULT = true
 }

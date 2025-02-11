@@ -20,8 +20,6 @@ import cn.super12138.todo.ui.pages.settings.components.SwitchSettingsItem
 import cn.super12138.todo.ui.pages.settings.components.contrast.ContrastPicker
 import cn.super12138.todo.ui.pages.settings.components.darkmode.DarkModePicker
 import cn.super12138.todo.ui.pages.settings.components.palette.PalettePicker
-import cn.super12138.todo.ui.theme.appPaletteStyle
-import cn.super12138.todo.ui.theme.isDynamicColorEnable
 import cn.super12138.todo.ui.viewmodels.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,7 +47,7 @@ fun SettingsAppearance(
             PalettePicker(
                 isDarkMode = viewModel.appDarkMode,
                 contrastLevel = viewModel.appContrastLevel,
-                onPaletteChange = { appPaletteStyle = it }
+                onPaletteChange = { viewModel.setPaletteStyle(it) }
             )
 
             ContrastPicker(onContrastChange = { viewModel.setContrastLevel(it) })
@@ -60,7 +58,7 @@ fun SettingsAppearance(
                 leadingIcon = Icons.Outlined.ColorLens,
                 title = stringResource(R.string.pref_appearance_dynamic_color),
                 description = stringResource(R.string.pref_appearance_dynamic_color_desc),
-                onCheckedChange = { isDynamicColorEnable = it },
+                onCheckedChange = { viewModel.setDynamicColor(it) },
             )
         }
     }

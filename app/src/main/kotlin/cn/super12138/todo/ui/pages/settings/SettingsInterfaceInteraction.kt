@@ -8,6 +8,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Sort
 import androidx.compose.material.icons.outlined.Checklist
+import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.Vibration
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
@@ -74,7 +75,15 @@ fun SettingsInterface(
                 onClick = { showSortingMethodDialog = true }
             )
 
-            SettingsCategory(stringResource(R.string.pref_category_global_interaction))
+            SettingsCategory(stringResource(R.string.pref_category_global))
+            SwitchSettingsItem(
+                key = Constants.PREF_SECURE_MODE,
+                default = Constants.PREF_SECURE_MODE_DEFAULT,
+                leadingIcon = Icons.Outlined.Shield,
+                title = stringResource(R.string.pref_secure_mode),
+                description = stringResource(R.string.pref_secure_mode_desc),
+                onCheckedChange = { viewModel.setSecureMode(it) }
+            )
             SwitchSettingsItem(
                 key = Constants.PREF_HAPTIC_FEEDBACK,
                 default = Constants.PREF_HAPTIC_FEEDBACK_DEFAULT,

@@ -1,6 +1,7 @@
 package cn.super12138.todo.ui.activities
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -44,9 +45,22 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
+            LaunchedEffect(mainViewModel.appSecureMode) {
+                if (mainViewModel.appSecureMode) {
+                    window.setFlags(
+                        WindowManager.LayoutParams.FLAG_SECURE,
+                        WindowManager.LayoutParams.FLAG_SECURE
+                    )
+                } else {
+                    window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+                }
+            }
+
             ToDoTheme(
                 darkTheme = darkTheme,
-                contrastLevel = mainViewModel.appContrastLevel.value.toDouble()
+                style = mainViewModel.appPaletteStyle,
+                contrastLevel = mainViewModel.appContrastLevel.value.toDouble(),
+                dynamicColor = mainViewModel.appDynamicColorEnable
             ) {
                 Surface(color = MaterialTheme.colorScheme.background) {
                     TodoNavigation(

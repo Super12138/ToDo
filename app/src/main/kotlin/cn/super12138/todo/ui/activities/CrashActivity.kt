@@ -18,6 +18,7 @@ import cn.super12138.todo.logic.model.DarkMode.Dark
 import cn.super12138.todo.logic.model.DarkMode.FollowSystem
 import cn.super12138.todo.logic.model.DarkMode.Light
 import cn.super12138.todo.ui.pages.crash.CrashPage
+import cn.super12138.todo.ui.theme.PaletteStyle
 import cn.super12138.todo.ui.theme.ToDoTheme
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -74,7 +75,12 @@ class CrashActivity : ComponentActivity() {
                 }
             }
 
-            ToDoTheme(darkTheme = darkTheme) {
+            ToDoTheme(
+                darkTheme = darkTheme,
+                style = PaletteStyle.fromId(GlobalValues.paletteStyle),
+                contrastLevel = GlobalValues.contrastLevel.toDouble(),
+                dynamicColor = GlobalValues.dynamicColor
+            ) {
                 CrashPage(
                     crashLog = if (crashLogs == null) stringResource(R.string.tip_no_crash_logs) else crashLogFormatted,
                     exitApp = { finishAffinity() },

@@ -89,7 +89,7 @@
     <string name="sorting_alphabetical_ascending">首字母（升序）</string>
     <string name="sorting_alphabetical_descending">首字母（降序）</string>
     <string name="pref_sorting_method">排序方式</string>
-    <string name="pref_category_global_interaction">全局交互</string>
+    <string name="pref_category_global">全局设置</string>
     <string name="pref_haptic_feedback">触感反馈</string>
     <string name="pref_haptic_feedback_desc">为某些操作提供轻微的震动反馈</string>
     <string name="tip_tips">提示</string>
@@ -104,4 +104,6 @@
     <string name="tip_backup_failed">备份失败</string>
     <string name="tip_restore_success">数据恢复成功，需要重启应用以加载数据</string>
     <string name="tip_restore_failed">恢复失败</string>
+    <string name="pref_secure_mode">安全模式</string>
+    <string name="pref_secure_mode_desc">阻止截屏并保护后台预览图</string>
 </resources>
