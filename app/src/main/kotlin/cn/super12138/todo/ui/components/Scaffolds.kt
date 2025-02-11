@@ -72,6 +72,7 @@ fun LargeTopAppBarScaffold(
             }
         },
         scrollBehavior = scrollBehavior,
+        snackbarHost = snackbarHost,
         floatingActionButton = floatingActionButton,
         floatingActionButtonPosition = floatingActionButtonPosition,
         contentWindowInsets = contentWindowInsets

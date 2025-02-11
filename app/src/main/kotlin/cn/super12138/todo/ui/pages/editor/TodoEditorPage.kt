@@ -206,7 +206,8 @@ fun TodoEditorPage(
 
             Spacer(Modifier.size(5.dp))
 
-            val priorityName = Priority.entries.map { it.getDisplayName(context) } // 要不要用 remember 呢
+            val priorityName =
+                Priority.entries.map { it.getDisplayName(context) } // 要不要用 remember 呢
             val interactionSource = remember { MutableInteractionSource() }
             Slider(
                 modifier = Modifier.semantics {

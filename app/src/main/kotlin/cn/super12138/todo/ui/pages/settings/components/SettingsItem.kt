@@ -56,7 +56,7 @@ fun SettingsItem(
             leadingIcon?.let {
                 Icon(
                     imageVector = it,
-                    contentDescription = title,
+                    contentDescription = null,
                     tint = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(end = 24.dp),
                 )

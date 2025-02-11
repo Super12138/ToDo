@@ -1,16 +1,21 @@
 package cn.super12138.todo.ui.viewmodels
 
+import android.content.Context
+import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import cn.super12138.todo.TodoApp
+import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.constants.GlobalValues
 import cn.super12138.todo.logic.Repository
 import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.logic.model.ContrastLevel
 import cn.super12138.todo.logic.model.DarkMode
 import cn.super12138.todo.logic.model.SortingMethod
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,6 +23,15 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.BufferedInputStream
+import java.io.BufferedOutputStream
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.util.zip.ZipEntry
+import java.util.zip.ZipInputStream
+import java.util.zip.ZipOutputStream
 
 class MainViewModel : ViewModel() {
     // 待办
@@ -33,6 +47,7 @@ class MainViewModel : ViewModel() {
             SortingMethod.AlphabeticalDescending -> list.sortedByDescending { it.content }
         }
     }
+
     val showConfetti = mutableStateOf(false)
     var selectedEditTodo by mutableStateOf<TodoEntity?>(null)
         private set
@@ -149,5 +164,92 @@ class MainViewModel : ViewModel() {
 
     fun setSortingMethod(sortingMethod: SortingMethod) {
         appSortingMethod = sortingMethod
+    }
+
+    fun backupDatabase(uri: Uri, context: Context, onResult: (completed: Boolean) -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                // 获取数据库文件路径
+                val dbPath = TodoApp.db.openHelper.writableDatabase.path
+                // 开启输出文件流，输出位置为用户选取的文件夹URI
+                context.contentResolver.openOutputStream(uri)?.use { outputStream ->
+                    ZipOutputStream(BufferedOutputStream(outputStream)).use { zipOutStream ->
+                        val dbFile = context.getDatabasePath(Constants.DB_NAME)
+                        val dbWal = File("$dbPath-wal")
+                        val dbShm = File("$dbPath-shm")
+
+                        addFileToZip(dbFile, dbFile.name, zipOutStream)
+                        addFileToZip(dbWal, dbWal.name, zipOutStream)
+                        addFileToZip(dbShm, dbShm.name, zipOutStream)
+                    }
+                }
+
+                // 执行成功的回调
+                withContext(Dispatchers.Main) {
+                    onResult(true) // 成功
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                // 执行失败的回调
+                withContext(Dispatchers.Main) {
+                    onResult(false) // 失败
+                }
+            }
+        }
+    }
+
+    fun restoreDatabase(uri: Uri, context: Context, onResult: (completed: Boolean) -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                // 获取数据库文件路径
+                val outputPath = context.getDatabasePath(Constants.DB_NAME).parent
+                context.contentResolver.openInputStream(uri)?.use { inputStream ->
+                    ZipInputStream(BufferedInputStream(inputStream)).use { zipInputStream ->
+                        var zipEntry: ZipEntry? = zipInputStream.nextEntry
+                        while (zipEntry != null) {
+                            val outputFile = File(outputPath, zipEntry.name)
+                            if (zipEntry.isDirectory) {
+                                outputFile.mkdirs()
+                            } else {
+                                outputFile.parentFile?.mkdirs()
+                                FileOutputStream(outputFile).use { zipInputStream.copyTo(it) }
+                            }
+                            zipInputStream.closeEntry()
+                            zipEntry = zipInputStream.nextEntry
+                        }
+                    }
+                }
+                withContext(Dispatchers.Main) {
+                    onResult(true) // 成功
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    onResult(false) // 失败
+                }
+            }
+        }
+    }
+
+    private fun addFileToZip(file: File, fileName: String, zipOut: ZipOutputStream) {
+        if (file.isHidden) {
+            return // 忽略隐藏文件
+        }
+        if (file.isDirectory) {
+            // 如果是文件夹，递归处理
+            val children = file.listFiles()
+            if (children != null) {
+                for (childFile in children) {
+                    addFileToZip(childFile, "$fileName/${childFile.name}", zipOut)
+                }
+            }
+        } else {
+            // 如果是文件，写入 ZIP
+            FileInputStream(file).use { fis ->
+                val zipEntry = ZipEntry(fileName)
+                zipOut.putNextEntry(zipEntry)
+                fis.copyTo(zipOut)
+            }
+        }
     }
 }

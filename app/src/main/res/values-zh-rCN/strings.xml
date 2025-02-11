@@ -94,4 +94,14 @@
     <string name="pref_haptic_feedback_desc">为某些操作提供轻微的震动反馈</string>
     <string name="tip_tips">提示</string>
     <string name="pref_haptic_feedback_more_info">使用此项前须先在系统设置中打开触感反馈（通常在“声音与震动”里的“触感反馈”一项）</string>
+    <string name="pref_data">数据</string>
+    <string name="pref_data_desc">备份与恢复、管理数据</string>
+    <string name="pref_backup">备份数据</string>
+    <string name="pref_backup_desc">将待办数据库保存在你的设备上</string>
+    <string name="pref_restore">恢复数据</string>
+    <string name="pref_restore_desc">从你的设备上恢复待办数据库</string>
+    <string name="tip_backup_success">备份成功</string>
+    <string name="tip_backup_failed">备份失败</string>
+    <string name="tip_restore_success">数据恢复成功，需要重启应用以加载数据</string>
+    <string name="tip_restore_failed">恢复失败</string>
 </resources>

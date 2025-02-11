@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.window.DialogProperties
 import cn.super12138.todo.R
 import cn.super12138.todo.utils.VibrationUtils
 
@@ -25,6 +26,7 @@ fun WarningDialog(
     description: String,
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
+    properties: DialogProperties = DialogProperties(),
     modifier: Modifier = Modifier
 ) {
     BasicDialog(
@@ -39,6 +41,48 @@ fun WarningDialog(
             onDismiss()
         },
         onDismiss = onDismiss,
+        properties = properties,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun ConfirmDialog(
+    visible: Boolean,
+    icon: ImageVector,
+    title: String,
+    text: String,
+    confirmButton: String,
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit,
+    properties: DialogProperties = DialogProperties(),
+    modifier: Modifier = Modifier
+) {
+    val view = LocalView.current
+    BasicDialog(
+        visible = visible,
+        icon = {
+            Icon(
+                imageVector = icon,
+                contentDescription = null // 会跟下面的文本重复，所以设置为 null
+            )
+        },
+        title = { Text(title) },
+        text = { Text(text) },
+        confirmButton = {
+            FilledTonalButton(
+                onClick = {
+                    VibrationUtils.performHapticFeedback(view)
+                    onConfirm()
+                    onDismiss()
+                }
+            ) {
+                Text(confirmButton)
+            }
+        },
+        dismissButton = {},
+        onDismissRequest = onDismiss,
+        properties = properties,
         modifier = modifier
     )
 }
@@ -53,6 +97,7 @@ fun BasicDialog(
     dismissButton: String,
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
+    properties: DialogProperties = DialogProperties(),
     modifier: Modifier = Modifier
 ) {
     val view = LocalView.current
@@ -87,6 +132,7 @@ fun BasicDialog(
             }
         },
         onDismissRequest = onDismiss,
+        properties = properties,
         modifier = modifier
     )
 }
@@ -100,6 +146,7 @@ fun BasicDialog(
     confirmButton: (@Composable () -> Unit),
     dismissButton: (@Composable () -> Unit)? = null,
     onDismissRequest: () -> Unit,
+    properties: DialogProperties = DialogProperties(),
     modifier: Modifier = Modifier
 ) {
     if (visible) {
@@ -114,6 +161,7 @@ fun BasicDialog(
             confirmButton = confirmButton,
             dismissButton = dismissButton,
             onDismissRequest = onDismissRequest,
+            properties = properties,
             modifier = modifier
         )
     }

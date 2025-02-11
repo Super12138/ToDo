@@ -2,13 +2,11 @@ package cn.super12138.todo.ui.activities
 
 import android.os.Build
 import android.os.Bundle
-import android.view.HapticFeedbackConstants
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import cn.super12138.todo.R
 import cn.super12138.todo.ui.pages.crash.CrashPage
@@ -54,13 +52,9 @@ class CrashActivity : ComponentActivity() {
 
         setContent {
             ToDoTheme {
-                val view = LocalView.current
                 CrashPage(
                     crashLog = if (crashLogs == null) stringResource(R.string.tip_no_crash_logs) else crashLogFormatted,
-                    exitApp = {
-                        view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
-                        finishAffinity()
-                    },
+                    exitApp = { finishAffinity() },
                     modifier = Modifier.fillMaxSize()
                 )
             }

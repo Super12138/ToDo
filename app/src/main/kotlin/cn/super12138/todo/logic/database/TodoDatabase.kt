@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import cn.super12138.todo.constants.Constants
 
 @Database(entities = [TodoEntity::class], version = 2)
 abstract class TodoDatabase : RoomDatabase() {
@@ -17,7 +18,7 @@ abstract class TodoDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     TodoDatabase::class.java,
-                    "todo"
+                    Constants.DB_NAME
                 )
                     .fallbackToDestructiveMigration()
                     .build()

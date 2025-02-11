@@ -48,7 +48,7 @@
     <string name="priority_urgent">Urgent</string>
     <string name="label_priority">Priority</string>
     <string name="pref_appearance">Appearance</string>
-    <string name="pref_appearance_desc">Theme, color style</string>
+    <string name="pref_appearance_desc">Theme, Color style</string>
     <string name="pref_appearance_dynamic_color">Dynamic Color</string>
     <string name="pref_appearance_dynamic_color_desc">Use the system wallpaper\'s theme color, available on Android 12+</string>
     <string name="pref_palette_style">Palette Style</string>
@@ -76,7 +76,7 @@
     <string name="contrast_very_high">Very High</string>
     <string name="tip_change_contrast_level">Change the contrast level</string>
     <string name="pref_interface_interaction">Interface &amp; Interaction</string>
-    <string name="pref_interface_interaction_desc">To-Do List, haptic feedback</string>
+    <string name="pref_interface_interaction_desc">To-Do List, Haptic Feedback</string>
     <string name="pref_show_completed">Show Completed Tasks</string>
     <string name="pref_show_completed_desc">Show completed tasks in to-do list</string>
     <string name="pref_category_todo_list">To-Do List</string>
@@ -95,4 +95,14 @@
     <string name="pref_haptic_feedback_desc">Provide slight vibration feedback for some operations</string>
     <string name="tip_tips">Tips</string>
     <string name="pref_haptic_feedback_more_info">Before using this feature, you need to enable haptic feedback in the system settings (usually under the \\\"Sound &amp; Vibration\\\" section in the \\\"Haptic Feedback\\\" option)</string>
+    <string name="pref_data">Data</string>
+    <string name="pref_data_desc">Backup and Restore, Manage Data</string>
+    <string name="pref_backup">Backup</string>
+    <string name="pref_backup_desc">Save the to-do database on your device</string>
+    <string name="pref_restore">Restore</string>
+    <string name="pref_restore_desc">Restore the to-do database from your device</string>
+    <string name="tip_backup_success">Backup successful</string>
+    <string name="tip_backup_failed">Backup failed</string>
+    <string name="tip_restore_success">Restore successful, restart the app to load data</string>
+    <string name="tip_restore_failed">Restore failed</string>
 </resources>

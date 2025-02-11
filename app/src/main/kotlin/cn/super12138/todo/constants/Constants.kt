@@ -7,6 +7,8 @@ object Constants {
     const val KEY_TODO_FAB_TRANSITION = "todo_fab"
     const val KEY_TODO_CONTENT_TRANSITION = "todo_content"
 
+    const val DB_NAME = "todo"
+
     const val SP_NAME = "cn.super12138.todo_preferences"
 
     const val PREF_DYNAMIC_COLOR = "dynamic_color"

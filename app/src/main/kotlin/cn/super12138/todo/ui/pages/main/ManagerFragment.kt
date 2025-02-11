@@ -50,7 +50,11 @@ fun ManagerFragment(
     ) {
         LazyColumn(
             state = state,
-            contentPadding = PaddingValues(start = TodoDefaults.screenPadding, bottom = TodoDefaults.toDoCardHeight / 2, end = TodoDefaults.screenPadding)
+            contentPadding = PaddingValues(
+                start = TodoDefaults.screenPadding,
+                bottom = TodoDefaults.toDoCardHeight / 2,
+                end = TodoDefaults.screenPadding
+            )
         ) {
             if (list.isEmpty()) {
                 item {
