@@ -107,4 +107,5 @@
     <string name="tip_restore_failed">Restore failed</string>
     <string name="pref_secure_mode">Secure Mode</string>
     <string name="pref_secure_mode_desc">Prevent screenshots and protect the background preview image</string>
+    <string name="label_more">More</string>
 </resources>
