@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
@@ -71,6 +72,7 @@ fun RadioItem(
         Modifier
             .fillMaxWidth()
             .height(56.dp)
+            .clip(MaterialTheme.shapes.large)
             .selectable(
                 selected = selected,
                 onClick = {
