@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.utils.VibrationUtils
 
@@ -38,10 +39,13 @@ fun DarkModeItem(
     Column(
         modifier = modifier
             .clip(MaterialTheme.shapes.large)
-            .clickable {
-                VibrationUtils.performHapticFeedback(view)
-                onSelect()
-            }
+            .clickable(
+                role = Role.Button,
+                onClick = {
+                    VibrationUtils.performHapticFeedback(view)
+                    onSelect()
+                }
+            )
             .padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -58,7 +62,7 @@ fun DarkModeItem(
         ) {
             Icon(
                 imageVector = icon,
-                contentDescription = contentDescription,
+                contentDescription = null,
                 tint = contentColor,
                 modifier = Modifier
                     .size(30.dp)

@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
@@ -36,8 +37,8 @@ import androidx.window.core.layout.WindowWidthSizeClass
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.database.TodoEntity
+import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
 import cn.super12138.todo.ui.components.WarningDialog
-import cn.super12138.todo.ui.pages.main.components.TodoFAB
 import cn.super12138.todo.ui.pages.main.components.TodoTopAppBar
 import cn.super12138.todo.ui.viewmodels.MainViewModel
 
@@ -103,7 +104,9 @@ fun MainPage(
                     exit = shrinkOut() + fadeOut()
                 ) {
                     // TODO: 修复在滑动列表时FAB位移导致的动画不连贯（临时方案为底部加padding）
-                    TodoFAB(
+                    AnimatedExtendedFloatingActionButton(
+                        icon = Icons.Outlined.Add,
+                        text = stringResource(R.string.action_add_task),
                         expanded = true,
                         onClick = {
                             viewModel.setEditTodoItem(null) // 每次添加待办前清除上一次已选待办

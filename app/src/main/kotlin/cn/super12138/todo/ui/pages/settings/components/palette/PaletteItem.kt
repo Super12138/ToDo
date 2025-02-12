@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
 import cn.super12138.todo.constants.GlobalValues
@@ -48,10 +49,13 @@ fun PaletteItem(
         modifier = Modifier
             .width(90.dp)
             .clip(MaterialTheme.shapes.large)
-            .clickable {
-                VibrationUtils.performHapticFeedback(view)
-                onSelect()
-            }
+            .clickable(
+                role = Role.Button,
+                onClick = {
+                    VibrationUtils.performHapticFeedback(view)
+                    onSelect()
+                }
+            )
             .padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {

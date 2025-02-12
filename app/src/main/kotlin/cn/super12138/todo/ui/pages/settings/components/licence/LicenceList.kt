@@ -67,10 +67,12 @@ fun LicenceList(
                         }
                     },
                     confirmButton = {
-                        FilledTonalButton(onClick = {
-                            openDialog = false
-                            VibrationUtils.performHapticFeedback(view)
-                        }) { Text(stringResource(R.string.action_confirm)) }
+                        FilledTonalButton(
+                            onClick = {
+                                openDialog = false
+                                VibrationUtils.performHapticFeedback(view)
+                            }
+                        ) { Text(stringResource(R.string.action_confirm)) }
                     },
                     onDismissRequest = { openDialog = false }
                 )
