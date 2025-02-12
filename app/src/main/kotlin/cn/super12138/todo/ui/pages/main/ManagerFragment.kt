@@ -22,9 +22,8 @@ import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.logic.model.Subjects
 import cn.super12138.todo.ui.TodoDefaults
+import cn.super12138.todo.ui.components.LazyColumnCustomScrollBar
 import cn.super12138.todo.ui.pages.main.components.TodoCard
-import my.nanihadesuka.compose.LazyColumnScrollbar
-import my.nanihadesuka.compose.ScrollbarSettings
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
@@ -40,12 +39,8 @@ fun ManagerFragment(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    LazyColumnScrollbar(
+    LazyColumnCustomScrollBar(
         state = state,
-        settings = ScrollbarSettings(
-            thumbUnselectedColor = MaterialTheme.colorScheme.secondary,
-            thumbSelectedColor = MaterialTheme.colorScheme.primary
-        ),
         modifier = modifier
     ) {
         LazyColumn(
