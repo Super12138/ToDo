@@ -3,6 +3,13 @@ package cn.super12138.todo.ui.pages.main.components
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandIn
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.shrinkOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.exclude
@@ -26,6 +33,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
@@ -52,7 +60,11 @@ fun TodoTopAppBar(
 
     TopAppBar(
         navigationIcon = {
-            AnimatedVisibility(selectedMode) {
+            AnimatedVisibility(
+                visible = selectedMode,
+                enter = fadeIn() + expandIn(expandFrom = Alignment.CenterStart, clip = false),
+                exit = shrinkOut(shrinkTowards = Alignment.CenterStart, clip = false) + fadeOut()
+            ) {
                 IconButton(
                     onClick = {
                         VibrationUtils.performHapticFeedback(view)
@@ -67,22 +79,45 @@ fun TodoTopAppBar(
             }
         },
         title = {
-            Text(
-                text = if (!selectedMode) {
-                    stringResource(R.string.app_name)
-                } else {
-                    stringResource(
-                        R.string.title_selected_count,
-                        selectedTodoIds.size
+            AnimatedContent(
+                targetState = !selectedMode,
+                transitionSpec = {
+                    (
+                            fadeIn(animationSpec = tween(100)) +
+                                    scaleIn(initialScale = 0.92f)
+                            ).togetherWith(
+                            fadeOut(animationSpec = tween(100))
+                        )
+                }
+            ) {
+                if (it) {
+                    Text(
+                        text = stringResource(R.string.app_name),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
-                },
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
+                } else {
+                    Text(
+                        text = stringResource(
+                            R.string.title_selected_count,
+                            selectedTodoIds.size
+                        ),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            }
         },
         actions = {
             AnimatedContent(
                 targetState = selectedMode,
+                transitionSpec = {
+                    (
+                            fadeIn() + scaleIn(initialScale = 0.92f)
+                            ).togetherWith(
+                            fadeOut(animationSpec = tween(90))
+                        )
+                },
                 modifier = Modifier.windowInsetsPadding(
                     WindowInsets.safeContent.exclude(WindowInsets.ime)
                 )
