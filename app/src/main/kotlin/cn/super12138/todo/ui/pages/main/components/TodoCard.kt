@@ -120,7 +120,10 @@ fun TodoCard(
                             },
                             modifier = Modifier.padding(start = 5.dp)
                         ) {
-                            Text(priority.getDisplayName(context))
+                            Text(
+                                text = priority.getDisplayName(context),
+                                textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
+                            )
                         }
                     }
                 ) {

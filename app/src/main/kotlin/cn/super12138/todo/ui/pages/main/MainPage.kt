@@ -91,7 +91,7 @@ fun MainPage(
                 selectedTodoIds = selectedTodoIds,
                 selectedMode = !isSelectedIdsEmpty,
                 onCancelSelect = { viewModel.clearAllTodoSelection() },
-                onSelectAll = { viewModel.toggleAllSelected() },
+                onSelectAll = { viewModel.selectAllTodos() },
                 onDeleteSelectedTodo = { showDeleteConfirmDialog = true },
                 toSettingsPage = toSettingsPage
             )

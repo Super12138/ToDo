@@ -116,19 +116,12 @@ class MainViewModel : ViewModel() {
     /**
      * 切换是否全选
      */
-    fun toggleAllSelected() {
+    fun selectAllTodos() {
         viewModelScope.launch {
             toDos.firstOrNull()?.let { todos ->
+                // 无论是否有选择都全选
                 val allIds = todos.map { it.id }
-                _selectedTodoIds.update { currentSelectedIds ->
-                    if (currentSelectedIds.containsAll(allIds)) {
-                        // 如果当前是全选状态，取消所有选择（切换为全不选）
-                        emptyList()
-                    } else {
-                        // 如果当前不是全选状态，选中所有项
-                        allIds
-                    }
-                }
+                _selectedTodoIds.value = allIds
             }
         }
     }
