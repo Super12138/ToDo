@@ -71,7 +71,10 @@ fun TodoNavigation(
                     toDo = viewModel.selectedEditTodo,
                     onSave = {
                         viewModel.addTodo(it)
-                        // viewModel.setEditTodoItem(null)
+                        // 如果原来的待办状态为未完成并且修改后状态为完成
+                        if (viewModel.selectedEditTodo?.isCompleted != true && it.isCompleted) {
+                            viewModel.playConfetti()
+                        }
                         navController.navigateUp()
                     },
                     onDelete = {
@@ -81,10 +84,7 @@ fun TodoNavigation(
                         }
                         navController.navigateUp()
                     },
-                    onNavigateUp = {
-                        navController.navigateUp()
-                        // viewModel.setEditTodoItem(null)
-                    },
+                    onNavigateUp = { navController.navigateUp() },
                     sharedTransitionScope = this@SharedTransitionLayout,
                     animatedVisibilityScope = this@composable
                 )
