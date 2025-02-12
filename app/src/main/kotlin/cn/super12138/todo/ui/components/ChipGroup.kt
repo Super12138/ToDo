@@ -1,6 +1,10 @@
 package cn.super12138.todo.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandIn
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkOut
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.padding
@@ -16,6 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
@@ -39,29 +44,45 @@ fun FilterChipGroup(
 
     FlowRow(modifier = modifier) {
         items.forEachIndexed { index, item ->
-            FilterChip(
+            FilterChipItem(
                 selected = items[selectedItemIndex] == items[index],
+                text = item,
                 onClick = {
                     selectedItemIndex = index
                     VibrationUtils.performHapticFeedback(view)
                     onSelectedChanged(index)
-                },
-                leadingIcon = {
-                    AnimatedVisibility(
-                        visible = items[selectedItemIndex] == items[index]
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.Check,
-                            contentDescription = stringResource(R.string.tip_select_this),
-                            modifier = Modifier.size(FilterChipDefaults.IconSize)
-                        )
-                    }
-                },
-                label = {
-                    Text(item)
-                },
-                modifier = Modifier.padding(end = 10.dp)
+                }
             )
         }
     }
+}
+
+@Composable
+fun FilterChipItem(
+    selected: Boolean,
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    FilterChip(
+        selected = selected,
+        onClick = onClick,
+        leadingIcon = {
+            AnimatedVisibility(
+                visible = selected,
+                enter = expandIn(expandFrom = Alignment.CenterStart) + fadeIn(),
+                exit = shrinkOut(shrinkTowards = Alignment.CenterStart) + fadeOut()
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Check,
+                    contentDescription = stringResource(R.string.tip_select_this),
+                    modifier = Modifier.size(FilterChipDefaults.IconSize)
+                )
+            }
+        },
+        label = {
+            Text(text)
+        },
+        modifier = Modifier.padding(end = 10.dp)
+    )
 }

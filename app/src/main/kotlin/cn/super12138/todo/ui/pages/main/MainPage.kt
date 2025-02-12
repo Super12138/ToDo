@@ -51,7 +51,7 @@ fun MainPage(
     animatedVisibilityScope: AnimatedVisibilityScope,
     modifier: Modifier = Modifier
 ) {
-    val toDoList = viewModel.sortedTodos.collectAsState(initial = emptyList())
+    val toDos = viewModel.sortedTodos.collectAsState(initial = emptyList())
     val listState = rememberLazyListState()
     /*val isExpanded by remember {
         derivedStateOf {
@@ -59,20 +59,25 @@ fun MainPage(
         }
     }*/
 
-    val selectedTodoIds = viewModel.selectedTodoIds.collectAsState()
+    val selectedTodos = viewModel.selectedTodoIds.collectAsState()
     var showDeleteConfirmDialog by rememberSaveable { mutableStateOf(false) }
 
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
 
+    val selectedTodoIds by remember {
+        derivedStateOf { selectedTodos.value }
+    }
     val isSelectedIdsEmpty by remember {
         derivedStateOf {
-            selectedTodoIds.value.isEmpty()
+            selectedTodoIds.isEmpty()
         }
     }
 
+    val toDoList by remember { derivedStateOf { toDos.value } }
+
     val showCompleted = viewModel.showCompletedTodos
     val filteredTodoList =
-        if (showCompleted) toDoList.value else toDoList.value.filter { item -> !item.isCompleted }
+        if (showCompleted) toDoList else toDoList.filter { item -> !item.isCompleted }
 
     BackHandler(enabled = !isSelectedIdsEmpty) {
         // 当按下返回键（或进行返回操作）时清空选择
@@ -82,7 +87,7 @@ fun MainPage(
     Scaffold(
         topBar = {
             TodoTopAppBar(
-                selectedTodoIds = selectedTodoIds.value,
+                selectedTodoIds = selectedTodoIds,
                 selectedMode = !isSelectedIdsEmpty,
                 onCancelSelect = { viewModel.clearAllTodoSelection() },
                 onSelectAll = { viewModel.toggleAllSelected() },
@@ -118,8 +123,8 @@ fun MainPage(
         if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT) {
             Column(modifier = Modifier.padding(innerPadding)) {
                 ProgressFragment(
-                    totalTasks = toDoList.value.size,
-                    completedTasks = toDoList.value.count { it.isCompleted },
+                    totalTasks = toDoList.size,
+                    completedTasks = toDoList.count { it.isCompleted },
                     modifier = Modifier
                         .weight(2f)
                         .fillMaxSize()
@@ -153,7 +158,7 @@ fun MainPage(
                             viewModel.playConfetti()
                         }
                     },
-                    selectedTodoIds = selectedTodoIds.value,
+                    selectedTodoIds = selectedTodoIds,
                     sharedTransitionScope = sharedTransitionScope,
                     animatedVisibilityScope = animatedVisibilityScope,
                     modifier = Modifier
@@ -164,8 +169,8 @@ fun MainPage(
         } else {
             Row(modifier = Modifier.padding(innerPadding)) {
                 ProgressFragment(
-                    totalTasks = toDoList.value.size,
-                    completedTasks = toDoList.value.count { it.isCompleted },
+                    totalTasks = toDoList.size,
+                    completedTasks = toDoList.count { it.isCompleted },
                     modifier = Modifier
                         .weight(2f)
                         .fillMaxSize()
@@ -198,7 +203,7 @@ fun MainPage(
                             viewModel.playConfetti()
                         }
                     },
-                    selectedTodoIds = selectedTodoIds.value,
+                    selectedTodoIds = selectedTodoIds,
                     sharedTransitionScope = sharedTransitionScope,
                     animatedVisibilityScope = animatedVisibilityScope,
                     modifier = Modifier
@@ -212,7 +217,7 @@ fun MainPage(
     WarningDialog(
         visible = showDeleteConfirmDialog,
         icon = Icons.Outlined.Delete,
-        description = stringResource(R.string.tip_delete_task, selectedTodoIds.value.size),
+        description = stringResource(R.string.tip_delete_task, selectedTodoIds.size),
         onConfirm = { viewModel.deleteSelectedTodo() },
         onDismiss = { showDeleteConfirmDialog = false }
     )
