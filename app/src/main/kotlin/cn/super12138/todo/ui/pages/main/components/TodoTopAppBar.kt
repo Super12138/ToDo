@@ -62,8 +62,8 @@ fun TodoTopAppBar(
         navigationIcon = {
             AnimatedVisibility(
                 visible = selectedMode,
-                enter = fadeIn() + expandIn(expandFrom = Alignment.CenterStart, clip = false),
-                exit = shrinkOut(shrinkTowards = Alignment.CenterStart, clip = false) + fadeOut()
+                enter = fadeIn() + expandIn(expandFrom = Alignment.CenterStart),
+                exit = shrinkOut(shrinkTowards = Alignment.CenterStart) + fadeOut()
             ) {
                 IconButton(
                     onClick = {
