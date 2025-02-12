@@ -247,7 +247,7 @@ fun TodoEditorPage(
 
             if (toDo != null) {
                 Text(
-                    text = stringResource(R.string.label_priority),
+                    text = stringResource(R.string.label_more),
                     style = MaterialTheme.typography.titleMedium
                 )
 
@@ -258,9 +258,9 @@ fun TodoEditorPage(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = stringResource(R.string.label_more),
+                        text = stringResource(R.string.tip_mark_completed),
                         style = MaterialTheme.typography.labelLarge,
-                        modifier = Modifier.padding(end = 5.dp)
+                        modifier = Modifier.padding(end = 10.dp)
                     )
                     Switch(
                         checked = completedSwitchState,
