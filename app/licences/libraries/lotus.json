@@ -1,0 +1,16 @@
+{
+  "uniqueId": "com.dn0ne.player",
+  "artifactVersion": "0.11.1",
+  "name": "Lotus",
+  "developers": [
+    {
+      "name": "dn0ne"
+    }
+  ],
+  "description": "Music player for Android",
+  "website": "https://github.com/dn0ne/lotus",
+  "tag": "custom",
+  "licenses": [
+    "GPL-3.0-or-later"
+  ]
+}

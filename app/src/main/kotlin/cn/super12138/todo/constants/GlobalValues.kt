@@ -1,6 +1,7 @@
 package cn.super12138.todo.constants
 
 import cn.super12138.todo.utils.SPDelegates
+import cn.super12138.todo.utils.SPUtils
 
 object GlobalValues {
     var dynamicColor: Boolean by SPDelegates(
