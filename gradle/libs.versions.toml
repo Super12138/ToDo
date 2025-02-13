@@ -6,7 +6,7 @@ lifecycleRuntimeKtx = "2.8.7"
 # security = "1.1.0-alpha06"
 # Compose
 activityCompose = "1.10.0"
-composeBom = "2025.01.01"
+composeBom = "2025.02.00"
 liveData = "1.7.8"
 icons = "1.7.8"
 room = "2.6.1"
