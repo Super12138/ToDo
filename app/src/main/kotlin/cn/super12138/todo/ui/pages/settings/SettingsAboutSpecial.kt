@@ -74,7 +74,7 @@ fun SettingsAboutSpecial(
                 ) {
                     Text(
                         text = stringResource(R.string.happy_birthday),
-                        style = MaterialTheme.typography.headlineMedium
+                        style = MaterialTheme.typography.headlineMedium.copy(color = Color.Black)
                     )
                 }
             }
