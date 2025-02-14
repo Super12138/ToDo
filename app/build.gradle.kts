@@ -12,7 +12,7 @@ ksp {
 
 // 配置版本信息
 val baseVersionName = "2.0.0"
-val commitHash = "git rev-parse --short HEAD".exec().toInt()
+val commitHash = "git rev-parse --short HEAD".exec()
 val verCode = "git rev-list --count HEAD".exec().toInt()
 val verName = "${baseVersionName}-${commitHash}"
 
