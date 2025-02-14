@@ -70,6 +70,11 @@ android {
     buildFeatures {
         compose = true
     }
+    // F-Droid 构建无法检测依赖信息块，所以将其忽略
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
+    }
 }
 
 dependencies {
