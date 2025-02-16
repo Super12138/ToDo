@@ -82,7 +82,7 @@ fun SettingsData(
 
     val restoreLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument(),
-        onResult = { it ->
+        onResult = {
             if (it != null) {
                 viewModel.restoreDatabase(
                     uri = it,

@@ -26,6 +26,7 @@
         <activity
             android:name=".ui.activities.CrashActivity"
             android:exported="false"
+            android:launchMode="singleTask"
             android:theme="@style/Theme.ToDo" />
     </application>
 
