@@ -1,0 +1,16 @@
+{
+  "name": "todo_script",
+  "version": "1.0.0",
+  "description": "自动在 build.gradle.kts 写入版本号",
+  "license": "GPL-3.0-only",
+  "author": "Super12138",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc updateVersionCode.ts",
+    "replace": "tsc updateVersionCode.ts && node updateVersionCode.js"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "typescript": "^5.7.3"
+  }
+}

@@ -11,10 +11,8 @@ ksp {
 }
 
 // 配置版本信息
-val baseVersionName = "2.0.1"
-val commitHash = "git rev-parse --short HEAD".exec()
-val verCode = "git rev-list --count HEAD".exec().toInt()
-val verName = "${baseVersionName}-${commitHash}"
+/* val commitHash by lazy { "git rev-parse --short HEAD".exec()}
+val verCode = "git rev-list --count HEAD".exec().toInt() */
 
 android {
     namespace = "cn.super12138.todo"
@@ -36,12 +34,12 @@ android {
         applicationId = "cn.super12138.todo"
         minSdk = 24
         targetSdk = 35
-        versionCode = verCode
-        versionName = verName
+        versionCode = 549
+        versionName = "2.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        base.archivesName.set("todo-${verName}")
+        base.archivesName.set("todo-${versionName}")
     }
 
     buildTypes {
@@ -127,8 +125,8 @@ dependencies {
 }
 
 // 命令执行工具类
-fun String.exec(): String = exec(this)
+/*fun String.exec(): String = exec(this)
 
 fun Project.exec(command: String): String = providers.exec {
     commandLine(command.split(" "))
-}.standardOutput.asText.get().trim()
+}.standardOutput.asText.get().trim()*/
