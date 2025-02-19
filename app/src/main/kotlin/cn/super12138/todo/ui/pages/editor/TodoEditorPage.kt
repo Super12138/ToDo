@@ -34,6 +34,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -56,6 +57,7 @@ import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.logic.model.Subjects
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
+import cn.super12138.todo.ui.components.ChipItem
 import cn.super12138.todo.ui.components.FilterChipGroup
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
 import cn.super12138.todo.ui.components.WarningDialog
@@ -80,15 +82,22 @@ fun TodoEditorPage(
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     var toDoContent by rememberSaveable { mutableStateOf(toDo?.content ?: "") }
-    var isError by rememberSaveable { mutableStateOf(false) }
-    var selectedSubjectIndex by rememberSaveable { mutableIntStateOf(toDo?.subject ?: 0) }
+    var isErrorContent by rememberSaveable { mutableStateOf(false) }
+    var selectedSubjectId by rememberSaveable { mutableIntStateOf(toDo?.subject ?: 0) }
+    var subjectContent by rememberSaveable { mutableStateOf(toDo?.customSubject ?: "") }
+    var isErrorSubject by rememberSaveable { mutableStateOf(false) }
     var priorityState by rememberSaveable { mutableFloatStateOf(toDo?.priority ?: 0f) }
     var completedSwitchState by rememberSaveable { mutableStateOf(toDo?.isCompleted ?: false) }
+
+    val isCustomSubject by remember {
+        derivedStateOf { selectedSubjectId == Subjects.Custom.id }
+    }
 
     fun checkModifiedBeforeBack() {
         var isModified = false
         if ((toDo?.content ?: "") != toDoContent) isModified = true
-        if ((toDo?.subject ?: 0) != selectedSubjectIndex) isModified = true
+        if ((toDo?.subject ?: 0) != selectedSubjectId) isModified = true
+        if ((toDo?.customSubject ?: "") != subjectContent) isModified = true
         if ((toDo?.priority ?: 0f) != priorityState) isModified = true
         if ((toDo?.isCompleted == true) != completedSwitchState) isModified = true
         if (isModified) {
@@ -123,15 +132,23 @@ fun TodoEditorPage(
                         expanded = true,
                         onClick = {
                             if (toDoContent.trim().isEmpty()) {
-                                isError = true
+                                isErrorContent = true
+                                return@AnimatedExtendedFloatingActionButton
+                            }
+                            if (subjectContent.trim()
+                                    .isEmpty() && selectedSubjectId == Subjects.Custom.id
+                            ) {
+                                isErrorSubject = true
                                 return@AnimatedExtendedFloatingActionButton
                             }
 
-                            isError = false
+                            isErrorContent = false
+                            isErrorSubject = false
                             onSave(
                                 TodoEntity(
                                     content = toDoContent,
-                                    subject = selectedSubjectIndex,
+                                    subject = selectedSubjectId,
+                                    customSubject = subjectContent,
                                     isCompleted = completedSwitchState,
                                     priority = priorityState,
                                     id = toDo?.id ?: 0
@@ -163,10 +180,10 @@ fun TodoEditorPage(
                     value = toDoContent,
                     onValueChange = { toDoContent = it },
                     label = { Text(stringResource(R.string.placeholder_add_todo)) },
-                    isError = isError,
+                    isError = isErrorContent,
                     supportingText = {
-                        AnimatedVisibility(isError) {
-                            Text(stringResource(R.string.error_no_task_content))
+                        AnimatedVisibility(isErrorContent) {
+                            Text(stringResource(R.string.error_no_content_entered))
                         }
                     },
                     modifier = Modifier
@@ -180,11 +197,6 @@ fun TodoEditorPage(
 
             Spacer(Modifier.size(5.dp))
 
-            val subjects = remember {
-                Subjects.entries.map {
-                    it.getDisplayName(context)
-                }
-            }
             Text(
                 text = stringResource(R.string.label_subject),
                 style = MaterialTheme.typography.titleMedium
@@ -192,14 +204,44 @@ fun TodoEditorPage(
 
             Spacer(Modifier.size(5.dp))
 
+            val subjects = remember {
+                Subjects.entries.map {
+                    ChipItem(
+                        id = it.id,
+                        text = it.getDisplayName(context)
+                    )
+                }
+            }
             FilterChipGroup(
                 items = subjects,
-                defaultSelectedItemIndex = toDo?.subject ?: 0,
+                defaultSelectedItemIndex = toDo?.subject ?: Subjects.Chinese.id,
                 onSelectedChanged = {
-                    selectedSubjectIndex = it
+                    selectedSubjectId = it
                 },
                 modifier = Modifier.fillMaxWidth()
             )
+            AnimatedVisibility(isCustomSubject) {
+                with(sharedTransitionScope) {
+                    TextField(
+                        value = subjectContent,
+                        onValueChange = { subjectContent = it },
+                        label = { Text(stringResource(R.string.label_enter_subject_name)) },
+                        isError = isErrorSubject,
+                        supportingText = {
+                            AnimatedVisibility(isErrorSubject) {
+                                Text(stringResource(R.string.error_no_content_entered))
+                            }
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .sharedBounds(
+                                sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_SUBJECT_TRANSITION}_${toDo?.id}"),
+                                animatedVisibilityScope = animatedVisibilityScope
+                            )
+                            .padding(top = 5.dp)
+                    )
+                }
+            }
 
             Spacer(Modifier.size(10.dp))
 

@@ -34,23 +34,23 @@ import cn.super12138.todo.utils.VibrationUtils
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun FilterChipGroup(
-    items: List<String>,
+    items: List<ChipItem>,
     defaultSelectedItemIndex: Int = 0,
     onSelectedChanged: (Int) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val view = LocalView.current
-    var selectedItemIndex by rememberSaveable { mutableIntStateOf(defaultSelectedItemIndex) }
+    var selectedItemId by rememberSaveable { mutableIntStateOf(defaultSelectedItemIndex) }
 
     FlowRow(modifier = modifier) {
-        items.forEachIndexed { index, item ->
+        items.forEach { item ->
             FilterChipItem(
-                selected = items[selectedItemIndex] == items[index],
-                text = item,
+                selected = item.id == selectedItemId,
+                text = item.text,
                 onClick = {
-                    selectedItemIndex = index
+                    selectedItemId = item.id
                     VibrationUtils.performHapticFeedback(view)
-                    onSelectedChanged(index)
+                    onSelectedChanged(item.id)
                 }
             )
         }
@@ -58,7 +58,7 @@ fun FilterChipGroup(
 }
 
 @Composable
-fun FilterChipItem(
+private fun FilterChipItem(
     selected: Boolean,
     text: String,
     onClick: () -> Unit,
@@ -86,3 +86,8 @@ fun FilterChipItem(
         modifier = Modifier.padding(end = 10.dp)
     )
 }
+
+data class ChipItem(
+    val id: Int,
+    val text: String
+)

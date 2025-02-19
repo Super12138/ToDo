@@ -6,7 +6,7 @@
     <string name="placeholder_add_todo">Task content</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_save">Save</string>
-    <string name="error_no_task_content">No task content entered</string>
+    <string name="error_no_content_entered">No content entered</string>
     <string name="tip_select_this">Select this</string>
     <string name="tip_mark_completed">Mark as completed</string>
     <string name="subject_chinese">Chinese</string>
@@ -109,4 +109,6 @@
     <string name="pref_secure_mode_desc">Prevent screenshots and protect the background preview image</string>
     <string name="label_more">More</string>
     <string name="happy_birthday">Happy 1st birthday to ToDo</string>
+    <string name="subject_customization">Customization</string>
+    <string name="label_enter_subject_name">Enter subject name</string>
 </resources>

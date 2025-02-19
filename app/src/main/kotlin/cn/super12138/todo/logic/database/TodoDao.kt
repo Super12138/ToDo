@@ -14,7 +14,7 @@ interface TodoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(toDo: TodoEntity)
 
-    @Query("SELECT * FROM ${Constants.DB_NAME}")
+    @Query("SELECT * FROM ${Constants.DB_TABLE_NAME}")
     fun getAll(): Flow<List<TodoEntity>>
 
     @Update
@@ -23,7 +23,7 @@ interface TodoDao {
     @Delete
     suspend fun delete(toDo: TodoEntity)
 
-    @Query("DELETE FROM ${Constants.DB_NAME} WHERE id in (:toDoIds)")
+    @Query("DELETE FROM ${Constants.DB_TABLE_NAME} WHERE id in (:toDoIds)")
     suspend fun deleteFromIds(toDoIds: Set<Int>)
 
     /*@Query("DELETE FROM todo")

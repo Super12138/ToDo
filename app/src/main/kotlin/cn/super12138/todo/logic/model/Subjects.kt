@@ -13,7 +13,8 @@ enum class Subjects(val id: Int) {
     Moral(6),
     Chemistry(7),
     History(8),
-    Others(99);
+    Others(99),
+    Custom(100);
 
     fun getDisplayName(context: Context): String {
         val resId = when (this) {
@@ -27,6 +28,7 @@ enum class Subjects(val id: Int) {
             Chemistry -> R.string.subject_chemistry
             History -> R.string.subject_history
             Others -> R.string.subject_others
+            Custom -> R.string.subject_customization
         }
         return context.getString(resId) // 返回资源中的文本
     }

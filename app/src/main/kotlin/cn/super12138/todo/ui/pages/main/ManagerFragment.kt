@@ -66,10 +66,16 @@ fun ManagerFragment(
                     items = list,
                     key = { it.id }
                 ) { item ->
+                    val subject = if (item.subject == Subjects.Custom.id) {
+                        item.customSubject
+                    } else {
+                        Subjects.fromId(item.subject).getDisplayName(context)
+                    }
+
                     TodoCard(
                         id = item.id,
                         content = item.content,
-                        subject = Subjects.fromId(item.subject).getDisplayName(context),
+                        subject = subject,
                         completed = item.isCompleted,
                         priority = Priority.fromFloat(item.priority),
                         selected = selectedTodoIds.contains(item.id),

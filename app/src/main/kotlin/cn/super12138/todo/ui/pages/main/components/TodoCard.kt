@@ -144,12 +144,18 @@ fun TodoCard(
                     }
                 }
 
-                Text(
-                    text = subject,
-                    style = MaterialTheme.typography.labelMedium,
-                    textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
-                    maxLines = 1
-                )
+                with(sharedTransitionScope) {
+                    Text(
+                        text = subject,
+                        style = MaterialTheme.typography.labelMedium,
+                        textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
+                        maxLines = 1,
+                        modifier = Modifier.sharedBounds(
+                            sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_SUBJECT_TRANSITION}_$id"),
+                            animatedVisibilityScope = animatedVisibilityScope
+                        )
+                    )
+                }
             }
 
             AnimatedVisibility(!selected && !completed) {

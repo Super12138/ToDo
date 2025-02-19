@@ -6,8 +6,10 @@ object Constants {
 
     const val KEY_TODO_FAB_TRANSITION = "todo_fab"
     const val KEY_TODO_CONTENT_TRANSITION = "todo_content"
+    const val KEY_TODO_SUBJECT_TRANSITION = "todo_subject"
 
     const val DB_NAME = "todo"
+    const val DB_TABLE_NAME = "todo"
 
     const val SP_NAME = "cn.super12138.todo_preferences"
 
