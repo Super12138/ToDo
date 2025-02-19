@@ -13,7 +13,7 @@ enum class SortingMethod(val id: Int) {
 
     fun getDisplayName(context: Context): String {
         val resId = when (this) {
-            Date -> R.string.sorting_date
+            Date -> R.string.sorting_sequential
             Subject -> R.string.sorting_subject
             Priority -> R.string.sorting_priority
             Completion -> R.string.sorting_completion
