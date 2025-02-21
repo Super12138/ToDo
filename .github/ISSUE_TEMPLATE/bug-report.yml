@@ -47,7 +47,7 @@ body:
     validations:
       required: true
   - type: textarea
-    id: reproduce-steps
+    id: expected-behavior
     attributes:
       label: 预期行为 / Expected behavior
       description: 简单描述一下你任务如果没有这个问题应用应该怎么运作 / A clear and concise description of what you expected to happen.
@@ -74,12 +74,16 @@ body:
       label: 系统 / System
       description: 在这里输入你的系统 / Enter your system here
       placeholder: 例如：HarmonyOS 4.2，MagicOS 9，OneUI 7 / e.g. HarmonyOS 4.2, MagicOS 9, OneUI 7
+    validations:
+      required: true
   - type: input
     id: android-version
     attributes:
       label: Android 版本 / Android Version
       description: 在这里输入你的 Android 版本 / Enter your Android version here
       placeholder: 例如：Android 15 / e.g. Android 15
+    validations:
+      required: true
   - type: textarea
     id: additional-context
     attributes:
