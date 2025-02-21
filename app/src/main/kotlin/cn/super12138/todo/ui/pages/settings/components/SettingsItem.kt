@@ -102,10 +102,7 @@ fun SettingsItem(
             it()
         }
 
-        Column(
-            modifier = Modifier
-                .weight(1f)
-        ) {
+        Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = title,
                 maxLines = 1,

@@ -42,6 +42,15 @@ fun SettingsAppearance(
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
         ) {
+            SwitchSettingsItem(
+                key = Constants.PREF_DYNAMIC_COLOR,
+                default = Constants.PREF_DYNAMIC_COLOR_DEFAULT,
+                leadingIcon = Icons.Outlined.ColorLens,
+                title = stringResource(R.string.pref_appearance_dynamic_color),
+                description = stringResource(R.string.pref_appearance_dynamic_color_desc),
+                onCheckedChange = { viewModel.setDynamicColor(it) },
+            )
+
             DarkModePicker(onDarkModeChange = { viewModel.setDarkMode(it) })
 
             PalettePicker(
@@ -51,15 +60,6 @@ fun SettingsAppearance(
             )
 
             ContrastPicker(onContrastChange = { viewModel.setContrastLevel(it) })
-
-            SwitchSettingsItem(
-                key = Constants.PREF_DYNAMIC_COLOR,
-                default = Constants.PREF_DYNAMIC_COLOR_DEFAULT,
-                leadingIcon = Icons.Outlined.ColorLens,
-                title = stringResource(R.string.pref_appearance_dynamic_color),
-                description = stringResource(R.string.pref_appearance_dynamic_color_desc),
-                onCheckedChange = { viewModel.setDynamicColor(it) },
-            )
         }
     }
 }
