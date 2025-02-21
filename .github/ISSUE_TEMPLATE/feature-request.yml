@@ -1,7 +1,7 @@
 name: 功能请求 / Feature request
 description: 为待办提出一个新功能 / Suggest an idea for this project
 title: "[Feature] "
-labels: ["enhancement"]
+labels: [ "enhancement" ]
 body:
   - type: textarea
     id: problem_statement
@@ -16,7 +16,6 @@ body:
     attributes:
       label: 你想要的解决方案 / Describe the solution you'd like
       description: 简单说说你想要的功能方案是什么 / A clear and concise description of what you want to happen.
-      placeholder: 描述这里 / Describe the solution here.
     validations:
       required: true
 
@@ -25,8 +24,6 @@ body:
     attributes:
       label: 你考虑的替代方案 / Describe alternatives you've considered
       description: 因为没有这个功能而考虑的替代方案，比如别的应用的某个功能 / Alternative solutions considered due to the absence of this feature, such as a specific feature from another application.
-      placeholder: 描述任何替代方案 / Describe any alternatives here.
-      value: 
     validations:
       required: false
 
@@ -35,7 +32,5 @@ body:
     attributes:
       label: 附加信息 / Additional context
       description: 任何可以帮助实现你想要的新功能的信息，比如效果图之类的 / Add any other context or screenshots about the feature request here.
-      placeholder: 添加任何补充信息 / Add any additional context here.
-      value: 
     validations:
       required: false

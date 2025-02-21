@@ -1,7 +1,7 @@
 name: 问题反馈 / Bug Report
 description: 发现并反馈问题以帮助改进待办 / Create a report to help us improve To Do
 title: "[Bug] "
-labels: ["bug"]
+labels: [ "bug" ]
 body:
   - type: checkboxes
     id: checklist
@@ -10,16 +10,18 @@ body:
       options:
         - label: 我正在使用待办的最新版本 / I am using the latest version of To Do
           required: true
+
   - type: dropdown
     id: version-variant
     attributes:
       label: 待办版本类型 / To Do Variant
       description: 请选择当前待办的版本类型 / Select the version of To Do variant you're currently using
       options:
-        - 最新 Release（F-Droid）版/ Latest release (F-Droid)
+        - 最新 Release（F-Droid）版 / Latest release (F-Droid)
         - 最新 CI 版 / Latest CI
     validations:
       required: true
+
   - type: input
     id: version-code
     attributes:
@@ -28,6 +30,7 @@ body:
       placeholder: 例如：2.0.2(561) / e.g. 2.0.2(561)
     validations:
       required: true
+
   - type: textarea
     id: describe-bug
     attributes:
@@ -35,17 +38,19 @@ body:
       description: 简单明了的描述一下你发现的问题 / A clear and concise description of what the bug is.
     validations:
       required: true
+
   - type: textarea
     id: reproduce-steps
     attributes:
       label: 复现步骤 / To Reproduce
       description: 重现该问题的步骤 / Steps to reproduce the behavior
-      placeholder: /
+      placeholder: |
         1. 前往 ... / Go to '...'
         2. 点击... / Click on '....'
         3. 出现错误 / See error
     validations:
       required: true
+
   - type: textarea
     id: expected-behavior
     attributes:
@@ -53,6 +58,7 @@ body:
       description: 简单描述一下你任务如果没有这个问题应用应该怎么运作 / A clear and concise description of what you expected to happen.
     validations:
       required: true
+
   - type: textarea
     id: screenshots
     attributes:
@@ -60,6 +66,7 @@ body:
       description: 如果可以的话，请提供问题的截图 / If applicable, add screenshots to help explain your problem.
     validations:
       required: true
+
   - type: textarea
     id: crash-log
     attributes:
@@ -68,6 +75,7 @@ body:
       render: shell
     validations:
       required: false
+
   - type: input
     id: system
     attributes:
@@ -76,6 +84,7 @@ body:
       placeholder: 例如：HarmonyOS 4.2，MagicOS 9，OneUI 7 / e.g. HarmonyOS 4.2, MagicOS 9, OneUI 7
     validations:
       required: true
+
   - type: input
     id: android-version
     attributes:
@@ -84,6 +93,7 @@ body:
       placeholder: 例如：Android 15 / e.g. Android 15
     validations:
       required: true
+
   - type: textarea
     id: additional-context
     attributes:
