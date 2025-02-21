@@ -131,16 +131,10 @@ fun TodoEditorPage(
                         text = stringResource(R.string.action_save),
                         expanded = true,
                         onClick = {
-                            if (toDoContent.trim().isEmpty()) {
-                                isErrorContent = true
-                                return@AnimatedExtendedFloatingActionButton
-                            }
-                            if (subjectContent.trim()
-                                    .isEmpty() && selectedSubjectId == Subjects.Custom.id
-                            ) {
-                                isErrorSubject = true
-                                return@AnimatedExtendedFloatingActionButton
-                            }
+                            isErrorContent = toDoContent.trim().isEmpty()
+                            isErrorSubject = subjectContent.trim()
+                                .isEmpty() && selectedSubjectId == Subjects.Custom.id
+                            if (isErrorContent || isErrorSubject) return@AnimatedExtendedFloatingActionButton
 
                             isErrorContent = false
                             isErrorSubject = false
@@ -163,9 +157,7 @@ fun TodoEditorPage(
                 }
             }
         },
-        onBack = {
-            checkModifiedBeforeBack()
-        },
+        onBack = { checkModifiedBeforeBack() },
         modifier = modifier
     ) { innerPadding ->
         Column(
