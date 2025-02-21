@@ -1,0 +1,89 @@
+name: 问题反馈 / Bug Report
+description: 发现并反馈问题以帮助改进待办 / Create a report to help us improve To Do
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: 检查列表 / Checklist
+      options:
+        - label: 我正在使用待办的最新版本 / I am using the latest version of To Do
+          required: true
+  - type: dropdown
+    id: version-variant
+    attributes:
+      label: 待办版本类型 / To Do Variant
+      description: 请选择当前待办的版本类型 / Select the version of To Do variant you're currently using
+      options:
+        - 最新 Release（F-Droid）版/ Latest release (F-Droid)
+        - 最新 CI 版 / Latest CI
+    validations:
+      required: true
+  - type: input
+    id: version-code
+    attributes:
+      label: 待办版本
+      description: 请输入你正在使用的待办版本，你可以在设置中找到 / Enter the version of To Do you're using. You can find this in the settings
+      placeholder: 例如：2.0.2(561) / e.g. 2.0.2(561)
+    validations:
+      required: true
+  - type: textarea
+    id: describe-bug
+    attributes:
+      label: 描述一下这个问题 / Describe the bug
+      description: 简单明了的描述一下你发现的问题 / A clear and concise description of what the bug is.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce-steps
+    attributes:
+      label: 复现步骤 / To Reproduce
+      description: 重现该问题的步骤 / Steps to reproduce the behavior
+      placeholder: /
+        1. 前往 ... / Go to '...'
+        2. 点击... / Click on '....'
+        3. 出现错误 / See error
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce-steps
+    attributes:
+      label: 预期行为 / Expected behavior
+      description: 简单描述一下你任务如果没有这个问题应用应该怎么运作 / A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 截图 / Screenshots
+      description: 如果可以的话，请提供问题的截图 / If applicable, add screenshots to help explain your problem.
+    validations:
+      required: true
+  - type: textarea
+    id: crash-log
+    attributes:
+      label: 相关崩溃日志 / Crash log
+      description: 如果应用在出现问题的时候崩溃了，请在这里粘贴崩溃页面的崩溃日志 / If the app crashed when the issue occurred, paste the crash log which in the crash page here
+      render: shell
+    validations:
+      required: false
+  - type: input
+    id: system
+    attributes:
+      label: 系统 / System
+      description: 在这里输入你的系统 / Enter your system here
+      placeholder: 例如：HarmonyOS 4.2，MagicOS 9，OneUI 7 / e.g. HarmonyOS 4.2, MagicOS 9, OneUI 7
+  - type: input
+    id: android-version
+    attributes:
+      label: Android 版本 / Android Version
+      description: 在这里输入你的 Android 版本 / Enter your Android version here
+      placeholder: 例如：Android 15 / e.g. Android 15
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 附加信息 / Additional context
+      description: 任何有关你反馈的问题的附加信息都可以写在这里 / Any additional information related to your feedback can be provided here
+    validations:
+      required: false
