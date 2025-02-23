@@ -65,7 +65,7 @@ body:
       label: 截图 / Screenshots
       description: 如果可以的话，请提供问题的截图 / If applicable, add screenshots to help explain your problem.
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: crash-log
