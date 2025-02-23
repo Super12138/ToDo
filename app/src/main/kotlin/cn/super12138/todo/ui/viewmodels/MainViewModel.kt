@@ -30,7 +30,6 @@ import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
-import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 
@@ -40,7 +39,7 @@ class MainViewModel : ViewModel() {
     var appSortingMethod by mutableStateOf(SortingMethod.fromId(GlobalValues.sortingMethod))
     val sortedTodos: Flow<List<TodoEntity>> = toDos.map { list ->
         when (appSortingMethod) {
-            SortingMethod.Date -> list.sortedBy { it.id }
+            SortingMethod.Sequential -> list.sortedBy { it.id }
             SortingMethod.Subject -> list.sortedBy { it.subject }
             SortingMethod.Priority -> list.sortedByDescending { it.priority } // 优先级高的在前
             SortingMethod.Completion -> list.sortedBy { it.isCompleted } // 未完成的在前
@@ -186,26 +185,21 @@ class MainViewModel : ViewModel() {
                 // 开启输出文件流，输出位置为用户选取的文件夹URI
                 context.contentResolver.openOutputStream(uri)?.use { outputStream ->
                     ZipOutputStream(BufferedOutputStream(outputStream)).use { zipOutStream ->
-                        val dbFile = context.getDatabasePath(Constants.DB_NAME)
-                        val dbWal = File("$dbPath-wal")
-                        val dbShm = File("$dbPath-shm")
-
-                        FileUtils.addFileToZip(dbFile, dbFile.name, zipOutStream)
-                        FileUtils.addFileToZip(dbWal, dbWal.name, zipOutStream)
-                        FileUtils.addFileToZip(dbShm, dbShm.name, zipOutStream)
+                        listOf(
+                            context.getDatabasePath(Constants.DB_NAME),
+                            File("$dbPath-wal"),
+                            File("$dbPath-shm")
+                        ).forEach { file ->
+                            FileUtils.addFileToZip(file, file.name, zipOutStream)
+                        }
                     }
                 }
-
                 // 执行成功的回调
-                withContext(Dispatchers.Main) {
-                    onResult(true) // 成功
-                }
+                withContext(Dispatchers.Main) { onResult(true) }
             } catch (e: Exception) {
                 e.printStackTrace()
                 // 执行失败的回调
-                withContext(Dispatchers.Main) {
-                    onResult(false) // 失败
-                }
+                withContext(Dispatchers.Main) { onResult(false) }
             }
         }
     }
@@ -213,12 +207,11 @@ class MainViewModel : ViewModel() {
     fun restoreDatabase(uri: Uri, context: Context, onResult: (completed: Boolean) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                // 获取数据库文件路径
+                // 获取数据库文件夹
                 val outputPath = context.getDatabasePath(Constants.DB_NAME).parent
                 context.contentResolver.openInputStream(uri)?.use { inputStream ->
                     ZipInputStream(BufferedInputStream(inputStream)).use { zipInputStream ->
-                        var zipEntry: ZipEntry? = zipInputStream.nextEntry
-                        while (zipEntry != null) {
+                        generateSequence { zipInputStream.nextEntry }.forEach { zipEntry ->
                             val outputFile = File(outputPath, zipEntry.name)
                             if (zipEntry.isDirectory) {
                                 outputFile.mkdirs()
@@ -227,18 +220,13 @@ class MainViewModel : ViewModel() {
                                 FileOutputStream(outputFile).use { zipInputStream.copyTo(it) }
                             }
                             zipInputStream.closeEntry()
-                            zipEntry = zipInputStream.nextEntry
                         }
                     }
                 }
-                withContext(Dispatchers.Main) {
-                    onResult(true) // 成功
-                }
+                withContext(Dispatchers.Main) { onResult(true) }
             } catch (e: Exception) {
                 e.printStackTrace()
-                withContext(Dispatchers.Main) {
-                    onResult(false) // 失败
-                }
+                withContext(Dispatchers.Main) { onResult(false) }
             }
         }
     }

@@ -80,6 +80,9 @@ fun MainPage(
     val filteredTodoList =
         if (showCompleted) toDoList else toDoList.filter { item -> !item.isCompleted }
 
+    val totalTasks by remember { derivedStateOf { toDoList.size } }
+    val completedTasks by remember { derivedStateOf { toDoList.count { it.isCompleted } } }
+
     BackHandler(enabled = !isSelectedIdsEmpty) {
         // 当按下返回键（或进行返回操作）时清空选择
         viewModel.clearAllTodoSelection()
@@ -126,8 +129,8 @@ fun MainPage(
         if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT) {
             Column(modifier = Modifier.padding(innerPadding)) {
                 ProgressFragment(
-                    totalTasks = toDoList.size,
-                    completedTasks = toDoList.count { it.isCompleted },
+                    totalTasks = totalTasks,
+                    completedTasks = completedTasks,
                     modifier = Modifier
                         .weight(2f)
                         .fillMaxSize()
@@ -172,8 +175,8 @@ fun MainPage(
         } else {
             Row(modifier = Modifier.padding(innerPadding)) {
                 ProgressFragment(
-                    totalTasks = toDoList.size,
-                    completedTasks = toDoList.count { it.isCompleted },
+                    totalTasks = totalTasks,
+                    completedTasks = completedTasks,
                     modifier = Modifier
                         .weight(2f)
                         .fillMaxSize()

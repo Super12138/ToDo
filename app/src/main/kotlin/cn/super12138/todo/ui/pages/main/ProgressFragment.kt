@@ -45,8 +45,9 @@ fun ProgressFragment(
             progress = { animatedProgress },
             strokeWidth = 10.dp,
             gapSize = 10.dp,
-            modifier = Modifier.size(170.dp)
+            modifier = Modifier.size(175.dp)
         )
+
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(

@@ -34,8 +34,8 @@ android {
         applicationId = "cn.super12138.todo"
         minSdk = 24
         targetSdk = 35
-        versionCode = 564
-        versionName = "2.0.2"
+        versionCode = 567
+        versionName = "2.1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -83,7 +83,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.compose.runtime.livedata)
-    // implementation(libs.androidx.security)
     // Compose
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))

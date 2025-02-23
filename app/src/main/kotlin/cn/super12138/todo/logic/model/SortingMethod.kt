@@ -4,7 +4,7 @@ import android.content.Context
 import cn.super12138.todo.R
 
 enum class SortingMethod(val id: Int) {
-    Date(1),
+    Sequential(1),
     Subject(2),
     Priority(3),
     Completion(4),
@@ -13,7 +13,7 @@ enum class SortingMethod(val id: Int) {
 
     fun getDisplayName(context: Context): String {
         val resId = when (this) {
-            Date -> R.string.sorting_sequential
+            Sequential -> R.string.sorting_sequential
             Subject -> R.string.sorting_subject
             Priority -> R.string.sorting_priority
             Completion -> R.string.sorting_completion
@@ -25,7 +25,7 @@ enum class SortingMethod(val id: Int) {
 
     companion object {
         fun fromId(id: Int): SortingMethod {
-            return SortingMethod.entries.find { it.id == id } ?: Date
+            return SortingMethod.entries.find { it.id == id } ?: Sequential
         }
     }
 }
