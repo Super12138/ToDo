@@ -10,6 +10,8 @@ body:
       options:
         - label: 我正在使用待办的最新版本 / I am using the latest version of To Do
           required: true
+        - label: 确认没有之前相似或重复的问题（若重复会直接关闭） / Confirm that there are no similar or duplicate issues previously raised (if duplicate, the issue will be closed directly)
+          required: true
 
   - type: dropdown
     id: version-variant
@@ -75,6 +77,15 @@ body:
       render: shell
     validations:
       required: false
+
+  - type: input
+    id: brand-model
+    attributes:
+      label: 品牌及型号 / Brand & Model
+      description: 在这里输入设备的品牌及型号
+      placeholder: 例如：Google Pixel 8 Pro / e.g. Google Pixel 8 Pro
+    validations:
+      required: true
 
   - type: input
     id: system
