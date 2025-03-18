@@ -16,7 +16,7 @@ val verCode = "git rev-list --count HEAD".exec().toInt() */
 
 android {
     namespace = "cn.super12138.todo"
-    compileSdk = 35
+    compileSdk = 36
 
     // 获取 Release 签名
     val releaseSigning = if (project.hasProperty("releaseStoreFile")) {
@@ -33,8 +33,8 @@ android {
     defaultConfig {
         applicationId = "cn.super12138.todo"
         minSdk = 24
-        targetSdk = 35
-        versionCode = 567
+        targetSdk = 36
+        versionCode = 590
         versionName = "2.1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
