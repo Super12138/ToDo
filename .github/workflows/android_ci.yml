@@ -1,9 +1,11 @@
 name: Android CI
 on:
   push:
-    branches: [ "main", "compose-refactor" ]
+    branches: [ "main" ]
+    paths-ignore: [ "**.md", "LICENSE", ".gitignore", ".github/ISSUE_TEMPLATE/**", "art/**", "fastlane/**" ]
   pull_request:
     branches: [ "main" ]
+    paths-ignore: [ "**.md", "LICENSE", ".gitignore", ".github/ISSUE_TEMPLATE/**", "art/**", "fastlane/**" ]
   workflow_dispatch:
 
 jobs:
@@ -35,6 +37,12 @@ jobs:
             echo releaseStoreFile='${{ github.workspace }}/key.jks' >> gradle.properties
             echo ${{ secrets.SIGNING_KEY }} | base64 --decode > ${{ github.workspace }}/key.jks
           fi
+
+      - name: Setup Android NDK
+        uses: nttld/setup-ndk@v1.5.0
+        with:
+          ndk-version: r27c
+          # link-to-sdk: true
 
       - name: Build with Gradle
         run: ./gradlew assembleRelease
