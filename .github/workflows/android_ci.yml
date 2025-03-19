@@ -38,12 +38,14 @@ jobs:
             echo ${{ secrets.SIGNING_KEY }} | base64 --decode > ${{ github.workspace }}/key.jks
           fi
 
-      - name: Setup Android NDK
-        uses: nttld/setup-ndk@v1.5.0
+      - name: Cache NDK
+        uses: actions/cache@v2
         with:
-          ndk-version: r27c
-          link-to-sdk: true
-          local-cache: true
+          path: ${ANDROID_HOME}/ndk/27.0.12077973
+          key: ndk-cache
+
+      - name: Install NDK
+        run: echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install 'ndk;27.0.12077973'
 
       - name: Build with Gradle
         run: ./gradlew assembleRelease
