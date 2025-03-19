@@ -39,7 +39,7 @@ jobs:
           fi
 
       - name: Cache NDK
-        uses: actions/cache@v2
+        uses: actions/cache@v4.2.3
         with:
           path: ${ANDROID_HOME}/ndk/27.0.12077973
           key: ndk-cache
