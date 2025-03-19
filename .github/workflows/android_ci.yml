@@ -42,7 +42,8 @@ jobs:
         uses: nttld/setup-ndk@v1.5.0
         with:
           ndk-version: r27c
-          # link-to-sdk: true
+          link-to-sdk: true
+          local-cache: true
 
       - name: Build with Gradle
         run: ./gradlew assembleRelease
