@@ -45,7 +45,7 @@ jobs:
           key: ndk-cache
 
       - name: Install NDK
-        run: echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install 'ndk;27.0.12077973'
+        run: echo "y" | sudo ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --install 'ndk;27.0.12077973'
 
       - name: Build with Gradle
         run: ./gradlew assembleRelease
