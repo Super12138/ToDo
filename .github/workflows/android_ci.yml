@@ -23,7 +23,7 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
           cache: gradle
-          
+
       - name: Install NDK 27.0.12077973
         run: echo "y" | sudo ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --install 'ndk;27.0.12077973'
 
@@ -47,6 +47,10 @@ jobs:
           # path: ${ANDROID_HOME}/ndk/27.0.12077973
           # key: ndk-cache
 
+      - name: Fix Permissions for Debug Keystore Path
+        if: github.ref != 'refs/heads/main'
+        run: sudo chmod -R 777 /home/runner/.config/.android
+      
       - name: Build with Gradle
         run: ./gradlew assembleRelease
 
