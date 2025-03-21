@@ -1,4 +1,4 @@
-package cn.super12138.todo.ui.pages.settings.components.darkmode
+package cn.super12138.todo.ui.pages.settings.components.appearance.darkmode
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement

@@ -17,9 +17,9 @@ import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
 import cn.super12138.todo.ui.pages.settings.components.SwitchSettingsItem
-import cn.super12138.todo.ui.pages.settings.components.contrast.ContrastPicker
-import cn.super12138.todo.ui.pages.settings.components.darkmode.DarkModePicker
-import cn.super12138.todo.ui.pages.settings.components.palette.PalettePicker
+import cn.super12138.todo.ui.pages.settings.components.appearance.contrast.ContrastPicker
+import cn.super12138.todo.ui.pages.settings.components.appearance.darkmode.DarkModePicker
+import cn.super12138.todo.ui.pages.settings.components.appearance.palette.PalettePicker
 import cn.super12138.todo.ui.viewmodels.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)

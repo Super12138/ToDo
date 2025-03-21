@@ -1,4 +1,4 @@
-package cn.super12138.todo.ui.pages.settings.components.contrast
+package cn.super12138.todo.ui.pages.settings.components.appearance.contrast
 
 import android.view.HapticFeedbackConstants
 import androidx.compose.foundation.layout.Arrangement
