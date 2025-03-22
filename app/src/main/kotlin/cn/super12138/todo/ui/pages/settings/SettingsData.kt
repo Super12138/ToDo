@@ -57,7 +57,7 @@ fun SettingsData(
         contract = ActivityResultContracts.CreateDocument("application/zip"),
         onResult = {
             if (it != null) {
-                viewModel.backupDatabase(
+                viewModel.backupAppData(
                     uri = it,
                     context = context,
                     onResult = { success ->
@@ -84,7 +84,7 @@ fun SettingsData(
         contract = ActivityResultContracts.OpenDocument(),
         onResult = {
             if (it != null) {
-                viewModel.restoreDatabase(
+                viewModel.restoreAppData(
                     uri = it,
                     context = context,
                     onResult = { success ->
