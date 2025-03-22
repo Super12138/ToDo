@@ -139,7 +139,6 @@ fun SettingsData(
         icon = Icons.Outlined.RestartAlt,
         title = stringResource(R.string.tip_tips),
         text = stringResource(R.string.tip_restore_success),
-        confirmButton = stringResource(R.string.action_confirm),
         onConfirm = { restartApp(context) },
         onDismiss = { showRestoreDialog = false },
         properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)

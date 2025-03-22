@@ -39,6 +39,7 @@ import cn.super12138.todo.utils.VibrationUtils
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LargeTopAppBarScaffold(
+    modifier: Modifier = Modifier,
     title: String,
     scrollBehavior: TopAppBarScrollBehavior,
     onBack: () -> Unit,
@@ -46,7 +47,6 @@ fun LargeTopAppBarScaffold(
     floatingActionButton: @Composable () -> Unit = {},
     floatingActionButtonPosition: FabPosition = FabPosition.End,
     contentWindowInsets: WindowInsets = WindowInsets.safeContent.exclude(WindowInsets.ime),
-    modifier: Modifier = Modifier,
     content: @Composable (PaddingValues) -> Unit
 ) {
     val view = LocalView.current
@@ -75,7 +75,8 @@ fun LargeTopAppBarScaffold(
         snackbarHost = snackbarHost,
         floatingActionButton = floatingActionButton,
         floatingActionButtonPosition = floatingActionButtonPosition,
-        contentWindowInsets = contentWindowInsets
+        contentWindowInsets = contentWindowInsets,
+        modifier = modifier
     ) { innerPadding ->
         Box { content(innerPadding) }
     }
@@ -84,6 +85,7 @@ fun LargeTopAppBarScaffold(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LargeTopAppBarScaffold(
+    modifier: Modifier = Modifier,
     title: @Composable () -> Unit = {},
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
@@ -92,7 +94,6 @@ fun LargeTopAppBarScaffold(
     floatingActionButton: @Composable () -> Unit = {},
     floatingActionButtonPosition: FabPosition = FabPosition.End,
     contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
-    modifier: Modifier = Modifier,
     content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(

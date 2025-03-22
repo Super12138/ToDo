@@ -28,9 +28,9 @@ import java.util.concurrent.TimeUnit
 
 @Composable
 fun Konfetti(
+    modifier: Modifier = Modifier,
     state: MutableState<Boolean>,
-    primary: Color = MaterialTheme.colorScheme.primary,
-    modifier: Modifier = Modifier
+    primary: Color = MaterialTheme.colorScheme.primary
 ) {
     var visible by state
     if (!visible) {

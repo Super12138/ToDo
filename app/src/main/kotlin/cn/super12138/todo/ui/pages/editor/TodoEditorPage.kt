@@ -58,9 +58,9 @@ import cn.super12138.todo.logic.model.Subjects
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
 import cn.super12138.todo.ui.components.ChipItem
+import cn.super12138.todo.ui.components.ConfirmDialog
 import cn.super12138.todo.ui.components.FilterChipGroup
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
-import cn.super12138.todo.ui.components.WarningDialog
 import cn.super12138.todo.utils.VibrationUtils
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
@@ -310,10 +310,10 @@ fun TodoEditorPage(
         }
     }
 
-    WarningDialog(
+    ConfirmDialog(
         visible = showExitConfirmDialog,
         icon = Icons.AutoMirrored.Outlined.Undo,
-        description = stringResource(R.string.tip_discard_changes),
+        text = stringResource(R.string.tip_discard_changes),
         onConfirm = {
             showExitConfirmDialog = false
             onNavigateUp()
@@ -321,10 +321,10 @@ fun TodoEditorPage(
         onDismiss = { showExitConfirmDialog = false }
     )
 
-    WarningDialog(
+    ConfirmDialog(
         visible = showDeleteConfirmDialog,
         icon = Icons.Outlined.Delete,
-        description = stringResource(R.string.tip_delete_task, 1),
+        text = stringResource(R.string.tip_delete_task, 1),
         onConfirm = onDelete,
         onDismiss = { showDeleteConfirmDialog = false }
     )

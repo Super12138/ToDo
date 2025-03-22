@@ -38,6 +38,7 @@ import cn.super12138.todo.utils.VibrationUtils
  */
 @Composable
 fun AnimatedExtendedFloatingActionButton(
+    modifier: Modifier = Modifier,
     icon: ImageVector,
     text: String,
     textOverflow: TextOverflow = TextOverflow.Clip,
@@ -45,8 +46,7 @@ fun AnimatedExtendedFloatingActionButton(
     containerColor: Color = FloatingActionButtonDefaults.containerColor,
     contentColor: Color = contentColorFor(containerColor),
     elevation: FloatingActionButtonElevation = FloatingActionButtonDefaults.elevation(),
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    onClick: () -> Unit
 ) {
     val view = LocalView.current
     FloatingActionButton(

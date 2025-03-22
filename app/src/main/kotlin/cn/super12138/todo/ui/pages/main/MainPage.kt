@@ -38,7 +38,7 @@ import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
-import cn.super12138.todo.ui.components.WarningDialog
+import cn.super12138.todo.ui.components.ConfirmDialog
 import cn.super12138.todo.ui.pages.main.components.TodoTopAppBar
 import cn.super12138.todo.ui.viewmodels.MainViewModel
 
@@ -220,10 +220,10 @@ fun MainPage(
         }
     }
 
-    WarningDialog(
+    ConfirmDialog(
         visible = showDeleteConfirmDialog,
         icon = Icons.Outlined.Delete,
-        description = stringResource(R.string.tip_delete_task, selectedTodoIds.size),
+        text = stringResource(R.string.tip_delete_task, selectedTodoIds.size),
         onConfirm = { viewModel.deleteSelectedTodo() },
         onDismiss = { showDeleteConfirmDialog = false }
     )

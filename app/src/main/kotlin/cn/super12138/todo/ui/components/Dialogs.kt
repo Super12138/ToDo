@@ -20,22 +20,25 @@ import cn.super12138.todo.R
 import cn.super12138.todo.utils.VibrationUtils
 
 @Composable
-fun WarningDialog(
+fun ConfirmDialog(
+    modifier: Modifier = Modifier,
     visible: Boolean,
     icon: ImageVector = Icons.Outlined.ErrorOutline,
-    description: String,
-    onConfirm: () -> Unit,
-    onDismiss: () -> Unit,
+    title: String = stringResource(R.string.title_warning),
+    text: String,
+    confirmButtonText: String = stringResource(R.string.action_confirm),
+    dismissButtonText: String = stringResource(R.string.action_cancel),
     properties: DialogProperties = DialogProperties(),
-    modifier: Modifier = Modifier
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit
 ) {
     BasicDialog(
         visible = visible,
         icon = icon,
-        title = stringResource(R.string.title_warning),
-        text = { Text(description) },
-        confirmButton = stringResource(R.string.action_confirm),
-        dismissButton = stringResource(R.string.action_cancel),
+        title = title,
+        text = { Text(text) }, // 已经实现好滚动了
+        confirmButton = confirmButtonText,
+        dismissButton = dismissButtonText,
         onConfirm = {
             onConfirm()
             onDismiss()
@@ -47,48 +50,8 @@ fun WarningDialog(
 }
 
 @Composable
-fun ConfirmDialog(
-    visible: Boolean,
-    icon: ImageVector,
-    title: String,
-    text: String,
-    confirmButton: String,
-    onConfirm: () -> Unit,
-    onDismiss: () -> Unit,
-    properties: DialogProperties = DialogProperties(),
-    modifier: Modifier = Modifier
-) {
-    val view = LocalView.current
-    BasicDialog(
-        visible = visible,
-        icon = {
-            Icon(
-                imageVector = icon,
-                contentDescription = null // 会跟下面的文本重复，所以设置为 null
-            )
-        },
-        title = { Text(title) },
-        text = { Text(text) },
-        confirmButton = {
-            FilledTonalButton(
-                onClick = {
-                    VibrationUtils.performHapticFeedback(view)
-                    onConfirm()
-                    onDismiss()
-                }
-            ) {
-                Text(confirmButton)
-            }
-        },
-        dismissButton = {},
-        onDismissRequest = onDismiss,
-        properties = properties,
-        modifier = modifier
-    )
-}
-
-@Composable
 fun BasicDialog(
+    modifier: Modifier = Modifier,
     visible: Boolean,
     icon: ImageVector,
     title: String,
@@ -97,8 +60,7 @@ fun BasicDialog(
     dismissButton: String,
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
-    properties: DialogProperties = DialogProperties(),
-    modifier: Modifier = Modifier
+    properties: DialogProperties = DialogProperties()
 ) {
     val view = LocalView.current
     BasicDialog(
@@ -110,7 +72,11 @@ fun BasicDialog(
             )
         },
         title = { Text(title) },
-        text = text,
+        text = {
+            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                text?.let { it() }
+            }
+        },
         confirmButton = {
             FilledTonalButton(
                 onClick = {
@@ -139,6 +105,7 @@ fun BasicDialog(
 
 @Composable
 fun BasicDialog(
+    modifier: Modifier = Modifier,
     visible: Boolean,
     icon: @Composable (() -> Unit)? = null,
     title: @Composable () -> Unit,
@@ -146,18 +113,13 @@ fun BasicDialog(
     confirmButton: (@Composable () -> Unit),
     dismissButton: (@Composable () -> Unit)? = null,
     onDismissRequest: () -> Unit,
-    properties: DialogProperties = DialogProperties(),
-    modifier: Modifier = Modifier
+    properties: DialogProperties = DialogProperties()
 ) {
     if (visible) {
         AlertDialog(
             icon = icon,
             title = title,
-            text = {
-                Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                    text?.let { it() }
-                }
-            },
+            text = text,
             confirmButton = confirmButton,
             dismissButton = dismissButton,
             onDismissRequest = onDismissRequest,
