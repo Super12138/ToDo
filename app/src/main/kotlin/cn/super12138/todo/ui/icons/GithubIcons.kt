@@ -6,13 +6,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-val GithubIcon: ImageVector
+val GitHubIcon: ImageVector
     get() {
-        if (_GithubIcon != null) {
-            return _GithubIcon!!
+        if (_GitHubIcon != null) {
+            return _GitHubIcon!!
         }
-        _GithubIcon = ImageVector.Builder(
-            name = "GithubIcon",
+        _GitHubIcon = ImageVector.Builder(
+            name = "GitHubIcon",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
             viewportWidth = 24f,
@@ -49,8 +49,8 @@ val GithubIcon: ImageVector
             }
         }.build()
 
-        return _GithubIcon!!
+        return _GitHubIcon!!
     }
 
 @Suppress("ObjectPropertyName")
-private var _GithubIcon: ImageVector? = null
+private var _GitHubIcon: ImageVector? = null
