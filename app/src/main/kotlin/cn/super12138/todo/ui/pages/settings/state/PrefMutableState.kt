@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.edit
 
 /**
  * 来自：https://github.com/hushenghao/AndroidEasterEggs/blob/main/app/src/main/java/com/dede/android_eggs/views/settings/compose/basic/PrefMutableState.kt
@@ -47,7 +48,7 @@ private class PrefMutableBooleanState(
         get() = delegate.value
         set(value) {
             delegate.value = value
-            context.pref.edit().putBoolean(key, value).apply()
+            context.pref.edit { putBoolean(key, value) }
         }
 
     override fun component1(): Boolean {
@@ -70,7 +71,7 @@ private class PrefMutableIntState(
         get() = delegate.intValue
         set(value) {
             delegate.intValue = value
-            context.pref.edit().putInt(key, value).apply()
+            context.pref.edit { putInt(key, value) }
         }
 
     override fun component1(): Int {
@@ -93,7 +94,7 @@ private class PrefMutableFloatState(
         get() = delegate.floatValue
         set(value) {
             delegate.floatValue = value
-            context.pref.edit().putFloat(key, value).apply()
+            context.pref.edit { putFloat(key, value) }
         }
 
     override fun component1(): Float {
