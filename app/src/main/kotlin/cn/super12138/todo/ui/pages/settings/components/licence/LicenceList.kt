@@ -1,11 +1,14 @@
 package cn.super12138.todo.ui.pages.settings.components.licence
 
 import android.util.Log
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,9 +29,9 @@ import com.mikepenz.aboutlibraries.ui.compose.m3.util.htmlReadyLicenseContent
 
 @Composable
 fun LicenceList(
+    modifier: Modifier = Modifier,
     libraries: Libs?,
-    state: LazyListState = rememberLazyListState(),
-    modifier: Modifier = Modifier
+    state: LazyListState = rememberLazyListState()
 ) {
     val uriHandler = LocalUriHandler.current
     val view = LocalView.current
@@ -61,8 +64,10 @@ fun LicenceList(
                     title = { Text(library.name) },
                     text = {
                         library.licenses.firstOrNull()?.licenseContent?.let {
-                            SelectionContainer {
-                                Text(text = it)
+                            Column(Modifier.verticalScroll(rememberScrollState())) {
+                                SelectionContainer {
+                                    Text(text = it)
+                                }
                             }
                         }
                     },
