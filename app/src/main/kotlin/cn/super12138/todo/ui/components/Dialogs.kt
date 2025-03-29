@@ -27,6 +27,7 @@ fun ConfirmDialog(
     title: String = stringResource(R.string.title_warning),
     text: String,
     confirmButtonText: String = stringResource(R.string.action_confirm),
+    showDismissButton: Boolean = true,
     dismissButtonText: String = stringResource(R.string.action_cancel),
     properties: DialogProperties = DialogProperties(),
     onConfirm: () -> Unit,
@@ -38,7 +39,7 @@ fun ConfirmDialog(
         title = title,
         text = { Text(text) }, // 已经实现好滚动了
         confirmButton = confirmButtonText,
-        dismissButton = dismissButtonText,
+        dismissButton = if (showDismissButton) dismissButtonText else null,
         onConfirm = {
             onConfirm()
             onDismiss()
@@ -57,7 +58,7 @@ fun BasicDialog(
     title: String,
     text: @Composable (() -> Unit)? = null,
     confirmButton: String,
-    dismissButton: String,
+    dismissButton: String? = null,
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
     properties: DialogProperties = DialogProperties()
@@ -88,13 +89,15 @@ fun BasicDialog(
             }
         },
         dismissButton = {
-            TextButton(
-                onClick = {
-                    VibrationUtils.performHapticFeedback(view)
-                    onDismiss()
+            dismissButton?.let {
+                TextButton(
+                    onClick = {
+                        VibrationUtils.performHapticFeedback(view)
+                        onDismiss()
+                    }
+                ) {
+                    Text(it)
                 }
-            ) {
-                Text(dismissButton)
             }
         },
         onDismissRequest = onDismiss,

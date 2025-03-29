@@ -139,12 +139,17 @@ fun SettingsData(
         icon = Icons.Outlined.RestartAlt,
         title = stringResource(R.string.tip_tips),
         text = stringResource(R.string.tip_restore_success),
+        showDismissButton = false,
         onConfirm = { restartApp(context) },
         onDismiss = { showRestoreDialog = false },
         properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
     )
 }
 
+/**
+ * 重启应用
+ * @param context 上下文
+ */
 private fun restartApp(context: Context) {
     val intent = Intent(
         context,
