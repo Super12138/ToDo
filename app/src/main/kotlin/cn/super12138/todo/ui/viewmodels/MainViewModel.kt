@@ -179,68 +179,58 @@ class MainViewModel : ViewModel() {
 
     fun backupAppData(uri: Uri, context: Context, onResult: (completed: Boolean) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                // 获取数据库文件路径
-                val dbPath = TodoApp.db.openHelper.writableDatabase.path
-                val prefPath = "${context.filesDir.parent}/shared_prefs"
-                // 开启输出文件流，输出位置为用户选取的文件夹URI
+            val result = runCatching {
                 context.contentResolver.openOutputStream(uri)?.use { outputStream ->
                     ZipOutputStream(BufferedOutputStream(outputStream)).use { zipOutStream ->
-                        listOf(
-                            context.getDatabasePath(Constants.DB_NAME), // 数据库
-                            File("$dbPath-wal"), // 数据库-wal
-                            File("$dbPath-shm"), // 数据库-shm
-                            File("$prefPath/${Constants.SP_NAME}.xml") // SharedPreferences
-                        ).filter { it.exists() }.forEach { file ->
+                        getBackupFiles(context).forEach { file ->
                             FileUtils.addFileToZip(file, file.name, zipOutStream)
                         }
                     }
                 }
-                // 执行成功的回调
-                withContext(Dispatchers.Main) { onResult(true) }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                // 执行失败的回调
-                withContext(Dispatchers.Main) { onResult(false) }
-            }
+            }.isSuccess
+            withContext(Dispatchers.Main) { onResult(result) }
         }
     }
 
     fun restoreAppData(uri: Uri, context: Context, onResult: (completed: Boolean) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                // 获取数据库文件夹
-                val dbPath = context.getDatabasePath(Constants.DB_NAME).parent
-                val prefPath = "${context.filesDir.parent}/shared_prefs/"
-                // 开启输入文件流，输入位置为用户选取的文件URI
+            val result = runCatching {
                 context.contentResolver.openInputStream(uri)?.use { inputStream ->
                     ZipInputStream(BufferedInputStream(inputStream)).use { zipInputStream ->
-                        generateSequence { zipInputStream.nextEntry }.forEach { zipEntry ->
-                            // 判断是否为 SharedPreferences 设置文件
-                            val outputFile = if (zipEntry.name.endsWith(".xml")) {
-                                File(prefPath, zipEntry.name)
-                            } else {
-                                File(dbPath, zipEntry.name)
-                            }
-                            // 输出文件
-                            if (zipEntry.isDirectory) {
-                                // 如果是文件夹则创建文件夹
-                                outputFile.mkdirs()
-                            } else {
-                                // 父文件夹为空就创建父文件夹
-                                outputFile.parentFile?.mkdirs()
-                                // 输出文件
-                                FileOutputStream(outputFile).use { zipInputStream.copyTo(it) }
-                            }
-                            zipInputStream.closeEntry()
-                        }
+                        extractZipEntries(zipInputStream, context)
                     }
                 }
-                withContext(Dispatchers.Main) { onResult(true) }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                withContext(Dispatchers.Main) { onResult(false) }
+            }.isSuccess
+            withContext(Dispatchers.Main) { onResult(result) }
+        }
+    }
+
+    private fun getBackupFiles(context: Context): List<File> {
+        val dbPath = TodoApp.db.openHelper.writableDatabase.path
+        val prefPath = "${context.filesDir.parent}/shared_prefs"
+        return listOf(
+            context.getDatabasePath(Constants.DB_NAME), // 数据库
+            File("$dbPath-wal"), // 数据库-wal
+            File("$dbPath-shm"), // 数据库-shm
+            File("$prefPath/${Constants.SP_NAME}.xml") // SharedPreferences
+        ).filter { it.exists() }
+    }
+
+    private fun extractZipEntries(zipInputStream: ZipInputStream, context: Context) {
+        val dbPath = context.getDatabasePath(Constants.DB_NAME).parent
+        val prefPath = "${context.filesDir.parent}/shared_prefs/"
+        generateSequence { zipInputStream.nextEntry }.forEach { zipEntry ->
+            val outputFile = File(
+                if (zipEntry.name.endsWith(".xml")) prefPath else dbPath,
+                zipEntry.name
+            )
+            if (zipEntry.isDirectory) {
+                outputFile.mkdirs()
+            } else {
+                outputFile.parentFile?.mkdirs()
+                FileOutputStream(outputFile).use { zipInputStream.copyTo(it) }
             }
+            zipInputStream.closeEntry()
         }
     }
 }
