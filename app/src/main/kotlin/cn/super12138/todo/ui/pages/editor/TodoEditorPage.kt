@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Undo
@@ -57,6 +58,7 @@ import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.logic.model.Subjects
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
+import cn.super12138.todo.ui.components.AutoCompleteTextField
 import cn.super12138.todo.ui.components.ChipItem
 import cn.super12138.todo.ui.components.ConfirmDialog
 import cn.super12138.todo.ui.components.FilterChipGroup
@@ -66,13 +68,13 @@ import cn.super12138.todo.utils.VibrationUtils
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
 @Composable
 fun TodoEditorPage(
+    modifier: Modifier = Modifier,
     toDo: TodoEntity? = null,
     onSave: (TodoEntity) -> Unit,
     onDelete: () -> Unit,
     onNavigateUp: () -> Unit,
     sharedTransitionScope: SharedTransitionScope,
-    animatedVisibilityScope: AnimatedVisibilityScope,
-    modifier: Modifier = Modifier
+    animatedVisibilityScope: AnimatedVisibilityScope
 ) {
     var showExitConfirmDialog by rememberSaveable { mutableStateOf(false) }
     var showDeleteConfirmDialog by rememberSaveable { mutableStateOf(false) }
@@ -84,10 +86,10 @@ fun TodoEditorPage(
     var toDoContent by rememberSaveable { mutableStateOf(toDo?.content ?: "") }
     var isErrorContent by rememberSaveable { mutableStateOf(false) }
     var selectedSubjectId by rememberSaveable { mutableIntStateOf(toDo?.subject ?: 0) }
-    var subjectContent by rememberSaveable { mutableStateOf(toDo?.customSubject ?: "") }
+    val subjectContentState = rememberTextFieldState(initialText = toDo?.customSubject ?: "")
     var isErrorSubject by rememberSaveable { mutableStateOf(false) }
     var priorityState by rememberSaveable { mutableFloatStateOf(toDo?.priority ?: 0f) }
-    var completedSwitchState by rememberSaveable { mutableStateOf(toDo?.isCompleted ?: false) }
+    var completedState by rememberSaveable { mutableStateOf(toDo?.isCompleted ?: false) }
 
     val isCustomSubject by remember {
         derivedStateOf { selectedSubjectId == Subjects.Custom.id }
@@ -97,9 +99,9 @@ fun TodoEditorPage(
         var isModified = false
         if ((toDo?.content ?: "") != toDoContent) isModified = true
         if ((toDo?.subject ?: 0) != selectedSubjectId) isModified = true
-        if ((toDo?.customSubject ?: "") != subjectContent) isModified = true
+        if ((toDo?.customSubject ?: "") != subjectContentState.text) isModified = true
         if ((toDo?.priority ?: 0f) != priorityState) isModified = true
-        if ((toDo?.isCompleted == true) != completedSwitchState) isModified = true
+        if ((toDo?.isCompleted == true) != completedState) isModified = true
         if (isModified) {
             showExitConfirmDialog = true
         } else {
@@ -132,7 +134,7 @@ fun TodoEditorPage(
                         expanded = true,
                         onClick = {
                             isErrorContent = toDoContent.trim().isEmpty()
-                            isErrorSubject = subjectContent.trim()
+                            isErrorSubject = subjectContentState.text.trim()
                                 .isEmpty() && selectedSubjectId == Subjects.Custom.id
                             if (isErrorContent || isErrorSubject) return@AnimatedExtendedFloatingActionButton
 
@@ -142,8 +144,8 @@ fun TodoEditorPage(
                                 TodoEntity(
                                     content = toDoContent,
                                     subject = selectedSubjectId,
-                                    customSubject = subjectContent,
-                                    isCompleted = completedSwitchState,
+                                    customSubject = subjectContentState.text.toString(),
+                                    isCompleted = completedState,
                                     priority = priorityState,
                                     id = toDo?.id ?: 0
                                 )
@@ -214,9 +216,9 @@ fun TodoEditorPage(
             )
             AnimatedVisibility(isCustomSubject) {
                 with(sharedTransitionScope) {
-                    TextField(
-                        value = subjectContent,
-                        onValueChange = { subjectContent = it },
+                    AutoCompleteTextField(
+                        options = SampleData,
+                        state = subjectContentState,
                         label = { Text(stringResource(R.string.label_enter_subject_name)) },
                         isError = isErrorSubject,
                         supportingText = {
@@ -297,9 +299,9 @@ fun TodoEditorPage(
                         modifier = Modifier.padding(end = 10.dp)
                     )
                     Switch(
-                        checked = completedSwitchState,
+                        checked = completedState,
                         onCheckedChange = {
-                            completedSwitchState = it
+                            completedState = it
                             VibrationUtils.performHapticFeedback(view)
                         }
                     )
@@ -329,3 +331,37 @@ fun TodoEditorPage(
         onDismiss = { showDeleteConfirmDialog = false }
     )
 }
+
+private val SampleData =
+    listOf(
+        "Android",
+        "Base",
+        "Cupcake",
+        "Donut",
+        "Eclair",
+        "Froyo",
+        "Gingerbread",
+        "Honeycomb",
+        "Ice Cream Sandwich",
+        "Jelly Bean",
+        "KitKat",
+        "Lollipop",
+        "Marshmallow",
+        "Nougat",
+        "Oreo",
+        "Pie",
+        "Quince Tart",
+        "Red Velvet Cake",
+        "Snow Cone",
+        "Tiramisu",
+        "Upside Down Cake",
+        "Vanilla Ice Cream",
+        "W123",
+        "X456",
+        "Y789",
+        "Z000",
+        "语文",
+        "数学",
+        "测试1",
+        "测试2"
+    )

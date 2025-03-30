@@ -110,4 +110,8 @@
     <string name="happy_birthday">待办1岁生日快乐</string>
     <string name="subject_customization">自定义</string>
     <string name="label_enter_subject_name">输入学科名称</string>
+    <string name="pref_category_backup_restore">备份与恢复</string>
+    <string name="pref_subject_management">学科管理</string>
+    <string name="pref_subject_management_desc">添加或删除自定义学科</string>
+    <string name="action_add_subject">添加学科</string>
 </resources>

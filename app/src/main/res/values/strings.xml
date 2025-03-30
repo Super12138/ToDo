@@ -111,4 +111,8 @@
     <string name="happy_birthday">Happy 1st birthday to ToDo</string>
     <string name="subject_customization">Customization</string>
     <string name="label_enter_subject_name">Enter subject name</string>
+    <string name="pref_category_backup_restore">Backup &amp; Restore</string>
+    <string name="pref_subject_management">Subject Management</string>
+    <string name="pref_subject_management_desc">Add or remove custom subjects</string>
+    <string name="action_add_subject">Add Subject</string>
 </resources>
