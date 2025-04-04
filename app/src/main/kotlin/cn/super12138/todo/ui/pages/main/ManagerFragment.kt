@@ -28,6 +28,7 @@ import cn.super12138.todo.ui.pages.main.components.TodoCard
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun ManagerFragment(
+    modifier: Modifier = Modifier,
     state: LazyListState,
     list: List<TodoEntity>,
     onItemClick: (TodoEntity) -> Unit = {},
@@ -35,8 +36,7 @@ fun ManagerFragment(
     onItemChecked: (TodoEntity) -> Unit = {},
     selectedTodoIds: List<Int>,
     sharedTransitionScope: SharedTransitionScope,
-    animatedVisibilityScope: AnimatedVisibilityScope,
-    modifier: Modifier = Modifier
+    animatedVisibilityScope: AnimatedVisibilityScope
 ) {
     val context = LocalContext.current
     LazyColumnCustomScrollBar(

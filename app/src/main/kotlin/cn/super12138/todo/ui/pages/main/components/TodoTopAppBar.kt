@@ -11,11 +11,6 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.shrinkOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.exclude
-import androidx.compose.foundation.layout.ime
-import androidx.compose.foundation.layout.safeContent
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Delete
@@ -117,10 +112,7 @@ fun TodoTopAppBar(
                             ).togetherWith(
                             fadeOut(animationSpec = tween(90))
                         )
-                },
-                modifier = Modifier.windowInsetsPadding(
-                    WindowInsets.safeContent.exclude(WindowInsets.ime)
-                )
+                }
             ) { inSelectedMode ->
                 if (!inSelectedMode) {
                     IconButton(

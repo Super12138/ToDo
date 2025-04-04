@@ -47,6 +47,7 @@ import cn.super12138.todo.utils.VibrationUtils
 @OptIn(ExperimentalFoundationApi::class, ExperimentalSharedTransitionApi::class)
 @Composable
 fun TodoCard(
+    modifier: Modifier = Modifier,
     id: Int,
     content: String,
     subject: String,
@@ -57,8 +58,7 @@ fun TodoCard(
     onCardLongClick: () -> Unit = {},
     onChecked: () -> Unit = {},
     sharedTransitionScope: SharedTransitionScope,
-    animatedVisibilityScope: AnimatedVisibilityScope,
-    modifier: Modifier = Modifier
+    animatedVisibilityScope: AnimatedVisibilityScope
 ) {
     val view = LocalView.current
     val context = LocalContext.current
