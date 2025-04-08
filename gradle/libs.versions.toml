@@ -22,7 +22,7 @@ konfetti = "2.0.5"
 # Lazy Column Scrollbar
 lazycolumnscrollbar = "2.2.0"
 # Kotlin
-kotlinCoroutines = "1.10.1"
+kotlinCoroutines = "1.10.2"
 # Test
 junit = "4.13.2"
 junitVersion = "1.2.1"
