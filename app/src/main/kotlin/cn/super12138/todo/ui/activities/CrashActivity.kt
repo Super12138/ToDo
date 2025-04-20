@@ -1,6 +1,5 @@
 package cn.super12138.todo.ui.activities
 
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -20,9 +19,6 @@ import cn.super12138.todo.logic.model.DarkMode.Light
 import cn.super12138.todo.ui.pages.crash.CrashPage
 import cn.super12138.todo.ui.theme.PaletteStyle
 import cn.super12138.todo.ui.theme.ToDoTheme
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 
 class CrashActivity : ComponentActivity() {
     companion object {
@@ -38,26 +34,6 @@ class CrashActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val crashLogs = intent.getStringExtra("crash_logs")
-
-        val deviceBrand = Build.BRAND
-        val deviceModel = Build.MODEL
-        val sdkLevel = Build.VERSION.SDK_INT
-        val currentDateTime = Calendar.getInstance().time
-        val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        val formattedDateTime = formatter.format(currentDateTime)
-
-        val deviceInfo = StringBuilder().apply {
-            append(BRAND_PREFIX).append("").append(deviceBrand).append('\n')
-            append(MODEL_PREFIX).append(deviceModel).append('\n')
-            append(DEVICE_SDK_PREFIX).append(sdkLevel).append('\n').append('\n')
-            append(CRASH_TIME_PREFIX).append(formattedDateTime).append('\n').append('\n')
-            append(BEGINNING_CRASH).append('\n')
-        }
-
-        val crashLogFormatted = StringBuilder().apply {
-            append(deviceInfo)
-            append(crashLogs)
-        }.toString()
 
         setContent {
             val darkMode = DarkMode.fromId(GlobalValues.darkMode)
@@ -82,7 +58,7 @@ class CrashActivity : ComponentActivity() {
                 dynamicColor = GlobalValues.dynamicColor
             ) {
                 CrashPage(
-                    crashLog = if (crashLogs == null) stringResource(R.string.tip_no_crash_logs) else crashLogFormatted,
+                    crashLog = crashLogs ?: stringResource(R.string.tip_no_crash_logs),
                     exitApp = { finishAffinity() },
                     modifier = Modifier.fillMaxSize()
                 )

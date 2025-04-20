@@ -1,5 +1,6 @@
 package cn.super12138.todo.ui.pages.crash
 
+import android.os.Build
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -24,13 +25,26 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.ui.TodoDefaults
+import cn.super12138.todo.ui.activities.CrashActivity.Companion.BEGINNING_CRASH
+import cn.super12138.todo.ui.activities.CrashActivity.Companion.BRAND_PREFIX
+import cn.super12138.todo.ui.activities.CrashActivity.Companion.CRASH_TIME_PREFIX
+import cn.super12138.todo.ui.activities.CrashActivity.Companion.DEVICE_SDK_PREFIX
+import cn.super12138.todo.ui.activities.CrashActivity.Companion.MODEL_PREFIX
 import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,6 +87,24 @@ fun CrashPage(
         },
         contentWindowInsets = WindowInsets.safeContent
     ) { innerPadding ->
+        val context = LocalContext.current
+        val packageName = context.packageName
+
+        val deviceBrand = Build.BRAND
+        val deviceModel = Build.MODEL
+        val sdkLevel = Build.VERSION.SDK_INT
+        val currentDateTime = Calendar.getInstance().time
+        val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val formattedDateTime = formatter.format(currentDateTime)
+
+        val deviceInfo = StringBuilder().apply {
+            append(BRAND_PREFIX).append(deviceBrand).append("\n")
+            append(MODEL_PREFIX).append(deviceModel).append("\n")
+            append(DEVICE_SDK_PREFIX).append(sdkLevel).append("\n").append("\n")
+            append(CRASH_TIME_PREFIX).append(formattedDateTime).append("\n").append("\n")
+            append(BEGINNING_CRASH).append("\n")
+        }
+
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -83,7 +115,38 @@ fun CrashPage(
             Spacer(Modifier.height(5.dp))
             SelectionContainer {
                 Text(
-                    text = crashLog,
+                    text = buildAnnotatedString {
+                        /*append(crashLog)
+                        val index = crashLog.indexOf(packageName)
+                        if (index != -1) {
+                            addStyle(
+                                style = SpanStyle(
+                                    fontWeight = FontWeight.Bold,
+                                    background = MaterialTheme.colorScheme.primary
+                                ),
+                                start = index,
+                                end = index + packageName.length
+                            )
+                        }*/
+                        append(deviceInfo)
+                        val splitLines = crashLog.lines()
+                        splitLines.forEach {
+                            if (it.contains(packageName)) {
+                                withStyle(
+                                    SpanStyle(
+                                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                        background = MaterialTheme.colorScheme.primaryContainer,
+                                        fontWeight = FontWeight.Bold,
+                                    )
+                                ) {
+                                    append(it)
+                                }
+                            } else {
+                                append(it)
+                            }
+                            append("\n")
+                        }
+                    },
                     fontFamily = FontFamily.Monospace,
                     style = MaterialTheme.typography.bodyMedium
                 )
