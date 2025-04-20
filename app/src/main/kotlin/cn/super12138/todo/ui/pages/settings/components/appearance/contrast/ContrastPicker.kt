@@ -37,7 +37,8 @@ fun ContrastPicker(
     val context = LocalContext.current
     MoreContentSettingsItem(
         title = stringResource(R.string.pref_contrast_level),
-        description = stringResource(R.string.pref_contrast_level_desc)
+        description = stringResource(R.string.pref_contrast_level_desc),
+        modifier = modifier
     ) {
         var contrastState by rememberPrefFloatState(
             Constants.PREF_CONTRAST_LEVEL,

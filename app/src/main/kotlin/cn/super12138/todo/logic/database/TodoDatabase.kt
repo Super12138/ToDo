@@ -23,7 +23,7 @@ abstract class TodoDatabase : RoomDatabase() {
                     Constants.DB_NAME
                 )
                     .addMigrations(MIGRATION_2_3)
-                    .fallbackToDestructiveMigration()
+                    .fallbackToDestructiveMigration(false)
                     .build()
 
                 INSTANCE = instance

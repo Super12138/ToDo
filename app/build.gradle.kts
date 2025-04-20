@@ -34,7 +34,7 @@ android {
         applicationId = "cn.super12138.todo"
         minSdk = 24
         targetSdk = 36
-        versionCode = 618
+        versionCode = 633
         versionName = "2.1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -63,7 +63,9 @@ android {
         jvmTarget = "21"
     }
     aboutLibraries {
-        configPath = "$projectDir/licences"
+        collect {
+            configPath = file("$projectDir/licences")
+        }
     }
     buildFeatures {
         compose = true

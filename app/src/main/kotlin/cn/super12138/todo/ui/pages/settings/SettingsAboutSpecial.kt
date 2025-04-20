@@ -48,14 +48,14 @@ import cn.super12138.todo.utils.VibrationUtils
 @Composable
 fun SettingsAboutSpecial(
     viewModel: MainViewModel,
-    onNavigateUp: () -> Unit,
+    // onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
     var showBanner by rememberSaveable { mutableStateOf(false) }
     Surface(color = SpecialDefaults.WallColor) {
-        Box(Modifier.fillMaxSize()) {
+        Box(modifier.fillMaxSize()) {
             AnimatedVisibility(
                 visible = showBanner,
                 enter = expandVertically(),
