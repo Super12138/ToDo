@@ -1,17 +1,17 @@
 [versions]
 # Android X
-coreKtx = "1.15.0"
+coreKtx = "1.16.0"
 splashScreen = "1.2.0-beta01"
 lifecycleRuntimeKtx = "2.8.7"
 # security = "1.1.0-alpha06"
 # Compose
 activityCompose = "1.10.1"
-composeBom = "2025.03.01"
+composeBom = "2025.04.00"
 liveData = "1.7.8"
 icons = "1.7.8"
-room = "2.6.1"
+room = "2.7.0"
 navigation = "2.8.9"
-material3 = "1.4.0-alpha11"
+material3 = "1.4.0-alpha12"
 adaptive = "1.1.0"
 # AboutLibraries
 aboutLibsRelease = "11.6.3"
@@ -22,7 +22,7 @@ konfetti = "2.0.5"
 # Lazy Column Scrollbar
 lazycolumnscrollbar = "2.2.0"
 # Kotlin
-kotlinCoroutines = "1.10.1"
+kotlinCoroutines = "1.10.2"
 # Test
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -30,7 +30,7 @@ espressoCore = "3.6.1"
 # Plugins
 agp = "8.9.1"
 kotlin = "2.1.20"
-ksp = "2.1.20-1.0.32"
+ksp = "2.1.20-2.0.0"
 
 [libraries]
 # Android X
