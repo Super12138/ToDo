@@ -7,7 +7,7 @@ lifecycleRuntimeKtx = "2.8.7"
 # Compose
 activityCompose = "1.10.1"
 composeBom = "2025.04.00"
-liveData = "1.7.8"
+liveData = "1.8.0"
 icons = "1.7.8"
 room = "2.7.1"
 navigation = "2.8.9"
