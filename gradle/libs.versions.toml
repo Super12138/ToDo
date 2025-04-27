@@ -1,22 +1,22 @@
 [versions]
 # Android X
 coreKtx = "1.16.0"
-splashScreen = "1.2.0-beta01"
+splashScreen = "1.2.0-beta02"
 lifecycleRuntimeKtx = "2.8.7"
 # security = "1.1.0-alpha06"
 # Compose
 activityCompose = "1.10.1"
-composeBom = "2025.04.00"
-liveData = "1.7.8"
+composeBom = "2025.04.01"
+liveData = "1.8.0"
 icons = "1.7.8"
-room = "2.7.0"
+room = "2.7.1"
 navigation = "2.8.9"
-material3 = "1.4.0-alpha12"
+material3 = "1.4.0-alpha13"
 adaptive = "1.1.0"
 # AboutLibraries
-aboutLibsRelease = "11.6.3"
+aboutLibsRelease = "12.0.1"
 # M3 Color
-m3color = "2024.6"
+m3color = "2025.1"
 # Konfetti
 konfetti = "2.0.5"
 # Lazy Column Scrollbar
@@ -28,7 +28,7 @@ junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 # Plugins
-agp = "8.9.1"
+agp = "8.9.2"
 kotlin = "2.1.20"
 ksp = "2.1.20-2.0.0"
 

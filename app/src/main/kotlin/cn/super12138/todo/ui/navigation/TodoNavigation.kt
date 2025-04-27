@@ -27,10 +27,10 @@ private const val INITIAL_OFFSET_FACTOR = 0.10f
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun TodoNavigation(
+    modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     startDestination: String = TodoScreen.Main.name,
-    viewModel: MainViewModel,
-    modifier: Modifier = Modifier
+    viewModel: MainViewModel
 ) {
     SharedTransitionLayout {
         NavHost(
@@ -139,10 +139,7 @@ fun TodoNavigation(
             }
 
             composable(TodoScreen.SettingsAboutSpecial.name) {
-                SettingsAboutSpecial(
-                    viewModel = viewModel,
-                    onNavigateUp = { navController.navigateUp() }
-                )
+                SettingsAboutSpecial(viewModel = viewModel)
             }
 
             composable(TodoScreen.SettingsAboutLicence.name) {

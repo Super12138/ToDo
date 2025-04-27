@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
                     isAppearanceLightNavigationBars = !darkTheme
                 }
             }
-
+            // 阻止截屏相关配置
             LaunchedEffect(mainViewModel.appSecureMode) {
                 if (mainViewModel.appSecureMode) {
                     window.setFlags(

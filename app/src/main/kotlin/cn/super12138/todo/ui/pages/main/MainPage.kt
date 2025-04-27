@@ -116,7 +116,7 @@ fun MainPage(
                             toTodoEditPage()
                         },
                         modifier = Modifier.sharedElement(
-                            state = rememberSharedContentState(key = Constants.KEY_TODO_FAB_TRANSITION),
+                            sharedContentState = rememberSharedContentState(key = Constants.KEY_TODO_FAB_TRANSITION),
                             animatedVisibilityScope = animatedVisibilityScope
                         )
                     )

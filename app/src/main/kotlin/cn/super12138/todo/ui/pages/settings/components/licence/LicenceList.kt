@@ -1,6 +1,5 @@
 package cn.super12138.todo.ui.pages.settings.components.licence
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -25,7 +24,7 @@ import cn.super12138.todo.ui.components.BasicDialog
 import cn.super12138.todo.ui.components.LazyColumnCustomScrollBar
 import cn.super12138.todo.utils.VibrationUtils
 import com.mikepenz.aboutlibraries.Libs
-import com.mikepenz.aboutlibraries.ui.compose.m3.util.htmlReadyLicenseContent
+import com.mikepenz.aboutlibraries.ui.compose.util.htmlReadyLicenseContent
 
 @Composable
 fun LicenceList(
@@ -33,10 +32,17 @@ fun LicenceList(
     libraries: Libs?,
     state: LazyListState = rememberLazyListState()
 ) {
-    val uriHandler = LocalUriHandler.current
     val view = LocalView.current
-    LazyColumnCustomScrollBar(state = state) {
-        LazyColumn(state = state) {
+    val uriHandler = LocalUriHandler.current
+
+    LazyColumnCustomScrollBar(
+        state = state,
+        modifier = modifier
+    ) {
+        LazyColumn(
+            state = state,
+            modifier = modifier
+        ) {
             items(libraries?.libraries ?: listOf()) { library ->
                 var openDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -47,11 +53,11 @@ fun LicenceList(
                         if (!license?.htmlReadyLicenseContent.isNullOrBlank()) {
                             openDialog = true
                         } else if (!license?.url.isNullOrBlank()) {
-                            license?.url?.also {
+                            license.url?.also {
                                 try {
                                     uriHandler.openUri(it)
                                 } catch (t: Throwable) {
-                                    Log.e("Licence", "Failed to open the URL: $it")
+                                    throw Exception("Failed to open licence URL: $it", t)
                                 }
                             }
                         }
@@ -65,9 +71,7 @@ fun LicenceList(
                     text = {
                         library.licenses.firstOrNull()?.licenseContent?.let {
                             Column(Modifier.verticalScroll(rememberScrollState())) {
-                                SelectionContainer {
-                                    Text(text = it)
-                                }
+                                SelectionContainer { Text(text = it) }
                             }
                         }
                     },

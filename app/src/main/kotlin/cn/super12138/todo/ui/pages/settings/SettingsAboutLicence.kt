@@ -39,10 +39,11 @@ fun SettingsAboutLicence(
                 Libs.Builder().withContext(context).build()
             }
         }
+
         Column(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(innerPadding)
+                .fillMaxSize()
         ) {
             val listState = rememberLazyListState()
             LicenceList(
