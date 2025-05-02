@@ -1,4 +1,4 @@
-package cn.super12138.todo.logic.model
+package cn.super12138.todo.ui.theme
 
 import android.content.Context
 import androidx.compose.material.icons.Icons
@@ -26,8 +26,6 @@ enum class DarkMode(
     }
 
     companion object {
-        fun fromId(id: Int): DarkMode {
-            return DarkMode.entries.find { it.id == id } ?: FollowSystem
-        }
+        fun fromId(id: Int) = entries.find { it.id == id } ?: FollowSystem
     }
 }

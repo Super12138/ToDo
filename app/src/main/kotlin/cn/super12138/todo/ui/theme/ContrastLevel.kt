@@ -1,4 +1,4 @@
-package cn.super12138.todo.logic.model
+package cn.super12138.todo.ui.theme
 
 enum class ContrastLevel(val value: Float) {
     VeryLow(-1f),
@@ -19,8 +19,6 @@ enum class ContrastLevel(val value: Float) {
     }*/
 
     companion object {
-        fun fromFloat(float: Float): ContrastLevel {
-            return ContrastLevel.entries.find { it.value == float } ?: Default
-        }
+        fun fromFloat(float: Float) = entries.find { it.value == float } ?: Default
     }
 }

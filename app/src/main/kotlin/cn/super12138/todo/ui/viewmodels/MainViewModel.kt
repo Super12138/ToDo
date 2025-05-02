@@ -12,9 +12,9 @@ import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.constants.GlobalValues
 import cn.super12138.todo.logic.Repository
 import cn.super12138.todo.logic.database.TodoEntity
-import cn.super12138.todo.logic.model.ContrastLevel
-import cn.super12138.todo.logic.model.DarkMode
 import cn.super12138.todo.logic.model.SortingMethod
+import cn.super12138.todo.ui.theme.ContrastLevel
+import cn.super12138.todo.ui.theme.DarkMode
 import cn.super12138.todo.ui.theme.PaletteStyle
 import cn.super12138.todo.utils.FileUtils
 import kotlinx.coroutines.Dispatchers

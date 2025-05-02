@@ -22,8 +22,6 @@ enum class Priority(val value: Float) {
     }
 
     companion object {
-        fun fromFloat(float: Float): Priority {
-            return Priority.entries.find { it.value == float } ?: Default
-        }
+        fun fromFloat(float: Float) = entries.find { it.value == float } ?: Default
     }
 }

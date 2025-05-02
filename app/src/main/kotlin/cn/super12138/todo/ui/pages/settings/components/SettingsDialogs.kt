@@ -69,7 +69,7 @@ fun RadioItem(
 ) {
     val view = LocalView.current
     Row(
-        Modifier
+        modifier
             .fillMaxWidth()
             .height(56.dp)
             .clip(MaterialTheme.shapes.large)
@@ -103,11 +103,11 @@ data class SettingsRadioOptions(
 
 @Composable
 fun SettingsDialog(
+    modifier: Modifier = Modifier,
     visible: Boolean,
     title: String,
     text: @Composable (() -> Unit)? = null,
-    onDismissRequest: () -> Unit = {},
-    modifier: Modifier = Modifier
+    onDismissRequest: () -> Unit = {}
 ) {
     BasicDialog(
         visible = visible,

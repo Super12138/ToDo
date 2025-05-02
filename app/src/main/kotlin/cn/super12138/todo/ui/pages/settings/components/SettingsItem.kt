@@ -19,16 +19,17 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.utils.VibrationUtils
 
 @Composable
 fun SettingsItem(
+    modifier: Modifier = Modifier,
     leadingIcon: ImageVector? = null,
     title: String,
     description: String? = null,
     enableClick: Boolean = true,
-    onClick: () -> Unit = {},
-    modifier: Modifier = Modifier
+    onClick: () -> Unit = {}
 ) {
     SettingsItem(
         leadingIcon = leadingIcon,
@@ -43,13 +44,13 @@ fun SettingsItem(
 
 @Composable
 fun SettingsItem(
+    modifier: Modifier = Modifier,
     leadingIcon: ImageVector? = null,
     title: String,
     description: String? = null,
     trailingContent: (@Composable () -> Unit)? = null,
     enableClick: Boolean = true,
-    onClick: () -> Unit = {},
-    modifier: Modifier = Modifier
+    onClick: () -> Unit = {}
 ) {
     SettingsItem(
         leadingIcon = {
@@ -73,14 +74,14 @@ fun SettingsItem(
 
 @Composable
 fun SettingsItem(
+    modifier: Modifier = Modifier,
     leadingIcon: (@Composable () -> Unit)? = null,
     title: String,
     description: String? = null,
     trailingContent: (@Composable () -> Unit)? = null,
     shape: Shape = MaterialTheme.shapes.large,
     enableClick: Boolean = true,
-    onClick: () -> Unit = {},
-    modifier: Modifier = Modifier
+    onClick: () -> Unit = {}
 ) {
     val view = LocalView.current
     Row(
@@ -95,7 +96,10 @@ fun SettingsItem(
                     onClick()
                 }
             )
-            .padding(horizontal = 24.dp, vertical = 20.dp),
+            .padding(
+                horizontal = TodoDefaults.settingsItemHorizontalPadding,
+                vertical = TodoDefaults.settingsItemVerticalPadding
+            ),
         verticalAlignment = Alignment.CenterVertically
     ) {
         leadingIcon?.let {

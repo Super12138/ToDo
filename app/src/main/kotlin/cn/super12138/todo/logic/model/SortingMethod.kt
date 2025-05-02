@@ -4,11 +4,22 @@ import android.content.Context
 import cn.super12138.todo.R
 
 enum class SortingMethod(val id: Int) {
+    // 按添加先后顺序
     Sequential(1),
+
+    // 按学科
     Subject(2),
+
+    // 按优先级
     Priority(3),
+
+    // 按完成情况
     Completion(4),
+
+    // 按字母升序
     AlphabeticalAscending(5),
+
+    // 按字母降序
     AlphabeticalDescending(6);
 
     fun getDisplayName(context: Context): String {
@@ -24,8 +35,6 @@ enum class SortingMethod(val id: Int) {
     }
 
     companion object {
-        fun fromId(id: Int): SortingMethod {
-            return SortingMethod.entries.find { it.id == id } ?: Sequential
-        }
+        fun fromId(id: Int) = entries.find { it.id == id } ?: Sequential
     }
 }

@@ -13,11 +13,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.core.view.WindowCompat
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.GlobalValues
-import cn.super12138.todo.logic.model.DarkMode
-import cn.super12138.todo.logic.model.DarkMode.Dark
-import cn.super12138.todo.logic.model.DarkMode.FollowSystem
-import cn.super12138.todo.logic.model.DarkMode.Light
 import cn.super12138.todo.ui.pages.crash.CrashPage
+import cn.super12138.todo.ui.theme.DarkMode
+import cn.super12138.todo.ui.theme.DarkMode.Dark
+import cn.super12138.todo.ui.theme.DarkMode.FollowSystem
+import cn.super12138.todo.ui.theme.DarkMode.Light
 import cn.super12138.todo.ui.theme.PaletteStyle
 import cn.super12138.todo.ui.theme.ToDoTheme
 

@@ -1,18 +1,15 @@
 package cn.super12138.todo.ui.pages.settings.components
 
-import androidx.compose.foundation.gestures.FlingBehavior
-import androidx.compose.foundation.gestures.ScrollableDefaults
+import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,43 +18,38 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cn.super12138.todo.ui.TodoDefaults
 
 @Composable
 fun RowSettingsItem(
+    modifier: Modifier = Modifier,
     leadingIcon: (@Composable () -> Unit)? = null,
     title: String,
     description: String? = null,
     trailingContent: (@Composable () -> Unit)? = null,
     shape: Shape = MaterialTheme.shapes.large,
-    modifier: Modifier = Modifier,
-    state: LazyListState = rememberLazyListState(),
-    contentPadding: PaddingValues = PaddingValues(0.dp),
-    reverseLayout: Boolean = false,
-    horizontalArrangement: Arrangement.Horizontal =
-        if (!reverseLayout) Arrangement.Start else Arrangement.End,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
     verticalAlignment: Alignment.Vertical = Alignment.Top,
-    flingBehavior: FlingBehavior = ScrollableDefaults.flingBehavior(),
-    userScrollEnabled: Boolean = true,
-    content: LazyListScope.() -> Unit
+    scrollState: ScrollState = rememberScrollState(),
+    rowModifier: Modifier = Modifier,
+    content: @Composable RowScope.() -> Unit
 ) {
     MoreContentSettingsItem(
         leadingIcon = leadingIcon,
         title = title,
         description = description,
         trailingContent = trailingContent,
-        shape = shape
+        shape = shape,
+        modifier = modifier
     ) {
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            state = state,
-            contentPadding = contentPadding,
-            reverseLayout = reverseLayout,
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(scrollState)
+                .then(rowModifier),
             horizontalArrangement = horizontalArrangement,
             verticalAlignment = verticalAlignment,
-            flingBehavior = flingBehavior,
-            userScrollEnabled = userScrollEnabled,
             content = content
         )
     }
@@ -65,12 +57,12 @@ fun RowSettingsItem(
 
 @Composable
 fun MoreContentSettingsItem(
+    modifier: Modifier = Modifier,
     leadingIcon: (@Composable () -> Unit)? = null,
     title: String,
     description: String? = null,
     trailingContent: (@Composable () -> Unit)? = null,
     shape: Shape = MaterialTheme.shapes.large,
-    modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
     Column(
@@ -78,7 +70,10 @@ fun MoreContentSettingsItem(
             .fillMaxWidth()
             .wrapContentHeight()
             .clip(shape)
-            .padding(horizontal = 24.dp, vertical = 20.dp)
+            .padding(
+                horizontal = TodoDefaults.settingsItemHorizontalPadding,
+                vertical = TodoDefaults.settingsItemVerticalPadding
+            )
     ) {
         Row {
             leadingIcon?.let {
@@ -111,6 +106,7 @@ fun MoreContentSettingsItem(
                 it()
             }
         }
+
         content()
     }
 }

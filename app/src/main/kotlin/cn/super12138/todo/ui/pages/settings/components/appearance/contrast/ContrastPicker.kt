@@ -23,9 +23,9 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
-import cn.super12138.todo.logic.model.ContrastLevel
 import cn.super12138.todo.ui.pages.settings.components.MoreContentSettingsItem
 import cn.super12138.todo.ui.pages.settings.state.rememberPrefFloatState
+import cn.super12138.todo.ui.theme.ContrastLevel
 import cn.super12138.todo.utils.VibrationUtils
 
 @Composable

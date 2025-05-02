@@ -29,7 +29,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
 import cn.super12138.todo.constants.GlobalValues
-import cn.super12138.todo.logic.model.ContrastLevel
+import cn.super12138.todo.ui.theme.ContrastLevel
 import cn.super12138.todo.ui.theme.PaletteStyle
 import cn.super12138.todo.ui.theme.dynamicColorScheme
 import cn.super12138.todo.utils.VibrationUtils
@@ -45,8 +45,9 @@ fun PaletteItem(
 ) {
     val view = LocalView.current
     val context = LocalContext.current
+
     Column(
-        modifier = Modifier
+        modifier = modifier
             .width(90.dp)
             .clip(MaterialTheme.shapes.large)
             .clickable(

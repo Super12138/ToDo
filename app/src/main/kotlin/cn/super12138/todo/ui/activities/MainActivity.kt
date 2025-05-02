@@ -15,11 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
-import cn.super12138.todo.logic.model.DarkMode.Dark
-import cn.super12138.todo.logic.model.DarkMode.FollowSystem
-import cn.super12138.todo.logic.model.DarkMode.Light
 import cn.super12138.todo.ui.components.Konfetti
 import cn.super12138.todo.ui.navigation.TodoNavigation
+import cn.super12138.todo.ui.theme.DarkMode.Dark
+import cn.super12138.todo.ui.theme.DarkMode.FollowSystem
+import cn.super12138.todo.ui.theme.DarkMode.Light
 import cn.super12138.todo.ui.theme.ToDoTheme
 import cn.super12138.todo.ui.viewmodels.MainViewModel
 

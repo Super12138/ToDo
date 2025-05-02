@@ -87,7 +87,7 @@ fun TodoEditorPage(
     var subjectContent by rememberSaveable { mutableStateOf(toDo?.customSubject ?: "") }
     var isErrorSubject by rememberSaveable { mutableStateOf(false) }
     var priorityState by rememberSaveable { mutableFloatStateOf(toDo?.priority ?: 0f) }
-    var completedSwitchState by rememberSaveable { mutableStateOf(toDo?.isCompleted ?: false) }
+    var completedSwitchState by rememberSaveable { mutableStateOf(toDo?.isCompleted == true) }
 
     val isCustomSubject by remember {
         derivedStateOf { selectedSubjectId == Subjects.Custom.id }

@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
+import cn.super12138.todo.ui.TodoDefaults
 
 @Composable
 fun SettingsPlainBox(
@@ -26,7 +27,11 @@ fun SettingsPlainBox(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(start = 24.dp, end = 24.dp, bottom = 20.dp),
+            .padding(
+                start = TodoDefaults.settingsItemHorizontalPadding,
+                end = TodoDefaults.settingsItemHorizontalPadding,
+                bottom = TodoDefaults.settingsItemVerticalPadding
+            ),
     ) {
         Icon(
             imageVector = Icons.Outlined.Info,

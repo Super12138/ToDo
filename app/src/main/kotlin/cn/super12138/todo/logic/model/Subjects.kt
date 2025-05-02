@@ -35,8 +35,6 @@ enum class Subjects(val id: Int) {
 
     companion object {
         // 根据 ID 获取 Subjects
-        fun fromId(id: Int): Subjects {
-            return entries.find { it.id == id } ?: Others
-        }
+        fun fromId(id: Int) = entries.find { it.id == id } ?: Others
     }
 }

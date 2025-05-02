@@ -14,13 +14,13 @@ import cn.super12138.todo.utils.VibrationUtils
 
 @Composable
 fun SwitchSettingsItem(
+    modifier: Modifier = Modifier,
     key: String,
     default: Boolean,
     leadingIcon: ImageVector? = null,
     title: String,
     description: String? = null,
-    onCheckedChange: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    onCheckedChange: (Boolean) -> Unit
 ) {
     val view = LocalView.current
     var switchState by rememberPrefBooleanState(key, default)

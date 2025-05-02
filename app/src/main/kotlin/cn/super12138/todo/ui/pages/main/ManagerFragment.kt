@@ -49,7 +49,8 @@ fun ManagerFragment(
                 start = TodoDefaults.screenPadding,
                 bottom = TodoDefaults.toDoCardHeight / 2,
                 end = TodoDefaults.screenPadding
-            )
+            ),
+            //verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             if (list.isEmpty()) {
                 item {
@@ -59,7 +60,6 @@ fun ManagerFragment(
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth()
                     )
-
                 }
             } else {
                 items(

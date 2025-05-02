@@ -30,8 +30,6 @@ enum class PaletteStyle(val id: Int) {
     }
 
     companion object {
-        fun fromId(id: Int): PaletteStyle {
-            return PaletteStyle.entries.find { it.id == id } ?: TonalSpot
-        }
+        fun fromId(id: Int) = entries.firstOrNull { it.id == id } ?: TonalSpot
     }
 }
