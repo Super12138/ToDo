@@ -60,6 +60,8 @@ fun RowSettingsItem(
                 // 渲染到离屏缓冲区是为了确保边缘淡出的 alpha 效果仅应用于文本本身，而不影响该可组合项下方绘制的内容（例如窗口背景）。
                 .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
                 .drawWithContent {
+                    // 需要调用 drawContent，因为它用于将内容绘制到布局中的接收器作用域，允许内容穿插在其他画布操作之间绘制。
+                    // 如果未调用 drawContent，则不会绘制该布局的内容。
                     drawContent()
                     drawFadedEdge(
                         edgeWidth = fadedEdgeWidth,

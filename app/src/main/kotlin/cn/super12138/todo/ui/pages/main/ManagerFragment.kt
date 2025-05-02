@@ -3,9 +3,9 @@ package cn.super12138.todo.ui.pages.main
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -39,6 +39,7 @@ fun ManagerFragment(
     animatedVisibilityScope: AnimatedVisibilityScope
 ) {
     val context = LocalContext.current
+
     LazyColumnCustomScrollBar(
         state = state,
         modifier = modifier
@@ -50,7 +51,7 @@ fun ManagerFragment(
                 bottom = TodoDefaults.toDoCardHeight / 2,
                 end = TodoDefaults.screenPadding
             ),
-            //verticalArrangement = Arrangement.spacedBy(5.dp)
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             if (list.isEmpty()) {
                 item {
@@ -85,7 +86,7 @@ fun ManagerFragment(
                         sharedTransitionScope = sharedTransitionScope,
                         animatedVisibilityScope = animatedVisibilityScope,
                         modifier = Modifier
-                            .padding(vertical = 5.dp)
+                            //.padding(vertical = 5.dp)
                             .animateItem() // TODO: 设置动画时间
                     )
                 }

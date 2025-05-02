@@ -142,9 +142,7 @@ fun MainPage(
                             viewModel.toggleTodoSelection(item)
                         }
                     },
-                    onItemLongClick = { item ->
-                        viewModel.toggleTodoSelection(item)
-                    },
+                    onItemLongClick = { viewModel.toggleTodoSelection(it) },
                     onItemChecked = { item ->
                         item.apply {
                             viewModel.updateTodo(
@@ -187,9 +185,7 @@ fun MainPage(
                             viewModel.toggleTodoSelection(item)
                         }
                     },
-                    onItemLongClick = { item ->
-                        viewModel.toggleTodoSelection(item)
-                    },
+                    onItemLongClick = { viewModel.toggleTodoSelection(it) },
                     onItemChecked = { item ->
                         item.apply {
                             viewModel.updateTodo(

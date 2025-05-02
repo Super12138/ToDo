@@ -1,6 +1,5 @@
 package cn.super12138.todo.ui.pages.main.components
 
-import android.view.HapticFeedbackConstants
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
@@ -76,13 +75,9 @@ fun TodoCard(
                         VibrationUtils.performHapticFeedback(view)
                         onCardClick()
                     },
-                    onLongClick = {
-                        VibrationUtils.performHapticFeedback(
-                            view,
-                            HapticFeedbackConstants.LONG_PRESS
-                        )
-                        onCardLongClick()
-                    }
+                    // 不再需要使用：VibrationUtils.performHapticFeedback(view, HapticFeedbackConstants.LONG_PRESS)
+                    // 因为 combinedClickable 在更新的 Compose 里已经处理好了触感反馈
+                    onLongClick = onCardLongClick
                 )
                 .padding(horizontal = 15.dp)
         ) {
