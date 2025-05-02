@@ -37,6 +37,7 @@ fun PalettePicker(
         title = stringResource(R.string.pref_palette_style),
         description = stringResource(R.string.pref_palette_style_desc),
         horizontalArrangement = Arrangement.spacedBy(5.dp),
+        fadedEdgeWidth = 8.dp,
         modifier = modifier
     ) {
         paletteOptions.forEach { paletteStyle ->

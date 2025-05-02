@@ -16,8 +16,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.drawscope.ContentDrawScope
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import cn.super12138.todo.ui.TodoDefaults
 
@@ -32,7 +42,8 @@ fun RowSettingsItem(
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
     verticalAlignment: Alignment.Vertical = Alignment.Top,
     scrollState: ScrollState = rememberScrollState(),
-    rowModifier: Modifier = Modifier,
+    fadedEdgeWidth: Dp,
+    maskColor: Color = MaterialTheme.colorScheme.background,
     content: @Composable RowScope.() -> Unit
 ) {
     MoreContentSettingsItem(
@@ -46,8 +57,22 @@ fun RowSettingsItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .horizontalScroll(scrollState)
-                .then(rowModifier),
+                // 渲染到离屏缓冲区是为了确保边缘淡出的 alpha 效果仅应用于文本本身，而不影响该可组合项下方绘制的内容（例如窗口背景）。
+                .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
+                .drawWithContent {
+                    drawContent()
+                    drawFadedEdge(
+                        edgeWidth = fadedEdgeWidth,
+                        maskColor = maskColor,
+                        leftEdge = true
+                    )
+                    drawFadedEdge(
+                        edgeWidth = fadedEdgeWidth,
+                        maskColor = maskColor,
+                        leftEdge = false
+                    )
+                }
+                .horizontalScroll(scrollState),
             horizontalArrangement = horizontalArrangement,
             verticalAlignment = verticalAlignment,
             content = content
@@ -109,4 +134,23 @@ fun MoreContentSettingsItem(
 
         content()
     }
+}
+
+fun ContentDrawScope.drawFadedEdge(
+    edgeWidth: Dp,
+    maskColor: Color,
+    leftEdge: Boolean
+) {
+    val edgeWidthPx = edgeWidth.toPx()
+    drawRect(
+        topLeft = Offset(if (leftEdge) 0f else size.width - edgeWidthPx, 0f),
+        size = Size(edgeWidthPx, size.height),
+        brush =
+            Brush.horizontalGradient(
+                colors = listOf(Color.Transparent, maskColor),
+                startX = if (leftEdge) 0f else size.width,
+                endX = if (leftEdge) edgeWidthPx else size.width - edgeWidthPx
+            ),
+        blendMode = BlendMode.DstIn
+    )
 }

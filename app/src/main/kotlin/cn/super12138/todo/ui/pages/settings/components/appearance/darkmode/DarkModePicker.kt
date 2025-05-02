@@ -24,7 +24,6 @@ fun DarkModePicker(
     val context = LocalContext.current
 
     val isInDarkTheme = isSystemInDarkTheme()
-
     var darkModeState by rememberPrefIntState(
         Constants.PREF_DARK_MODE,
         Constants.PREF_DARK_MODE_DEFAULT
@@ -34,6 +33,7 @@ fun DarkModePicker(
         title = stringResource(R.string.pref_dark_mode),
         description = stringResource(R.string.pref_dark_mode_desc),
         horizontalArrangement = Arrangement.spacedBy(5.dp),
+        fadedEdgeWidth = 8.dp,
         modifier = modifier
     ) {
         DarkModeItem(
