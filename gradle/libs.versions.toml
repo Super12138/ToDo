@@ -17,7 +17,7 @@ adaptive = "1.1.0"
 aboutLibsRelease = "12.1.2"
 aboutLibsReleasePlugin = "12.1.2"
 # M3 Color
-m3color = "2025.1"
+m3color = "2025.2"
 # Konfetti
 konfetti = "2.0.5"
 # Lazy Column Scrollbar
