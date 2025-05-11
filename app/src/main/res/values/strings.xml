@@ -74,7 +74,6 @@
     <string name="contrast_default">Default</string>
     <string name="contrast_high">High</string>
     <string name="contrast_very_high">Very High</string>
-    <string name="tip_change_contrast_level">Change the contrast level</string>
     <string name="pref_interface_interaction">Interface &amp; Interaction</string>
     <string name="pref_interface_interaction_desc">To-Do List, Haptic Feedback</string>
     <string name="pref_show_completed">Show Completed Tasks</string>

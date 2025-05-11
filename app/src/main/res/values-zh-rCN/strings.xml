@@ -73,7 +73,6 @@
     <string name="contrast_default">默认</string>
     <string name="contrast_high">高</string>
     <string name="contrast_very_high">极高</string>
-    <string name="tip_change_contrast_level">更改颜色对比度</string>
     <string name="pref_interface_interaction">界面与交互</string>
     <string name="pref_interface_interaction_desc">待办列表、触感反馈</string>
     <string name="pref_show_completed">显示已完成待办</string>

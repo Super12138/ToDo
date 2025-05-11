@@ -47,8 +47,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
@@ -249,7 +252,12 @@ fun TodoEditorPage(
             val interactionSource = remember { MutableInteractionSource() }
             Slider(
                 modifier = Modifier.semantics {
-                    contentDescription = context.getString(R.string.label_priority)
+                    contentDescription =
+                        context.getString(R.string.label_priority) + priorityName[Priority.fromFloat(
+                            priorityState
+                        ).ordinal]
+                    stateDescription = priorityName[Priority.fromFloat(priorityState).ordinal]
+                    liveRegion = LiveRegionMode.Polite
                 },
                 value = priorityState,
                 onValueChange = {

@@ -18,8 +18,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
@@ -44,10 +48,17 @@ fun ContrastPicker(
             Constants.PREF_CONTRAST_LEVEL,
             Constants.PREF_CONTRAST_LEVEL_DEFAULT
         )
+        val contrastLevelName =
+            ContrastLevel.entries.map { it.getDisplayName(context) }
 
         Slider(
             modifier = Modifier.semantics {
-                contentDescription = context.getString(R.string.tip_change_contrast_level)
+                contentDescription =
+                    context.getString(R.string.pref_contrast_level) + contrastLevelName[ContrastLevel.fromFloat(
+                        contrastState
+                    ).ordinal]
+                stateDescription = contrastLevelName[ContrastLevel.fromFloat(contrastState).ordinal]
+                liveRegion = LiveRegionMode.Polite
             },
             value = contrastState,
             onValueChange = {
@@ -63,7 +74,9 @@ fun ContrastPicker(
 
         CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.bodyMedium) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clearAndSetSemantics {},
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(stringResource(R.string.contrast_very_low))
