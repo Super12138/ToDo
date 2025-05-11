@@ -59,7 +59,7 @@ fun SettingsItem(
                     imageVector = it,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.padding(end = 24.dp),
+                    modifier = Modifier.padding(end = TodoDefaults.settingsItemHorizontalPadding),
                 )
             }
         },

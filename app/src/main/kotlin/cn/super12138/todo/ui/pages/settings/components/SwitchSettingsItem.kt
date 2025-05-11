@@ -8,7 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.unit.dp
+import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.pages.settings.state.rememberPrefBooleanState
 import cn.super12138.todo.utils.VibrationUtils
 
@@ -36,7 +36,7 @@ fun SwitchSettingsItem(
                     VibrationUtils.performHapticFeedback(view)
                     onCheckedChange(it)
                 },
-                modifier = Modifier.padding(start = 14.dp)
+                modifier = Modifier.padding(start = TodoDefaults.settingsItemHorizontalPadding / 2)
             )
         },
         onClick = {
