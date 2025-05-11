@@ -110,4 +110,6 @@
     <string name="happy_birthday">待办1岁生日快乐</string>
     <string name="subject_customization">自定义</string>
     <string name="label_enter_subject_name">输入学科名称</string>
+    <string name="accessibility_progress_tasks">当前共有 %1$d 项任务，其中 %2$d 项已完成，%3$d 项未完成</string>
+    <string name="accessibility_progress_no_tasks">当前没有任务</string>
 </resources>

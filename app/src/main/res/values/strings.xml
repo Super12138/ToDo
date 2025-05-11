@@ -111,4 +111,6 @@
     <string name="happy_birthday">Happy 1st birthday to ToDo</string>
     <string name="subject_customization">Customization</string>
     <string name="label_enter_subject_name">Enter subject name</string>
+    <string name="accessibility_progress_tasks">Currently, there are %1$d tasks in total, with %2$d completed and %3$d unfinished.</string>
+    <string name="accessibility_progress_no_tasks">There are no tasks at the moment.</string>
 </resources>

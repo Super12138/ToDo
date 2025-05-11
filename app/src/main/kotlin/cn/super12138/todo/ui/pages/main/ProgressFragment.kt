@@ -11,6 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
@@ -30,6 +32,17 @@ fun ProgressFragment(
         0f
     }
 
+    val progressDescription = if (totalTasks != 0) {
+        stringResource(
+            R.string.accessibility_progress_tasks,
+            totalTasks,
+            completedTasks,
+            remainTasks
+        )
+    } else {
+        stringResource(R.string.accessibility_progress_no_tasks)
+    }
+
     Box(
         modifier = modifier,
         contentAlignment = Alignment.Center
@@ -38,11 +51,18 @@ fun ProgressFragment(
             progress = progress,
             strokeWidth = 10.dp,
             gapSize = 10.dp,
-            modifier = Modifier.size(175.dp)
+            modifier = Modifier
+                .size(175.dp)
+                .clearAndSetSemantics {}
         )
 
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.clearAndSetSemantics {
+                    stateDescription = progressDescription
+                }
+            ) {
                 Text(
                     text = completedTasks.toString(),
                     style = MaterialTheme.typography.displaySmall.copy(
@@ -65,7 +85,8 @@ fun ProgressFragment(
             AnimatedVisibility(remainTasks != 0) {
                 Text(
                     text = stringResource(R.string.tip_remain_tasks, remainTasks),
-                    style = MaterialTheme.typography.labelMedium
+                    style = MaterialTheme.typography.labelMedium,
+                    modifier = Modifier.clearAndSetSemantics {}
                 )
             }
         }
