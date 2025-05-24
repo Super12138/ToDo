@@ -23,7 +23,7 @@
 > [!CAUTION]
 > Recently, a counterfeit version of the To Do app was discovered on the Google Play Store (special thanks to @RohitKushvaha01 for the alert).
 >
-> It has been confirmed that this fake app violates the `GPL-v3` license and includes [AppsFlyer](https://www.appsflyer.com/) analytics, ads, and internet permissions in its code, potentially compromising user privacy. So, **do not download To Do from the Google Play Store**. Instead, please use one of the two official download channels mentioned in the [Download](#️-download) section below to protect your personal data.
+> It has been confirmed that this fake app violates the `GPL-v3` license and includes [AppsFlyer](https://www.appsflyer.com/) analytics, ads, and internet permissions in its code, potentially compromising user privacy. So, **do not download To Do from the Google Play Store**. Instead, please use one of the two official download channels mentioned in the [Download](#️-下载) section below to protect your personal data.
 >
 > Additionally, other excellent open-source projects like [Xed-Editor](https://github.com/Xed-Editor/Xed-Editor) and [WhatSave](https://github.com/mardous/WhatSave) have also been found on Google Play with unauthorized ads and analytics added without the original developers' consent.
 >
