@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
@@ -126,7 +127,8 @@ fun TodoEditorPage(
                             text = stringResource(R.string.action_delete),
                             expanded = true,
                             containerColor = MaterialTheme.colorScheme.errorContainer,
-                            onClick = { showDeleteConfirmDialog = true }
+                            onClick = { showDeleteConfirmDialog = true },
+                            modifier = Modifier.imePadding()
                         )
                     }
                     AnimatedExtendedFloatingActionButton(
@@ -152,10 +154,12 @@ fun TodoEditorPage(
                                 )
                             )
                         },
-                        modifier = Modifier.sharedElement(
-                            sharedContentState = rememberSharedContentState(key = Constants.KEY_TODO_FAB_TRANSITION),
-                            animatedVisibilityScope = animatedVisibilityScope
-                        )
+                        modifier = Modifier
+                            .imePadding()
+                            .sharedElement(
+                                sharedContentState = rememberSharedContentState(key = Constants.KEY_TODO_FAB_TRANSITION),
+                                animatedVisibilityScope = animatedVisibilityScope
+                            )
                     )
                 }
             }
