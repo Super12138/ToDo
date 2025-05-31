@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Badge
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.Typography
@@ -24,6 +24,7 @@ import com.mikepenz.aboutlibraries.entity.Library
 import com.mikepenz.aboutlibraries.ui.compose.LibraryColors
 import com.mikepenz.aboutlibraries.ui.compose.LibraryDefaults
 import com.mikepenz.aboutlibraries.ui.compose.LibraryPadding
+import com.mikepenz.aboutlibraries.ui.compose.m3.component.LibraryChip
 import com.mikepenz.aboutlibraries.ui.compose.m3.libraryColors
 import com.mikepenz.aboutlibraries.ui.compose.util.author
 
@@ -68,7 +69,7 @@ fun LicenceItem(
             if (version != null && showVersion) {
                 Text(
                     version,
-                    modifier = Modifier.padding(padding.versionPadding),
+                    modifier = Modifier.padding(padding.versionPadding.contentPadding),
                     style = typography.bodyMedium,
                     color = colors.contentColor,
                     textAlign = TextAlign.Center
@@ -86,14 +87,20 @@ fun LicenceItem(
         if (showLicenseBadges && library.licenses.isNotEmpty()) {
             FlowRow {
                 library.licenses.forEach {
-                    Badge(
-                        modifier = Modifier.padding(padding.badgePadding),
-                        contentColor = colors.badgeContentColor,
-                        containerColor = colors.badgeBackgroundColor
+                    LibraryChip(
+                        modifier = Modifier.padding(padding.licensePadding.containerPadding),
+                        minHeight = LibraryDefaults.libraryDimensions().chipMinHeight,
+                        containerColor = colors.licenseChipColors.containerColor,
+                        contentColor = colors.licenseChipColors.contentColor,
+                        shape = LibraryDefaults.libraryShapes().chipShape,
                     ) {
                         Text(
-                            modifier = Modifier.padding(padding.badgeContentPadding),
-                            text = it.name
+                            modifier = Modifier.padding(padding.licensePadding.contentPadding),
+                            maxLines = 1,
+                            text = it.name,
+                            style = MaterialTheme.typography.labelSmall,
+                            textAlign = TextAlign.Center,
+                            overflow = LibraryDefaults.libraryTextStyles().defaultOverflow,
                         )
                     }
                 }
