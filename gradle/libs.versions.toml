@@ -15,7 +15,7 @@ material3 = "1.4.0-alpha15"
 adaptive = "1.1.0"
 # AboutLibraries
 aboutLibsRelease = "12.2.0"
-aboutLibsReleasePlugin = "12.2.0"
+aboutLibsReleasePlugin = "12.2.1"
 # M3 Color
 m3color = "2025.3"
 # Konfetti
