@@ -1,12 +1,10 @@
 package cn.super12138.todo.ui.pages.editor
 
-import android.view.HapticFeedbackConstants
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,8 +14,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -25,11 +21,7 @@ import androidx.compose.material.icons.automirrored.outlined.Undo
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Label
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.PlainTooltip
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -48,16 +40,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.LiveRegionMode
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.liveRegion
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.database.TodoEntity
-import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.logic.model.Subjects
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
@@ -65,6 +51,8 @@ import cn.super12138.todo.ui.components.ChipItem
 import cn.super12138.todo.ui.components.ConfirmDialog
 import cn.super12138.todo.ui.components.FilterChipGroup
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
+import cn.super12138.todo.ui.pages.editor.components.TodoContentTextField
+import cn.super12138.todo.ui.pages.editor.components.TodoPrioritySlider
 import cn.super12138.todo.utils.VibrationUtils
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
@@ -175,16 +163,10 @@ fun TodoEditorPage(
                 .verticalScroll(rememberScrollState())
         ) {
             with(sharedTransitionScope) {
-                TextField(
+                TodoContentTextField(
                     value = toDoContent,
                     onValueChange = { toDoContent = it },
-                    label = { Text(stringResource(R.string.placeholder_add_todo)) },
                     isError = isErrorContent,
-                    supportingText = {
-                        AnimatedVisibility(isErrorContent) {
-                            Text(stringResource(R.string.error_no_content_entered))
-                        }
-                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .sharedBounds(
@@ -251,42 +233,9 @@ fun TodoEditorPage(
 
             Spacer(Modifier.size(5.dp))
 
-            val priorityName =
-                Priority.entries.map { it.getDisplayName(context) } // 要不要用 remember 呢
-            val interactionSource = remember { MutableInteractionSource() }
-            Slider(
-                modifier = Modifier.semantics {
-                    contentDescription =
-                        context.getString(R.string.label_priority) + priorityName[Priority.fromFloat(
-                            priorityState
-                        ).ordinal]
-                    stateDescription = priorityName[Priority.fromFloat(priorityState).ordinal]
-                    liveRegion = LiveRegionMode.Polite
-                },
+            TodoPrioritySlider(
                 value = priorityState,
-                onValueChange = {
-                    VibrationUtils.performHapticFeedback(view, HapticFeedbackConstants.LONG_PRESS)
-                    priorityState = it
-                },
-                valueRange = -2f..2f,
-                steps = 3,
-                interactionSource = interactionSource,
-                thumb = {
-                    Label(
-                        label = {
-                            PlainTooltip(
-                                modifier = Modifier
-                                    .sizeIn(45.dp, 25.dp)
-                                    .wrapContentWidth()
-                            ) {
-                                Text(priorityName[Priority.fromFloat(priorityState).ordinal])
-                            }
-                        },
-                        interactionSource = interactionSource
-                    ) {
-                        SliderDefaults.Thumb(interactionSource)
-                    }
-                }
+                onValueChange = { priorityState = it },
             )
 
             Spacer(Modifier.size(10.dp))
