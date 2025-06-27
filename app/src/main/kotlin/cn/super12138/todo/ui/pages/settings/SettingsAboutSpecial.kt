@@ -173,7 +173,7 @@ fun Candle(
     ) {
         // 火苗
         Box {
-            androidx.compose.animation.AnimatedVisibility(
+            AnimatedVisibility(
                 visible = showFlame,
                 enter = scaleIn(),
                 exit = scaleOut(),

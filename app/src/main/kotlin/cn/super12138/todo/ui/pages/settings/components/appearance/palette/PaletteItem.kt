@@ -28,7 +28,6 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
-import cn.super12138.todo.constants.GlobalValues
 import cn.super12138.todo.ui.theme.ContrastLevel
 import cn.super12138.todo.ui.theme.PaletteStyle
 import cn.super12138.todo.ui.theme.dynamicColorScheme
@@ -36,6 +35,7 @@ import cn.super12138.todo.utils.VibrationUtils
 
 @Composable
 fun PaletteItem(
+    isDynamicColor: Boolean,
     isDark: Boolean,
     paletteStyle: PaletteStyle,
     contrastLevel: ContrastLevel,
@@ -63,7 +63,7 @@ fun PaletteItem(
         // 为不同主题样式设置不同色板
         MaterialTheme(
             colorScheme = dynamicColorScheme(
-                keyColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && GlobalValues.dynamicColor) {
+                keyColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && isDynamicColor) {
                     colorResource(id = android.R.color.system_accent1_500)
                 } else {
                     Color(0xFF0061A4)

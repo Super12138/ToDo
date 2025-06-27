@@ -9,19 +9,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cn.super12138.todo.TodoApp
 import cn.super12138.todo.constants.Constants
-import cn.super12138.todo.constants.GlobalValues
 import cn.super12138.todo.logic.Repository
 import cn.super12138.todo.logic.database.TodoEntity
+import cn.super12138.todo.logic.datastore.DataStoreManager
 import cn.super12138.todo.logic.model.SortingMethod
-import cn.super12138.todo.ui.theme.ContrastLevel
-import cn.super12138.todo.ui.theme.DarkMode
-import cn.super12138.todo.ui.theme.PaletteStyle
 import cn.super12138.todo.utils.FileUtils
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -33,36 +32,26 @@ import java.io.FileOutputStream
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class MainViewModel : ViewModel() {
     // 待办
     private val toDos: Flow<List<TodoEntity>> = Repository.getAllTodos()
-    var appSortingMethod by mutableStateOf(SortingMethod.fromId(GlobalValues.sortingMethod))
-    val sortedTodos: Flow<List<TodoEntity>> = toDos.map { list ->
-        when (appSortingMethod) {
-            SortingMethod.Sequential -> list.sortedBy { it.id }
-            SortingMethod.Subject -> list.sortedBy { it.subject }
-            SortingMethod.Priority -> list.sortedByDescending { it.priority } // 优先级高的在前
-            SortingMethod.Completion -> list.sortedBy { it.isCompleted } // 未完成的在前
-            SortingMethod.AlphabeticalAscending -> list.sortedBy { it.content }
-            SortingMethod.AlphabeticalDescending -> list.sortedByDescending { it.content }
+    val sortedTodos: Flow<List<TodoEntity>> =
+        DataStoreManager.sortingMethodFlow.flatMapLatest { sortingMethod ->
+            toDos.map { list ->
+                when (SortingMethod.fromId(sortingMethod)) {
+                    SortingMethod.Sequential -> list.sortedBy { it.id }
+                    SortingMethod.Subject -> list.sortedBy { it.subject }
+                    SortingMethod.Priority -> list.sortedByDescending { it.priority } // 优先级高的在前
+                    SortingMethod.Completion -> list.sortedBy { it.isCompleted } // 未完成的在前
+                    SortingMethod.AlphabeticalAscending -> list.sortedBy { it.content }
+                    SortingMethod.AlphabeticalDescending -> list.sortedByDescending { it.content }
+                }
+            }
         }
-    }
 
     val showConfetti = mutableStateOf(false)
     var selectedEditTodo by mutableStateOf<TodoEntity?>(null)
-        private set
-    var showCompletedTodos by mutableStateOf(GlobalValues.showCompleted)
-
-    // 主题颜色
-    var appDynamicColorEnable by mutableStateOf(GlobalValues.dynamicColor)
-        private set
-    var appPaletteStyle by mutableStateOf(PaletteStyle.fromId(GlobalValues.paletteStyle))
-        private set
-    var appDarkMode by mutableStateOf(DarkMode.fromId(GlobalValues.darkMode))
-        private set
-    var appContrastLevel by mutableStateOf(ContrastLevel.fromFloat(GlobalValues.contrastLevel))
-        private set
-    var appSecureMode by mutableStateOf(GlobalValues.secureMode)
         private set
 
     // 多选逻辑参考：https://github.com/X1nto/Mauth
@@ -147,36 +136,12 @@ class MainViewModel : ViewModel() {
     }
 
     /**
-     * 应用设置
+     * 备份应用数据
+     *
+     * @param uri 备份文件路径的 URI
+     * @param context 应用 Context
+     * @param onResult 备份完成的回调函数
      */
-    fun setDynamicColor(enabled: Boolean) {
-        appDynamicColorEnable = enabled
-    }
-
-    fun setPaletteStyle(paletteStyle: PaletteStyle) {
-        appPaletteStyle = paletteStyle
-    }
-
-    fun setDarkMode(darkMode: DarkMode) {
-        appDarkMode = darkMode
-    }
-
-    fun setContrastLevel(contrastLevel: ContrastLevel) {
-        appContrastLevel = contrastLevel
-    }
-
-    fun setShowCompleted(show: Boolean) {
-        showCompletedTodos = show
-    }
-
-    fun setSortingMethod(sortingMethod: SortingMethod) {
-        appSortingMethod = sortingMethod
-    }
-
-    fun setSecureMode(enabled: Boolean) {
-        appSecureMode = enabled
-    }
-
     fun backupAppData(uri: Uri, context: Context, onResult: (completed: Boolean) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             val result = runCatching {
@@ -192,6 +157,13 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    /**
+     * 恢复应用数据
+     *
+     * @param uri 选择的恢复文件的 URI
+     * @param context 应用 Context
+     * @param onResult 恢复完成的回调函数
+     */
     fun restoreAppData(uri: Uri, context: Context, onResult: (completed: Boolean) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             val result = runCatching {
@@ -205,23 +177,36 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    /**
+     * 获取要备份文件的文件列表
+     * * 数据库文件
+     * * 数据库的 wal 文件
+     * * 数据库的 shm 文件
+     * * DataStore Preferences 文件
+     */
     private fun getBackupFiles(context: Context): List<File> {
         val dbPath = TodoApp.db.openHelper.writableDatabase.path
-        val prefPath = "${context.filesDir.parent}/shared_prefs"
+        val prefPath = "${context.filesDir}/datastore"
         return listOf(
             context.getDatabasePath(Constants.DB_NAME), // 数据库
             File("$dbPath-wal"), // 数据库-wal
             File("$dbPath-shm"), // 数据库-shm
-            File("$prefPath/${Constants.SP_NAME}.xml") // SharedPreferences
+            File("$prefPath/${Constants.SP_NAME}.preferences_pb") // DataStore Preferences
         ).filter { it.exists() }
     }
 
+    /**
+     * 解压 zip 备份文件
+     *
+     * @param zipInputStream 备份文件中每个文件的输入流
+     * @param context 应用 Context
+     */
     private fun extractZipEntries(zipInputStream: ZipInputStream, context: Context) {
         val dbPath = context.getDatabasePath(Constants.DB_NAME).parent
-        val prefPath = "${context.filesDir.parent}/shared_prefs/"
+        val prefPath = "${context.filesDir}/datastore/"
         generateSequence { zipInputStream.nextEntry }.forEach { zipEntry ->
             val outputFile = File(
-                if (zipEntry.name.endsWith(".xml")) prefPath else dbPath,
+                if (zipEntry.name.endsWith(".preferences_pb")) prefPath else dbPath,
                 zipEntry.name
             )
             if (zipEntry.isDirectory) {

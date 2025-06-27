@@ -33,6 +33,7 @@ import androidx.window.core.layout.WindowWidthSizeClass
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.database.TodoEntity
+import cn.super12138.todo.logic.datastore.DataStoreManager
 import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
 import cn.super12138.todo.ui.components.ConfirmDialog
 import cn.super12138.todo.ui.pages.main.components.TodoTopAppBar
@@ -72,7 +73,8 @@ fun MainPage(
 
     val toDoList by remember { derivedStateOf { toDos.value } }
 
-    val showCompleted = viewModel.showCompletedTodos
+    // Theme
+    val showCompleted by DataStoreManager.showCompletedFlow.collectAsState(initial = Constants.PREF_SHOW_COMPLETED_DEFAULT)
     val filteredTodoList =
         if (showCompleted) toDoList else toDoList.filter { item -> !item.isCompleted }
 

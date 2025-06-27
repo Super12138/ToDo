@@ -1,5 +1,6 @@
 package cn.super12138.todo.ui.pages.settings.components.appearance.contrast
 
+import android.util.Log
 import android.view.HapticFeedbackConstants
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -13,6 +14,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -26,14 +29,13 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
-import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.ui.pages.settings.components.MoreContentSettingsItem
-import cn.super12138.todo.ui.pages.settings.state.rememberPrefFloatState
 import cn.super12138.todo.ui.theme.ContrastLevel
 import cn.super12138.todo.utils.VibrationUtils
 
 @Composable
 fun ContrastPicker(
+    currentContrast: ContrastLevel,
     onContrastChange: (ContrastLevel) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -44,27 +46,31 @@ fun ContrastPicker(
         description = stringResource(R.string.pref_contrast_level_desc),
         modifier = modifier
     ) {
-        var contrastState by rememberPrefFloatState(
-            Constants.PREF_CONTRAST_LEVEL,
-            Constants.PREF_CONTRAST_LEVEL_DEFAULT
-        )
         val contrastLevelName =
             ContrastLevel.entries.map { it.getDisplayName(context) }
+        var lastVibratedLevel by remember { mutableFloatStateOf(currentContrast.value) }
 
         Slider(
             modifier = Modifier.semantics {
                 contentDescription =
-                    context.getString(R.string.pref_contrast_level) + contrastLevelName[ContrastLevel.fromFloat(
-                        contrastState
-                    ).ordinal]
-                stateDescription = contrastLevelName[ContrastLevel.fromFloat(contrastState).ordinal]
+                    context.getString(R.string.pref_contrast_level) + contrastLevelName[currentContrast.ordinal]
+                stateDescription = contrastLevelName[currentContrast.ordinal]
                 liveRegion = LiveRegionMode.Polite
             },
-            value = contrastState,
-            onValueChange = {
-                VibrationUtils.performHapticFeedback(view, HapticFeedbackConstants.LONG_PRESS)
-                contrastState = it
-                onContrastChange(ContrastLevel.fromFloat(it))
+            value = currentContrast.value,
+            onValueChange = { newValue ->
+                // 更新状态
+                onContrastChange(ContrastLevel.fromFloat(newValue))
+
+                // 只有当分段值变化时才触发震动
+                if (newValue != lastVibratedLevel) {
+                    VibrationUtils.performHapticFeedback(
+                        view,
+                        HapticFeedbackConstants.LONG_PRESS
+                    )
+                    Log.d("ContrastPicker", "Level changed to: ${newValue}")
+                    lastVibratedLevel = newValue
+                }
             },
             valueRange = -1f..1f,
             steps = 3,

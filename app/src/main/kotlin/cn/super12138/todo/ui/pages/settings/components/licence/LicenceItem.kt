@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.Typography
@@ -98,7 +97,7 @@ fun LicenceItem(
                             modifier = Modifier.padding(padding.licensePadding.contentPadding),
                             maxLines = 1,
                             text = it.name,
-                            style = MaterialTheme.typography.labelSmall,
+                            // style = MaterialTheme.typography.labelSmall,
                             textAlign = TextAlign.Center,
                             overflow = LibraryDefaults.libraryTextStyles().defaultOverflow,
                         )

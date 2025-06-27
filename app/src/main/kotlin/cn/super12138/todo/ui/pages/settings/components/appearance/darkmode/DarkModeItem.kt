@@ -27,7 +27,7 @@ import cn.super12138.todo.utils.VibrationUtils
 @Composable
 fun DarkModeItem(
     icon: ImageVector,
-    contentDescription: String,
+    name: String,
     contentColor: Color,
     containerColor: Color,
     selected: Boolean,
@@ -73,7 +73,7 @@ fun DarkModeItem(
         Spacer(Modifier.size(8.dp))
 
         Text(
-            text = contentDescription,
+            text = name,
             style = MaterialTheme.typography.bodyMedium
         )
     }

@@ -3,7 +3,7 @@
 coreKtx = "1.16.0"
 splashScreen = "1.2.0-beta02"
 lifecycleRuntimeKtx = "2.9.1"
-# security = "1.1.0-alpha06"
+datastore = "1.1.7"
 # Compose
 activityCompose = "1.10.1"
 composeBom = "2025.06.01"
@@ -41,7 +41,7 @@ androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecyc
 androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleRuntimeKtx" }
 androidx-compose-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "liveData" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
-# androidx-security = { group = "androidx.security", name = "security-crypto", version.ref = "security" }
+androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 
 # Compose
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
