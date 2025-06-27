@@ -102,11 +102,17 @@ fun TodoNavigation(
             }
 
             composable(TodoScreen.SettingsAppearance.name) {
-                SettingsAppearance(onNavigateUp = { navController.navigateUp() })
+                SettingsAppearance(
+                    viewModel = viewModel,
+                    onNavigateUp = { navController.navigateUp() }
+                )
             }
 
             composable(TodoScreen.SettingsInterface.name) {
-                SettingsInterface(onNavigateUp = { navController.navigateUp() })
+                SettingsInterface(
+                    viewModel = viewModel,
+                    onNavigateUp = { navController.navigateUp() }
+                )
             }
 
             composable(TodoScreen.SettingsData.name) {
