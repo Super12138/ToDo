@@ -12,7 +12,6 @@ import cn.super12138.todo.ui.pages.editor.TodoEditorPage
 import cn.super12138.todo.ui.pages.main.MainPage
 import cn.super12138.todo.ui.pages.settings.SettingsAbout
 import cn.super12138.todo.ui.pages.settings.SettingsAboutLicence
-import cn.super12138.todo.ui.pages.settings.SettingsAboutSpecial
 import cn.super12138.todo.ui.pages.settings.SettingsAppearance
 import cn.super12138.todo.ui.pages.settings.SettingsData
 import cn.super12138.todo.ui.pages.settings.SettingsInterface
@@ -124,9 +123,9 @@ fun TodoNavigation(
                 )
             }
 
-            composable(TodoScreen.SettingsAboutSpecial.name) {
+            /*composable(TodoScreen.SettingsAboutSpecial.name) {
                 SettingsAboutSpecial(viewModel = viewModel)
-            }
+            }*/
 
             composable(TodoScreen.SettingsAboutLicence.name) {
                 SettingsAboutLicence(onNavigateUp = { navController.navigateUp() })
