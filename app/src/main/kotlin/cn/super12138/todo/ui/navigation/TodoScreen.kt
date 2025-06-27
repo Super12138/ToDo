@@ -8,6 +8,6 @@ enum class TodoScreen {
     SettingsInterface,
     SettingsData,
     SettingsAbout,
-    SettingsAboutSpecial,
+    //SettingsAboutSpecial,
     SettingsAboutLicence
 }

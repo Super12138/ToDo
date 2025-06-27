@@ -35,7 +35,7 @@ import kotlinx.coroutines.delay
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsAbout(
-    toSpecialPage: () -> Unit,
+    //toSpecialPage: () -> Unit,
     toLicencePage: () -> Unit,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier
@@ -79,7 +79,7 @@ fun SettingsAbout(
                     clickCount++
                     if (clickCount == 5) {
                         if ((System.currentTimeMillis() % 2) == 0.toLong()) {
-                            toSpecialPage()
+                            Toast.makeText(context, "🍨", Toast.LENGTH_SHORT).show()
                         } else {
                             Toast.makeText(context, "✨", Toast.LENGTH_SHORT).show()
                         }

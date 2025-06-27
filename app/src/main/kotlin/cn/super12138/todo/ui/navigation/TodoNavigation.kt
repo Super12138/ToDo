@@ -117,7 +117,7 @@ fun TodoNavigation(
 
             composable(TodoScreen.SettingsAbout.name) {
                 SettingsAbout(
-                    toSpecialPage = { navController.navigate(TodoScreen.SettingsAboutSpecial.name) },
+                    //toSpecialPage = { navController.navigate(TodoScreen.SettingsAboutSpecial.name) },
                     toLicencePage = { navController.navigate(TodoScreen.SettingsAboutLicence.name) },
                     onNavigateUp = { navController.navigateUp() },
                 )
