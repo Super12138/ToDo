@@ -17,7 +17,7 @@ body:
       label: 为什么你需要这个功能 / Why you need this feature
       description: 添加这个功能能解决什么问题，或者能带来什么好处 / A clear and concise description of what problem this feature would solve or what benefit it would bring.
     validations:
-      required: false
+      required: true
 
   - type: textarea
     id: additional_context
