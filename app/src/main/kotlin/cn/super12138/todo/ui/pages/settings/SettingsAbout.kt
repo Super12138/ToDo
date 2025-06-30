@@ -1,11 +1,9 @@
 package cn.super12138.todo.ui.pages.settings
 
 import android.widget.Toast
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Balance
 import androidx.compose.material.icons.outlined.Numbers
@@ -50,61 +48,68 @@ fun SettingsAbout(
         val context = LocalContext.current
         val uriHandler = LocalUriHandler.current
 
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .verticalScroll(rememberScrollState())
         ) {
-            var clickCount by remember { mutableIntStateOf(0) }
-            var lastClickTime by remember { mutableLongStateOf(0L) }
+            item {
+                var clickCount by remember { mutableIntStateOf(0) }
+                var lastClickTime by remember { mutableLongStateOf(0L) }
 
-            LaunchedEffect(clickCount) {
-                if (clickCount > 0) {
-                    lastClickTime = System.currentTimeMillis()
-                    val currentClickTime = lastClickTime
-                    delay(300L)
+                LaunchedEffect(clickCount) {
+                    if (clickCount > 0) {
+                        lastClickTime = System.currentTimeMillis()
+                        val currentClickTime = lastClickTime
+                        delay(300L)
 
-                    if (currentClickTime == lastClickTime) {
-                        clickCount = 0
-                    }
-                }
-            }
-
-            SettingsItem(
-                leadingIcon = Icons.Outlined.Numbers,
-                title = stringResource(R.string.pref_app_version),
-                description = SystemUtils.getAppVersion(context),
-                onClick = {
-                    clickCount++
-                    if (clickCount == 5) {
-                        if ((System.currentTimeMillis() % 2) == 0.toLong()) {
-                            Toast.makeText(context, "🍨", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(context, "✨", Toast.LENGTH_SHORT).show()
+                        if (currentClickTime == lastClickTime) {
+                            clickCount = 0
                         }
-                        clickCount = 0
                     }
                 }
-            )
-            SettingsItem(
-                leadingIcon = Icons.Outlined.Person4,
-                title = stringResource(R.string.pref_developer),
-                description = stringResource(R.string.developer_name),
-                onClick = { uriHandler.openUri(Constants.DEVELOPER_GITHUB) }
-            )
-            SettingsItem(
-                leadingIcon = GitHubIcon,
-                title = stringResource(R.string.pref_view_on_github),
-                description = stringResource(R.string.pref_view_on_github_desc),
-                onClick = { uriHandler.openUri(Constants.GITHUB_REPO) }
-            )
-            SettingsItem(
-                leadingIcon = Icons.Outlined.Balance,
-                title = stringResource(R.string.pref_licence),
-                description = stringResource(R.string.pref_licence_desc),
-                onClick = toLicencePage
-            )
+
+                SettingsItem(
+                    leadingIcon = Icons.Outlined.Numbers,
+                    title = stringResource(R.string.pref_app_version),
+                    description = SystemUtils.getAppVersion(context),
+                    onClick = {
+                        clickCount++
+                        if (clickCount == 5) {
+                            if ((System.currentTimeMillis() % 2) == 0.toLong()) {
+                                Toast.makeText(context, "🍨", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(context, "✨", Toast.LENGTH_SHORT).show()
+                            }
+                            clickCount = 0
+                        }
+                    }
+                )
+            }
+            item {
+                SettingsItem(
+                    leadingIcon = Icons.Outlined.Person4,
+                    title = stringResource(R.string.pref_developer),
+                    description = stringResource(R.string.developer_name),
+                    onClick = { uriHandler.openUri(Constants.DEVELOPER_GITHUB) }
+                )
+            }
+            item {
+                SettingsItem(
+                    leadingIcon = GitHubIcon,
+                    title = stringResource(R.string.pref_view_on_github),
+                    description = stringResource(R.string.pref_view_on_github_desc),
+                    onClick = { uriHandler.openUri(Constants.GITHUB_REPO) }
+                )
+            }
+            item {
+                SettingsItem(
+                    leadingIcon = Icons.Outlined.Balance,
+                    title = stringResource(R.string.pref_licence),
+                    description = stringResource(R.string.pref_licence_desc),
+                    onClick = toLicencePage
+                )
+            }
         }
     }
 }

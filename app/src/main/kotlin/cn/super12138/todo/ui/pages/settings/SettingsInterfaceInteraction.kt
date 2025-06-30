@@ -1,10 +1,8 @@
 package cn.super12138.todo.ui.pages.settings
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Sort
 import androidx.compose.material.icons.outlined.Checklist
@@ -59,43 +57,54 @@ fun SettingsInterface(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
     ) { innerPadding ->
 
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .verticalScroll(rememberScrollState())
         ) {
-            SettingsCategory(stringResource(R.string.pref_category_todo_list))
-            SwitchSettingsItem(
-                checked = showCompleted,
-                leadingIcon = Icons.Outlined.Checklist,
-                title = stringResource(R.string.pref_show_completed),
-                description = stringResource(R.string.pref_show_completed_desc),
-                onCheckedChange = { scope.launch { DataStoreManager.setShowCompleted(it) } },
-            )
-            SettingsItem(
-                leadingIcon = Icons.AutoMirrored.Outlined.Sort,
-                title = stringResource(R.string.pref_sorting_method),
-                description = SortingMethod.fromId(sortingMethod).getDisplayName(context),
-                onClick = { showSortingMethodDialog = true }
-            )
+            item {
+                SettingsCategory(stringResource(R.string.pref_category_todo_list))
+            }
+            item {
+                SwitchSettingsItem(
+                    checked = showCompleted,
+                    leadingIcon = Icons.Outlined.Checklist,
+                    title = stringResource(R.string.pref_show_completed),
+                    description = stringResource(R.string.pref_show_completed_desc),
+                    onCheckedChange = { scope.launch { DataStoreManager.setShowCompleted(it) } },
+                )
+            }
+            item {
+                SettingsItem(
+                    leadingIcon = Icons.AutoMirrored.Outlined.Sort,
+                    title = stringResource(R.string.pref_sorting_method),
+                    description = SortingMethod.fromId(sortingMethod).getDisplayName(context),
+                    onClick = { showSortingMethodDialog = true }
+                )
+            }
 
-            SettingsCategory(stringResource(R.string.pref_category_global))
-            SwitchSettingsItem(
-                checked = secureMode,
-                leadingIcon = Icons.Outlined.Shield,
-                title = stringResource(R.string.pref_secure_mode),
-                description = stringResource(R.string.pref_secure_mode_desc),
-                onCheckedChange = { scope.launch { DataStoreManager.setSecureMode(it) } }
-            )
-            SwitchSettingsItem(
-                checked = hapticFeedback,
-                leadingIcon = Icons.Outlined.Vibration,
-                title = stringResource(R.string.pref_haptic_feedback),
-                description = stringResource(R.string.pref_haptic_feedback_desc),
-                onCheckedChange = { scope.launch { DataStoreManager.setHapticFeedback(it) } }
-            )
-            SettingsPlainBox(stringResource(R.string.pref_haptic_feedback_more_info))
+            item {
+                SettingsCategory(stringResource(R.string.pref_category_global))
+            }
+            item {
+                SwitchSettingsItem(
+                    checked = secureMode,
+                    leadingIcon = Icons.Outlined.Shield,
+                    title = stringResource(R.string.pref_secure_mode),
+                    description = stringResource(R.string.pref_secure_mode_desc),
+                    onCheckedChange = { scope.launch { DataStoreManager.setSecureMode(it) } }
+                )
+            }
+            item {
+                SwitchSettingsItem(
+                    checked = hapticFeedback,
+                    leadingIcon = Icons.Outlined.Vibration,
+                    title = stringResource(R.string.pref_haptic_feedback),
+                    description = stringResource(R.string.pref_haptic_feedback_desc),
+                    onCheckedChange = { scope.launch { DataStoreManager.setHapticFeedback(it) } }
+                )
+                SettingsPlainBox(stringResource(R.string.pref_haptic_feedback_more_info))
+            }
         }
     }
 

@@ -9,7 +9,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
-import cn.super12138.todo.ui.pages.settings.components.RowSettingsItem
+import cn.super12138.todo.ui.pages.settings.components.LazyRowSettingsItem
 import cn.super12138.todo.ui.theme.DarkMode
 
 @Composable
@@ -20,38 +20,44 @@ fun DarkModePicker(
 ) {
     val context = LocalContext.current
     val isInDarkTheme = isSystemInDarkTheme()
-    RowSettingsItem(
+    LazyRowSettingsItem(
         title = stringResource(R.string.pref_dark_mode),
         description = stringResource(R.string.pref_dark_mode_desc),
         horizontalArrangement = Arrangement.spacedBy(5.dp),
         fadedEdgeWidth = 8.dp,
         modifier = modifier
     ) {
-        DarkModeItem(
-            icon = DarkMode.FollowSystem.icon,
-            name = DarkMode.FollowSystem.getDisplayName(context),
-            contentColor = if (isInDarkTheme) Color.White else Color.Black,
-            containerColor = if (isInDarkTheme) Color.Black else Color.White,
-            selected = currentDarkMode == DarkMode.FollowSystem,
-            onSelect = { onDarkModeChange(DarkMode.FollowSystem) }
-        )
+        item {
+            DarkModeItem(
+                icon = DarkMode.FollowSystem.icon,
+                name = DarkMode.FollowSystem.getDisplayName(context),
+                contentColor = if (isInDarkTheme) Color.White else Color.Black,
+                containerColor = if (isInDarkTheme) Color.Black else Color.White,
+                selected = currentDarkMode == DarkMode.FollowSystem,
+                onSelect = { onDarkModeChange(DarkMode.FollowSystem) }
+            )
+        }
 
-        DarkModeItem(
-            icon = DarkMode.Light.icon,
-            name = DarkMode.Light.getDisplayName(context),
-            contentColor = Color.Black,
-            containerColor = Color.White,
-            selected = currentDarkMode == DarkMode.Light,
-            onSelect = { onDarkModeChange(DarkMode.Light) }
-        )
+        item {
+            DarkModeItem(
+                icon = DarkMode.Light.icon,
+                name = DarkMode.Light.getDisplayName(context),
+                contentColor = Color.Black,
+                containerColor = Color.White,
+                selected = currentDarkMode == DarkMode.Light,
+                onSelect = { onDarkModeChange(DarkMode.Light) }
+            )
+        }
 
-        DarkModeItem(
-            icon = DarkMode.Dark.icon,
-            name = DarkMode.Dark.getDisplayName(context),
-            contentColor = Color.White,
-            containerColor = Color.Black,
-            selected = currentDarkMode == DarkMode.Dark,
-            onSelect = { onDarkModeChange(DarkMode.Dark) }
-        )
+        item {
+            DarkModeItem(
+                icon = DarkMode.Dark.icon,
+                name = DarkMode.Dark.getDisplayName(context),
+                contentColor = Color.White,
+                containerColor = Color.Black,
+                selected = currentDarkMode == DarkMode.Dark,
+                onSelect = { onDarkModeChange(DarkMode.Dark) }
+            )
+        }
     }
 }

@@ -4,11 +4,9 @@ import android.content.Context
 import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.FileUpload
@@ -110,30 +108,34 @@ fun SettingsData(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
     ) { innerPadding ->
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .verticalScroll(rememberScrollState())
         ) {
-            SettingsItem(
-                leadingIcon = Icons.Outlined.FileDownload,
-                title = stringResource(R.string.pref_backup),
-                description = stringResource(R.string.pref_backup_desc),
-                onClick = {
-                    backupLauncher.launch("Todo-backup-${SystemUtils.getTime()}.zip")
-                }
-            )
-            SettingsItem(
-                leadingIcon = Icons.Outlined.FileUpload,
-                title = stringResource(R.string.pref_restore),
-                description = stringResource(R.string.pref_restore_desc),
-                onClick = {
-                    restoreLauncher.launch(arrayOf("application/zip"))
-                }
-            )
+            item {
+                SettingsItem(
+                    leadingIcon = Icons.Outlined.FileDownload,
+                    title = stringResource(R.string.pref_backup),
+                    description = stringResource(R.string.pref_backup_desc),
+                    onClick = {
+                        backupLauncher.launch("Todo-backup-${SystemUtils.getTime()}.zip")
+                    }
+                )
+            }
+            item {
+                SettingsItem(
+                    leadingIcon = Icons.Outlined.FileUpload,
+                    title = stringResource(R.string.pref_restore),
+                    description = stringResource(R.string.pref_restore_desc),
+                    onClick = {
+                        restoreLauncher.launch(arrayOf("application/zip"))
+                    }
+                )
+            }
         }
     }
+
     ConfirmDialog(
         visible = showRestoreDialog,
         icon = Icons.Outlined.RestartAlt,

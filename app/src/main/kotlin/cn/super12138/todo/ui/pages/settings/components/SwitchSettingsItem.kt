@@ -33,9 +33,7 @@ fun SwitchSettingsItem(
                 modifier = Modifier.padding(start = TodoDefaults.settingsItemHorizontalPadding / 2)
             )
         },
-        onClick = {
-            onCheckedChange(!checked)
-        },
+        onClick = { onCheckedChange(!checked) },
         modifier = modifier
     )
 }

@@ -224,8 +224,6 @@ fun TodoEditorPage(
                     }
                 }
             }
-
-            //Spacer(Modifier.size(20.dp))
         }
     }
 
