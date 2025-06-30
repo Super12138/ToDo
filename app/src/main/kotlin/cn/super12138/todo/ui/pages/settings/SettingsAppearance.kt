@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ColorLens
+import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -56,7 +56,7 @@ fun SettingsAppearance(
         ) {
             SwitchSettingsItem(
                 checked = dynamicColor,
-                leadingIcon = Icons.Outlined.ColorLens,
+                leadingIcon = Icons.Outlined.AutoAwesome,
                 title = stringResource(R.string.pref_appearance_dynamic_color),
                 description = stringResource(R.string.pref_appearance_dynamic_color_desc),
                 onCheckedChange = { scope.launch { DataStoreManager.setDynamicColor(it) } },
