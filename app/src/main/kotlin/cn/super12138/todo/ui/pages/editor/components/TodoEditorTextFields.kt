@@ -28,3 +28,24 @@ fun TodoContentTextField(
         modifier = modifier
     )
 }
+
+@Composable
+fun TodoSubjectTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    isError: Boolean,
+    modifier: Modifier = Modifier
+) {
+    TextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(stringResource(R.string.label_enter_subject_name)) },
+        isError = isError,
+        supportingText = {
+            AnimatedVisibility(isError) {
+                Text(stringResource(R.string.error_no_content_entered))
+            }
+        },
+        modifier = modifier
+    )
+}

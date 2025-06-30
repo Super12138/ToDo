@@ -34,10 +34,10 @@ import cn.super12138.todo.utils.VibrationUtils
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun FilterChipGroup(
+    modifier: Modifier = Modifier,
     items: List<ChipItem>,
     defaultSelectedItemIndex: Int = 0,
-    onSelectedChanged: (Int) -> Unit = {},
-    modifier: Modifier = Modifier
+    onSelectedChanged: (Int) -> Unit = {}
 ) {
     val view = LocalView.current
     var selectedItemId by rememberSaveable { mutableIntStateOf(defaultSelectedItemIndex) }
@@ -80,10 +80,8 @@ private fun FilterChipItem(
                 )
             }
         },
-        label = {
-            Text(text)
-        },
-        modifier = Modifier.padding(end = 10.dp)
+        label = { Text(text) },
+        modifier = modifier.padding(end = 10.dp)
     )
 }
 

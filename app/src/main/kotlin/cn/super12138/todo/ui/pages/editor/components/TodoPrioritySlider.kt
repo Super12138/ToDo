@@ -28,7 +28,7 @@ import cn.super12138.todo.utils.VibrationUtils
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TodoPrioritySlider(
-    value: Float,
+    value: () -> Float,
     onValueChange: (Float) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -39,7 +39,7 @@ fun TodoPrioritySlider(
     val interactionSource = remember { MutableInteractionSource() }
 
     Slider(
-        value = value,
+        value = value(),
         onValueChange = {
             VibrationUtils.performHapticFeedback(view, HapticFeedbackConstants.LONG_PRESS)
             onValueChange(it)
@@ -55,7 +55,7 @@ fun TodoPrioritySlider(
                             .sizeIn(45.dp, 25.dp)
                             .wrapContentWidth()
                     ) {
-                        Text(priorityName[Priority.fromFloat(value).ordinal])
+                        Text(priorityName[Priority.fromFloat(value()).ordinal])
                     }
                 },
                 interactionSource = interactionSource
@@ -66,9 +66,9 @@ fun TodoPrioritySlider(
         modifier = modifier.semantics {
             contentDescription =
                 context.getString(R.string.label_priority) + priorityName[Priority.fromFloat(
-                    value
+                    value()
                 ).ordinal]
-            stateDescription = priorityName[Priority.fromFloat(value).ordinal]
+            stateDescription = priorityName[Priority.fromFloat(value()).ordinal]
             liveRegion = LiveRegionMode.Polite
         }
     )

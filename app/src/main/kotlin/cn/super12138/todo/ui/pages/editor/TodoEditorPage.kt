@@ -5,17 +5,17 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Undo
 import androidx.compose.material.icons.outlined.Delete
@@ -24,17 +24,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -53,6 +47,8 @@ import cn.super12138.todo.ui.components.FilterChipGroup
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
 import cn.super12138.todo.ui.pages.editor.components.TodoContentTextField
 import cn.super12138.todo.ui.pages.editor.components.TodoPrioritySlider
+import cn.super12138.todo.ui.pages.editor.components.TodoSubjectTextField
+import cn.super12138.todo.ui.pages.editor.state.rememberEditorState
 import cn.super12138.todo.utils.VibrationUtils
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
@@ -66,34 +62,16 @@ fun TodoEditorPage(
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope
 ) {
-    var showExitConfirmDialog by rememberSaveable { mutableStateOf(false) }
-    var showDeleteConfirmDialog by rememberSaveable { mutableStateOf(false) }
-
     val view = LocalView.current
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
-    var toDoContent by rememberSaveable { mutableStateOf(toDo?.content ?: "") }
-    var isErrorContent by rememberSaveable { mutableStateOf(false) }
-    var selectedSubjectId by rememberSaveable { mutableIntStateOf(toDo?.subject ?: 0) }
-    var subjectContent by rememberSaveable { mutableStateOf(toDo?.customSubject ?: "") }
-    var isErrorSubject by rememberSaveable { mutableStateOf(false) }
-    var priorityState by rememberSaveable { mutableFloatStateOf(toDo?.priority ?: 0f) }
-    var completedSwitchState by rememberSaveable { mutableStateOf(toDo?.isCompleted == true) }
-
-    val isCustomSubject by remember {
-        derivedStateOf { selectedSubjectId == Subjects.Custom.id }
-    }
+    val uiState = rememberEditorState(initialTodo = toDo)
+    val isCustomSubject by remember { derivedStateOf { uiState.selectedSubjectId == Subjects.Custom.id } }
 
     fun checkModifiedBeforeBack() {
-        var isModified = false
-        if ((toDo?.content ?: "") != toDoContent) isModified = true
-        if ((toDo?.subject ?: 0) != selectedSubjectId) isModified = true
-        if ((toDo?.customSubject ?: "") != subjectContent) isModified = true
-        if ((toDo?.priority ?: 0f) != priorityState) isModified = true
-        if ((toDo?.isCompleted == true) != completedSwitchState) isModified = true
-        if (isModified) {
-            showExitConfirmDialog = true
+        if (uiState.isModified()) {
+            uiState.showExitConfirmDialog = true
         } else {
             onNavigateUp()
         }
@@ -115,7 +93,7 @@ fun TodoEditorPage(
                             text = stringResource(R.string.action_delete),
                             expanded = true,
                             containerColor = MaterialTheme.colorScheme.errorContainer,
-                            onClick = { showDeleteConfirmDialog = true },
+                            onClick = { uiState.showDeleteConfirmDialog = true },
                             modifier = Modifier.imePadding()
                         )
                     }
@@ -124,23 +102,12 @@ fun TodoEditorPage(
                         text = stringResource(R.string.action_save),
                         expanded = true,
                         onClick = {
-                            isErrorContent = toDoContent.trim().isEmpty()
-                            isErrorSubject = subjectContent.trim()
-                                .isEmpty() && selectedSubjectId == Subjects.Custom.id
-                            if (isErrorContent || isErrorSubject) return@AnimatedExtendedFloatingActionButton
-
-                            isErrorContent = false
-                            isErrorSubject = false
-                            onSave(
-                                TodoEntity(
-                                    content = toDoContent,
-                                    subject = selectedSubjectId,
-                                    customSubject = subjectContent,
-                                    isCompleted = completedSwitchState,
-                                    priority = priorityState,
-                                    id = toDo?.id ?: 0
-                                )
-                            )
+                            if (uiState.setErrorIfNotValid()) {
+                                return@AnimatedExtendedFloatingActionButton
+                            } else {
+                                uiState.clearError()
+                                onSave(uiState.getEntity())
+                            }
                         },
                         modifier = Modifier
                             .imePadding()
@@ -155,138 +122,129 @@ fun TodoEditorPage(
         onBack = { checkModifiedBeforeBack() },
         modifier = modifier
     ) { innerPadding ->
-        Column(
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(5.dp),
             modifier = Modifier
                 .padding(innerPadding)
                 .padding(horizontal = TodoDefaults.screenPadding)
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
         ) {
-            with(sharedTransitionScope) {
-                TodoContentTextField(
-                    value = toDoContent,
-                    onValueChange = { toDoContent = it },
-                    isError = isErrorContent,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .sharedBounds(
-                            sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_CONTENT_TRANSITION}_${toDo?.id}"),
-                            animatedVisibilityScope = animatedVisibilityScope
-                        )
-                )
-            }
-
-            Spacer(Modifier.size(5.dp))
-
-            Text(
-                text = stringResource(R.string.label_subject),
-                style = MaterialTheme.typography.titleMedium
-            )
-
-            Spacer(Modifier.size(5.dp))
-
-            val subjects = remember {
-                Subjects.entries.map {
-                    ChipItem(
-                        id = it.id,
-                        text = it.getDisplayName(context)
-                    )
-                }
-            }
-            FilterChipGroup(
-                items = subjects,
-                defaultSelectedItemIndex = toDo?.subject ?: Subjects.Chinese.id,
-                onSelectedChanged = {
-                    selectedSubjectId = it
-                },
-                modifier = Modifier.fillMaxWidth()
-            )
-            AnimatedVisibility(isCustomSubject) {
+            item {
                 with(sharedTransitionScope) {
-                    TextField(
-                        value = subjectContent,
-                        onValueChange = { subjectContent = it },
-                        label = { Text(stringResource(R.string.label_enter_subject_name)) },
-                        isError = isErrorSubject,
-                        supportingText = {
-                            AnimatedVisibility(isErrorSubject) {
-                                Text(stringResource(R.string.error_no_content_entered))
-                            }
-                        },
+                    TodoContentTextField(
+                        value = uiState.toDoContent,
+                        onValueChange = { uiState.toDoContent = it },
+                        isError = uiState.isErrorContent,
                         modifier = Modifier
                             .fillMaxWidth()
                             .sharedBounds(
-                                sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_SUBJECT_TRANSITION}_${toDo?.id}"),
+                                sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_CONTENT_TRANSITION}_${toDo?.id}"),
                                 animatedVisibilityScope = animatedVisibilityScope
                             )
-                            .padding(top = 5.dp)
                     )
                 }
             }
 
-            Spacer(Modifier.size(10.dp))
-
-            Text(
-                text = stringResource(R.string.label_priority),
-                style = MaterialTheme.typography.titleMedium
-            )
-
-            Spacer(Modifier.size(5.dp))
-
-            TodoPrioritySlider(
-                value = priorityState,
-                onValueChange = { priorityState = it },
-            )
-
-            Spacer(Modifier.size(10.dp))
-
-            if (toDo != null) {
+            item {
                 Text(
-                    text = stringResource(R.string.label_more),
+                    text = stringResource(R.string.label_subject),
                     style = MaterialTheme.typography.titleMedium
                 )
 
-                Spacer(Modifier.size(5.dp))
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
+                val subjects = remember {
+                    Subjects.entries.map {
+                        ChipItem(
+                            id = it.id,
+                            text = it.getDisplayName(context)
+                        )
+                    }
+                }
+                FilterChipGroup(
+                    items = subjects,
+                    defaultSelectedItemIndex = toDo?.subject ?: Subjects.Chinese.id,
+                    onSelectedChanged = { uiState.selectedSubjectId = it },
                     modifier = Modifier.fillMaxWidth()
+                )
+                AnimatedVisibility(
+                    visible = isCustomSubject,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
                 ) {
-                    Text(
-                        text = stringResource(R.string.tip_mark_completed),
-                        style = MaterialTheme.typography.labelLarge,
-                        modifier = Modifier.padding(end = 10.dp)
-                    )
-                    Switch(
-                        checked = completedSwitchState,
-                        onCheckedChange = {
-                            completedSwitchState = it
-                            VibrationUtils.performHapticFeedback(view)
-                        }
-                    )
+                    with(sharedTransitionScope) {
+                        TodoSubjectTextField(
+                            value = uiState.subjectContent,
+                            onValueChange = { uiState.subjectContent = it },
+                            isError = uiState.isErrorSubject,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .sharedBounds(
+                                    sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_SUBJECT_TRANSITION}_${toDo?.id}"),
+                                    animatedVisibilityScope = animatedVisibilityScope
+                                )
+                        )
+                    }
                 }
             }
 
-            Spacer(Modifier.size(20.dp))
+            item {
+                Text(
+                    text = stringResource(R.string.label_priority),
+                    style = MaterialTheme.typography.titleMedium
+                )
+
+                TodoPrioritySlider(
+                    value = { uiState.priorityState },
+                    onValueChange = { uiState.priorityState = it },
+                )
+            }
+
+            item {
+                if (toDo != null) {
+                    Text(
+                        text = stringResource(R.string.label_more),
+                        style = MaterialTheme.typography.titleMedium
+                    )
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            text = stringResource(R.string.tip_mark_completed),
+                            style = MaterialTheme.typography.labelLarge,
+                            modifier = Modifier.padding(end = 10.dp)
+                        )
+                        Switch(
+                            checked = uiState.isCompleted,
+                            onCheckedChange = {
+                                VibrationUtils.performHapticFeedback(view)
+                                uiState.isCompleted = it
+                            }
+                        )
+                    }
+                }
+            }
+
+            //Spacer(Modifier.size(20.dp))
         }
     }
 
     ConfirmDialog(
-        visible = showExitConfirmDialog,
+        visible = uiState.showExitConfirmDialog,
         icon = Icons.AutoMirrored.Outlined.Undo,
         text = stringResource(R.string.tip_discard_changes),
         onConfirm = {
-            showExitConfirmDialog = false
+            uiState.showExitConfirmDialog = false
             onNavigateUp()
         },
-        onDismiss = { showExitConfirmDialog = false }
+        onDismiss = { uiState.showExitConfirmDialog = false }
     )
 
     ConfirmDialog(
-        visible = showDeleteConfirmDialog,
+        visible = uiState.showDeleteConfirmDialog,
         icon = Icons.Outlined.Delete,
         text = stringResource(R.string.tip_delete_task, 1),
         onConfirm = onDelete,
-        onDismiss = { showDeleteConfirmDialog = false }
+        onDismiss = { uiState.showDeleteConfirmDialog = false }
     )
 }
