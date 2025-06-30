@@ -33,7 +33,7 @@ class EditorState(
         isErrorContent = toDoContent.trim().isEmpty()
         isErrorSubject = subjectContent.trim().isEmpty() &&
                 selectedSubjectId == Subjects.Custom.id
-        return isErrorContent && isErrorSubject
+        return isErrorContent || isErrorSubject
     }
 
     /**
