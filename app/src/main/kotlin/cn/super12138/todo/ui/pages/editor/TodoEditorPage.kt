@@ -1,6 +1,5 @@
 package cn.super12138.todo.ui.pages.editor
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
@@ -33,7 +32,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,8 +46,8 @@ import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
 import cn.super12138.todo.ui.components.ChipItem
 import cn.super12138.todo.ui.components.ConfirmDialog
-import cn.super12138.todo.ui.components.FilterChipGroup
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
+import cn.super12138.todo.ui.pages.editor.components.TodoCategoryChip
 import cn.super12138.todo.ui.pages.editor.components.TodoCategoryTextField
 import cn.super12138.todo.ui.pages.editor.components.TodoContentTextField
 import cn.super12138.todo.ui.pages.editor.components.TodoPrioritySlider
@@ -67,6 +65,7 @@ fun TodoEditorPage(
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope
 ) {
+    // TODO: 本页及其相关组件重组性能检查优化
     val view = LocalView.current
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
@@ -83,6 +82,7 @@ fun TodoEditorPage(
 
     var defaultIndex by remember { mutableIntStateOf(0) }
     LaunchedEffect(originalCategories, toDo) {
+        if (originalCategories.isEmpty()) return@LaunchedEffect
         if (toDo == null) {
             val index = if (categories.size == 1) -1 else 0
             defaultIndex = index
@@ -91,9 +91,7 @@ fun TodoEditorPage(
             val index = categories.firstOrNull { it.name == toDo.category }?.id ?: -1
             defaultIndex = index
             uiState.selectedCategoryIndex = index
-            if (index == -1) {
-                uiState.categoryContent = toDo.category
-            }
+            if (index != -1) uiState.categoryContent = ""
         }
     }
 
@@ -174,8 +172,7 @@ fun TodoEditorPage(
                         value = uiState.toDoContent,
                         onValueChange = { uiState.toDoContent = it },
                         isError = uiState.isErrorContent,
-                        modifier = Modifier
-                            .fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth()
                     )
                 }
             }
@@ -186,10 +183,11 @@ fun TodoEditorPage(
                     style = MaterialTheme.typography.titleMedium
                 )
 
-                FilterChipGroup(
+                TodoCategoryChip(
                     items = categories,
                     defaultSelectedItemIndex = defaultIndex,
-                    onSelectedChanged = { uiState.selectedCategoryIndex = it },
+                    isLoading = originalCategories.isEmpty(),
+                    onCategorySelected = { uiState.selectedCategoryIndex = it },
                     modifier = Modifier.fillMaxWidth()
                 )
 

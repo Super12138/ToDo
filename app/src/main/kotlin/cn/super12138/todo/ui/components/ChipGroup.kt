@@ -43,9 +43,6 @@ fun FilterChipGroup(
     defaultSelectedItemIndex: Int = 0,
     onSelectedChanged: (Int) -> Unit = {}
 ) {
-    SideEffect {
-        Log.d("TAG", "来自 FilterChipGroup：重组啦")
-    }
     val view = LocalView.current
     var selectedItemIndex by rememberSaveable { mutableIntStateOf(defaultSelectedItemIndex) }
 

@@ -28,9 +28,9 @@ import androidx.compose.ui.res.stringResource
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.datastore.DataStoreManager
 import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
-import cn.super12138.todo.ui.components.FiveCharPromptDialog
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
-import cn.super12138.todo.ui.pages.settings.components.SettingsCategory
+import cn.super12138.todo.ui.pages.settings.components.category.CategoryItem
+import cn.super12138.todo.ui.pages.settings.components.category.CategoryPromptDialog
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,6 +39,7 @@ fun SettingsDataCategory(
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    // TODO: 本页及其相关组件重组性能检查优化
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -77,13 +78,21 @@ fun SettingsDataCategory(
                 }
             } else {
                 items(items = categories, key = { it }) {
-                    SettingsCategory(it)
+                    CategoryItem(
+                        name = it,
+                        onDelete = { it ->
+                            scope.launch {
+                                DataStoreManager.setCategories(categories - it)
+                            }
+                        },
+                        modifier = Modifier.animateItem()
+                    )
                 }
             }
         }
     }
 
-    FiveCharPromptDialog(
+    CategoryPromptDialog(
         visible = showDialog,
         text = stringResource(R.string.tip_enter_category),
         onSave = {
