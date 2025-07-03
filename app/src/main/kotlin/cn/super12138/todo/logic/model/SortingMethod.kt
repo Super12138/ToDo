@@ -8,7 +8,7 @@ enum class SortingMethod(val id: Int) {
     Sequential(1),
 
     // 按学科
-    Subject(2),
+    Category(2),
 
     // 按优先级
     Priority(3),
@@ -25,7 +25,7 @@ enum class SortingMethod(val id: Int) {
     fun getDisplayName(context: Context): String {
         val resId = when (this) {
             Sequential -> R.string.sorting_sequential
-            Subject -> R.string.sorting_subject
+            Category -> R.string.sorting_category
             Priority -> R.string.sorting_priority
             Completion -> R.string.sorting_completion
             AlphabeticalAscending -> R.string.sorting_alphabetical_ascending

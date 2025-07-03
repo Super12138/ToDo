@@ -49,7 +49,7 @@ fun TodoCard(
     modifier: Modifier = Modifier,
     id: Int,
     content: String,
-    subject: String,
+    category: String,
     completed: Boolean,
     priority: Priority,
     selected: Boolean,
@@ -141,12 +141,12 @@ fun TodoCard(
 
                 with(sharedTransitionScope) {
                     Text(
-                        text = subject,
+                        text = category,
                         style = MaterialTheme.typography.labelMedium,
                         textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
                         maxLines = 1,
                         modifier = Modifier.sharedBounds(
-                            sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_SUBJECT_TRANSITION}_$id"),
+                            sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_CATEGORY_TRANSITION}_$id"),
                             animatedVisibilityScope = animatedVisibilityScope
                         )
                     )

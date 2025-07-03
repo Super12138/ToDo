@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Category
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.FileUpload
 import androidx.compose.material.icons.outlined.RestartAlt
@@ -31,6 +32,7 @@ import cn.super12138.todo.R
 import cn.super12138.todo.ui.activities.MainActivity
 import cn.super12138.todo.ui.components.ConfirmDialog
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
+import cn.super12138.todo.ui.pages.settings.components.SettingsCategory
 import cn.super12138.todo.ui.pages.settings.components.SettingsItem
 import cn.super12138.todo.ui.viewmodels.MainViewModel
 import cn.super12138.todo.utils.SystemUtils
@@ -41,6 +43,7 @@ import kotlin.system.exitProcess
 @Composable
 fun SettingsData(
     viewModel: MainViewModel,
+    toCategoryManager: () -> Unit,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -114,6 +117,7 @@ fun SettingsData(
                 .padding(innerPadding)
         ) {
             item {
+                SettingsCategory(stringResource(R.string.pref_category_data_management))
                 SettingsItem(
                     leadingIcon = Icons.Outlined.FileDownload,
                     title = stringResource(R.string.pref_backup),
@@ -131,6 +135,15 @@ fun SettingsData(
                     onClick = {
                         restoreLauncher.launch(arrayOf("application/zip"))
                     }
+                )
+            }
+            item {
+                SettingsCategory(stringResource(R.string.pref_category_category_management))
+                SettingsItem(
+                    leadingIcon = Icons.Outlined.Category,
+                    title = stringResource(R.string.pref_category_category_management),
+                    description = stringResource(R.string.pref_category_management_desc),
+                    onClick = toCategoryManager
                 )
             }
         }

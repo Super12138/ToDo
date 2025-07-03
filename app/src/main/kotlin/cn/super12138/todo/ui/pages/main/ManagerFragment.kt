@@ -13,14 +13,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.logic.model.Priority
-import cn.super12138.todo.logic.model.Subjects
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.LazyColumnCustomScrollBar
 import cn.super12138.todo.ui.pages.main.components.TodoCard
@@ -38,8 +36,6 @@ fun ManagerFragment(
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope
 ) {
-    val context = LocalContext.current
-
     LazyColumnCustomScrollBar(
         state = state,
         modifier = modifier
@@ -67,16 +63,10 @@ fun ManagerFragment(
                     items = list,
                     key = { it.id }
                 ) { item ->
-                    val subject = if (item.subject == Subjects.Custom.id) {
-                        item.customSubject
-                    } else {
-                        Subjects.fromId(item.subject).getDisplayName(context)
-                    }
-
                     TodoCard(
                         id = item.id,
                         content = item.content,
-                        subject = subject,
+                        category = item.category,
                         completed = item.isCompleted,
                         priority = Priority.fromFloat(item.priority),
                         selected = selectedTodoIds.contains(item.id),

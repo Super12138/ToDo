@@ -21,9 +21,10 @@ m3color = "2025.3"
 # Konfetti
 konfetti = "2.0.5"
 # Lazy Column Scrollbar
-lazycolumnscrollbar = "2.2.0"
+lazyColumnScrollbar = "2.2.0"
 # Kotlin
 kotlinCoroutines = "1.10.2"
+kotlinSerialization = "1.9.0"
 # Test
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -75,11 +76,12 @@ com-kyant0-m3color = { group = "com.github.Kyant0", name = "m3color", version.re
 nl-dionsegijn-konfetti-compose = { group = "nl.dionsegijn", name = "konfetti-compose", version.ref = "konfetti" }
 
 # Lazy Column Scrollbar
-lazycolumnscrollbar = { group = "com.github.nanihadesuka", name = "LazyColumnScrollbar", version.ref = "lazycolumnscrollbar" }
+lazycolumnscrollbar = { group = "com.github.nanihadesuka", name = "LazyColumnScrollbar", version.ref = "lazyColumnScrollbar" }
 
 # Kotlin
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinCoroutines" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerialization" }
 
 # Test
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -90,5 +92,6 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 aboutlibraries = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "aboutLibsReleasePlugin" }

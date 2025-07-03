@@ -1,5 +1,6 @@
 package cn.super12138.todo.ui.pages.editor
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
@@ -26,28 +27,32 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.database.TodoEntity
-import cn.super12138.todo.logic.model.Subjects
+import cn.super12138.todo.logic.datastore.DataStoreManager
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
 import cn.super12138.todo.ui.components.ChipItem
 import cn.super12138.todo.ui.components.ConfirmDialog
 import cn.super12138.todo.ui.components.FilterChipGroup
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
+import cn.super12138.todo.ui.pages.editor.components.TodoCategoryTextField
 import cn.super12138.todo.ui.pages.editor.components.TodoContentTextField
 import cn.super12138.todo.ui.pages.editor.components.TodoPrioritySlider
-import cn.super12138.todo.ui.pages.editor.components.TodoSubjectTextField
 import cn.super12138.todo.ui.pages.editor.state.rememberEditorState
 import cn.super12138.todo.utils.VibrationUtils
 
@@ -63,11 +68,40 @@ fun TodoEditorPage(
     animatedVisibilityScope: AnimatedVisibilityScope
 ) {
     val view = LocalView.current
-    val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     val uiState = rememberEditorState(initialTodo = toDo)
-    val isCustomSubject by remember { derivedStateOf { uiState.selectedSubjectId == Subjects.Custom.id } }
+
+    val originalCategories by DataStoreManager.categoriesFlow.collectAsState(initial = emptyList())
+    val categories = originalCategories
+        .mapIndexed { index, category ->
+            ChipItem(
+                id = index,
+                name = category
+            )
+        } + ChipItem(id = -1, name = "自定义")
+
+    var defaultIndex by remember { mutableIntStateOf(0) }
+    LaunchedEffect(originalCategories, toDo) {
+        if (toDo == null) {
+            val index = if (categories.size == 1) -1 else 0
+            defaultIndex = index
+            uiState.selectedCategoryIndex = index
+        } else {
+            val index = categories.firstOrNull { it.name == toDo.category }?.id ?: -1
+            defaultIndex = index
+            uiState.selectedCategoryIndex = index
+            if (index == -1) {
+                uiState.categoryContent = toDo.category
+            }
+        }
+    }
+
+    val isCustomCategory by remember {
+        derivedStateOf {
+            uiState.selectedCategoryIndex == -1
+        }
+    }
 
     fun checkModifiedBeforeBack() {
         if (uiState.isModified()) {
@@ -77,9 +111,7 @@ fun TodoEditorPage(
         }
     }
 
-    BackHandler {
-        checkModifiedBeforeBack()
-    }
+    BackHandler { checkModifiedBeforeBack() }
 
     LargeTopAppBarScaffold(
         title = stringResource(if (toDo != null) R.string.title_edit_task else R.string.action_add_task),
@@ -106,7 +138,14 @@ fun TodoEditorPage(
                                 return@AnimatedExtendedFloatingActionButton
                             } else {
                                 uiState.clearError()
-                                onSave(uiState.getEntity())
+                                val newTodo = TodoEntity(
+                                    id = toDo?.id ?: 0,
+                                    content = uiState.toDoContent,
+                                    category = if (isCustomCategory) uiState.categoryContent else categories[uiState.selectedCategoryIndex].name,
+                                    priority = uiState.priorityState,
+                                    isCompleted = uiState.isCompleted
+                                )
+                                onSave(newTodo)
                             }
                         },
                         modifier = Modifier
@@ -137,50 +176,34 @@ fun TodoEditorPage(
                         isError = uiState.isErrorContent,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .sharedBounds(
-                                sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_CONTENT_TRANSITION}_${toDo?.id}"),
-                                animatedVisibilityScope = animatedVisibilityScope
-                            )
                     )
                 }
             }
 
             item {
                 Text(
-                    text = stringResource(R.string.label_subject),
+                    text = stringResource(R.string.label_category),
                     style = MaterialTheme.typography.titleMedium
                 )
 
-                val subjects = remember {
-                    Subjects.entries.map {
-                        ChipItem(
-                            id = it.id,
-                            text = it.getDisplayName(context)
-                        )
-                    }
-                }
                 FilterChipGroup(
-                    items = subjects,
-                    defaultSelectedItemIndex = toDo?.subject ?: Subjects.Chinese.id,
-                    onSelectedChanged = { uiState.selectedSubjectId = it },
+                    items = categories,
+                    defaultSelectedItemIndex = defaultIndex,
+                    onSelectedChanged = { uiState.selectedCategoryIndex = it },
                     modifier = Modifier.fillMaxWidth()
                 )
+
                 AnimatedVisibility(
-                    visible = isCustomSubject,
+                    visible = isCustomCategory,
                     enter = fadeIn() + expandVertically(),
                     exit = fadeOut() + shrinkVertically()
                 ) {
                     with(sharedTransitionScope) {
-                        TodoSubjectTextField(
-                            value = uiState.subjectContent,
-                            onValueChange = { uiState.subjectContent = it },
-                            isError = uiState.isErrorSubject,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .sharedBounds(
-                                    sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_SUBJECT_TRANSITION}_${toDo?.id}"),
-                                    animatedVisibilityScope = animatedVisibilityScope
-                                )
+                        TodoCategoryTextField(
+                            value = uiState.categoryContent,
+                            onValueChange = { uiState.categoryContent = it },
+                            isError = uiState.isErrorCategory,
+                            modifier = Modifier.fillMaxWidth()
                         )
                     }
                 }

@@ -6,7 +6,7 @@ object Constants {
 
     const val KEY_TODO_FAB_TRANSITION = "todo_fab"
     const val KEY_TODO_CONTENT_TRANSITION = "todo_content"
-    const val KEY_TODO_SUBJECT_TRANSITION = "todo_subject"
+    const val KEY_TODO_CATEGORY_TRANSITION = "todo_category"
 
     const val DB_NAME = "todo"
     const val DB_TABLE_NAME = "todo"
@@ -36,4 +36,9 @@ object Constants {
 
     const val PREF_HAPTIC_FEEDBACK = "haptic_feedback"
     const val PREF_HAPTIC_FEEDBACK_DEFAULT = true
+
+    const val PREF_CATEGORIES = "categories"
+    const val PREF_CATEGORIES_DEFAULT = "[]"
+
+
 }

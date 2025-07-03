@@ -14,6 +14,7 @@ import cn.super12138.todo.ui.pages.settings.SettingsAbout
 import cn.super12138.todo.ui.pages.settings.SettingsAboutLicence
 import cn.super12138.todo.ui.pages.settings.SettingsAppearance
 import cn.super12138.todo.ui.pages.settings.SettingsData
+import cn.super12138.todo.ui.pages.settings.SettingsDataCategory
 import cn.super12138.todo.ui.pages.settings.SettingsInterface
 import cn.super12138.todo.ui.pages.settings.SettingsMain
 import cn.super12138.todo.ui.theme.materialSharedAxisXIn
@@ -111,8 +112,13 @@ fun TodoNavigation(
             composable(TodoScreen.SettingsData.name) {
                 SettingsData(
                     viewModel = viewModel,
+                    toCategoryManager = {navController.navigate(TodoScreen.SettingsDataCategory.name)},
                     onNavigateUp = { navController.navigateUp() }
                 )
+            }
+
+            composable(TodoScreen.SettingsDataCategory.name) {
+                SettingsDataCategory(onNavigateUp = {navController.navigateUp()})
             }
 
             composable(TodoScreen.SettingsAbout.name) {

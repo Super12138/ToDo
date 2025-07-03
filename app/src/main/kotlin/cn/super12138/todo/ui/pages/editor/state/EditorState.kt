@@ -9,18 +9,16 @@ import androidx.compose.runtime.saveable.SaverScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import cn.super12138.todo.logic.database.TodoEntity
-import cn.super12138.todo.logic.model.Subjects
 
-class EditorState(
-    val initialTodo: TodoEntity? = null,
-) {
+class EditorState(val initialTodo: TodoEntity? = null) {
     var toDoContent by mutableStateOf(initialTodo?.content ?: "")
     var isErrorContent by mutableStateOf(false)
-    var selectedSubjectId by mutableIntStateOf(initialTodo?.subject ?: 0)
-    var subjectContent by mutableStateOf(initialTodo?.customSubject ?: "")
-    var isErrorSubject by mutableStateOf(false)
+    var selectedCategoryIndex by mutableIntStateOf(0)
+    var categoryContent by mutableStateOf(initialTodo?.category ?: "")
+    var isErrorCategory by mutableStateOf(false)
     var priorityState by mutableFloatStateOf(initialTodo?.priority ?: 0f)
     var isCompleted by mutableStateOf(initialTodo?.isCompleted == true)
+
     var showExitConfirmDialog by mutableStateOf(false)
     var showDeleteConfirmDialog by mutableStateOf(false)
 
@@ -31,9 +29,8 @@ class EditorState(
      */
     fun setErrorIfNotValid(): Boolean {
         isErrorContent = toDoContent.trim().isEmpty()
-        isErrorSubject = subjectContent.trim().isEmpty() &&
-                selectedSubjectId == Subjects.Custom.id
-        return isErrorContent || isErrorSubject
+        isErrorCategory = if (selectedCategoryIndex == -1) categoryContent.trim().isEmpty() else false
+        return isErrorContent || isErrorCategory
     }
 
     /**
@@ -41,22 +38,8 @@ class EditorState(
      */
     fun clearError() {
         isErrorContent = false
-        isErrorSubject = false
+        isErrorCategory = false
     }
-
-    /**
-     * 获取编辑后的待办实体
-     *
-     * @return TodoEntity 待办实体
-     */
-    fun getEntity(): TodoEntity = TodoEntity(
-        id = initialTodo?.id ?: 0,
-        content = toDoContent,
-        subject = selectedSubjectId,
-        customSubject = subjectContent,
-        priority = priorityState,
-        isCompleted = isCompleted
-    )
 
     /**
      * 检查待办是否被编辑修改
@@ -64,8 +47,7 @@ class EditorState(
     fun isModified(): Boolean {
         var isModified = false
         if ((initialTodo?.content ?: "") != toDoContent) isModified = true
-        if ((initialTodo?.subject ?: 0) != selectedSubjectId) isModified = true
-        if ((initialTodo?.customSubject ?: "") != subjectContent) isModified = true
+        if ((initialTodo?.category ?: "") != categoryContent) isModified = true
         if ((initialTodo?.priority ?: 0f) != priorityState) isModified = true
         if ((initialTodo?.isCompleted == true) != isCompleted) isModified = true
         return isModified
@@ -80,9 +62,9 @@ class EditorState(
                 value.initialTodo?.id ?: 0,
                 value.toDoContent,
                 value.isErrorContent,
-                value.selectedSubjectId,
-                value.subjectContent,
-                value.isErrorSubject,
+                value.selectedCategoryIndex,
+                value.categoryContent,
+                value.isErrorCategory,
                 value.priorityState,
                 value.isCompleted,
                 value.showExitConfirmDialog,
@@ -96,9 +78,9 @@ class EditorState(
             return EditorState(initialTodo).apply {
                 toDoContent = list[1] as String
                 isErrorContent = list[2] as Boolean
-                selectedSubjectId = list[3] as Int
-                subjectContent = list[4] as String
-                isErrorSubject = list[5] as Boolean
+                selectedCategoryIndex = list[3] as Int
+                categoryContent = list[4] as String
+                isErrorCategory = list[5] as Boolean
                 priorityState = list[6] as Float
                 isCompleted = list[7] as Boolean
                 showExitConfirmDialog = list[8] as Boolean

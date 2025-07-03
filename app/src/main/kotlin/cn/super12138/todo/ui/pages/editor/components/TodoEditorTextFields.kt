@@ -30,7 +30,7 @@ fun TodoContentTextField(
 }
 
 @Composable
-fun TodoSubjectTextField(
+fun TodoCategoryTextField(
     value: String,
     onValueChange: (String) -> Unit,
     isError: Boolean,
@@ -39,7 +39,7 @@ fun TodoSubjectTextField(
     TextField(
         value = value,
         onValueChange = onValueChange,
-        label = { Text(stringResource(R.string.label_enter_subject_name)) },
+        label = { Text(stringResource(R.string.label_enter_category_name)) },
         isError = isError,
         supportingText = {
             AnimatedVisibility(isError) {

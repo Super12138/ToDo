@@ -150,7 +150,7 @@ fun MainPage(
                             viewModel.updateTodo(
                                 TodoEntity(
                                     content = content,
-                                    subject = subject,
+                                    category = category,
                                     isCompleted = true,
                                     priority = priority,
                                     id = id
@@ -193,7 +193,7 @@ fun MainPage(
                             viewModel.updateTodo(
                                 TodoEntity(
                                     content = content,
-                                    subject = subject,
+                                    category = category,
                                     isCompleted = true,
                                     priority = priority,
                                     id = id
