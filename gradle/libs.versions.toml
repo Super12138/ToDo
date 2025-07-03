@@ -1,7 +1,7 @@
 [versions]
 # Android X
 coreKtx = "1.16.0"
-splashScreen = "1.2.0-beta02"
+splashScreen = "1.2.0-rc01"
 lifecycleRuntimeKtx = "2.9.1"
 datastore = "1.1.7"
 # Compose
