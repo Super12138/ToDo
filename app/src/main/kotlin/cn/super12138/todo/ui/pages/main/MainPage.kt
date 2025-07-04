@@ -50,36 +50,19 @@ fun MainPage(
     modifier: Modifier = Modifier
 ) {
     val toDos = viewModel.sortedTodos.collectAsState(initial = emptyList())
-    val listState = rememberLazyListState()
-    /*val isExpanded by remember {
-        derivedStateOf {
-            listState.firstVisibleItemIndex == 0
-        }
-    }*/
-
     val selectedTodos = viewModel.selectedTodoIds.collectAsState()
-    var showDeleteConfirmDialog by rememberSaveable { mutableStateOf(false) }
-
+    val showCompleted by DataStoreManager.showCompletedFlow.collectAsState(initial = Constants.PREF_SHOW_COMPLETED_DEFAULT)
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
 
-    val selectedTodoIds by remember {
-        derivedStateOf { selectedTodos.value }
-    }
-    val isSelectedIdsEmpty by remember {
-        derivedStateOf {
-            selectedTodoIds.isEmpty()
-        }
-    }
+    val listState = rememberLazyListState()
+    var showDeleteConfirmDialog by rememberSaveable { mutableStateOf(false) }
 
+    val selectedTodoIds by remember { derivedStateOf { selectedTodos.value } }
+    val isSelectedIdsEmpty by remember { derivedStateOf { selectedTodoIds.isEmpty() } }
     val toDoList by remember { derivedStateOf { toDos.value } }
-
-    // Theme
-    val showCompleted by DataStoreManager.showCompletedFlow.collectAsState(initial = Constants.PREF_SHOW_COMPLETED_DEFAULT)
-    val filteredTodoList =
-        if (showCompleted) toDoList else toDoList.filter { item -> !item.isCompleted }
-
     val totalTasks by remember { derivedStateOf { toDoList.size } }
     val completedTasks by remember { derivedStateOf { toDoList.count { it.isCompleted } } }
+    val filteredTodoList =  if (showCompleted) toDoList else toDoList.filter { item -> !item.isCompleted }
 
     BackHandler(enabled = !isSelectedIdsEmpty) {
         // 当按下返回键（或进行返回操作）时清空选择
