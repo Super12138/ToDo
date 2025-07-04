@@ -91,7 +91,6 @@ fun TodoEditorPage(
             val index = categories.firstOrNull { it.name == toDo.category }?.id ?: -1
             defaultIndex = index
             uiState.selectedCategoryIndex = index
-            if (index != -1) uiState.categoryContent = ""
         }
     }
 
