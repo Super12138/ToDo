@@ -42,6 +42,7 @@ fun TodoCategoryTextField(
     value: String,
     onValueChange: (String) -> Unit,
     isError: Boolean,
+    supportingText: String = stringResource(R.string.tip_max_length_5),
     modifier: Modifier = Modifier
 ) {
     TextField(
@@ -49,15 +50,8 @@ fun TodoCategoryTextField(
         onValueChange = onValueChange,
         label = { Text(stringResource(R.string.label_enter_category_name)) },
         isError = isError,
-        supportingText = {
-            AnimatedVisibility(
-                visible = isError,
-                enter = fadeIn() + expandVertically(),
-                exit = fadeOut() + shrinkVertically()
-            ) {
-                Text(stringResource(R.string.error_no_content_entered))
-            }
-        },
+        supportingText = { Text(supportingText) },
+        maxLines = 1,
         modifier = modifier
     )
 }
