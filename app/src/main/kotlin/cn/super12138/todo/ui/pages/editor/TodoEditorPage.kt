@@ -205,15 +205,7 @@ fun TodoEditorPage(
                         value = uiState.categoryContent,
                         onValueChange = { uiState.categoryContent = it },
                         isError = uiState.isErrorCategory,
-                        supportingText = when {
-                            uiState.categoryContent.trim().isEmpty() ->
-                                stringResource(R.string.error_no_content_entered)
-
-                            uiState.categoryContent.length > 5 ->
-                                stringResource(R.string.error_exceeds_5_chars)
-
-                            else -> stringResource(R.string.tip_max_length_5)
-                        },
+                        supportingText = stringResource(uiState.categorySupportingText),
                         modifier = Modifier
                             .fillMaxWidth()
                         /*.sharedBounds(

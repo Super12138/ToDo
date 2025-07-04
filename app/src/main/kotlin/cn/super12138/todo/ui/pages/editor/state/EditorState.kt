@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.SaverScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import cn.super12138.todo.R
 import cn.super12138.todo.logic.database.TodoEntity
 
 class EditorState(val initialTodo: TodoEntity? = null) {
@@ -19,6 +20,9 @@ class EditorState(val initialTodo: TodoEntity? = null) {
     var priorityState by mutableFloatStateOf(initialTodo?.priority ?: 0f)
     var isCompleted by mutableStateOf(initialTodo?.isCompleted == true)
 
+    var categorySupportingText by mutableIntStateOf(R.string.tip_max_length_5)
+        private set
+
     var showExitConfirmDialog by mutableStateOf(false)
     var showDeleteConfirmDialog by mutableStateOf(false)
 
@@ -29,9 +33,20 @@ class EditorState(val initialTodo: TodoEntity? = null) {
      */
     fun setErrorIfNotValid(): Boolean {
         isErrorContent = toDoContent.trim().isEmpty()
-        isErrorCategory = if (selectedCategoryIndex == -1) {
-            categoryContent.trim().isEmpty() || categoryContent.trim().length > 5
-        } else false
+        if (selectedCategoryIndex == -1) {
+            if (categoryContent.trim().isEmpty()) {
+                isErrorCategory = true
+                categorySupportingText = R.string.error_no_content_entered
+            } else if (categoryContent.length > 5) {
+                isErrorCategory = true
+                categorySupportingText = R.string.error_exceeds_5_chars
+            } else {
+                isErrorCategory = false
+                categorySupportingText = R.string.tip_max_length_5
+            }
+        } else {
+            isErrorCategory = false
+        }
         return isErrorContent || isErrorCategory
     }
 
