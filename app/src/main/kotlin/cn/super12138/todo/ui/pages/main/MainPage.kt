@@ -150,7 +150,7 @@ fun MainPage(
                             viewModel.updateTodo(
                                 TodoEntity(
                                     content = content,
-                                    subject = subject,
+                                    category = category,
                                     isCompleted = true,
                                     priority = priority,
                                     id = id
@@ -160,8 +160,8 @@ fun MainPage(
                         }
                     },
                     selectedTodoIds = selectedTodoIds,
-                    sharedTransitionScope = sharedTransitionScope,
-                    animatedVisibilityScope = animatedVisibilityScope,
+                    // sharedTransitionScope = sharedTransitionScope,
+                    // animatedVisibilityScope = animatedVisibilityScope,
                     modifier = Modifier
                         .weight(3f)
                         .fillMaxSize()
@@ -193,7 +193,7 @@ fun MainPage(
                             viewModel.updateTodo(
                                 TodoEntity(
                                     content = content,
-                                    subject = subject,
+                                    category = category,
                                     isCompleted = true,
                                     priority = priority,
                                     id = id
@@ -203,21 +203,20 @@ fun MainPage(
                         }
                     },
                     selectedTodoIds = selectedTodoIds,
-                    sharedTransitionScope = sharedTransitionScope,
-                    animatedVisibilityScope = animatedVisibilityScope,
+                    // sharedTransitionScope = sharedTransitionScope,
+                    // animatedVisibilityScope = animatedVisibilityScope,
                     modifier = Modifier
                         .weight(3f)
                         .fillMaxSize()
                 )
             }
         }
+        ConfirmDialog(
+            visible = showDeleteConfirmDialog,
+            icon = Icons.Outlined.Delete,
+            text = stringResource(R.string.tip_delete_task, selectedTodoIds.size),
+            onConfirm = { viewModel.deleteSelectedTodo() },
+            onDismiss = { showDeleteConfirmDialog = false }
+        )
     }
-
-    ConfirmDialog(
-        visible = showDeleteConfirmDialog,
-        icon = Icons.Outlined.Delete,
-        text = stringResource(R.string.tip_delete_task, selectedTodoIds.size),
-        onConfirm = { viewModel.deleteSelectedTodo() },
-        onDismiss = { showDeleteConfirmDialog = false }
-    )
 }

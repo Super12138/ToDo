@@ -41,7 +41,7 @@ class MainViewModel : ViewModel() {
             toDos.map { list ->
                 when (SortingMethod.fromId(sortingMethod)) {
                     SortingMethod.Sequential -> list.sortedBy { it.id }
-                    SortingMethod.Subject -> list.sortedBy { it.subject }
+                    SortingMethod.Category -> list.sortedBy { it.category }
                     SortingMethod.Priority -> list.sortedByDescending { it.priority } // 优先级高的在前
                     SortingMethod.Completion -> list.sortedBy { it.isCompleted } // 未完成的在前
                     SortingMethod.AlphabeticalAscending -> list.sortedBy { it.content }

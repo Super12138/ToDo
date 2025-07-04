@@ -1,5 +1,6 @@
 package cn.super12138.todo.ui.components
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandIn
 import androidx.compose.animation.fadeIn
@@ -16,6 +17,8 @@ import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -27,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.utils.VibrationUtils
+import kotlin.math.log
 
 /**
  * 部分参考：https://github.com/Rhythamtech/FilterChipGroup-Compose-Android/blob/main/FilterChipGroup.kt
@@ -40,15 +44,19 @@ fun FilterChipGroup(
     onSelectedChanged: (Int) -> Unit = {}
 ) {
     val view = LocalView.current
-    var selectedItemId by rememberSaveable { mutableIntStateOf(defaultSelectedItemIndex) }
+    var selectedItemIndex by rememberSaveable { mutableIntStateOf(defaultSelectedItemIndex) }
+
+    LaunchedEffect(defaultSelectedItemIndex) {
+        selectedItemIndex = defaultSelectedItemIndex
+    }
 
     FlowRow(modifier = modifier) {
         items.forEach { item ->
             FilterChipItem(
-                selected = item.id == selectedItemId,
-                text = item.text,
+                selected = item.id == selectedItemIndex,
+                text = item.name,
                 onClick = {
-                    selectedItemId = item.id
+                    selectedItemIndex = item.id
                     VibrationUtils.performHapticFeedback(view)
                     onSelectedChanged(item.id)
                 }
@@ -87,5 +95,5 @@ private fun FilterChipItem(
 
 data class ChipItem(
     val id: Int,
-    val text: String
+    val name: String
 )

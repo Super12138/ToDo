@@ -6,11 +6,13 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import cn.super12138.todo.TodoApp
 import cn.super12138.todo.constants.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.json.Json
 
 object DataStoreManager {
     private val Context.dataStore by preferencesDataStore(
@@ -39,6 +41,9 @@ object DataStoreManager {
     private val SORTING_METHOD = intPreferencesKey(Constants.PREF_SORTING_METHOD)
     private val SECURE_MODE = booleanPreferencesKey(Constants.PREF_SECURE_MODE)
     private val HAPTIC_FEEDBACK = booleanPreferencesKey(Constants.PREF_HAPTIC_FEEDBACK)
+
+    // 数据
+    private val CATEGORIES = stringPreferencesKey(Constants.PREF_CATEGORIES)
 
     // Getters
     val dynamicColorFlow: Flow<Boolean> = dataStore.data.map { preferences ->
@@ -71,6 +76,10 @@ object DataStoreManager {
 
     val hapticFeedbackFlow: Flow<Boolean> = dataStore.data.map { preferences ->
         preferences[HAPTIC_FEEDBACK] ?: Constants.PREF_HAPTIC_FEEDBACK_DEFAULT
+    }
+
+    val categoriesFlow: Flow<List<String>> = dataStore.data.map { preferences ->
+        Json.decodeFromString(preferences[CATEGORIES] ?: Constants.PREF_CATEGORIES_DEFAULT)
     }
 
     // Setters
@@ -119,6 +128,12 @@ object DataStoreManager {
     suspend fun setHapticFeedback(value: Boolean) {
         dataStore.edit { preferences ->
             preferences[HAPTIC_FEEDBACK] = value
+        }
+    }
+
+    suspend fun setCategories(value: List<String>) {
+        dataStore.edit { preferences ->
+            preferences[CATEGORIES] = Json.encodeToString(value)
         }
     }
 }
