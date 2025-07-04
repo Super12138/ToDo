@@ -29,7 +29,7 @@
     <string name="pref_developer">开发者</string>
     <string name="pref_licence">开放源代码许可</string>
     <string name="pref_licence_desc">查看应用使用的开源库及其许可</string>
-    <string name="label_category">类别</string>
+    <string name="label_category">分类</string>
     <string name="priority_not_urgent">不紧急</string>
     <string name="priority_not_important">不重要</string>
     <string name="priority_default">默认</string>
@@ -72,7 +72,7 @@
     <string name="pref_view_on_github_desc">查看源代码、提交错误报告和改进建议</string>
     <string name="tip_discard_changes">退出编辑后将无法找回你修改过的数据。确定退出编辑吗？</string>
     <string name="sorting_sequential">添加先后顺序</string>
-    <string name="sorting_category">类别</string>
+    <string name="sorting_category">分类</string>
     <string name="sorting_priority">优先级</string>
     <string name="sorting_completion">完成状态</string>
     <string name="sorting_alphabetical_ascending">首字母（升序）</string>
@@ -96,16 +96,18 @@
     <string name="pref_secure_mode">安全模式</string>
     <string name="pref_secure_mode_desc">阻止截屏并保护后台预览图</string>
     <string name="label_more">更多</string>
-    <string name="label_enter_category_name">输入类别名称</string>
+    <string name="label_enter_category_name">输入分类名称</string>
     <string name="accessibility_progress_tasks">当前共有 %1$d 项任务，其中 %2$d 项已完成，%3$d 项未完成</string>
     <string name="accessibility_progress_no_tasks">当前没有任务</string>
-    <string name="pref_category_category_management">类别管理</string>
+    <string name="pref_category_category_management">分类管理</string>
     <string name="pref_category_data_management">数据管理</string>
-    <string name="pref_category_management_desc">管理任务的类别标签</string>
-    <string name="action_add_category">添加类别</string>
+    <string name="pref_category_management_desc">管理任务的分类标签</string>
+    <string name="action_add_category">添加分类</string>
     <string name="label_enter_sth">输入内容</string>
     <string name="tip_max_length_5">不超过 5 个字</string>
     <string name="error_exceeds_5_chars">超过 5 个字</string>
-    <string name="tip_enter_category">输入你想添加的类别</string>
-    <string name="error_category_duplicate">该类别已经存在</string>
+    <string name="tip_enter_category">输入你想添加的分类名称</string>
+    <!--<string name="error_category_duplicate">该分类已经存在</string>-->
+    <string name="tip_no_category_chip">当前暂无自定义分类，你可以在设置中添加分类</string>
+    <string name="tip_no_category_page">当前暂无自定义分类</string>
 </resources>

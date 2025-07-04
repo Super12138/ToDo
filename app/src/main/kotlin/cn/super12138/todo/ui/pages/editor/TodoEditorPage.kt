@@ -80,7 +80,7 @@ fun TodoEditorPage(
             )
         } + ChipItem(id = -1, name = "自定义")
 
-    var defaultIndex by remember { mutableIntStateOf(0) }
+    var defaultIndex by remember { mutableIntStateOf(-1) }
     LaunchedEffect(originalCategories, toDo) {
         if (originalCategories.isEmpty()) return@LaunchedEffect
         if (toDo == null) {

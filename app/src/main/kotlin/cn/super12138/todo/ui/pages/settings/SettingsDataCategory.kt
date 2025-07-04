@@ -1,6 +1,11 @@
 package cn.super12138.todo.ui.pages.settings
 
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.VisibilityThreshold
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -8,6 +13,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -23,8 +29,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.IntOffset
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.datastore.DataStoreManager
 import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
@@ -44,7 +51,6 @@ fun SettingsDataCategory(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val listState = rememberLazyListState()
-    val context = LocalContext.current
 
     var showDialog by rememberSaveable { mutableStateOf(false) }
     val categories by DataStoreManager.categoriesFlow.collectAsState(initial = emptyList())
@@ -74,18 +80,28 @@ fun SettingsDataCategory(
         ) {
             if (categories.isEmpty()) {
                 item {
-                    Text("空")
+                    Text(
+                        text = stringResource(R.string.tip_no_category_page),
+                        style = MaterialTheme.typography.bodyLarge,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
                 }
             } else {
                 items(items = categories, key = { it }) {
                     CategoryItem(
                         name = it,
                         onDelete = { it ->
-                            scope.launch {
-                                DataStoreManager.setCategories(categories - it)
-                            }
+                            scope.launch { DataStoreManager.setCategories(categories - it) }
                         },
-                        modifier = Modifier.animateItem()
+                        modifier = Modifier.animateItem(
+                            fadeInSpec = tween(100),
+                            placementSpec = spring(
+                                stiffness = Spring.StiffnessMediumLow,
+                                visibilityThreshold = IntOffset.VisibilityThreshold
+                            ),
+                            fadeOutSpec = tween(100)
+                        )
                     )
                 }
             }
@@ -102,9 +118,12 @@ fun SettingsDataCategory(
                 }
             } else {
                 scope.launch {
-                    snackbarHostState.showSnackbar(
+                    /*snackbarHostState.showSnackbar(
                         message = context.getString(R.string.error_category_duplicate)
-                    )
+                    )*/
+                    // 调换分类位置
+                    val tempList = categories - it
+                    DataStoreManager.setCategories(tempList + it)
                 }
             }
         },

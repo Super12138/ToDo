@@ -13,7 +13,7 @@ import cn.super12138.todo.logic.database.TodoEntity
 class EditorState(val initialTodo: TodoEntity? = null) {
     var toDoContent by mutableStateOf(initialTodo?.content ?: "")
     var isErrorContent by mutableStateOf(false)
-    var selectedCategoryIndex by mutableIntStateOf(0)
+    var selectedCategoryIndex by mutableIntStateOf(-1)
     var categoryContent by mutableStateOf(initialTodo?.category ?: "")
     var isErrorCategory by mutableStateOf(false)
     var priorityState by mutableFloatStateOf(initialTodo?.priority ?: 0f)

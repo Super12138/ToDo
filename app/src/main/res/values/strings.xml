@@ -108,5 +108,7 @@
     <string name="tip_max_length_5">Up to 5 characters</string>
     <string name="error_exceeds_5_chars">Exceeds 5 characters</string>
     <string name="tip_enter_category">Enter the category you want to add</string>
-    <string name="error_category_duplicate">The category is duplicate</string>
+    <!--<string name="error_category_duplicate">The category is duplicate</string>-->
+    <string name="tip_no_category_chip">There are currently no custom categories. You can add categories in the settings.</string>
+    <string name="tip_no_category_page">There are no custom categories at the moment.</string>
 </resources>

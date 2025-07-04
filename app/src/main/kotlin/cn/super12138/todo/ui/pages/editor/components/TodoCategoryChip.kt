@@ -1,15 +1,14 @@
 package cn.super12138.todo.ui.pages.editor.components
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import cn.super12138.todo.R
 import cn.super12138.todo.ui.components.ChipItem
 import cn.super12138.todo.ui.components.FilterChipGroup
 
@@ -21,21 +20,23 @@ fun TodoCategoryChip(
     isLoading: Boolean = false,
     onCategorySelected: (Int) -> Unit
 ) {
-    Box(modifier = modifier.fillMaxWidth()) {
-        AnimatedContent(
-            targetState = isLoading,
-            transitionSpec = { fadeIn(tween(100)) togetherWith fadeOut(tween(100)) }
-        ) {
-            if (it) {
-                CircularProgressIndicator()
-            } else {
-                FilterChipGroup(
-                    modifier = Modifier,
-                    items = items,
-                    defaultSelectedItemIndex = defaultSelectedItemIndex,
-                    onSelectedChanged = onCategorySelected
-                )
-            }
+    Column(modifier = modifier.fillMaxWidth()) {
+        if (isLoading) {
+            Text(
+                text = stringResource(R.string.tip_no_category_chip),
+                style = MaterialTheme.typography.labelLarge.copy(
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                ),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth(),
+            )
         }
+
+        FilterChipGroup(
+            modifier = Modifier,
+            items = items,
+            defaultSelectedItemIndex = defaultSelectedItemIndex,
+            onSelectedChanged = onCategorySelected
+        )
     }
 }

@@ -1,5 +1,6 @@
 package cn.super12138.todo.ui.pages.settings.components.category
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -36,7 +37,7 @@ fun CategoryItem(
             .clip(MaterialTheme.shapes.large)
             .padding(
                 horizontal = TodoDefaults.settingsItemHorizontalPadding,
-                vertical = TodoDefaults.settingsItemVerticalPadding
+                vertical = TodoDefaults.settingsItemVerticalPadding / 2
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -44,9 +45,8 @@ fun CategoryItem(
             text = name,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.titleLarge.copy(
+            style = MaterialTheme.typography.bodyLarge.copy(
                 color = MaterialTheme.colorScheme.onSurface,
-                fontSize = 20.sp
             ),
             modifier = Modifier.weight(1f)
         )
