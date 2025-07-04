@@ -1,9 +1,7 @@
 package cn.super12138.todo.ui.pages.main.components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
@@ -38,7 +36,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
-import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.utils.VibrationUtils
@@ -47,7 +44,7 @@ import cn.super12138.todo.utils.VibrationUtils
 @Composable
 fun TodoCard(
     modifier: Modifier = Modifier,
-    id: Int,
+    // id: Int,
     content: String,
     category: String,
     completed: Boolean,
@@ -56,8 +53,8 @@ fun TodoCard(
     onCardClick: () -> Unit = {},
     onCardLongClick: () -> Unit = {},
     onChecked: () -> Unit = {},
-    sharedTransitionScope: SharedTransitionScope,
-    animatedVisibilityScope: AnimatedVisibilityScope
+    // sharedTransitionScope: SharedTransitionScope,
+    // animatedVisibilityScope: AnimatedVisibilityScope
 ) {
     val view = LocalView.current
     val context = LocalContext.current
@@ -122,7 +119,7 @@ fun TodoCard(
                         }
                     }
                 ) {
-                    with(sharedTransitionScope) {
+                    // with(sharedTransitionScope) {
                         Text(
                             text = content,
                             style = MaterialTheme.typography.titleLarge,
@@ -130,27 +127,27 @@ fun TodoCard(
                             overflow = TextOverflow.Ellipsis,
                             textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
                             modifier = Modifier
-                                .sharedBounds(
+                                /*.sharedBounds(
                                     sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_CONTENT_TRANSITION}_$id"),
                                     animatedVisibilityScope = animatedVisibilityScope
-                                )
+                                )*/
                                 .basicMarquee() // TODO: 后续评估性能影响
                         )
-                    }
+                    // }
                 }
 
-                with(sharedTransitionScope) {
+                // with(sharedTransitionScope) {
                     Text(
-                        text = category,
+                        text = category.ifEmpty { stringResource(R.string.tip_default_category) },
                         style = MaterialTheme.typography.labelMedium,
                         textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
                         maxLines = 1,
-                        modifier = Modifier.sharedBounds(
+                        /*modifier = Modifier.sharedBounds(
                             sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_CATEGORY_TRANSITION}_$id"),
                             animatedVisibilityScope = animatedVisibilityScope
-                        )
+                        )*/
                     )
-                }
+                // }
             }
 
             AnimatedVisibility(!selected && !completed) {

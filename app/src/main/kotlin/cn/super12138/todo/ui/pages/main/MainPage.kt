@@ -160,8 +160,8 @@ fun MainPage(
                         }
                     },
                     selectedTodoIds = selectedTodoIds,
-                    sharedTransitionScope = sharedTransitionScope,
-                    animatedVisibilityScope = animatedVisibilityScope,
+                    // sharedTransitionScope = sharedTransitionScope,
+                    // animatedVisibilityScope = animatedVisibilityScope,
                     modifier = Modifier
                         .weight(3f)
                         .fillMaxSize()
@@ -203,8 +203,8 @@ fun MainPage(
                         }
                     },
                     selectedTodoIds = selectedTodoIds,
-                    sharedTransitionScope = sharedTransitionScope,
-                    animatedVisibilityScope = animatedVisibilityScope,
+                    // sharedTransitionScope = sharedTransitionScope,
+                    // animatedVisibilityScope = animatedVisibilityScope,
                     modifier = Modifier
                         .weight(3f)
                         .fillMaxSize()

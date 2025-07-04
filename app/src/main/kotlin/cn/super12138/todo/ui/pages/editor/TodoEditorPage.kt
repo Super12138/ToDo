@@ -78,7 +78,7 @@ fun TodoEditorPage(
                 id = index,
                 name = category
             )
-        } + ChipItem(id = -1, name = "自定义")
+        } + ChipItem(id = -1, name = stringResource(R.string.label_customization))
 
     var defaultIndex by remember { mutableIntStateOf(-1) }
     LaunchedEffect(originalCategories, toDo) {
@@ -167,14 +167,19 @@ fun TodoEditorPage(
                 .fillMaxSize()
         ) {
             item {
-                with(sharedTransitionScope) {
-                    TodoContentTextField(
-                        value = uiState.toDoContent,
-                        onValueChange = { uiState.toDoContent = it },
-                        isError = uiState.isErrorContent,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
+                // with(sharedTransitionScope) {
+                TodoContentTextField(
+                    value = uiState.toDoContent,
+                    onValueChange = { uiState.toDoContent = it },
+                    isError = uiState.isErrorContent,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                    /*.sharedBounds(
+                        sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_CONTENT_TRANSITION}_${toDo?.id}"),
+                        animatedVisibilityScope = animatedVisibilityScope
+                    )*/
+                )
+                // }
             }
 
             item {
@@ -196,14 +201,19 @@ fun TodoEditorPage(
                     enter = fadeIn() + expandVertically(),
                     exit = fadeOut() + shrinkVertically()
                 ) {
-                    with(sharedTransitionScope) {
-                        TodoCategoryTextField(
-                            value = uiState.categoryContent,
-                            onValueChange = { uiState.categoryContent = it },
-                            isError = uiState.isErrorCategory,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    }
+                    // with(sharedTransitionScope) {
+                    TodoCategoryTextField(
+                        value = uiState.categoryContent,
+                        onValueChange = { uiState.categoryContent = it },
+                        isError = uiState.isErrorCategory,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                        /*.sharedBounds(
+                            sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_CATEGORY_TRANSITION}_${toDo?.id}"),
+                            animatedVisibilityScope = animatedVisibilityScope
+                        )*/
+                    )
+                    // }
                 }
             }
 

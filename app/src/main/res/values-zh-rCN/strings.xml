@@ -110,4 +110,6 @@
     <!--<string name="error_category_duplicate">该分类已经存在</string>-->
     <string name="tip_no_category_chip">当前暂无自定义分类，你可以在设置中添加分类</string>
     <string name="tip_no_category_page">当前暂无自定义分类</string>
+    <string name="tip_default_category">默认分类，请修改</string>
+    <string name="label_customization">自定义</string>
 </resources>

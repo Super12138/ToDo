@@ -1,8 +1,6 @@
 package cn.super12138.todo.ui.pages.main
 
-import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -33,8 +31,8 @@ fun ManagerFragment(
     onItemLongClick: (TodoEntity) -> Unit = {},
     onItemChecked: (TodoEntity) -> Unit = {},
     selectedTodoIds: List<Int>,
-    sharedTransitionScope: SharedTransitionScope,
-    animatedVisibilityScope: AnimatedVisibilityScope
+    // sharedTransitionScope: SharedTransitionScope,
+    // animatedVisibilityScope: AnimatedVisibilityScope
 ) {
     LazyColumnCustomScrollBar(
         state = state,
@@ -64,7 +62,7 @@ fun ManagerFragment(
                     key = { it.id }
                 ) { item ->
                     TodoCard(
-                        id = item.id,
+                        // id = item.id,
                         content = item.content,
                         category = item.category,
                         completed = item.isCompleted,
@@ -73,8 +71,8 @@ fun ManagerFragment(
                         onCardClick = { onItemClick(item) },
                         onCardLongClick = { onItemLongClick(item) },
                         onChecked = { onItemChecked(item) },
-                        sharedTransitionScope = sharedTransitionScope,
-                        animatedVisibilityScope = animatedVisibilityScope,
+                        // sharedTransitionScope = sharedTransitionScope,
+                        // animatedVisibilityScope = animatedVisibilityScope,
                         modifier = Modifier
                             .padding(vertical = 5.dp)
                             .animateItem() // TODO: 设置动画时间
