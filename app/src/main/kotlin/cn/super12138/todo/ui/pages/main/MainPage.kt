@@ -211,13 +211,12 @@ fun MainPage(
                 )
             }
         }
+        ConfirmDialog(
+            visible = showDeleteConfirmDialog,
+            icon = Icons.Outlined.Delete,
+            text = stringResource(R.string.tip_delete_task, selectedTodoIds.size),
+            onConfirm = { viewModel.deleteSelectedTodo() },
+            onDismiss = { showDeleteConfirmDialog = false }
+        )
     }
-
-    ConfirmDialog(
-        visible = showDeleteConfirmDialog,
-        icon = Icons.Outlined.Delete,
-        text = stringResource(R.string.tip_delete_task, selectedTodoIds.size),
-        onConfirm = { viewModel.deleteSelectedTodo() },
-        onDismiss = { showDeleteConfirmDialog = false }
-    )
 }

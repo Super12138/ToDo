@@ -246,24 +246,24 @@ fun TodoEditorPage(
                 }
             }
         }
+
+        ConfirmDialog(
+            visible = uiState.showExitConfirmDialog,
+            icon = Icons.AutoMirrored.Outlined.Undo,
+            text = stringResource(R.string.tip_discard_changes),
+            onConfirm = {
+                uiState.showExitConfirmDialog = false
+                onNavigateUp()
+            },
+            onDismiss = { uiState.showExitConfirmDialog = false }
+        )
+
+        ConfirmDialog(
+            visible = uiState.showDeleteConfirmDialog,
+            icon = Icons.Outlined.Delete,
+            text = stringResource(R.string.tip_delete_task, 1),
+            onConfirm = onDelete,
+            onDismiss = { uiState.showDeleteConfirmDialog = false }
+        )
     }
-
-    ConfirmDialog(
-        visible = uiState.showExitConfirmDialog,
-        icon = Icons.AutoMirrored.Outlined.Undo,
-        text = stringResource(R.string.tip_discard_changes),
-        onConfirm = {
-            uiState.showExitConfirmDialog = false
-            onNavigateUp()
-        },
-        onDismiss = { uiState.showExitConfirmDialog = false }
-    )
-
-    ConfirmDialog(
-        visible = uiState.showDeleteConfirmDialog,
-        icon = Icons.Outlined.Delete,
-        text = stringResource(R.string.tip_delete_task, 1),
-        onConfirm = onDelete,
-        onDismiss = { uiState.showDeleteConfirmDialog = false }
-    )
 }

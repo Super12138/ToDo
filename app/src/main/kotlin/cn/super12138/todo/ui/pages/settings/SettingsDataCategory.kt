@@ -106,27 +106,27 @@ fun SettingsDataCategory(
                 }
             }
         }
-    }
 
-    CategoryPromptDialog(
-        visible = showDialog,
-        text = stringResource(R.string.tip_enter_category),
-        onSave = {
-            if (!categories.contains(it)) {
-                scope.launch {
-                    DataStoreManager.setCategories(categories + it)
+        CategoryPromptDialog(
+            visible = showDialog,
+            text = stringResource(R.string.tip_enter_category),
+            onSave = {
+                if (!categories.contains(it)) {
+                    scope.launch {
+                        DataStoreManager.setCategories(categories + it)
+                    }
+                } else {
+                    scope.launch {
+                        /*snackbarHostState.showSnackbar(
+                            message = context.getString(R.string.error_category_duplicate)
+                        )*/
+                        // 调换分类位置
+                        val tempList = categories - it
+                        DataStoreManager.setCategories(tempList + it)
+                    }
                 }
-            } else {
-                scope.launch {
-                    /*snackbarHostState.showSnackbar(
-                        message = context.getString(R.string.error_category_duplicate)
-                    )*/
-                    // 调换分类位置
-                    val tempList = categories - it
-                    DataStoreManager.setCategories(tempList + it)
-                }
-            }
-        },
-        onDismiss = { showDialog = false }
-    )
+            },
+            onDismiss = { showDialog = false }
+        )
+    }
 }

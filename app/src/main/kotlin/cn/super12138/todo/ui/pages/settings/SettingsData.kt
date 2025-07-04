@@ -147,18 +147,17 @@ fun SettingsData(
                 )
             }
         }
+        ConfirmDialog(
+            visible = showRestoreDialog,
+            icon = Icons.Outlined.RestartAlt,
+            title = stringResource(R.string.tip_tips),
+            text = stringResource(R.string.tip_restore_success),
+            showDismissButton = false,
+            onConfirm = { restartApp(context) },
+            onDismiss = { showRestoreDialog = false },
+            properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
+        )
     }
-
-    ConfirmDialog(
-        visible = showRestoreDialog,
-        icon = Icons.Outlined.RestartAlt,
-        title = stringResource(R.string.tip_tips),
-        text = stringResource(R.string.tip_restore_success),
-        showDismissButton = false,
-        onConfirm = { restartApp(context) },
-        onDismiss = { showRestoreDialog = false },
-        properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
-    )
 }
 
 /**
