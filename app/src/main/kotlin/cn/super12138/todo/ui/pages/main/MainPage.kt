@@ -58,22 +58,20 @@ fun MainPage(
     var showDeleteConfirmDialog by rememberSaveable { mutableStateOf(false) }
 
     val selectedTodoIds by remember { derivedStateOf { selectedTodos.value } }
-    val isSelectedIdsEmpty by remember { derivedStateOf { selectedTodoIds.isEmpty() } }
+    val inSelectedMode by remember { derivedStateOf { !selectedTodoIds.isEmpty() } }
     val toDoList by remember { derivedStateOf { toDos.value } }
     val totalTasks by remember { derivedStateOf { toDoList.size } }
     val completedTasks by remember { derivedStateOf { toDoList.count { it.isCompleted } } }
-    val filteredTodoList =  if (showCompleted) toDoList else toDoList.filter { item -> !item.isCompleted }
+    val filteredTodoList = if (showCompleted) toDoList else toDoList.filter { item -> !item.isCompleted }
 
-    BackHandler(enabled = !isSelectedIdsEmpty) {
-        // 当按下返回键（或进行返回操作）时清空选择
-        viewModel.clearAllTodoSelection()
-    }
+    // 当按下返回键（或进行返回操作）时清空选择，仅在非选择模式下生效
+    BackHandler(inSelectedMode) { viewModel.clearAllTodoSelection() }
 
     Scaffold(
         topBar = {
             TodoTopAppBar(
                 selectedTodoIds = selectedTodoIds,
-                selectedMode = !isSelectedIdsEmpty,
+                selectedMode = inSelectedMode,
                 onCancelSelect = { viewModel.clearAllTodoSelection() },
                 onSelectAll = { viewModel.selectAllTodos() },
                 onDeleteSelectedTodo = { showDeleteConfirmDialog = true },
@@ -83,7 +81,7 @@ fun MainPage(
         floatingActionButton = {
             with(sharedTransitionScope) {
                 AnimatedVisibility(
-                    visible = isSelectedIdsEmpty,
+                    visible = inSelectedMode,
                     enter = fadeIn() + expandIn(),
                     exit = shrinkOut() + fadeOut()
                 ) {
@@ -120,11 +118,11 @@ fun MainPage(
                     state = listState,
                     list = filteredTodoList,
                     onItemClick = { item ->
-                        if (isSelectedIdsEmpty) {
+                        if (inSelectedMode) {
+                            viewModel.toggleTodoSelection(item)
+                        } else {
                             viewModel.setEditTodoItem(item)
                             toTodoEditPage()
-                        } else {
-                            viewModel.toggleTodoSelection(item)
                         }
                     },
                     onItemLongClick = { viewModel.toggleTodoSelection(it) },
@@ -163,11 +161,11 @@ fun MainPage(
                     state = listState,
                     list = filteredTodoList,
                     onItemClick = { item ->
-                        if (isSelectedIdsEmpty) {
+                        if (inSelectedMode) {
+                            viewModel.toggleTodoSelection(item)
+                        } else {
                             viewModel.setEditTodoItem(item)
                             toTodoEditPage()
-                        } else {
-                            viewModel.toggleTodoSelection(item)
                         }
                     },
                     onItemLongClick = { viewModel.toggleTodoSelection(it) },
