@@ -81,7 +81,7 @@ fun MainPage(
         floatingActionButton = {
             with(sharedTransitionScope) {
                 AnimatedVisibility(
-                    visible = inSelectedMode,
+                    visible = !inSelectedMode,
                     enter = fadeIn() + expandIn(),
                     exit = shrinkOut() + fadeOut()
                 ) {
