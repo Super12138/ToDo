@@ -2,10 +2,10 @@ name: Android CI
 on:
   push:
     branches: [ "main" ]
-    paths-ignore: [ "**.md", "LICENSE", ".gitignore", ".github/ISSUE_TEMPLATE/**", "art/**", "fastlane/**" ]
+    paths-ignore: [ "**.md", "LICENSE", ".gitignore", ".github/ISSUE_TEMPLATE/**", "art/**", "fastlane/**", "script/**" ]
   pull_request:
     branches: [ "main" ]
-    paths-ignore: [ "**.md", "LICENSE", ".gitignore", ".github/ISSUE_TEMPLATE/**", "art/**", "fastlane/**" ]
+    paths-ignore: [ "**.md", "LICENSE", ".gitignore", ".github/ISSUE_TEMPLATE/**", "art/**", "fastlane/**", "script/**" ]
   workflow_dispatch:
 
 jobs:
