@@ -10,25 +10,27 @@ on:
   workflow_dispatch:
 
 jobs:
-  runs-on: ubuntu-latest
-  steps:
-    - name: Checkout
-      uses: actions/checkout@v4.2.2
-      with:
-        fetch-depth: 0
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
 
-    - name: Setup Node
-      uses: actions/setup-node@v4.4.0
-      with:
-        node-version: 22
+      - name: Setup Node
+        uses: actions/setup-node@v4.4.0
+        with:
+          node-version: 22
 
-    - name: Install dependencies
-      run: cd script && npm install
+      - name: Install dependencies
+        run: cd script && npm install
 
-    - name: Build
-      run: npm run build
+      - name: Build
+        run: cd script && npm run build
 
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3.0.1
-      with:
-        path: ./script/updateVersionCode.js
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: Todo Script
+          path: ./script/updateVersionCode.js
