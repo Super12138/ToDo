@@ -28,7 +28,7 @@ kotlinSerialization = "1.9.0"
 # Test
 junit = "4.13.2"
 junitVersion = "1.2.1"
-espressoCore = "3.6.1"
+espressoCore = "3.7.0"
 # Plugins
 agp = "8.11.1"
 kotlin = "2.2.0"
