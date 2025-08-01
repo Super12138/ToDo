@@ -34,7 +34,7 @@ Or get it from F-Droid
 | ![Main page (Light)](https://s2.loli.net/2025/02/17/WB3sP8uckvYJCIi.png) | ![Main page (Dark)](https://s2.loli.net/2025/02/17/ty3ZwjbOkBgFLsf.png) |
 | --- | --- |
 | Main page (Light) | Main page (Dark) |
-| ![Add task page](https://s2.loli.net/2025/02/17/97L2uhKlA3Q8d4P.png) | ![The effect of completing a task](https://s2.loli.net/2025/02/17/9FRKx72DqVBtnfX.png) |
+| ![Add task page](https://s2.loli.net/2025/08/01/JD1y2iqmkRNTezg.png) | ![The effect of completing a task](https://s2.loli.net/2025/02/17/9FRKx72DqVBtnfX.png) |
 | Add task page | The effect of completing a task |
 
 # 📃 License

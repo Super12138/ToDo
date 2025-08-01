@@ -34,7 +34,7 @@
 | ![主界面（浅色）](https://s2.loli.net/2025/02/17/mDz9jFIHW23YPUK.png) | ![主界面（深色）](https://s2.loli.net/2025/02/17/7ZLoHRifKka93c1.png) |
 | --- | --- |
 | 主界面（浅色） | 主界面（深色） |
-| ![添加待办](https://s2.loli.net/2025/02/17/EwKG36LPftNDyTa.png) | ![正在完成待办的效果](https://s2.loli.net/2025/02/17/UFna9tvRkAphrIS.png) |
+| ![添加待办](https://s2.loli.net/2025/08/01/NWOQGRtVUpDmXIA.png) | ![正在完成待办的效果](https://s2.loli.net/2025/02/17/UFna9tvRkAphrIS.png) |
 | 添加待办 | 正在完成待办的效果 |
 
 # 📃 许可证
