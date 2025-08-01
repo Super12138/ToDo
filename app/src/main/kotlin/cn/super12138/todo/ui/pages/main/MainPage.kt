@@ -11,6 +11,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkOut
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -102,6 +103,7 @@ fun MainPage(
                 }
             }
         },
+        contentWindowInsets = WindowInsets(0,0,0,0),
         modifier = modifier
     ) { innerPadding ->
         if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT) {
