@@ -9,12 +9,12 @@ A simple to-do app that follows Material Design 3, using Jetpack Compose
 ![GitHub all releases download](https://img.shields.io/github/downloads/Super12138/ToDo/total?style=flat-square)
 
 # 📦 Supported Versions
-From `Android 7.0 (Nougat)` to `Android 15.0 (VanillaIceCream)`
+From `Android 7.0 (Nougat)` to `Android 16.0 (Baklava)`
 
 # ✨ Features
 - Jetpack Compose
 - Customizable theming system based on Material Design 3
-- Multi-subject support
+- Custom categories
 - Task priority
 - ...
 

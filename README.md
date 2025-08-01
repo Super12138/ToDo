@@ -9,12 +9,12 @@
 ![GitHub Release 总下载数](https://img.shields.io/github/downloads/Super12138/ToDo/total?style=flat-square)
 
 # 📦 版本支持
-支持 `Android 7.0 (Nougat)` 至 `Android 15.0 (VanillaIceCream)`
+支持 `Android 7.0 (Nougat)` 至 `Android 16.0 (Baklava)`
 
 # ✨ 功能
 - Jetpack Compose
 - 基于 Material Design 3 设计的可自定义主题系统
-- 多学科支持
+- 自定义分类
 - 任务优先级
 - ……
 
@@ -36,7 +36,6 @@
 | 主界面（浅色） | 主界面（深色） |
 | ![添加待办](https://s2.loli.net/2025/02/17/EwKG36LPftNDyTa.png) | ![正在完成待办的效果](https://s2.loli.net/2025/02/17/UFna9tvRkAphrIS.png) |
 | 添加待办 | 正在完成待办的效果 |
-
 
 # 📃 许可证
 [GPL-3.0-only](https://github.com/Super12138/ToDo/blob/main/LICENSE)
