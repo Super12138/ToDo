@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Balance
+import androidx.compose.material.icons.outlined.DeveloperMode
 import androidx.compose.material.icons.outlined.Numbers
 import androidx.compose.material.icons.outlined.Person4
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,6 +36,7 @@ import kotlinx.coroutines.delay
 fun SettingsAbout(
     //toSpecialPage: () -> Unit,
     toLicencePage: () -> Unit,
+    toDevPage: () -> Unit,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -108,6 +110,14 @@ fun SettingsAbout(
                     title = stringResource(R.string.pref_licence),
                     description = stringResource(R.string.pref_licence_desc),
                     onClick = toLicencePage
+                )
+            }
+            item {
+                SettingsItem(
+                    leadingIcon = Icons.Outlined.DeveloperMode,
+                    title = stringResource(R.string.pref_developer_options),
+                    description = stringResource(R.string.pref_developer_options_desc),
+                    onClick = toDevPage
                 )
             }
         }

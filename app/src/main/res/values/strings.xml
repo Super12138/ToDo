@@ -113,4 +113,7 @@
     <string name="tip_no_category_page">There are no custom categories at the moment.</string>
     <string name="tip_default_category">Default Category, please modify</string>
     <string name="label_customization">Customization</string>
+    <string name="pref_developer_options">Developer Options</string>
+    <string name="pref_developer_options_desc">Some debugging options, only for DEVELOPMENT use</string>
+    <string name="pref_padding">Padding</string>
 </resources>

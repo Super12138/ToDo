@@ -9,6 +9,9 @@ enum class TodoScreen {
     SettingsData,
     SettingsDataCategory,
     SettingsAbout,
+
     //SettingsAboutSpecial,
-    SettingsAboutLicence
+    SettingsAboutLicence,
+    SettingsDev,
+    SettingsDevPadding
 }
