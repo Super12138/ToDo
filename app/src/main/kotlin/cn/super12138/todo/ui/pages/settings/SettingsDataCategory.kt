@@ -47,13 +47,14 @@ fun SettingsDataCategory(
     modifier: Modifier = Modifier
 ) {
     // TODO: 本页及其相关组件重组性能检查优化
-    // TODO: 优化内部项目样式
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val listState = rememberLazyListState()
 
+    var initialCategory by rememberSaveable { mutableStateOf("") }
     var showDialog by rememberSaveable { mutableStateOf(false) }
+
     val categories by DataStoreManager.categoriesFlow.collectAsState(initial = emptyList())
 
     val isExpanded by remember { derivedStateOf { listState.firstVisibleItemIndex == 0 } }
@@ -68,7 +69,10 @@ fun SettingsDataCategory(
                 icon = Icons.Outlined.Add,
                 text = stringResource(R.string.action_add_category),
                 expanded = isExpanded,
-                onClick = { showDialog = true }
+                onClick = {
+                    initialCategory = ""
+                    showDialog = true
+                }
             )
         },
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -92,8 +96,12 @@ fun SettingsDataCategory(
                 items(items = categories, key = { it }) {
                     CategoryItem(
                         name = it,
-                        onDelete = { it ->
-                            scope.launch { DataStoreManager.setCategories(categories - it) }
+                        onClick = { category ->
+                            initialCategory = category
+                            showDialog = true
+                        },
+                        onDelete = { category ->
+                            scope.launch { DataStoreManager.setCategories(categories - category) }
                         },
                         modifier = Modifier.animateItem(
                             fadeInSpec = tween(100),
@@ -110,20 +118,29 @@ fun SettingsDataCategory(
 
         CategoryPromptDialog(
             visible = showDialog,
-            text = stringResource(R.string.tip_enter_category),
-            onSave = {
-                if (!categories.contains(it)) {
-                    scope.launch {
-                        DataStoreManager.setCategories(categories + it)
-                    }
-                } else {
-                    scope.launch {
-                        /*snackbarHostState.showSnackbar(
+            initialCategory = initialCategory,
+            onSave = { oldCategory, newCategory ->
+                if (oldCategory.isEmpty()) {
+                    if (!categories.contains(newCategory)) {
+                        scope.launch {
+                            DataStoreManager.setCategories(categories + newCategory)
+                        }
+                    } else {
+                        scope.launch {
+                            /*snackbarHostState.showSnackbar(
                             message = context.getString(R.string.error_category_duplicate)
                         )*/
-                        // 调换分类位置
-                        val tempList = categories - it
-                        DataStoreManager.setCategories(tempList + it)
+                            // 调换分类位置
+                            val tempList = categories - newCategory
+                            DataStoreManager.setCategories(tempList + newCategory)
+                        }
+                    }
+                } else {
+                    if (oldCategory != newCategory) {
+                        scope.launch {
+                            val tempList = categories - oldCategory
+                            DataStoreManager.setCategories(tempList + newCategory)
+                        }
                     }
                 }
             },

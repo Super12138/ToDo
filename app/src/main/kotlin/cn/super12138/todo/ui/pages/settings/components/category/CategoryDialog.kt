@@ -6,18 +6,19 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.clearText
 import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
@@ -28,18 +29,19 @@ import cn.super12138.todo.ui.components.BasicDialog
 fun CategoryPromptDialog(
     modifier: Modifier = Modifier,
     visible: Boolean,
-    icon: ImageVector = Icons.Outlined.Info,
-    title: String = stringResource(R.string.tip_tips),
-    text: String,
-    confirmButtonText: String = stringResource(R.string.action_save),
-    showDismissButton: Boolean = true,
-    dismissButtonText: String = stringResource(R.string.action_cancel),
-    properties: DialogProperties = DialogProperties(),
-    onSave: (String) -> Unit,
+    initialCategory: String = "",
+    onSave: (oldValue: String, newValue: String) -> Unit,
     onDismiss: () -> Unit
 ) {
-    val textFieldState = rememberTextFieldState()
+    val textFieldState = rememberTextFieldState(initialText = initialCategory)
     var isError by rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(visible) {
+        if (visible) {
+            textFieldState.setTextAndPlaceCursorAtEnd(initialCategory)
+            isError = false
+        }
+    }
 
     val supportingText = listOf(
         stringResource(R.string.tip_max_length_5),
@@ -51,11 +53,11 @@ fun CategoryPromptDialog(
 
     BasicDialog(
         visible = visible,
-        icon = icon,
-        title = title,
+        icon = Icons.Outlined.Info,
+        title = stringResource(R.string.tip_tips),
         text = {
             // 已经是实现好滚动的Column布局
-            Text(text)
+            Text(stringResource(R.string.tip_enter_category))
             Spacer(Modifier.size(3.dp))
             OutlinedTextField(
                 state = textFieldState,
@@ -65,8 +67,8 @@ fun CategoryPromptDialog(
                 isError = isError
             )
         },
-        confirmButton = confirmButtonText,
-        dismissButton = if (showDismissButton) dismissButtonText else null,
+        confirmButton = stringResource(R.string.action_save),
+        dismissButton = stringResource(R.string.action_cancel),
         onConfirm = {
             val trimmedText = textFieldState.text.trim()
             when {
@@ -83,7 +85,7 @@ fun CategoryPromptDialog(
                 }
 
                 else -> {
-                    onSave(trimmedText.toString())
+                    onSave(initialCategory, trimmedText.toString())
                     isError = false
                     currentSupportingText = supportingText[0]
                     textFieldState.clearText()
@@ -92,7 +94,7 @@ fun CategoryPromptDialog(
             }
         },
         onDismiss = onDismiss,
-        properties = properties,
+        properties = DialogProperties(),
         modifier = modifier
     )
 }
