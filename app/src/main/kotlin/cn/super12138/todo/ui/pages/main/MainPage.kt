@@ -63,7 +63,8 @@ fun MainPage(
     val toDoList by remember { derivedStateOf { toDos.value } }
     val totalTasks by remember { derivedStateOf { toDoList.size } }
     val completedTasks by remember { derivedStateOf { toDoList.count { it.isCompleted } } }
-    val filteredTodoList = if (showCompleted) toDoList else toDoList.filter { item -> !item.isCompleted }
+    val filteredTodoList =
+        if (showCompleted) toDoList else toDoList.filter { item -> !item.isCompleted }
 
     // 当按下返回键（或进行返回操作）时清空选择，仅在非选择模式下生效
     BackHandler(inSelectedMode) { viewModel.clearAllTodoSelection() }
@@ -103,11 +104,16 @@ fun MainPage(
                 }
             }
         },
-        contentWindowInsets = WindowInsets(0,0,0,0),
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         modifier = modifier
     ) { innerPadding ->
         if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT) {
-            Column(modifier = Modifier.padding(innerPadding)) {
+            Column(
+                modifier = Modifier.padding(
+                    top = innerPadding.calculateTopPadding(),
+                    bottom = innerPadding.calculateBottomPadding()
+                )
+            ) {
                 ProgressFragment(
                     totalTasks = totalTasks,
                     completedTasks = completedTasks,
@@ -151,7 +157,12 @@ fun MainPage(
                 )
             }
         } else {
-            Row(modifier = Modifier.padding(innerPadding)) {
+            Row(
+                modifier = Modifier.padding(
+                    top = innerPadding.calculateTopPadding(),
+                    bottom = innerPadding.calculateBottomPadding()
+                )
+            ) {
                 ProgressFragment(
                     totalTasks = totalTasks,
                     completedTasks = completedTasks,
