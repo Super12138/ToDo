@@ -37,8 +37,8 @@ android {
         applicationId = "cn.super12138.todo"
         minSdk = 24
         targetSdk = 36
-        versionCode = 787
-        versionName = "2.3.2"
+        versionCode = 789
+        versionName = "2.3.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
