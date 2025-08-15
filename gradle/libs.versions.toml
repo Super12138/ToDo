@@ -1,6 +1,6 @@
 [versions]
 # Android X
-coreKtx = "1.16.0"
+coreKtx = "1.17.0"
 splashScreen = "1.2.0-rc01"
 lifecycleRuntimeKtx = "2.9.2"
 datastore = "1.1.7"
