@@ -11,7 +11,7 @@ liveData = "1.9.0"
 icons = "1.7.8"
 room = "2.7.2"
 navigation = "2.9.3"
-material3 = "1.5.0-alpha02"
+material3 = "1.5.0-alpha03"
 adaptive = "1.1.0"
 # AboutLibraries
 aboutLibsRelease = "12.2.4"
