@@ -7,7 +7,7 @@ datastore = "1.1.7"
 # Compose
 activityCompose = "1.10.1"
 composeBom = "2025.08.01"
-liveData = "1.9.0"
+liveData = "1.9.1"
 icons = "1.7.8"
 room = "2.7.2"
 navigation = "2.9.3"
