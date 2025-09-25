@@ -10,7 +10,7 @@ composeBom = "2025.09.01"
 liveData = "1.9.2"
 icons = "1.7.8"
 room = "2.8.0"
-navigation = "2.9.4"
+navigation = "2.9.5"
 material3 = "1.5.0-alpha04"
 adaptive = "1.1.0"
 # AboutLibraries
