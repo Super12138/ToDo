@@ -22,7 +22,6 @@ jobs:
         uses: actions/setup-node@v5.0.0
         with:
           node-version: 24
-          cache: pnpm
 
       - name: Install dependencies
         run: cd script && pnpm install
