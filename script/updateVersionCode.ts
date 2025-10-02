@@ -7,7 +7,7 @@ exec("git rev-list --count HEAD", (err, versionCode, stderr) => {
         return;
     }
 
-    const filePath = "./app/build.gradle.kts"
+    const filePath = "./app/build.gradle.kts";
     try {
         const data = readFileSync(filePath, "utf-8");
         const regex = /(?<=versionCode\s*=\s*)\d+/;
@@ -15,7 +15,9 @@ exec("git rev-list --count HEAD", (err, versionCode, stderr) => {
         const newString = data.replace(regex, versionCode.trim());
         try {
             writeFileSync(filePath, newString);
-            console.log(`版本号更新完成，已由 ${oldVerionCode} 更新至 ${versionCode}`);
+            console.log(
+                `版本号更新完成，已由 ${oldVerionCode} 更新至 ${versionCode}`
+            );
             process.exit(0);
         } catch (e) {
             console.log(e);
