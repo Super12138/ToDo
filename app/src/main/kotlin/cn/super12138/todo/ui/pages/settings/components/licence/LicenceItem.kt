@@ -1,6 +1,5 @@
 package cn.super12138.todo.ui.pages.settings.components.licence
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -45,7 +44,6 @@ fun LicenceItem(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(colors.backgroundColor)
             .clip(shape)
             .clickable { onClick.invoke() }
             .padding(libraryPadding.contentPadding)
@@ -60,7 +58,6 @@ fun LicenceItem(
                     .padding(padding.namePadding)
                     .weight(1f),
                 style = typography.titleLarge,
-                color = colors.contentColor,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -70,7 +67,6 @@ fun LicenceItem(
                     version,
                     modifier = Modifier.padding(padding.versionPadding.contentPadding),
                     style = typography.bodyMedium,
-                    color = colors.contentColor,
                     textAlign = TextAlign.Center
                 )
             }
@@ -79,8 +75,7 @@ fun LicenceItem(
         if (showAuthor && author.isNotBlank()) {
             Text(
                 text = author,
-                style = typography.bodyMedium,
-                color = colors.contentColor
+                style = typography.bodyMedium
             )
         }
         if (showLicenseBadges && library.licenses.isNotEmpty()) {
