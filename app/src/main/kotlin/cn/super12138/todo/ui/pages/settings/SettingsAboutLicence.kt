@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import cn.super12138.todo.R
@@ -28,7 +29,6 @@ fun SettingsAboutLicence(
         modifier = modifier
     ) { innerPadding ->
         val libraries by produceLibraries(R.raw.aboutlibraries)
-
         Column(
             modifier = Modifier
                 .padding(innerPadding)
