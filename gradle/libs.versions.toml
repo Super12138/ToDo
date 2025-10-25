@@ -14,7 +14,7 @@ navigation = "2.9.5"
 material3 = "1.5.0-alpha07"
 adaptive = "1.2.0"
 # AboutLibraries
-aboutLibsRelease = "12.2.4"
+aboutLibsRelease = "13.1.0"
 aboutLibsReleasePlugin = "13.1.0"
 # M3 Color
 m3color = "2025.4"
