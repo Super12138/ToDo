@@ -18,7 +18,11 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallExtendedFloatingActionButton
+import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -35,12 +39,11 @@ import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.logic.datastore.DataStoreManager
-import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
 import cn.super12138.todo.ui.components.ConfirmDialog
 import cn.super12138.todo.ui.pages.main.components.TodoTopAppBar
 import cn.super12138.todo.ui.viewmodels.MainViewModel
 
-@OptIn(ExperimentalSharedTransitionApi::class)
+@OptIn(ExperimentalSharedTransitionApi::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun MainPage(
     viewModel: MainViewModel,
@@ -65,6 +68,7 @@ fun MainPage(
     val completedTasks by remember { derivedStateOf { toDoList.count { it.isCompleted } } }
     val filteredTodoList =
         if (showCompleted) toDoList else toDoList.filter { item -> !item.isCompleted }
+    val expandedFab by remember { derivedStateOf { listState.firstVisibleItemIndex == 0 } }
 
     // 当按下返回键（或进行返回操作）时清空选择，仅在非选择模式下生效
     BackHandler(inSelectedMode) { viewModel.clearAllTodoSelection() }
@@ -88,10 +92,28 @@ fun MainPage(
                     exit = shrinkOut() + fadeOut()
                 ) {
                     // TODO: 修复在滑动列表时FAB位移导致的动画不连贯（临时方案为底部加padding）
-                    AnimatedExtendedFloatingActionButton(
+                    /*AnimatedExtendedFloatingActionButton(
                         icon = Icons.Outlined.Add,
                         text = stringResource(R.string.action_add_task),
                         expanded = true,
+                        onClick = {
+                            viewModel.setEditTodoItem(null) // 每次添加待办前清除上一次已选待办
+                            toTodoEditPage()
+                        },
+                        modifier = Modifier.sharedElement(
+                            sharedContentState = rememberSharedContentState(key = Constants.KEY_TODO_FAB_TRANSITION),
+                            animatedVisibilityScope = animatedVisibilityScope
+                        )
+                    )*/
+                    SmallExtendedFloatingActionButton(
+                        text = { Text(stringResource(R.string.action_add_task)) },
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Outlined.Add,
+                                contentDescription = null
+                            )
+                        },
+                        expanded = expandedFab,
                         onClick = {
                             viewModel.setEditTodoItem(null) // 每次添加待办前清除上一次已选待办
                             toTodoEditPage()

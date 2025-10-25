@@ -13,9 +13,12 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ExitToApp
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallExtendedFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -40,12 +43,11 @@ import cn.super12138.todo.ui.activities.CrashActivity.Companion.BRAND_PREFIX
 import cn.super12138.todo.ui.activities.CrashActivity.Companion.CRASH_TIME_PREFIX
 import cn.super12138.todo.ui.activities.CrashActivity.Companion.DEVICE_SDK_PREFIX
 import cn.super12138.todo.ui.activities.CrashActivity.Companion.MODEL_PREFIX
-import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun CrashPage(
     crashLog: String,
@@ -77,11 +79,16 @@ fun CrashPage(
             )
         },
         floatingActionButton = {
-            AnimatedExtendedFloatingActionButton(
-                onClick = exitApp,
-                icon = Icons.AutoMirrored.Outlined.ExitToApp,
-                text = stringResource(R.string.action_exit_app),
-                expanded = isExpanded
+            SmallExtendedFloatingActionButton(
+                text = { Text(stringResource(R.string.action_exit_app)) },
+                icon = {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Outlined.ExitToApp,
+                        contentDescription = null
+                    )
+                },
+                expanded = isExpanded,
+                onClick = exitApp
             )
         },
         contentWindowInsets = WindowInsets(0, 0, 0, 0)

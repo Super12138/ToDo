@@ -22,4 +22,24 @@ object TodoDefaults {
      * 设置项垂直边距
      */
     val settingsItemVerticalPadding = 20.dp
+
+    /**
+     * 待办进度条粗度
+     */
+    val trackThickness = 7.0.dp
+
+    /**
+     * 待办进度条波长
+     */
+    val waveLength = 35.dp
+
+    /**
+     * 待办进度条波速
+     */
+    val waveSpeed = 3.dp
+
+    /**
+     * 待办进度条波幅
+     */
+    const val waveAmplitude = 0.6f
 }

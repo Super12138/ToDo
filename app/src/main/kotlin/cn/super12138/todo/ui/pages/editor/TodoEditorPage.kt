@@ -23,7 +23,10 @@ import androidx.compose.material.icons.automirrored.outlined.Undo
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SmallExtendedFloatingActionButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -45,7 +48,6 @@ import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.logic.datastore.DataStoreManager
 import cn.super12138.todo.ui.TodoDefaults
-import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
 import cn.super12138.todo.ui.components.ChipItem
 import cn.super12138.todo.ui.components.ConfirmDialog
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
@@ -56,7 +58,10 @@ import cn.super12138.todo.ui.pages.editor.components.TodoPrioritySlider
 import cn.super12138.todo.ui.pages.editor.state.rememberEditorState
 import cn.super12138.todo.utils.VibrationUtils
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class,
+    ExperimentalMaterial3ExpressiveApi::class
+)
 @Composable
 fun TodoEditorPage(
     modifier: Modifier = Modifier,
@@ -119,22 +124,32 @@ fun TodoEditorPage(
             with(sharedTransitionScope) {
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     if (toDo !== null) {
-                        AnimatedExtendedFloatingActionButton(
-                            icon = Icons.Outlined.Delete,
-                            text = stringResource(R.string.action_delete),
+                        SmallExtendedFloatingActionButton(
+                            text = { Text(stringResource(R.string.action_delete)) },
+                            icon = {
+                                Icon(
+                                    imageVector = Icons.Outlined.Delete,
+                                    contentDescription = null
+                                )
+                            },
                             expanded = true,
                             containerColor = MaterialTheme.colorScheme.errorContainer,
                             onClick = { uiState.showDeleteConfirmDialog = true },
                             modifier = Modifier.imePadding()
                         )
                     }
-                    AnimatedExtendedFloatingActionButton(
-                        icon = Icons.Outlined.Save,
-                        text = stringResource(R.string.action_save),
+                    SmallExtendedFloatingActionButton(
+                        text = { Text(stringResource(R.string.action_save)) },
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Outlined.Save,
+                                contentDescription = null
+                            )
+                        },
                         expanded = true,
                         onClick = {
                             if (uiState.setErrorIfNotValid()) {
-                                return@AnimatedExtendedFloatingActionButton
+                                return@SmallExtendedFloatingActionButton
                             } else {
                                 uiState.clearError()
                                 val newTodo = TodoEntity(

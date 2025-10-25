@@ -10,14 +10,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
-import cn.super12138.todo.ui.components.AnimatedCircularProgressIndicator
+import cn.super12138.todo.ui.TodoDefaults
+import cn.super12138.todo.ui.components.AnimatedCircularWavyProgressIndicator
 
 @Composable
 fun ProgressFragment(
@@ -25,6 +29,11 @@ fun ProgressFragment(
     completedTasks: Int,
     modifier: Modifier = Modifier
 ) {
+    val stroke = Stroke(
+        width = with(LocalDensity.current) { TodoDefaults.trackThickness.toPx() },
+        cap = StrokeCap.Round,
+    )
+
     val context = LocalContext.current
 
     val remainTasks = totalTasks - completedTasks
@@ -39,10 +48,19 @@ fun ProgressFragment(
         modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
-        AnimatedCircularProgressIndicator(
+        AnimatedCircularWavyProgressIndicator(
             progress = progress,
-            strokeWidth = 10.dp,
-            gapSize = 10.dp,
+            stroke = stroke,
+            trackStroke = stroke,
+            amplitude = { progress ->
+                if (progress <= 0.1f || progress >= 0.95f) {
+                    0f
+                } else {
+                    TodoDefaults.waveAmplitude
+                }
+            },
+            wavelength = TodoDefaults.waveLength,
+            waveSpeed = TodoDefaults.waveSpeed,
             modifier = Modifier
                 .size(175.dp)
                 .clearAndSetSemantics {}

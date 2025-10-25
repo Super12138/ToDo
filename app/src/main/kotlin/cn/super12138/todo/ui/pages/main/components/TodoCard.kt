@@ -120,33 +120,33 @@ fun TodoCard(
                     }
                 ) {
                     // with(sharedTransitionScope) {
-                        Text(
-                            text = content,
-                            style = MaterialTheme.typography.titleLarge,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
-                            modifier = Modifier
-                                /*.sharedBounds(
-                                    sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_CONTENT_TRANSITION}_$id"),
-                                    animatedVisibilityScope = animatedVisibilityScope
-                                )*/
-                                .basicMarquee() // TODO: 后续评估性能影响
-                        )
+                    Text(
+                        text = content,
+                        style = MaterialTheme.typography.titleLarge,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
+                        modifier = Modifier
+                            /*.sharedBounds(
+                                sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_CONTENT_TRANSITION}_$id"),
+                                animatedVisibilityScope = animatedVisibilityScope
+                            )*/
+                            .basicMarquee() // TODO: 后续评估性能影响
+                    )
                     // }
                 }
 
                 // with(sharedTransitionScope) {
-                    Text(
-                        text = category.ifEmpty { stringResource(R.string.tip_default_category) },
-                        style = MaterialTheme.typography.labelMedium,
-                        textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
-                        maxLines = 1,
-                        /*modifier = Modifier.sharedBounds(
-                            sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_CATEGORY_TRANSITION}_$id"),
-                            animatedVisibilityScope = animatedVisibilityScope
-                        )*/
-                    )
+                Text(
+                    text = category.ifEmpty { stringResource(R.string.tip_default_category) },
+                    style = MaterialTheme.typography.labelMedium,
+                    textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
+                    maxLines = 1,
+                    /*modifier = Modifier.sharedBounds(
+                        sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_CATEGORY_TRANSITION}_$id"),
+                        animatedVisibilityScope = animatedVisibilityScope
+                    )*/
+                )
                 // }
             }
 
