@@ -1,14 +1,17 @@
 package cn.super12138.todo.ui.pages.settings
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Sort
 import androidx.compose.material.icons.outlined.Checklist
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.Vibration
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -26,7 +29,9 @@ import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.datastore.DataStoreManager
 import cn.super12138.todo.logic.model.SortingMethod
+import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
+import cn.super12138.todo.ui.pages.settings.components.Settings
 import cn.super12138.todo.ui.pages.settings.components.SettingsCategory
 import cn.super12138.todo.ui.pages.settings.components.SettingsItem
 import cn.super12138.todo.ui.pages.settings.components.SettingsPlainBox
@@ -35,7 +40,7 @@ import cn.super12138.todo.ui.pages.settings.components.SettingsRadioOptions
 import cn.super12138.todo.ui.pages.settings.components.SwitchSettingsItem
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SettingsInterface(
     onNavigateUp: () -> Unit,
@@ -56,16 +61,15 @@ fun SettingsInterface(
         scrollBehavior = scrollBehavior,
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
     ) { innerPadding ->
-
-        LazyColumn(
-            modifier = Modifier
+        Column(
+            Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .padding(horizontal = TodoDefaults.screenPadding)
+                .verticalScroll(rememberScrollState())
         ) {
-            item {
-                SettingsCategory(stringResource(R.string.pref_category_todo_list))
-            }
-            item {
+            SettingsCategory(stringResource(R.string.pref_category_todo_list))
+            Settings {
                 SwitchSettingsItem(
                     checked = showCompleted,
                     leadingIcon = Icons.Outlined.Checklist,
@@ -73,8 +77,6 @@ fun SettingsInterface(
                     description = stringResource(R.string.pref_show_completed_desc),
                     onCheckedChange = { scope.launch { DataStoreManager.setShowCompleted(it) } },
                 )
-            }
-            item {
                 SettingsItem(
                     leadingIcon = Icons.AutoMirrored.Outlined.Sort,
                     title = stringResource(R.string.pref_sorting_method),
@@ -82,11 +84,8 @@ fun SettingsInterface(
                     onClick = { showSortingMethodDialog = true }
                 )
             }
-
-            item {
-                SettingsCategory(stringResource(R.string.pref_category_global))
-            }
-            item {
+            SettingsCategory(stringResource(R.string.pref_category_global))
+            Settings {
                 SwitchSettingsItem(
                     checked = secureMode,
                     leadingIcon = Icons.Outlined.Shield,
@@ -94,8 +93,6 @@ fun SettingsInterface(
                     description = stringResource(R.string.pref_secure_mode_desc),
                     onCheckedChange = { scope.launch { DataStoreManager.setSecureMode(it) } }
                 )
-            }
-            item {
                 SwitchSettingsItem(
                     checked = hapticFeedback,
                     leadingIcon = Icons.Outlined.Vibration,
@@ -103,9 +100,10 @@ fun SettingsInterface(
                     description = stringResource(R.string.pref_haptic_feedback_desc),
                     onCheckedChange = { scope.launch { DataStoreManager.setHapticFeedback(it) } }
                 )
-                SettingsPlainBox(stringResource(R.string.pref_haptic_feedback_more_info))
             }
+            SettingsPlainBox(stringResource(R.string.pref_haptic_feedback_more_info))
         }
+
     }
 
     val sortingList = remember {

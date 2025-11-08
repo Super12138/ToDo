@@ -45,6 +45,14 @@ fun ManagerFragment(
                 bottom = TodoDefaults.toDoCardHeight / 2,
                 end = TodoDefaults.screenPadding
             ),
+            /*modifier = Modifier
+            .clip(
+                MaterialTheme.shapes.extraLarge.copy(
+                    bottomEnd = CornerSize(0.dp),
+                    bottomStart = CornerSize(0.dp)
+                )
+            )
+            .background(MaterialTheme.colorScheme.surfaceContainerHighest)*/
             // verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             if (list.isEmpty()) {

@@ -8,6 +8,8 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,6 +28,7 @@ import cn.super12138.todo.utils.VibrationUtils
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.ui.compose.util.htmlReadyLicenseContent
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun LicenceList(
     modifier: Modifier = Modifier,
@@ -80,7 +83,8 @@ fun LicenceList(
                             onClick = {
                                 openDialog = false
                                 VibrationUtils.performHapticFeedback(view)
-                            }
+                            },
+                            shapes = ButtonDefaults.shapes()
                         ) { Text(stringResource(R.string.action_confirm)) }
                     },
                     onDismissRequest = { openDialog = false }

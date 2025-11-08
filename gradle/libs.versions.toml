@@ -18,6 +18,8 @@ aboutLibsRelease = "13.1.0"
 aboutLibsReleasePlugin = "13.1.0"
 # M3 Color
 m3color = "2025.4"
+# Capsule
+capsule = "2.1.1"
 # Konfetti
 konfetti = "2.0.5"
 # Lazy Column Scrollbar
@@ -70,7 +72,9 @@ aboutlibraries-core = { group = "com.mikepenz", name = "aboutlibraries-core", ve
 aboutlibraries-compose = { group = "com.mikepenz", name = "aboutlibraries-compose-m3", version.ref = "aboutLibsRelease" }
 
 # M3 Color
-com-kyant0-m3color = { group = "com.github.Kyant0", name = "m3color", version.ref = "m3color" }
+kyant0-m3color = { group = "com.github.Kyant0", name = "m3color", version.ref = "m3color" }
+# Capsule
+kyant0-capsule = { group = "io.github.kyant0", name = "capsule", version.ref = "capsule" }
 
 # Konfetti
 nl-dionsegijn-konfetti-compose = { group = "nl.dionsegijn", name = "konfetti-compose", version.ref = "konfetti" }

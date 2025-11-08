@@ -113,7 +113,9 @@ dependencies {
     implementation(libs.aboutlibraries.core)
     implementation(libs.aboutlibraries.compose)
     // M3 Color
-    implementation(libs.com.kyant0.m3color)
+    implementation(libs.kyant0.m3color)
+    // Capsule
+    implementation(libs.kyant0.capsule)
     // Konfetti
     implementation(libs.nl.dionsegijn.konfetti.compose)
     // Lazy Column Scrollbar

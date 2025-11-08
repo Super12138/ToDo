@@ -4,15 +4,18 @@ import android.content.Context
 import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Category
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.FileUpload
 import androidx.compose.material.icons.outlined.RestartAlt
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBarDefaults
@@ -29,9 +32,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.DialogProperties
 import cn.super12138.todo.R
+import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.activities.MainActivity
 import cn.super12138.todo.ui.components.ConfirmDialog
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
+import cn.super12138.todo.ui.pages.settings.components.Settings
 import cn.super12138.todo.ui.pages.settings.components.SettingsCategory
 import cn.super12138.todo.ui.pages.settings.components.SettingsItem
 import cn.super12138.todo.ui.viewmodels.MainViewModel
@@ -39,7 +44,7 @@ import cn.super12138.todo.utils.SystemUtils
 import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SettingsData(
     viewModel: MainViewModel,
@@ -111,13 +116,15 @@ fun SettingsData(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
     ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier
+        Column(
+            Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .padding(horizontal = TodoDefaults.screenPadding)
+                .verticalScroll(rememberScrollState())
         ) {
-            item {
-                SettingsCategory(stringResource(R.string.pref_category_data_management))
+            SettingsCategory(stringResource(R.string.pref_category_data_management))
+            Settings {
                 SettingsItem(
                     leadingIcon = Icons.Outlined.FileDownload,
                     title = stringResource(R.string.pref_backup),
@@ -126,8 +133,6 @@ fun SettingsData(
                         backupLauncher.launch("Todo-backup-${SystemUtils.getTime()}.zip")
                     }
                 )
-            }
-            item {
                 SettingsItem(
                     leadingIcon = Icons.Outlined.FileUpload,
                     title = stringResource(R.string.pref_restore),
@@ -137,8 +142,8 @@ fun SettingsData(
                     }
                 )
             }
-            item {
-                SettingsCategory(stringResource(R.string.pref_category_category_management))
+            SettingsCategory(stringResource(R.string.pref_category_category_management))
+            Settings {
                 SettingsItem(
                     leadingIcon = Icons.Outlined.Category,
                     title = stringResource(R.string.pref_category_category_management),
@@ -147,17 +152,17 @@ fun SettingsData(
                 )
             }
         }
-        ConfirmDialog(
-            visible = showRestoreDialog,
-            icon = Icons.Outlined.RestartAlt,
-            title = stringResource(R.string.tip_tips),
-            text = stringResource(R.string.tip_restore_success),
-            showDismissButton = false,
-            onConfirm = { restartApp(context) },
-            onDismiss = { showRestoreDialog = false },
-            properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
-        )
     }
+    ConfirmDialog(
+        visible = showRestoreDialog,
+        icon = Icons.Outlined.RestartAlt,
+        title = stringResource(R.string.tip_tips),
+        text = stringResource(R.string.tip_restore_success),
+        showDismissButton = false,
+        onConfirm = { restartApp(context) },
+        onDismiss = { showRestoreDialog = false },
+        properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
+    )
 }
 
 /**
