@@ -1,7 +1,6 @@
 package cn.super12138.todo.ui.pages.main
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Column
@@ -31,9 +30,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import androidx.window.core.layout.WindowSizeClass
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
+import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.logic.datastore.DataStoreManager
 import cn.super12138.todo.ui.components.ConfirmDialog
 import cn.super12138.todo.ui.pages.main.components.TodoTopAppBar
@@ -44,12 +45,13 @@ import cn.super12138.todo.ui.viewmodels.MainViewModel
 fun MainPage(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel,
-    toTodoEditPage: () -> Unit,
+    toTodoEditPage: (TodoEntity?) -> Unit,
     toSettingsPage: () -> Unit,
     sharedTransitionScope: SharedTransitionScope,
-    animatedVisibilityScope: AnimatedVisibilityScope,
     windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass,
 ) {
+    val animatedVisibilityScope = LocalNavAnimatedContentScope.current
+
     val toDos = viewModel.sortedTodos.collectAsState(initial = emptyList())
     val selectedTodos = viewModel.selectedTodoIds.collectAsState()
     val showCompleted by DataStoreManager.showCompletedFlow.collectAsState(initial = Constants.PREF_SHOW_COMPLETED_DEFAULT)
@@ -91,10 +93,7 @@ fun MainPage(
                         )
                     },
                     expanded = expandedFab,
-                    onClick = {
-                        viewModel.setEditTodoItem(null) // 每次添加待办前清除上一次已选待办
-                        toTodoEditPage()
-                    },
+                    onClick = { toTodoEditPage(null) },
                     modifier = Modifier
                         .sharedElement(
                             sharedContentState = rememberSharedContentState(key = Constants.KEY_TODO_FAB_TRANSITION),
@@ -133,8 +132,7 @@ fun MainPage(
                         if (inSelectedMode) {
                             viewModel.toggleTodoSelection(item)
                         } else {
-                            viewModel.setEditTodoItem(item)
-                            toTodoEditPage()
+                            toTodoEditPage(item)
                         }
                     },
                     onItemLongClick = { viewModel.toggleTodoSelection(it) },
@@ -171,8 +169,7 @@ fun MainPage(
                         if (inSelectedMode) {
                             viewModel.toggleTodoSelection(item)
                         } else {
-                            viewModel.setEditTodoItem(item)
-                            toTodoEditPage()
+                            toTodoEditPage(item)
                         }
                     },
                     onItemLongClick = { viewModel.toggleTodoSelection(it) },

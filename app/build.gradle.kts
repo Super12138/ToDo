@@ -100,7 +100,6 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.animation)
-    implementation(libs.androidx.navigation)
     implementation(libs.androidx.material3.adaptive)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.android)
@@ -109,6 +108,8 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.material.icon.core)
     implementation(libs.androidx.material.icon.extended)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
     // About Libraries
     implementation(libs.aboutlibraries.core)
     implementation(libs.aboutlibraries.compose)

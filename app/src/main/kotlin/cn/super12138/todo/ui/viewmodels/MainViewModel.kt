@@ -2,9 +2,7 @@ package cn.super12138.todo.ui.viewmodels
 
 import android.content.Context
 import android.net.Uri
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cn.super12138.todo.TodoApp
@@ -51,8 +49,6 @@ class MainViewModel : ViewModel() {
         }
 
     val showConfetti = mutableStateOf(false)
-    var selectedEditTodo by mutableStateOf<TodoEntity?>(null)
-        private set
 
     // 多选逻辑参考：https://github.com/X1nto/Mauth
     private val _selectedTodoIds = MutableStateFlow(listOf<Int>())
@@ -81,10 +77,6 @@ class MainViewModel : ViewModel() {
             Repository.deleteAllTodo()
         }
     }*/
-
-    fun setEditTodoItem(toDo: TodoEntity?) {
-        selectedEditTodo = toDo
-    }
 
     /**
      * 切换待办的选择状态

@@ -10,9 +10,9 @@ composeBom = "2025.11.00"
 liveData = "1.9.4"
 icons = "1.7.8"
 room = "2.8.3"
-navigation = "2.9.6"
 material3 = "1.5.0-alpha08"
 adaptive = "1.2.0"
+nav3Core = "1.0.0-rc01"
 # AboutLibraries
 aboutLibsRelease = "13.1.0"
 aboutLibsReleasePlugin = "13.1.0"
@@ -49,7 +49,6 @@ androidx-datastore-preferences = { group = "androidx.datastore", name = "datasto
 # Compose
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-animation = { group = "androidx.compose.animation", name = "animation" }
-androidx-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
 androidx-material3-adaptive = { group = "androidx.compose.material3.adaptive", name = "adaptive", version.ref = "adaptive" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android" }
@@ -61,6 +60,8 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 androidx-material-icon-core = { group = "androidx.compose.material", name = "material-icons-core", version.ref = "icons" }
 androidx-material-icon-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "icons" }
+androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "nav3Core" }
+androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "nav3Core" }
 
 # Room
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }

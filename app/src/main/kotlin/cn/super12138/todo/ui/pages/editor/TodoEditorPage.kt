@@ -2,7 +2,6 @@ package cn.super12138.todo.ui.pages.editor
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.expandVertically
@@ -43,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.database.TodoEntity
@@ -69,11 +69,11 @@ fun TodoEditorPage(
     onSave: (TodoEntity) -> Unit,
     onDelete: () -> Unit,
     onNavigateUp: () -> Unit,
-    sharedTransitionScope: SharedTransitionScope,
-    animatedVisibilityScope: AnimatedVisibilityScope
+    sharedTransitionScope: SharedTransitionScope
 ) {
     // TODO: 本页及其相关组件重组性能检查优化
     val view = LocalView.current
+    val animatedVisibilityScope = LocalNavAnimatedContentScope.current
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     val uiState = rememberEditorState(initialTodo = toDo)
