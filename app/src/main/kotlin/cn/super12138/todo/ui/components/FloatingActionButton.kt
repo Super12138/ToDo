@@ -50,6 +50,7 @@ fun TodoFloatingActionButton(
         text = {
             Text(
                 text = text,
+                maxLines = 1,
                 overflow = TextOverflow.Clip
             )
         },
