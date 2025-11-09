@@ -23,9 +23,7 @@ import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SmallExtendedFloatingActionButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -51,6 +49,7 @@ import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.ChipItem
 import cn.super12138.todo.ui.components.ConfirmDialog
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
+import cn.super12138.todo.ui.components.TodoFloatingActionButton
 import cn.super12138.todo.ui.pages.editor.components.TodoCategoryChip
 import cn.super12138.todo.ui.pages.editor.components.TodoCategoryTextField
 import cn.super12138.todo.ui.pages.editor.components.TodoContentTextField
@@ -115,41 +114,33 @@ fun TodoEditorPage(
         }
     }
 
-    BackHandler { checkModifiedBeforeBack() }
+    BackHandler(onBack = ::checkModifiedBeforeBack)
 
     LargeTopAppBarScaffold(
         title = stringResource(if (toDo != null) R.string.title_edit_task else R.string.action_add_task),
         scrollBehavior = scrollBehavior,
         floatingActionButton = {
             with(sharedTransitionScope) {
-                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    modifier = Modifier.imePadding()
+                ) {
                     if (toDo !== null) {
-                        SmallExtendedFloatingActionButton(
-                            text = { Text(stringResource(R.string.action_delete)) },
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.Outlined.Delete,
-                                    contentDescription = null
-                                )
-                            },
+                        TodoFloatingActionButton(
+                            text = stringResource(R.string.action_delete),
+                            icon = Icons.Outlined.Delete,
                             expanded = true,
                             containerColor = MaterialTheme.colorScheme.errorContainer,
-                            onClick = { uiState.showDeleteConfirmDialog = true },
-                            modifier = Modifier.imePadding()
+                            onClick = { uiState.showDeleteConfirmDialog = true }
                         )
                     }
-                    SmallExtendedFloatingActionButton(
-                        text = { Text(stringResource(R.string.action_save)) },
-                        icon = {
-                            Icon(
-                                imageVector = Icons.Outlined.Save,
-                                contentDescription = null
-                            )
-                        },
+                    TodoFloatingActionButton(
+                        text = stringResource(R.string.action_save),
+                        icon = Icons.Outlined.Save,
                         expanded = true,
                         onClick = {
                             if (uiState.setErrorIfNotValid()) {
-                                return@SmallExtendedFloatingActionButton
+                                return@TodoFloatingActionButton
                             } else {
                                 uiState.clearError()
                                 val newTodo = TodoEntity(
@@ -163,7 +154,6 @@ fun TodoEditorPage(
                             }
                         },
                         modifier = Modifier
-                            .imePadding()
                             .sharedElement(
                                 sharedContentState = rememberSharedContentState(key = Constants.KEY_TODO_FAB_TRANSITION),
                                 animatedVisibilityScope = animatedVisibilityScope
@@ -172,7 +162,7 @@ fun TodoEditorPage(
                 }
             }
         },
-        onBack = { checkModifiedBeforeBack() },
+        onBack = ::checkModifiedBeforeBack,
         modifier = modifier
     ) { innerPadding ->
         LazyColumn(
@@ -183,19 +173,12 @@ fun TodoEditorPage(
                 .fillMaxSize()
         ) {
             item {
-                // with(sharedTransitionScope) {
                 TodoContentTextField(
                     value = uiState.toDoContent,
                     onValueChange = { uiState.toDoContent = it },
                     isError = uiState.isErrorContent,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                    /*.sharedBounds(
-                        sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_CONTENT_TRANSITION}_${toDo?.id}"),
-                        animatedVisibilityScope = animatedVisibilityScope
-                    )*/
+                    modifier = Modifier.fillMaxWidth()
                 )
-                // }
             }
 
             item {
@@ -217,20 +200,13 @@ fun TodoEditorPage(
                     enter = fadeIn() + expandVertically(),
                     exit = fadeOut() + shrinkVertically()
                 ) {
-                    // with(sharedTransitionScope) {
                     TodoCategoryTextField(
                         value = uiState.categoryContent,
                         onValueChange = { uiState.categoryContent = it },
                         isError = uiState.isErrorCategory,
                         supportingText = stringResource(uiState.categorySupportingText),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                        /*.sharedBounds(
-                            sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_CATEGORY_TRANSITION}_${toDo?.id}"),
-                            animatedVisibilityScope = animatedVisibilityScope
-                        )*/
+                        modifier = Modifier.fillMaxWidth()
                     )
-                    // }
                 }
             }
 

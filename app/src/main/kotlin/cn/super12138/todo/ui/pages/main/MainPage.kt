@@ -13,10 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallExtendedFloatingActionButton
-import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.animateFloatingActionButton
 import androidx.compose.runtime.Composable
@@ -37,6 +34,7 @@ import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.logic.datastore.DataStoreManager
 import cn.super12138.todo.ui.components.ConfirmDialog
+import cn.super12138.todo.ui.components.TodoFloatingActionButton
 import cn.super12138.todo.ui.pages.main.components.TodoTopAppBar
 import cn.super12138.todo.ui.viewmodels.MainViewModel
 
@@ -84,14 +82,9 @@ fun MainPage(
         },
         floatingActionButton = {
             with(sharedTransitionScope) {
-                SmallExtendedFloatingActionButton(
-                    text = { Text(stringResource(R.string.action_add_task)) },
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Outlined.Add,
-                            contentDescription = null
-                        )
-                    },
+                TodoFloatingActionButton(
+                    text = stringResource(R.string.action_add_task),
+                    icon = Icons.Outlined.Add,
                     expanded = expandedFab,
                     onClick = { toTodoEditPage(null) },
                     modifier = Modifier

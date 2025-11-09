@@ -34,8 +34,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.datastore.DataStoreManager
-import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
+import cn.super12138.todo.ui.components.TodoFloatingActionButton
 import cn.super12138.todo.ui.pages.settings.components.category.CategoryItem
 import cn.super12138.todo.ui.pages.settings.components.category.CategoryPromptDialog
 import kotlinx.coroutines.launch
@@ -65,7 +65,7 @@ fun SettingsDataCategory(
         scrollBehavior = scrollBehavior,
         snackbarHost = { SnackbarHost(snackbarHostState) },
         floatingActionButton = {
-            AnimatedExtendedFloatingActionButton(
+            TodoFloatingActionButton(
                 icon = Icons.Outlined.Add,
                 text = stringResource(R.string.action_add_category),
                 expanded = isExpanded,
@@ -81,7 +81,7 @@ fun SettingsDataCategory(
             state = listState,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
+                .padding(innerPadding) //TODO: 可能需要清除屏幕边距
         ) {
             if (categories.isEmpty()) {
                 item {
