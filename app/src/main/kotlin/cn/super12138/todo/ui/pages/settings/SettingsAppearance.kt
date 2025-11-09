@@ -63,12 +63,12 @@ fun SettingsAppearance(
             )
 
             DarkModePicker(
-                currentDarkMode = DarkMode.fromId(darkMode),
+                currentDarkMode = { DarkMode.fromId(darkMode) },
                 onDarkModeChange = { scope.launch { DataStoreManager.setDarkMode(it.id) } }
             )
 
             PalettePicker(
-                currentPalette = PaletteStyle.fromId(paletteStyle),
+                currentPalette = { PaletteStyle.fromId(paletteStyle) },
                 onPaletteChange = { scope.launch { DataStoreManager.setPaletteStyle(it.id) } },
                 isDynamicColor = dynamicColor,
                 isDarkMode = DarkMode.fromId(darkMode),

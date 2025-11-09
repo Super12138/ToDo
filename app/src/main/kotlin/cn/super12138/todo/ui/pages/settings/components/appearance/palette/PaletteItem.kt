@@ -108,7 +108,10 @@ fun PaletteItem(
 
         Text(
             text = paletteStyle.getDisplayName(context),
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium,
+            color = if (selected) {
+                MaterialTheme.colorScheme.primary
+            } else MaterialTheme.colorScheme.onSurface
         )
     }
 }

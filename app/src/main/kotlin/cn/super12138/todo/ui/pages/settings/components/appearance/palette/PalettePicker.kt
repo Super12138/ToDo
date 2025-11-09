@@ -2,7 +2,10 @@ package cn.super12138.todo.ui.pages.settings.components.appearance.palette
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -15,17 +18,14 @@ import cn.super12138.todo.ui.theme.PaletteStyle
 
 @Composable
 fun PalettePicker(
-    currentPalette: PaletteStyle,
+    currentPalette: () -> PaletteStyle,
     onPaletteChange: (paletteStyle: PaletteStyle) -> Unit,
     isDynamicColor: Boolean,
     isDarkMode: DarkMode,
     contrastLevel: ContrastLevel,
     modifier: Modifier = Modifier
 ) {
-
-    val paletteOptions = remember {
-        PaletteStyle.entries.toList()
-    }
+    val paletteOptions = remember { PaletteStyle.entries.toList() }
 
     LazyRowSettingsItem(
         title = stringResource(R.string.pref_palette_style),
@@ -34,21 +34,21 @@ fun PalettePicker(
         fadedEdgeWidth = 8.dp,
         modifier = modifier
     ) {
-        paletteOptions.forEach { paletteStyle ->
-            item {
-                PaletteItem(
-                    isDynamicColor = isDynamicColor,
-                    isDark = when (isDarkMode) {
-                        DarkMode.FollowSystem -> isSystemInDarkTheme()
-                        DarkMode.Light -> false
-                        DarkMode.Dark -> true
-                    },
-                    paletteStyle = paletteStyle,
-                    selected = currentPalette == paletteStyle,
-                    contrastLevel = contrastLevel,
-                    onSelect = { onPaletteChange(paletteStyle) }
-                )
-            }
+        items(items = paletteOptions, key = { it.id }) {
+            val isSelected by remember { derivedStateOf { currentPalette() == it } }
+
+            PaletteItem(
+                isDynamicColor = isDynamicColor,
+                isDark = when (isDarkMode) {
+                    DarkMode.FollowSystem -> isSystemInDarkTheme()
+                    DarkMode.Light -> false
+                    DarkMode.Dark -> true
+                },
+                paletteStyle = it,
+                selected = isSelected,
+                contrastLevel = contrastLevel,
+                onSelect = { onPaletteChange(it) }
+            )
         }
     }
 }
