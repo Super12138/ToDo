@@ -169,7 +169,7 @@ fun TodoEditorPage(
             verticalArrangement = Arrangement.spacedBy(5.dp),
             modifier = Modifier
                 .padding(innerPadding)
-                .padding(horizontal = TodoDefaults.screenPadding)
+                .padding(horizontal = TodoDefaults.screenHorizontalPadding)
                 .fillMaxSize()
         ) {
             item {

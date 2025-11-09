@@ -44,7 +44,7 @@ fun SettingsMain(
             Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(horizontal = TodoDefaults.screenPadding)
+                .padding(horizontal = TodoDefaults.screenHorizontalPadding)
                 .verticalScroll(rememberScrollState())
         ) {
             Settings {

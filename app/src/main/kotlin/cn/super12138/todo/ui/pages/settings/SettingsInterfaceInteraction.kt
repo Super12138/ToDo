@@ -65,7 +65,7 @@ fun SettingsInterface(
             Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(horizontal = TodoDefaults.screenPadding)
+                .padding(horizontal = TodoDefaults.screenHorizontalPadding)
                 .verticalScroll(rememberScrollState())
         ) {
             SettingsCategory(stringResource(R.string.pref_category_todo_list))

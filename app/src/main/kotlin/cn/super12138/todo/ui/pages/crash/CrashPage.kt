@@ -114,7 +114,7 @@ fun CrashPage(
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .padding(horizontal = TodoDefaults.screenPadding)
+                .padding(horizontal = TodoDefaults.screenHorizontalPadding)
                 .fillMaxSize()
                 .verticalScroll(scrollState)
         ) {

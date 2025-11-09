@@ -1,5 +1,6 @@
 package cn.super12138.todo.ui.pages.settings.components.licence
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -21,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.ui.components.BasicDialog
 import cn.super12138.todo.ui.components.LazyColumnCustomScrollBar
@@ -44,9 +46,10 @@ fun LicenceList(
     ) {
         LazyColumn(
             state = state,
+            verticalArrangement = Arrangement.spacedBy(2.dp),
             modifier = modifier
         ) {
-            items(libraries?.libraries ?: listOf()) { library ->
+            items(items = libraries?.libraries ?: listOf(), key = { it.artifactId }) { library ->
                 var openDialog by rememberSaveable { mutableStateOf(false) }
 
                 LicenceItem(

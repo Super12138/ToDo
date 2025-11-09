@@ -1,6 +1,7 @@
 package cn.super12138.todo.ui.pages.settings.components
 
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -40,7 +41,8 @@ fun RowSettingsItem(
     title: String,
     description: String? = null,
     trailingContent: (@Composable () -> Unit)? = null,
-    shape: Shape = MaterialTheme.shapes.large,
+    shape: Shape = MaterialTheme.shapes.small,
+    background: Color = MaterialTheme.colorScheme.surfaceContainerHigh,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
     verticalAlignment: Alignment.Vertical = Alignment.Top,
     scrollState: ScrollState = rememberScrollState(),
@@ -54,6 +56,7 @@ fun RowSettingsItem(
         description = description,
         trailingContent = trailingContent,
         shape = shape,
+        background = background,
         modifier = modifier
     ) {
         Row(
@@ -91,7 +94,8 @@ fun LazyRowSettingsItem(
     title: String,
     description: String? = null,
     trailingContent: (@Composable () -> Unit)? = null,
-    shape: Shape = MaterialTheme.shapes.large,
+    shape: Shape = MaterialTheme.shapes.small,
+    background: Color = MaterialTheme.colorScheme.surfaceContainerHigh,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
     verticalAlignment: Alignment.Vertical = Alignment.Top,
     fadedEdgeWidth: Dp,
@@ -104,6 +108,7 @@ fun LazyRowSettingsItem(
         description = description,
         trailingContent = trailingContent,
         shape = shape,
+        background = background,
         modifier = modifier
     ) {
         LazyRow(
@@ -140,7 +145,8 @@ fun MoreContentSettingsItem(
     title: String,
     description: String? = null,
     trailingContent: (@Composable () -> Unit)? = null,
-    shape: Shape = MaterialTheme.shapes.large,
+    shape: Shape = MaterialTheme.shapes.small,
+    background: Color = MaterialTheme.colorScheme.surfaceContainerHigh,
     content: @Composable () -> Unit
 ) {
     Column(
@@ -148,6 +154,7 @@ fun MoreContentSettingsItem(
             .fillMaxWidth()
             .wrapContentHeight()
             .clip(shape)
+            .background(background)
             .padding(
                 horizontal = TodoDefaults.settingsItemHorizontalPadding,
                 vertical = TodoDefaults.settingsItemVerticalPadding

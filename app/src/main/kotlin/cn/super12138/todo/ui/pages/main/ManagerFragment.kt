@@ -41,9 +41,9 @@ fun ManagerFragment(
         LazyColumn(
             state = state,
             contentPadding = PaddingValues(
-                start = TodoDefaults.screenPadding,
+                start = TodoDefaults.screenHorizontalPadding,
                 bottom = TodoDefaults.toDoCardHeight / 2,
-                end = TodoDefaults.screenPadding
+                end = TodoDefaults.screenHorizontalPadding
             ),
             /*modifier = Modifier
             .clip(

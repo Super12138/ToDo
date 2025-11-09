@@ -51,7 +51,7 @@ fun SettingsItem(
     title: String,
     description: String? = null,
     trailingContent: (@Composable () -> Unit)? = null,
-    background: Color = MaterialTheme.colorScheme.surfaceContainerHighest,
+    background: Color = MaterialTheme.colorScheme.surfaceContainerHigh,
     enableClick: Boolean = true,
     onClick: () -> Unit = {}
 ) {
@@ -85,7 +85,7 @@ fun SettingsItem(
     description: String? = null,
     trailingContent: (@Composable () -> Unit)? = null,
     shape: Shape = MaterialTheme.shapes.small,
-    background: Color = MaterialTheme.colorScheme.surfaceContainerHighest,
+    background: Color = MaterialTheme.colorScheme.surfaceContainerHigh,
     enableClick: Boolean = true,
     onClick: () -> Unit = {},
 ) {

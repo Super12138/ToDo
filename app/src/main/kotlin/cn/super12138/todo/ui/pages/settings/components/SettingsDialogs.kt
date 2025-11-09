@@ -81,7 +81,7 @@ fun RadioItem(
                 },
                 role = Role.RadioButton
             )
-            .padding(horizontal = TodoDefaults.screenPadding),
+            .padding(horizontal = TodoDefaults.screenHorizontalPadding),
         verticalAlignment = Alignment.CenterVertically
     ) {
         RadioButton(

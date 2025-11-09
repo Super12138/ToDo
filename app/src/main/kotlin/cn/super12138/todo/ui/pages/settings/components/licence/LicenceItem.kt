@@ -1,5 +1,6 @@
 package cn.super12138.todo.ui.pages.settings.components.licence
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,11 +35,13 @@ fun LicenceItem(
     showAuthor: Boolean = true,
     showVersion: Boolean = true,
     showLicenseBadges: Boolean = true,
-    colors: LibraryColors = LibraryDefaults.libraryColors(),
+    colors: LibraryColors = LibraryDefaults.libraryColors(
+        libraryBackgroundColor = MaterialTheme.colorScheme.surfaceContainerHigh
+    ),
     padding: LibraryPadding = LibraryDefaults.libraryPadding(),
     libraryPadding: LibraryPadding = LibraryDefaults.libraryPadding(),
     typography: Typography = MaterialTheme.typography,
-    shape: Shape = MaterialTheme.shapes.large,
+    shape: Shape = MaterialTheme.shapes.small,
     onClick: () -> Unit
 ) {
     Column(
@@ -46,6 +49,7 @@ fun LicenceItem(
             .fillMaxWidth()
             .clip(shape)
             .clickable { onClick.invoke() }
+            .background(colors.libraryBackgroundColor)
             .padding(libraryPadding.contentPadding)
     ) {
         Row(
@@ -64,7 +68,7 @@ fun LicenceItem(
             val version = library.artifactVersion
             if (version != null && showVersion) {
                 Text(
-                    version,
+                    text = version,
                     modifier = Modifier.padding(padding.versionPadding.contentPadding),
                     style = typography.bodyMedium,
                     textAlign = TextAlign.Center

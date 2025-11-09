@@ -19,7 +19,9 @@ import androidx.compose.ui.res.stringResource
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.datastore.DataStoreManager
+import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
+import cn.super12138.todo.ui.pages.settings.components.Settings
 import cn.super12138.todo.ui.pages.settings.components.SwitchSettingsItem
 import cn.super12138.todo.ui.pages.settings.components.appearance.contrast.ContrastPicker
 import cn.super12138.todo.ui.pages.settings.components.appearance.darkmode.DarkModePicker
@@ -52,33 +54,36 @@ fun SettingsAppearance(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .padding(horizontal = TodoDefaults.screenHorizontalPadding)
                 .verticalScroll(rememberScrollState())
         ) {
-            SwitchSettingsItem(
-                checked = dynamicColor,
-                leadingIcon = Icons.Outlined.AutoAwesome,
-                title = stringResource(R.string.pref_appearance_dynamic_color),
-                description = stringResource(R.string.pref_appearance_dynamic_color_desc),
-                onCheckedChange = { scope.launch { DataStoreManager.setDynamicColor(it) } },
-            )
+            Settings {
+                SwitchSettingsItem(
+                    checked = dynamicColor,
+                    leadingIcon = Icons.Outlined.AutoAwesome,
+                    title = stringResource(R.string.pref_appearance_dynamic_color),
+                    description = stringResource(R.string.pref_appearance_dynamic_color_desc),
+                    onCheckedChange = { scope.launch { DataStoreManager.setDynamicColor(it) } },
+                )
 
-            DarkModePicker(
-                currentDarkMode = { DarkMode.fromId(darkMode) },
-                onDarkModeChange = { scope.launch { DataStoreManager.setDarkMode(it.id) } }
-            )
+                DarkModePicker(
+                    currentDarkMode = { DarkMode.fromId(darkMode) },
+                    onDarkModeChange = { scope.launch { DataStoreManager.setDarkMode(it.id) } }
+                )
 
-            PalettePicker(
-                currentPalette = { PaletteStyle.fromId(paletteStyle) },
-                onPaletteChange = { scope.launch { DataStoreManager.setPaletteStyle(it.id) } },
-                isDynamicColor = dynamicColor,
-                isDarkMode = DarkMode.fromId(darkMode),
-                contrastLevel = ContrastLevel.fromFloat(contrastLevel)
-            )
+                PalettePicker(
+                    currentPalette = { PaletteStyle.fromId(paletteStyle) },
+                    onPaletteChange = { scope.launch { DataStoreManager.setPaletteStyle(it.id) } },
+                    isDynamicColor = dynamicColor,
+                    isDarkMode = DarkMode.fromId(darkMode),
+                    contrastLevel = ContrastLevel.fromFloat(contrastLevel)
+                )
 
-            ContrastPicker(
-                currentContrast = ContrastLevel.fromFloat(contrastLevel),
-                onContrastChange = { scope.launch { DataStoreManager.setContrastLevel(it.value) } }
-            )
+                ContrastPicker(
+                    currentContrast = ContrastLevel.fromFloat(contrastLevel),
+                    onContrastChange = { scope.launch { DataStoreManager.setContrastLevel(it.value) } }
+                )
+            }
         }
     }
 }
