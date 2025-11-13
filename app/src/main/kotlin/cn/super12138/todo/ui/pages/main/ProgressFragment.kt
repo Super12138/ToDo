@@ -1,13 +1,20 @@
 package cn.super12138.todo.ui.pages.main
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.CircularWavyProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
@@ -21,20 +28,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.ui.TodoDefaults
-import cn.super12138.todo.ui.components.AnimatedCircularWavyProgressIndicator
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ProgressFragment(
     totalTasks: Int,
     completedTasks: Int,
     modifier: Modifier = Modifier
 ) {
-    val stroke = Stroke(
-        width = with(LocalDensity.current) { TodoDefaults.trackThickness.toPx() },
-        cap = StrokeCap.Round,
-    )
-
     val context = LocalContext.current
+
+    val thickStrokeWidth = with(LocalDensity.current) { TodoDefaults.trackThickness.toPx() }
+    val thickStroke = remember(thickStrokeWidth) {
+        Stroke(width = thickStrokeWidth, cap = StrokeCap.Round)
+    }
 
     val remainTasks = totalTasks - completedTasks
     val progress = if (totalTasks != 0) {
@@ -45,13 +52,18 @@ fun ProgressFragment(
     }
 
     Box(
-        modifier = modifier,
+        modifier = modifier.padding(20.dp),
         contentAlignment = Alignment.Center
     ) {
-        AnimatedCircularWavyProgressIndicator(
-            progress = progress,
-            stroke = stroke,
-            trackStroke = stroke,
+        val animatedProgress by animateFloatAsState(
+            targetValue = progress,
+            animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
+        )
+
+        CircularWavyProgressIndicator(
+            progress = { animatedProgress },
+            stroke = thickStroke,
+            trackStroke = thickStroke,
             amplitude = { progress ->
                 if (progress <= 0.1f || progress >= 0.95f) {
                     0f

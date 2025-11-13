@@ -2,6 +2,7 @@ package cn.super12138.todo.ui.pages.settings.components.licence
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -24,6 +25,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
+import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.BasicDialog
 import cn.super12138.todo.ui.components.LazyColumnCustomScrollBar
 import cn.super12138.todo.utils.VibrationUtils
@@ -47,6 +49,7 @@ fun LicenceList(
         LazyColumn(
             state = state,
             verticalArrangement = Arrangement.spacedBy(2.dp),
+            contentPadding = PaddingValues(vertical = TodoDefaults.screenVerticalPadding),
             modifier = modifier
         ) {
             items(items = libraries?.libraries ?: listOf(), key = { it.artifactId }) { library ->

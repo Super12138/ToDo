@@ -4,9 +4,8 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
@@ -14,7 +13,6 @@ import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.animateFloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -26,9 +24,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.res.stringResource
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
-import androidx.window.core.layout.WindowSizeClass
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.database.TodoEntity
@@ -46,7 +44,7 @@ fun MainPage(
     toTodoEditPage: (TodoEntity?) -> Unit,
     toSettingsPage: () -> Unit,
     sharedTransitionScope: SharedTransitionScope,
-    windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass,
+    // windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass,
 ) {
     val animatedVisibilityScope = LocalNavAnimatedContentScope.current
 
@@ -102,7 +100,7 @@ fun MainPage(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         modifier = modifier
     ) { innerPadding ->
-        val isMediumScreen =
+        /*val isMediumScreen =
             windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND)
         if (isMediumScreen) {
             Row(
@@ -141,44 +139,40 @@ fun MainPage(
                         .fillMaxSize()
                 )
             }
-        } else {
-            Column(
-                modifier = Modifier.padding(
-                    top = innerPadding.calculateTopPadding(),
-                    bottom = innerPadding.calculateBottomPadding()
-                )
-            ) {
-                ProgressFragment(
-                    totalTasks = totalTasks,
-                    completedTasks = completedTasks,
-                    modifier = Modifier
-                        .weight(2f)
-                        .fillMaxSize()
-                )
-                ManagerFragment(
-                    state = listState,
-                    list = filteredTodoList,
-                    onItemClick = { item ->
-                        if (inSelectedMode) {
-                            viewModel.toggleTodoSelection(item)
-                        } else {
-                            toTodoEditPage(item)
-                        }
-                    },
-                    onItemLongClick = { viewModel.toggleTodoSelection(it) },
-                    onItemChecked = {
-                        viewModel.updateTodo(it.copy(isCompleted = true))
-                        viewModel.playConfetti()
-                    },
-                    selectedTodoIds = selectedTodoIds,
-                    // sharedTransitionScope = sharedTransitionScope,
-                    // animatedVisibilityScope = animatedVisibilityScope,
-                    modifier = Modifier
-                        .weight(3f)
-                        .fillMaxSize()
-                )
-            }
+        } else {*/
+        Column(
+            modifier = Modifier.padding(
+                top = innerPadding.calculateTopPadding(),
+                bottom = innerPadding.calculateBottomPadding()
+            )
+        ) {
+            ProgressFragment(
+                totalTasks = totalTasks,
+                completedTasks = completedTasks,
+                modifier = Modifier.fillMaxWidth()
+            )
+            ManagerFragment(
+                state = listState,
+                list = filteredTodoList,
+                onItemClick = { item ->
+                    if (inSelectedMode) {
+                        viewModel.toggleTodoSelection(item)
+                    } else {
+                        toTodoEditPage(item)
+                    }
+                },
+                onItemLongClick = { viewModel.toggleTodoSelection(it) },
+                onItemChecked = {
+                    viewModel.updateTodo(it.copy(isCompleted = true))
+                    viewModel.playConfetti()
+                },
+                selectedTodoIds = selectedTodoIds,
+                modifier = Modifier.fillMaxWidth()
+                // sharedTransitionScope = sharedTransitionScope,
+                // animatedVisibilityScope = animatedVisibilityScope,
+            )
         }
+        /*}*/
         ConfirmDialog(
             visible = showDeleteConfirmDialog,
             icon = Icons.Outlined.Delete,

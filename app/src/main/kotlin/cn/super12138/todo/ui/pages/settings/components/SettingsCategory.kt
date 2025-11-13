@@ -22,7 +22,6 @@ fun SettingsCategory(
                 top = TodoDefaults.settingsItemVerticalPadding / 2,
                 start = TodoDefaults.settingsItemHorizontalPadding,
                 end = TodoDefaults.settingsItemHorizontalPadding,
-                bottom = TodoDefaults.settingsItemVerticalPadding / 4,
             )
     ) {
         Text(
