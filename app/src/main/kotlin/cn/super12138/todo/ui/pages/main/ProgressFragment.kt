@@ -2,6 +2,10 @@ package cn.super12138.todo.ui.pages.main
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -113,7 +117,11 @@ fun ProgressFragment(
                     )
                 )
             }
-            AnimatedVisibility(remainTasks != 0) {
+            AnimatedVisibility(
+                visible = remainTasks != 0,
+                enter = fadeIn(MaterialTheme.motionScheme.fastSpatialSpec()) + expandVertically(MaterialTheme.motionScheme.fastSpatialSpec()),
+                exit = fadeOut(MaterialTheme.motionScheme.fastSpatialSpec()) + shrinkVertically(MaterialTheme.motionScheme.fastSpatialSpec()),
+            ) {
                 Text(
                     text = stringResource(R.string.tip_remain_tasks, remainTasks),
                     style = MaterialTheme.typography.labelMedium,
