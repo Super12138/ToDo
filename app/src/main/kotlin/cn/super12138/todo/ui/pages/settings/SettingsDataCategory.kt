@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHost
@@ -66,7 +64,7 @@ fun SettingsDataCategory(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         floatingActionButton = {
             TodoFloatingActionButton(
-                icon = Icons.Outlined.Add,
+                iconRes = R.drawable.ic_add,
                 text = stringResource(R.string.action_add_category),
                 expanded = isExpanded,
                 onClick = {

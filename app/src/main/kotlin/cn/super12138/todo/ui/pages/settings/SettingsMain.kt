@@ -5,11 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ColorLens
-import androidx.compose.material.icons.outlined.Dns
-import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.outlined.ViewComfy
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.TopAppBarDefaults
@@ -49,25 +44,25 @@ fun SettingsMain(
         ) {
             Settings {
                 SettingsItem(
-                    leadingIcon = Icons.Outlined.ColorLens,
+                    leadingIconRes = R.drawable.ic_palette,
                     title = stringResource(R.string.pref_appearance),
                     description = stringResource(R.string.pref_appearance_desc),
                     onClick = toAppearancePage
                 )
                 SettingsItem(
-                    leadingIcon = Icons.Outlined.ViewComfy,
+                    leadingIconRes = R.drawable.ic_view_comfy,
                     title = stringResource(R.string.pref_interface_interaction),
                     description = stringResource(R.string.pref_interface_interaction_desc),
                     onClick = toInterfacePage
                 )
                 SettingsItem(
-                    leadingIcon = Icons.Outlined.Dns,
+                    leadingIconRes = R.drawable.ic_dns,
                     title = stringResource(R.string.pref_data),
                     description = stringResource(R.string.pref_data_desc),
                     onClick = toDataPage
                 )
                 SettingsItem(
-                    leadingIcon = Icons.Outlined.Info,
+                    leadingIconRes = R.drawable.ic_info,
                     title = stringResource(R.string.pref_about),
                     description = stringResource(R.string.pref_about_desc),
                     onClick = toAboutPage

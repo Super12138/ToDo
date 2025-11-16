@@ -1,10 +1,9 @@
 package cn.super12138.todo.ui.components
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -14,8 +13,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.DialogProperties
 import cn.super12138.todo.R
@@ -25,7 +25,7 @@ import cn.super12138.todo.utils.VibrationUtils
 fun ConfirmDialog(
     modifier: Modifier = Modifier,
     visible: Boolean,
-    icon: ImageVector = Icons.Outlined.ErrorOutline,
+    @DrawableRes iconRes: Int,
     title: String = stringResource(R.string.title_warning),
     text: String,
     confirmButtonText: String = stringResource(R.string.action_confirm),
@@ -37,7 +37,7 @@ fun ConfirmDialog(
 ) {
     BasicDialog(
         visible = visible,
-        icon = icon,
+        painter = painterResource(iconRes),
         title = title,
         text = { Text(text) }, // 已经实现好滚动了
         confirmButton = confirmButtonText,
@@ -57,7 +57,7 @@ fun ConfirmDialog(
 fun BasicDialog(
     modifier: Modifier = Modifier,
     visible: Boolean,
-    icon: ImageVector,
+    painter: Painter,
     title: String,
     text: @Composable (() -> Unit)? = null,
     confirmButton: String,
@@ -71,7 +71,7 @@ fun BasicDialog(
         visible = visible,
         icon = {
             Icon(
-                imageVector = icon,
+                painter = painter,
                 contentDescription = null // 会跟下面的文本重复，所以设置为 null
             )
         },

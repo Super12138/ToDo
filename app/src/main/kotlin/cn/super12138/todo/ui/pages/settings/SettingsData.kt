@@ -9,11 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Category
-import androidx.compose.material.icons.outlined.FileDownload
-import androidx.compose.material.icons.outlined.FileUpload
-import androidx.compose.material.icons.outlined.RestartAlt
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.SnackbarHost
@@ -126,7 +121,7 @@ fun SettingsData(
             SettingsCategory(stringResource(R.string.pref_category_data_management))
             Settings {
                 SettingsItem(
-                    leadingIcon = Icons.Outlined.FileDownload,
+                    leadingIconRes = R.drawable.ic_download,
                     title = stringResource(R.string.pref_backup),
                     description = stringResource(R.string.pref_backup_desc),
                     onClick = {
@@ -134,7 +129,7 @@ fun SettingsData(
                     }
                 )
                 SettingsItem(
-                    leadingIcon = Icons.Outlined.FileUpload,
+                    leadingIconRes = R.drawable.ic_upload,
                     title = stringResource(R.string.pref_restore),
                     description = stringResource(R.string.pref_restore_desc),
                     onClick = {
@@ -145,7 +140,7 @@ fun SettingsData(
             SettingsCategory(stringResource(R.string.pref_category_category_management))
             Settings {
                 SettingsItem(
-                    leadingIcon = Icons.Outlined.Category,
+                    leadingIconRes = R.drawable.ic_category,
                     title = stringResource(R.string.pref_category_category_management),
                     description = stringResource(R.string.pref_category_management_desc),
                     onClick = toCategoryManager
@@ -155,7 +150,7 @@ fun SettingsData(
     }
     ConfirmDialog(
         visible = showRestoreDialog,
-        icon = Icons.Outlined.RestartAlt,
+        iconRes = R.drawable.ic_restart_alt,
         title = stringResource(R.string.tip_tips),
         text = stringResource(R.string.tip_restore_success),
         showDismissButton = false,

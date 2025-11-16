@@ -4,8 +4,6 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
@@ -18,6 +16,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
@@ -71,8 +70,8 @@ private fun FilterChipItem(
             if (selected) {
                 {
                     Icon(
-                        imageVector = Icons.Outlined.Check,
-                        contentDescription = stringResource(R.string.tip_select_this),
+                        painter = painterResource(R.drawable.ic_check),
+                        contentDescription = stringResource(R.string.tip_selected),
                         modifier = Modifier.size(FilterChipDefaults.IconSize)
                     )
                 }

@@ -44,7 +44,7 @@ fun DarkModePicker(
             val isSelected by remember { derivedStateOf { currentDarkMode() == it } }
 
             DarkModeItem(
-                icon = it.icon,
+                iconRes = it.iconRes,
                 name = it.getDisplayName(context),
                 contentColor = contentColor,
                 containerColor = containerColor,

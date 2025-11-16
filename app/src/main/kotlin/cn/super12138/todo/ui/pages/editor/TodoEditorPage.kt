@@ -17,10 +17,6 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.Undo
-import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
@@ -128,7 +124,7 @@ fun TodoEditorPage(
                     if (toDo !== null) {
                         TodoFloatingActionButton(
                             text = stringResource(R.string.action_delete),
-                            icon = Icons.Outlined.Delete,
+                            iconRes = R.drawable.ic_delete,
                             expanded = true,
                             containerColor = MaterialTheme.colorScheme.errorContainer,
                             onClick = { uiState.showDeleteConfirmDialog = true }
@@ -136,7 +132,7 @@ fun TodoEditorPage(
                     }
                     TodoFloatingActionButton(
                         text = stringResource(R.string.action_save),
-                        icon = Icons.Outlined.Save,
+                        iconRes = R.drawable.ic_save,
                         expanded = true,
                         onClick = {
                             if (uiState.setErrorIfNotValid()) {
@@ -256,7 +252,7 @@ fun TodoEditorPage(
 
         ConfirmDialog(
             visible = uiState.showExitConfirmDialog,
-            icon = Icons.AutoMirrored.Outlined.Undo,
+            iconRes = R.drawable.ic_undo,
             text = stringResource(R.string.tip_discard_changes),
             onConfirm = {
                 uiState.showExitConfirmDialog = false
@@ -267,7 +263,7 @@ fun TodoEditorPage(
 
         ConfirmDialog(
             visible = uiState.showDeleteConfirmDialog,
-            icon = Icons.Outlined.Delete,
+            iconRes = R.drawable.ic_delete,
             text = stringResource(R.string.tip_delete_task, 1),
             onConfirm = onDelete,
             onDismiss = { uiState.showDeleteConfirmDialog = false }

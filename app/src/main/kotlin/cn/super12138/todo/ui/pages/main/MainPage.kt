@@ -8,9 +8,6 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.animateFloatingActionButton
@@ -24,7 +21,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.res.stringResource
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import cn.super12138.todo.R
@@ -82,7 +78,7 @@ fun MainPage(
             with(sharedTransitionScope) {
                 TodoFloatingActionButton(
                     text = stringResource(R.string.action_add_task),
-                    icon = Icons.Outlined.Add,
+                    iconRes = R.drawable.ic_add,
                     expanded = expandedFab,
                     onClick = { toTodoEditPage(null) },
                     modifier = Modifier
@@ -175,7 +171,7 @@ fun MainPage(
         /*}*/
         ConfirmDialog(
             visible = showDeleteConfirmDialog,
-            icon = Icons.Outlined.Delete,
+            iconRes = R.drawable.ic_delete,
             text = stringResource(R.string.tip_delete_task, selectedTodoIds.size),
             onConfirm = { viewModel.deleteSelectedTodo() },
             onDismiss = { showDeleteConfirmDialog = false }

@@ -5,11 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.Sort
-import androidx.compose.material.icons.outlined.Checklist
-import androidx.compose.material.icons.outlined.Shield
-import androidx.compose.material.icons.outlined.Vibration
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.TopAppBarDefaults
@@ -71,14 +66,14 @@ fun SettingsInterface(
             SettingsCategory(stringResource(R.string.pref_category_todo_list))
             Settings {
                 SwitchSettingsItem(
-                    checked = showCompleted,
-                    leadingIcon = Icons.Outlined.Checklist,
+                    leadingIconRes = R.drawable.ic_checklist,
                     title = stringResource(R.string.pref_show_completed),
                     description = stringResource(R.string.pref_show_completed_desc),
+                    checked = showCompleted,
                     onCheckedChange = { scope.launch { DataStoreManager.setShowCompleted(it) } },
                 )
                 SettingsItem(
-                    leadingIcon = Icons.AutoMirrored.Outlined.Sort,
+                    leadingIconRes = R.drawable.ic_sort,
                     title = stringResource(R.string.pref_sorting_method),
                     description = SortingMethod.fromId(sortingMethod).getDisplayName(context),
                     onClick = { showSortingMethodDialog = true }
@@ -88,14 +83,14 @@ fun SettingsInterface(
             Settings {
                 SwitchSettingsItem(
                     checked = secureMode,
-                    leadingIcon = Icons.Outlined.Shield,
+                    leadingIconRes = R.drawable.ic_shield,
                     title = stringResource(R.string.pref_secure_mode),
                     description = stringResource(R.string.pref_secure_mode_desc),
                     onCheckedChange = { scope.launch { DataStoreManager.setSecureMode(it) } }
                 )
                 SwitchSettingsItem(
                     checked = hapticFeedback,
-                    leadingIcon = Icons.Outlined.Vibration,
+                    leadingIconRes = R.drawable.ic_touch_long,
                     title = stringResource(R.string.pref_haptic_feedback),
                     description = stringResource(R.string.pref_haptic_feedback_desc),
                     onCheckedChange = { scope.launch { DataStoreManager.setHapticFeedback(it) } }

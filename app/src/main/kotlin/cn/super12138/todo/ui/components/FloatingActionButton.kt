@@ -1,5 +1,6 @@
 package cn.super12138.todo.ui.components
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FloatingActionButtonDefaults
@@ -12,8 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import cn.super12138.todo.utils.VibrationUtils
 
@@ -22,7 +23,7 @@ import cn.super12138.todo.utils.VibrationUtils
  * * （现在内置组件的动画好像好一点了）
  *
  * 将缩放部分转为最简单的`AnimatedVisibility`实现
- * @param icon FAB 的前置图标
+ * @param iconRes FAB 的前置图标
  * @param text FAB 的文本
  * @param expanded 是否为展开状态
  * @param containerColor FAB 容器的颜色
@@ -35,7 +36,7 @@ import cn.super12138.todo.utils.VibrationUtils
 @Composable
 fun TodoFloatingActionButton(
     text: String,
-    icon: ImageVector,
+    @DrawableRes iconRes: Int,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     expanded: Boolean = true,
@@ -56,7 +57,7 @@ fun TodoFloatingActionButton(
         },
         icon = {
             Icon(
-                imageVector = icon,
+                painter = painterResource(iconRes),
                 contentDescription = null
             )
         },

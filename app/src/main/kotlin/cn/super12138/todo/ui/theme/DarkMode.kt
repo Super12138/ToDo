@@ -1,20 +1,15 @@
 package cn.super12138.todo.ui.theme
 
 import android.content.Context
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.DarkMode
-import androidx.compose.material.icons.outlined.LightMode
-import androidx.compose.material.icons.outlined.SettingsSuggest
-import androidx.compose.ui.graphics.vector.ImageVector
 import cn.super12138.todo.R
 
 enum class DarkMode(
     val id: Int,
-    val icon: ImageVector
+    val iconRes: Int
 ) {
-    FollowSystem(-1, Icons.Outlined.SettingsSuggest),
-    Light(1, Icons.Outlined.LightMode),
-    Dark(2, Icons.Outlined.DarkMode);
+    FollowSystem(-1, R.drawable.ic_lightbulb_2),
+    Light(1, R.drawable.ic_light_mode),
+    Dark(2, R.drawable.ic_dark_mode);
 
     fun getDisplayName(context: Context): String {
         val resId = when (this) {

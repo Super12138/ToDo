@@ -7,11 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Balance
-import androidx.compose.material.icons.outlined.DeveloperMode
-import androidx.compose.material.icons.outlined.Numbers
-import androidx.compose.material.icons.outlined.Person4
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.TopAppBarDefaults
@@ -82,7 +77,7 @@ fun SettingsAbout(
                 }
 
                 SettingsItem(
-                    leadingIcon = Icons.Outlined.Numbers,
+                    leadingIconRes = R.drawable.ic_numbers,
                     title = stringResource(R.string.pref_app_version),
                     description = SystemUtils.getAppVersion(context),
                     onClick = {
@@ -98,7 +93,7 @@ fun SettingsAbout(
                     }
                 )
                 SettingsItem(
-                    leadingIcon = Icons.Outlined.Person4,
+                    leadingIconRes = R.drawable.ic_person_4,
                     title = stringResource(R.string.pref_developer),
                     description = stringResource(R.string.developer_name),
                     onClick = { uriHandler.openUri(Constants.DEVELOPER_GITHUB) }
@@ -110,13 +105,13 @@ fun SettingsAbout(
                     onClick = { uriHandler.openUri(Constants.GITHUB_REPO) }
                 )
                 SettingsItem(
-                    leadingIcon = Icons.Outlined.Balance,
+                    leadingIconRes = R.drawable.ic_balance,
                     title = stringResource(R.string.pref_licence),
                     description = stringResource(R.string.pref_licence_desc),
                     onClick = toLicencePage
                 )
                 SettingsItem(
-                    leadingIcon = Icons.Outlined.DeveloperMode,
+                    leadingIconRes = R.drawable.ic_code_blocks,
                     title = stringResource(R.string.pref_developer_options),
                     description = stringResource(R.string.pref_developer_options_desc),
                     onClick = toDevPage

@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -42,7 +40,7 @@ fun SettingsDeveloperOptions(
         ) {
             Settings {
                 SettingsItem(
-                    leadingIcon = Icons.Outlined.Padding,
+                    leadingIconRes = R.drawable.ic_padding,
                     title = stringResource(R.string.pref_padding),
                     onClick = toPaddingPage
                 )

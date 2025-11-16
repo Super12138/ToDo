@@ -15,8 +15,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ElevatedCard
@@ -31,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
@@ -87,9 +86,9 @@ fun TodoCard(
                         .padding(5.dp)
                 ) {
                     Icon(
-                        imageVector = Icons.Outlined.Check,
+                        painter = painterResource(R.drawable.ic_check),
                         tint = contentColorFor(MaterialTheme.colorScheme.secondary),
-                        contentDescription = stringResource(R.string.tip_select_this)
+                        contentDescription = stringResource(R.string.tip_selected)
                     )
                 }
             }
@@ -158,7 +157,7 @@ fun TodoCard(
                     }
                 ) {
                     Icon(
-                        imageVector = Icons.Outlined.Check,
+                        painter = painterResource(R.drawable.ic_check),
                         tint = MaterialTheme.colorScheme.primary,
                         contentDescription = stringResource(R.string.tip_mark_completed)
                     )

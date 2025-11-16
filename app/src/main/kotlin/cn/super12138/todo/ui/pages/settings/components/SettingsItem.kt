@@ -1,5 +1,6 @@
 package cn.super12138.todo.ui.pages.settings.components
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -17,12 +18,34 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.utils.VibrationUtils
+
+@Composable
+fun SettingsItem(
+    modifier: Modifier = Modifier,
+    @DrawableRes leadingIconRes: Int,
+    title: String,
+    description: String? = null,
+    enableClick: Boolean = true,
+    onClick: () -> Unit = {}
+) {
+    SettingsItem(
+        leadingIcon = painterResource(leadingIconRes),
+        title = title,
+        description = description,
+        trailingContent = null,
+        enableClick = enableClick,
+        onClick = onClick,
+        modifier = modifier
+    )
+}
 
 @Composable
 fun SettingsItem(
@@ -38,6 +61,38 @@ fun SettingsItem(
         title = title,
         description = description,
         trailingContent = null,
+        enableClick = enableClick,
+        onClick = onClick,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun SettingsItem(
+    modifier: Modifier = Modifier,
+    leadingIcon: Painter? = null,
+    title: String,
+    description: String? = null,
+    trailingContent: (@Composable () -> Unit)? = null,
+    background: Color = MaterialTheme.colorScheme.surfaceContainerHigh,
+    enableClick: Boolean = true,
+    onClick: () -> Unit = {}
+) {
+    SettingsItem(
+        leadingIcon = {
+            leadingIcon?.let {
+                Icon(
+                    painter = leadingIcon,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.padding(end = TodoDefaults.settingsItemHorizontalPadding),
+                )
+            }
+        },
+        title = title,
+        description = description,
+        trailingContent = trailingContent,
+        background = background,
         enableClick = enableClick,
         onClick = onClick,
         modifier = modifier

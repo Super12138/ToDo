@@ -119,8 +119,12 @@ fun ProgressFragment(
             }
             AnimatedVisibility(
                 visible = remainTasks != 0,
-                enter = fadeIn(MaterialTheme.motionScheme.fastSpatialSpec()) + expandVertically(MaterialTheme.motionScheme.fastSpatialSpec()),
-                exit = fadeOut(MaterialTheme.motionScheme.fastSpatialSpec()) + shrinkVertically(MaterialTheme.motionScheme.fastSpatialSpec()),
+                enter = fadeIn(MaterialTheme.motionScheme.fastSpatialSpec()) + expandVertically(
+                    MaterialTheme.motionScheme.fastSpatialSpec()
+                ),
+                exit = fadeOut(MaterialTheme.motionScheme.fastSpatialSpec()) + shrinkVertically(
+                    MaterialTheme.motionScheme.fastSpatialSpec()
+                ),
             ) {
                 Text(
                     text = stringResource(R.string.tip_remain_tasks, remainTasks),
