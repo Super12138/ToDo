@@ -3,7 +3,7 @@
 coreKtx = "1.17.0"
 splashScreen = "1.2.0"
 lifecycleRuntimeKtx = "2.10.0"
-datastore = "1.1.7"
+datastore = "1.2.0"
 # Compose
 activityCompose = "1.12.0"
 composeBom = "2025.11.01"
