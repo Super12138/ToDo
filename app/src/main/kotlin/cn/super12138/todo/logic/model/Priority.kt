@@ -10,7 +10,7 @@ enum class Priority(val value: Float) {
     NotImportant(-1f),
     NotUrgent(-2f);
 
-    fun getDisplayName(context: Context): String {
+    fun displayName(context: Context): String {
         val resId = when (this) {
             Urgent -> R.string.priority_urgent
             Important -> R.string.priority_important

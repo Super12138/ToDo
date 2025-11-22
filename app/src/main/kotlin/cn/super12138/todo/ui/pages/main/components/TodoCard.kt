@@ -2,6 +2,10 @@ package cn.super12138.todo.ui.pages.main.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
@@ -18,6 +22,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -38,8 +43,12 @@ import cn.super12138.todo.R
 import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.utils.VibrationUtils
+import cn.super12138.todo.utils.containerColor
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalSharedTransitionApi::class)
+@OptIn(
+    ExperimentalFoundationApi::class, ExperimentalSharedTransitionApi::class,
+    ExperimentalMaterial3ExpressiveApi::class
+)
 @Composable
 fun TodoCard(
     modifier: Modifier = Modifier,
@@ -51,9 +60,7 @@ fun TodoCard(
     selected: Boolean,
     onCardClick: () -> Unit = {},
     onCardLongClick: () -> Unit = {},
-    onChecked: () -> Unit = {},
-    // sharedTransitionScope: SharedTransitionScope,
-    // animatedVisibilityScope: AnimatedVisibilityScope
+    onChecked: () -> Unit = {}
 ) {
     val view = LocalView.current
     val context = LocalContext.current
@@ -77,7 +84,15 @@ fun TodoCard(
                 )
                 .padding(horizontal = 15.dp)
         ) {
-            AnimatedVisibility(selected) {
+            AnimatedVisibility(
+                visible = selected,
+                enter = fadeIn(MaterialTheme.motionScheme.fastSpatialSpec()) + expandHorizontally(
+                    MaterialTheme.motionScheme.fastSpatialSpec()
+                ),
+                exit = fadeOut(MaterialTheme.motionScheme.fastSpatialSpec()) + shrinkHorizontally(
+                    MaterialTheme.motionScheme.fastSpatialSpec()
+                )
+            ) {
                 Box(
                     Modifier
                         .padding(end = 15.dp)
@@ -102,51 +117,32 @@ fun TodoCard(
                 BadgedBox(
                     badge = {
                         Badge(
-                            containerColor = when (priority) {
-                                Priority.NotUrgent -> MaterialTheme.colorScheme.surfaceContainerHighest
-                                Priority.NotImportant -> MaterialTheme.colorScheme.surfaceContainerHighest
-                                Priority.Default -> MaterialTheme.colorScheme.secondary
-                                Priority.Important -> MaterialTheme.colorScheme.tertiary
-                                Priority.Urgent -> MaterialTheme.colorScheme.error
-                            },
+                            containerColor = priority.containerColor(),
                             modifier = Modifier.padding(start = 5.dp)
                         ) {
                             Text(
-                                text = priority.getDisplayName(context),
+                                text = priority.displayName(context),
                                 textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
                             )
                         }
                     }
                 ) {
-                    // with(sharedTransitionScope) {
                     Text(
                         text = content,
                         style = MaterialTheme.typography.titleLarge,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
-                        modifier = Modifier
-                            /*.sharedBounds(
-                                sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_CONTENT_TRANSITION}_$id"),
-                                animatedVisibilityScope = animatedVisibilityScope
-                            )*/
-                            .basicMarquee() // TODO: 后续评估性能影响
+                        modifier = Modifier.basicMarquee() // TODO: 后续评估性能影响
                     )
-                    // }
                 }
 
-                // with(sharedTransitionScope) {
                 Text(
                     text = category.ifEmpty { stringResource(R.string.tip_default_category) },
                     style = MaterialTheme.typography.labelMedium,
                     textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
-                    maxLines = 1,
-                    /*modifier = Modifier.sharedBounds(
-                        sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_CATEGORY_TRANSITION}_$id"),
-                        animatedVisibilityScope = animatedVisibilityScope
-                    )*/
+                    maxLines = 1
                 )
-                // }
             }
 
             AnimatedVisibility(!selected && !completed) {

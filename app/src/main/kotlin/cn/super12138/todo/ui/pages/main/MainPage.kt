@@ -164,8 +164,6 @@ fun MainPage(
                 },
                 selectedTodoIds = selectedTodoIds,
                 modifier = Modifier.fillMaxWidth()
-                // sharedTransitionScope = sharedTransitionScope,
-                // animatedVisibilityScope = animatedVisibilityScope,
             )
         }
         /*}*/

@@ -35,7 +35,7 @@ fun TodoPrioritySlider(
     val view = LocalView.current
     val context = LocalContext.current
 
-    val priorityName = remember { Priority.entries.map { it.getDisplayName(context) } }
+    val priorityName = remember { Priority.entries.map { it.displayName(context) } }
     val interactionSource = remember { MutableInteractionSource() }
 
     Slider(

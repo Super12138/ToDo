@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,7 +22,7 @@ import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.LazyColumnCustomScrollBar
 import cn.super12138.todo.ui.pages.main.components.TodoCard
 
-@OptIn(ExperimentalSharedTransitionApi::class)
+@OptIn(ExperimentalSharedTransitionApi::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ManagerFragment(
     modifier: Modifier = Modifier,
@@ -30,9 +31,7 @@ fun ManagerFragment(
     onItemClick: (TodoEntity) -> Unit = {},
     onItemLongClick: (TodoEntity) -> Unit = {},
     onItemChecked: (TodoEntity) -> Unit = {},
-    selectedTodoIds: List<Int>,
-    // sharedTransitionScope: SharedTransitionScope,
-    // animatedVisibilityScope: AnimatedVisibilityScope
+    selectedTodoIds: List<Int>
 ) {
     LazyColumnCustomScrollBar(
         state = state,
@@ -79,11 +78,13 @@ fun ManagerFragment(
                         onCardClick = { onItemClick(item) },
                         onCardLongClick = { onItemLongClick(item) },
                         onChecked = { onItemChecked(item) },
-                        // sharedTransitionScope = sharedTransitionScope,
-                        // animatedVisibilityScope = animatedVisibilityScope,
                         modifier = Modifier
                             .padding(vertical = 5.dp)
-                            .animateItem() // TODO: 设置动画时间
+                            .animateItem(
+                                fadeInSpec = MaterialTheme.motionScheme.defaultEffectsSpec(),
+                                placementSpec = MaterialTheme.motionScheme.defaultSpatialSpec(),
+                                fadeOutSpec = MaterialTheme.motionScheme.fastEffectsSpec()
+                            )
                     )
                 }
             }
