@@ -19,7 +19,9 @@ val verCode = "git rev-list --count HEAD".exec().toInt() */
 
 android {
     namespace = "cn.super12138.todo"
-    compileSdk = 36
+    compileSdk {
+        version = release(36)
+    }
 
     // 获取 Release 签名
     val releaseSigning = if (project.hasProperty("releaseStoreFile")) {
