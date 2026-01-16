@@ -14,8 +14,8 @@ navigation = "2.9.6"
 material3 = "1.5.0-alpha12"
 adaptive = "1.2.0"
 # AboutLibraries
-aboutLibsRelease = "13.2.1"
-aboutLibsReleasePlugin = "13.2.1"
+aboutLibsRelease = "14.0.0-b01"
+aboutLibsReleasePlugin = "14.0.0-b01"
 # M3 Color
 m3color = "2025.4"
 # Konfetti
@@ -90,7 +90,6 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
