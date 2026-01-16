@@ -5,16 +5,16 @@ splashScreen = "1.2.0"
 lifecycleRuntimeKtx = "2.10.0"
 datastore = "1.2.0"
 # Compose
-activityCompose = "1.12.0"
-composeBom = "2025.11.01"
-liveData = "1.9.5"
+activityCompose = "1.12.2"
+composeBom = "2026.01.00"
+liveData = "1.10.1"
 room = "2.8.4"
-material3 = "1.5.0-alpha09"
+material3 = "1.5.0-alpha12"
 adaptive = "1.2.0"
 nav3Core = "1.0.0"
 # AboutLibraries
-aboutLibsRelease = "13.1.0"
-aboutLibsReleasePlugin = "13.1.0"
+aboutLibsRelease = "14.0.0-b01"
+aboutLibsReleasePlugin = "14.0.0-b01"
 # M3 Color
 m3color = "2025.4"
 # Capsule
@@ -31,9 +31,9 @@ junit = "4.13.2"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
 # Plugins
-agp = "8.13.1"
-kotlin = "2.2.21"
-ksp = "2.3.3"
+agp = "9.0.0"
+kotlin = "2.3.0"
+ksp = "2.3.4"
 
 [libraries]
 # Android X
@@ -92,7 +92,6 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
