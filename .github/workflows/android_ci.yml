@@ -24,7 +24,19 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
+      # 缓存NDK
+      - name: Cache NDK
+        uses: actions/cache@v5.0.1
+        with:
+          path: |
+            ${{ env.ANDROID_HOME }}/ndk
+          key: ndk-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ndk-${{ runner.os }}-
+
+      # 仅当NDK缓存未命中时才安装NDK
       - name: Install NDK 28.2.13676358
+        if: steps.cache-ndk.outputs.cache-hit != 'true'
         run: echo "y" | sudo ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --install 'ndk;28.2.13676358'
 
       - name: Grant execute permission for gradlew
@@ -40,12 +52,6 @@ jobs:
             echo releaseStoreFile='${{ github.workspace }}/key.jks' >> gradle.properties
             echo ${{ secrets.SIGNING_KEY }} | base64 --decode > ${{ github.workspace }}/key.jks
           fi
-
-      # - name: Cache NDK
-        # uses: actions/cache@v4.2.3
-        # with:
-          # path: ${ANDROID_HOME}/ndk/28.2.13676358
-          # key: ndk-cache
 
       - name: Fix Permissions for Debug Keystore Path
         if: github.ref != 'refs/heads/main'
