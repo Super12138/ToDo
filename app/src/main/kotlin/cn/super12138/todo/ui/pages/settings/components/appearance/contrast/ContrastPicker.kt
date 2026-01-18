@@ -35,15 +35,19 @@ import cn.super12138.todo.utils.VibrationUtils
 
 @Composable
 fun ContrastPicker(
+    modifier: Modifier = Modifier,
     currentContrast: ContrastLevel,
     onContrastChange: (ContrastLevel) -> Unit,
-    modifier: Modifier = Modifier
+    topRounded: Boolean = false,
+    bottomRounded: Boolean = false
 ) {
     val view = LocalView.current
     val context = LocalContext.current
     MoreContentSettingsItem(
         title = stringResource(R.string.pref_contrast_level),
         description = stringResource(R.string.pref_contrast_level_desc),
+        topRounded = topRounded,
+        bottomRounded = bottomRounded,
         modifier = modifier
     ) {
         val contrastLevelName =

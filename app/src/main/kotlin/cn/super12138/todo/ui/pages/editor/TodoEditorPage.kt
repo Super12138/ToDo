@@ -44,7 +44,7 @@ import cn.super12138.todo.logic.datastore.DataStoreManager
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.ChipItem
 import cn.super12138.todo.ui.components.ConfirmDialog
-import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
+import cn.super12138.todo.ui.components.TopAppBarScaffold
 import cn.super12138.todo.ui.components.TodoFloatingActionButton
 import cn.super12138.todo.ui.pages.editor.components.TodoCategoryChip
 import cn.super12138.todo.ui.pages.editor.components.TodoCategoryTextField
@@ -69,7 +69,7 @@ fun TodoEditorPage(
     // TODO: 本页及其相关组件重组性能检查优化
     val view = LocalView.current
     val animatedVisibilityScope = LocalNavAnimatedContentScope.current
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     val uiState = rememberEditorState(initialTodo = toDo)
 
@@ -112,9 +112,8 @@ fun TodoEditorPage(
 
     BackHandler(onBack = ::checkModifiedBeforeBack)
 
-    LargeTopAppBarScaffold(
+    TopAppBarScaffold(
         title = stringResource(if (toDo != null) R.string.title_edit_task else R.string.action_add_task),
-        scrollBehavior = scrollBehavior,
         floatingActionButton = {
             with(sharedTransitionScope) {
                 Row(

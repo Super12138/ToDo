@@ -17,10 +17,11 @@ fun SwitchSettingsItem(
     @DrawableRes leadingIconRes: Int,
     title: String,
     description: String? = null,
+    topRounded: Boolean = false,
+    bottomRounded: Boolean = false,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit
 ) {
-    val view = LocalView.current
     SettingsItem(
         leadingIcon = painterResource(leadingIconRes),
         title = title,
@@ -28,14 +29,13 @@ fun SwitchSettingsItem(
         trailingContent = {
             Switch(
                 checked = checked,
-                onCheckedChange = {
-                    VibrationUtils.performHapticFeedback(view)
-                    onCheckedChange(it)
-                },
+                onCheckedChange = null,
                 modifier = Modifier.padding(start = TodoDefaults.settingsItemHorizontalPadding / 2)
             )
         },
         onClick = { onCheckedChange(!checked) },
+        topRounded = topRounded,
+        bottomRounded = bottomRounded,
         modifier = modifier,
     )
 }

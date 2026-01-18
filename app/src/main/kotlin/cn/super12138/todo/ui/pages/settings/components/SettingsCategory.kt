@@ -8,20 +8,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import cn.super12138.todo.ui.TodoDefaults
 
 @Composable
 fun SettingsCategory(
     title: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    first: Boolean = false,
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
             .padding(
-                top = TodoDefaults.settingsItemVerticalPadding / 2,
-                start = TodoDefaults.settingsItemHorizontalPadding,
-                end = TodoDefaults.settingsItemHorizontalPadding,
+                top = if (first) 0.dp else TodoDefaults.settingsItemVerticalPadding,
+                start = TodoDefaults.settingsItemHorizontalPadding / 2,
+                end = TodoDefaults.settingsItemHorizontalPadding / 2,
+                bottom = TodoDefaults.settingsItemVerticalPadding / 2
             )
     ) {
         Text(

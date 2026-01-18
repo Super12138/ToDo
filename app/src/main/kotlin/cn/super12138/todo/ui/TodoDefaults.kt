@@ -1,5 +1,11 @@
 package cn.super12138.todo.ui
 
+import androidx.compose.foundation.shape.CornerBasedShape
+import androidx.compose.foundation.shape.ZeroCornerSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 
 object TodoDefaults {
@@ -26,7 +32,9 @@ object TodoDefaults {
     /**
      * 设置项垂直边距
      */
-    val settingsItemVerticalPadding = 20.dp
+    val settingsItemVerticalPadding = 16.dp
+
+    val settingsItemPadding = 2.dp
 
     /**
      * 待办进度条粗度
@@ -47,4 +55,29 @@ object TodoDefaults {
      * 待办进度条波幅
      */
     const val waveAmplitude = 0.6f
+
+    val ScreenContainerShape: Shape
+        @Composable
+        get() = MaterialTheme.shapes.large.copy(
+            bottomStart = ZeroCornerSize,
+            bottomEnd = ZeroCornerSize
+        )
+
+    val ContainerColor: Color
+        @Composable
+        get() = MaterialTheme.colorScheme.surfaceBright
+
+    val BackgroundColor: Color
+        @Composable
+        get() = MaterialTheme.colorScheme.surfaceContainer
+
+    val SettingsItemDefaultShape: CornerBasedShape
+        @Composable
+        get() = MaterialTheme.shapes.small
+
+    val SettingsItemRoundedShape: CornerBasedShape
+        @Composable
+        get() = MaterialTheme.shapes.large
+
+    val fadedEdgeWidth = 8.dp
 }

@@ -1,15 +1,10 @@
 package cn.super12138.todo.ui.pages.settings
 
 import android.widget.Toast
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -18,17 +13,15 @@ import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
-import cn.super12138.todo.ui.TodoDefaults
-import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
+import cn.super12138.todo.ui.components.TopAppBarScaffold
+import cn.super12138.todo.ui.components.RoundedScreenContainer
 import cn.super12138.todo.ui.icons.GitHubIcon
-import cn.super12138.todo.ui.pages.settings.components.Settings
+import cn.super12138.todo.ui.pages.settings.components.SettingsContainer
 import cn.super12138.todo.ui.pages.settings.components.SettingsItem
 import cn.super12138.todo.utils.SystemUtils
 import kotlinx.coroutines.delay
@@ -42,80 +35,82 @@ fun SettingsAbout(
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    LargeTopAppBarScaffold(
+    TopAppBarScaffold(
         title = stringResource(R.string.pref_about),
         onBack = onNavigateUp,
-        scrollBehavior = scrollBehavior,
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = modifier,
     ) { innerPadding ->
         val context = LocalContext.current
         val uriHandler = LocalUriHandler.current
+        var clickCount by remember { mutableIntStateOf(0) }
+        var lastClickTime by remember { mutableLongStateOf(0L) }
 
-        Column(
-            verticalArrangement = Arrangement.spacedBy(2.dp),
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(horizontal = TodoDefaults.screenHorizontalPadding)
-                .verticalScroll(rememberScrollState())
-        ) {
-            Settings {
-                var clickCount by remember { mutableIntStateOf(0) }
-                var lastClickTime by remember { mutableLongStateOf(0L) }
+        LaunchedEffect(clickCount) {
+            if (clickCount > 0) {
+                lastClickTime = System.currentTimeMillis()
+                val currentClickTime = lastClickTime
+                delay(300L)
 
-                LaunchedEffect(clickCount) {
-                    if (clickCount > 0) {
-                        lastClickTime = System.currentTimeMillis()
-                        val currentClickTime = lastClickTime
-                        delay(300L)
-
-                        if (currentClickTime == lastClickTime) {
-                            clickCount = 0
-                        }
-                    }
+                if (currentClickTime == lastClickTime) {
+                    clickCount = 0
                 }
+            }
+        }
 
-                SettingsItem(
-                    leadingIconRes = R.drawable.ic_numbers,
-                    title = stringResource(R.string.pref_app_version),
-                    description = SystemUtils.getAppVersion(context),
-                    onClick = {
-                        clickCount++
-                        if (clickCount == 5) {
-                            if ((System.currentTimeMillis() % 2) == 0.toLong()) {
-                                Toast.makeText(context, "🍨", Toast.LENGTH_SHORT).show()
-                            } else {
-                                Toast.makeText(context, "✈️", Toast.LENGTH_SHORT).show()
+        RoundedScreenContainer(Modifier.padding(innerPadding)) {
+            SettingsContainer(Modifier.fillMaxSize()) {
+                item {
+                    SettingsItem(
+                        leadingIconRes = R.drawable.ic_numbers,
+                        title = stringResource(R.string.pref_app_version),
+                        description = SystemUtils.getAppVersion(context),
+                        onClick = {
+                            clickCount++
+                            if (clickCount == 5) {
+                                if ((System.currentTimeMillis() % 2) == 0.toLong()) {
+                                    Toast.makeText(context, "🍨", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    Toast.makeText(context, "✈️", Toast.LENGTH_SHORT).show()
+                                }
+                                clickCount = 0
                             }
-                            clickCount = 0
-                        }
-                    }
-                )
-                SettingsItem(
-                    leadingIconRes = R.drawable.ic_person_4,
-                    title = stringResource(R.string.pref_developer),
-                    description = stringResource(R.string.developer_name),
-                    onClick = { uriHandler.openUri(Constants.DEVELOPER_GITHUB) }
-                )
-                SettingsItem(
-                    leadingIcon = GitHubIcon,
-                    title = stringResource(R.string.pref_view_on_github),
-                    description = stringResource(R.string.pref_view_on_github_desc),
-                    onClick = { uriHandler.openUri(Constants.GITHUB_REPO) }
-                )
-                SettingsItem(
-                    leadingIconRes = R.drawable.ic_balance,
-                    title = stringResource(R.string.pref_licence),
-                    description = stringResource(R.string.pref_licence_desc),
-                    onClick = toLicencePage
-                )
-                SettingsItem(
-                    leadingIconRes = R.drawable.ic_code_blocks,
-                    title = stringResource(R.string.pref_developer_options),
-                    description = stringResource(R.string.pref_developer_options_desc),
-                    onClick = toDevPage
-                )
+                        },
+                        topRounded = true
+                    )
+                }
+                item {
+                    SettingsItem(
+                        leadingIconRes = R.drawable.ic_person_4,
+                        title = stringResource(R.string.pref_developer),
+                        description = stringResource(R.string.developer_name),
+                        onClick = { uriHandler.openUri(Constants.DEVELOPER_GITHUB) },
+                    )
+                }
+                item {
+                    SettingsItem(
+                        leadingIcon = GitHubIcon,
+                        title = stringResource(R.string.pref_view_on_github),
+                        description = stringResource(R.string.pref_view_on_github_desc),
+                        onClick = { uriHandler.openUri(Constants.GITHUB_REPO) }
+                    )
+                }
+                item {
+                    SettingsItem(
+                        leadingIconRes = R.drawable.ic_balance,
+                        title = stringResource(R.string.pref_licence),
+                        description = stringResource(R.string.pref_licence_desc),
+                        onClick = toLicencePage
+                    )
+                }
+                item {
+                    SettingsItem(
+                        leadingIconRes = R.drawable.ic_code_blocks,
+                        title = stringResource(R.string.pref_developer_options),
+                        description = stringResource(R.string.pref_developer_options_desc),
+                        onClick = toDevPage,
+                        bottomRounded = true
+                    )
+                }
             }
         }
     }

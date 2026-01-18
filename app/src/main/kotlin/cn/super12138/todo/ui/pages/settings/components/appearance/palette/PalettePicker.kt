@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
+import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.pages.settings.components.LazyRowSettingsItem
 import cn.super12138.todo.ui.theme.ContrastLevel
 import cn.super12138.todo.ui.theme.DarkMode
@@ -18,12 +19,14 @@ import cn.super12138.todo.ui.theme.PaletteStyle
 
 @Composable
 fun PalettePicker(
+    modifier: Modifier = Modifier,
     currentPalette: () -> PaletteStyle,
     onPaletteChange: (paletteStyle: PaletteStyle) -> Unit,
     isDynamicColor: Boolean,
     isDarkMode: DarkMode,
     contrastLevel: ContrastLevel,
-    modifier: Modifier = Modifier
+    topRounded: Boolean = false,
+    bottomRounded: Boolean = false
 ) {
     val paletteOptions = remember { PaletteStyle.entries.toList() }
 
@@ -31,7 +34,9 @@ fun PalettePicker(
         title = stringResource(R.string.pref_palette_style),
         description = stringResource(R.string.pref_palette_style_desc),
         horizontalArrangement = Arrangement.spacedBy(5.dp),
-        fadedEdgeWidth = 8.dp,
+        fadedEdgeWidth = TodoDefaults.fadedEdgeWidth,
+        topRounded = topRounded,
+        bottomRounded = bottomRounded,
         modifier = modifier
     ) {
         items(items = paletteOptions, key = { it.id }) {

@@ -1,28 +1,35 @@
 package cn.super12138.todo.ui.pages.settings.components
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.unit.dp
 import cn.super12138.todo.ui.TodoDefaults
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun Settings(
+fun SettingsContainer(
     modifier: Modifier = Modifier,
-    content: @Composable ColumnScope.() -> Unit,
+    state: LazyListState = rememberLazyListState(),
+    content: LazyListScope.() -> Unit,
 ) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(2.dp),
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(TodoDefaults.settingsItemPadding),
+        state = state,
         modifier = modifier
-            .padding(vertical = TodoDefaults.screenVerticalPadding)
-            .clip(MaterialTheme.shapes.extraLarge),
-        content = content
-    )
+    ) {
+        item {
+            Spacer(modifier = Modifier.size(TodoDefaults.settingsItemVerticalPadding))
+        }
+
+        content()
+
+        item {
+            Spacer(modifier = Modifier.size(TodoDefaults.settingsItemVerticalPadding))
+        }
+    }
 }

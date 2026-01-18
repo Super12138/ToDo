@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -17,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalView
@@ -26,6 +26,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.utils.VibrationUtils
+import cn.super12138.todo.utils.getPartialRoundedShape
 
 @Composable
 fun SettingsItem(
@@ -33,6 +34,8 @@ fun SettingsItem(
     @DrawableRes leadingIconRes: Int,
     title: String,
     description: String? = null,
+    topRounded: Boolean = false,
+    bottomRounded: Boolean = false,
     enableClick: Boolean = true,
     onClick: () -> Unit = {}
 ) {
@@ -41,6 +44,8 @@ fun SettingsItem(
         title = title,
         description = description,
         trailingContent = null,
+        topRounded = topRounded,
+        bottomRounded = bottomRounded,
         enableClick = enableClick,
         onClick = onClick,
         modifier = modifier
@@ -53,6 +58,8 @@ fun SettingsItem(
     leadingIcon: ImageVector? = null,
     title: String,
     description: String? = null,
+    topRounded: Boolean = false,
+    bottomRounded: Boolean = false,
     enableClick: Boolean = true,
     onClick: () -> Unit = {}
 ) {
@@ -61,6 +68,8 @@ fun SettingsItem(
         title = title,
         description = description,
         trailingContent = null,
+        topRounded = topRounded,
+        bottomRounded = bottomRounded,
         enableClick = enableClick,
         onClick = onClick,
         modifier = modifier
@@ -74,7 +83,9 @@ fun SettingsItem(
     title: String,
     description: String? = null,
     trailingContent: (@Composable () -> Unit)? = null,
-    background: Color = MaterialTheme.colorScheme.surfaceContainerHigh,
+    background: Color = TodoDefaults.ContainerColor,
+    topRounded: Boolean = false,
+    bottomRounded: Boolean = false,
     enableClick: Boolean = true,
     onClick: () -> Unit = {}
 ) {
@@ -93,6 +104,8 @@ fun SettingsItem(
         description = description,
         trailingContent = trailingContent,
         background = background,
+        topRounded = topRounded,
+        bottomRounded = bottomRounded,
         enableClick = enableClick,
         onClick = onClick,
         modifier = modifier
@@ -106,7 +119,9 @@ fun SettingsItem(
     title: String,
     description: String? = null,
     trailingContent: (@Composable () -> Unit)? = null,
-    background: Color = MaterialTheme.colorScheme.surfaceContainerHigh,
+    background: Color = TodoDefaults.ContainerColor,
+    topRounded: Boolean = false,
+    bottomRounded: Boolean = false,
     enableClick: Boolean = true,
     onClick: () -> Unit = {}
 ) {
@@ -125,6 +140,8 @@ fun SettingsItem(
         description = description,
         trailingContent = trailingContent,
         background = background,
+        topRounded = topRounded,
+        bottomRounded = bottomRounded,
         enableClick = enableClick,
         onClick = onClick,
         modifier = modifier
@@ -139,8 +156,11 @@ fun SettingsItem(
     title: String,
     description: String? = null,
     trailingContent: (@Composable () -> Unit)? = null,
-    shape: Shape = MaterialTheme.shapes.small,
-    background: Color = MaterialTheme.colorScheme.surfaceContainerHigh,
+    background: Color = TodoDefaults.ContainerColor,
+    shape: CornerBasedShape = TodoDefaults.SettingsItemDefaultShape,
+    roundedShape: CornerBasedShape = TodoDefaults.SettingsItemRoundedShape,
+    topRounded: Boolean = false,
+    bottomRounded: Boolean = false,
     enableClick: Boolean = true,
     onClick: () -> Unit = {},
 ) {
@@ -149,7 +169,7 @@ fun SettingsItem(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .clip(shape)
+            .clip(shape.getPartialRoundedShape(topRounded, bottomRounded, roundedShape))
             .clickable(
                 enabled = enableClick,
                 onClick = {

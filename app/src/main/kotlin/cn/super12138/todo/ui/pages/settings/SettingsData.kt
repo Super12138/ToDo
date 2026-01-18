@@ -4,16 +4,12 @@ import android.content.Context
 import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,17 +18,16 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.DialogProperties
 import cn.super12138.todo.R
-import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.activities.MainActivity
 import cn.super12138.todo.ui.components.ConfirmDialog
-import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
-import cn.super12138.todo.ui.pages.settings.components.Settings
+import cn.super12138.todo.ui.components.TopAppBarScaffold
+import cn.super12138.todo.ui.components.RoundedScreenContainer
 import cn.super12138.todo.ui.pages.settings.components.SettingsCategory
+import cn.super12138.todo.ui.pages.settings.components.SettingsContainer
 import cn.super12138.todo.ui.pages.settings.components.SettingsItem
 import cn.super12138.todo.ui.viewmodels.MainViewModel
 import cn.super12138.todo.utils.SystemUtils
@@ -48,9 +43,7 @@ fun SettingsData(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-
     var showRestoreDialog by rememberSaveable { mutableStateOf(false) }
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
@@ -104,47 +97,49 @@ fun SettingsData(
         }
     )
 
-    LargeTopAppBarScaffold(
+    TopAppBarScaffold(
         title = stringResource(R.string.pref_data),
         onBack = onNavigateUp,
-        scrollBehavior = scrollBehavior,
         snackbarHost = { SnackbarHost(snackbarHostState) },
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = modifier,
     ) { innerPadding ->
-        Column(
-            Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(horizontal = TodoDefaults.screenHorizontalPadding)
-                .verticalScroll(rememberScrollState())
-        ) {
-            SettingsCategory(stringResource(R.string.pref_category_data_management))
-            Settings {
-                SettingsItem(
-                    leadingIconRes = R.drawable.ic_download,
-                    title = stringResource(R.string.pref_backup),
-                    description = stringResource(R.string.pref_backup_desc),
-                    onClick = {
-                        backupLauncher.launch("Todo-backup-${SystemUtils.getTime()}.zip")
-                    }
-                )
-                SettingsItem(
-                    leadingIconRes = R.drawable.ic_upload,
-                    title = stringResource(R.string.pref_restore),
-                    description = stringResource(R.string.pref_restore_desc),
-                    onClick = {
-                        restoreLauncher.launch(arrayOf("application/zip"))
-                    }
-                )
-            }
-            SettingsCategory(stringResource(R.string.pref_category_category_management))
-            Settings {
-                SettingsItem(
-                    leadingIconRes = R.drawable.ic_category,
-                    title = stringResource(R.string.pref_category_category_management),
-                    description = stringResource(R.string.pref_category_management_desc),
-                    onClick = toCategoryManager
-                )
+        RoundedScreenContainer(Modifier.padding(innerPadding)) {
+            SettingsContainer(Modifier.fillMaxSize()) {
+                item {
+                    SettingsCategory(title = stringResource(R.string.pref_category_data_management), first = true)
+                    SettingsItem(
+                        leadingIconRes = R.drawable.ic_download,
+                        title = stringResource(R.string.pref_backup),
+                        description = stringResource(R.string.pref_backup_desc),
+                        onClick = {
+                            backupLauncher.launch("Todo-backup-${SystemUtils.getTime()}.zip")
+                        },
+                        topRounded = true
+                    )
+                }
+                item {
+                    SettingsItem(
+                        leadingIconRes = R.drawable.ic_upload,
+                        title = stringResource(R.string.pref_restore),
+                        description = stringResource(R.string.pref_restore_desc),
+                        onClick = {
+                            restoreLauncher.launch(arrayOf("application/zip"))
+                        },
+                        bottomRounded = true
+                    )
+                }
+
+                item {
+                    SettingsCategory(stringResource(R.string.pref_category_category_management))
+                    SettingsItem(
+                        leadingIconRes = R.drawable.ic_category,
+                        title = stringResource(R.string.pref_category_category_management),
+                        description = stringResource(R.string.pref_category_management_desc),
+                        onClick = toCategoryManager,
+                        topRounded = true,
+                        bottomRounded = true
+                    )
+                }
             }
         }
     }

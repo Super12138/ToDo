@@ -73,7 +73,7 @@ class CrashActivity : ComponentActivity() {
             ) {
                 CrashPage(
                     crashLog = crashLogs ?: stringResource(R.string.tip_no_crash_logs),
-                    exitApp = { finishAffinity() },
+                    exitApp = ::finishAffinity,
                     modifier = Modifier.fillMaxSize()
                 )
             }

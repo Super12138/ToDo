@@ -15,7 +15,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
@@ -26,13 +25,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.datastore.DataStoreManager
-import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
+import cn.super12138.todo.ui.components.TopAppBarScaffold
 import cn.super12138.todo.ui.components.TodoFloatingActionButton
 import cn.super12138.todo.ui.pages.settings.components.category.CategoryItem
 import cn.super12138.todo.ui.pages.settings.components.category.CategoryPromptDialog
@@ -45,7 +43,6 @@ fun SettingsDataCategory(
     modifier: Modifier = Modifier
 ) {
     // TODO: 本页及其相关组件重组性能检查优化
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val listState = rememberLazyListState()
@@ -57,10 +54,9 @@ fun SettingsDataCategory(
 
     val isExpanded by remember { derivedStateOf { listState.firstVisibleItemIndex == 0 } }
 
-    LargeTopAppBarScaffold(
+    TopAppBarScaffold(
         title = stringResource(R.string.pref_category_category_management),
         onBack = onNavigateUp,
-        scrollBehavior = scrollBehavior,
         snackbarHost = { SnackbarHost(snackbarHostState) },
         floatingActionButton = {
             TodoFloatingActionButton(
@@ -73,7 +69,7 @@ fun SettingsDataCategory(
                 }
             )
         },
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = modifier,
     ) { innerPadding ->
         LazyColumn(
             state = listState,

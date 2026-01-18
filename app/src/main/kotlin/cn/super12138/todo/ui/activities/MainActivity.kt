@@ -8,7 +8,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -19,6 +18,7 @@ import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.datastore.DataStoreManager
+import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.Konfetti
 import cn.super12138.todo.ui.navigation.TodoNavigation
 import cn.super12138.todo.ui.theme.DarkMode
@@ -83,7 +83,7 @@ class MainActivity : ComponentActivity() {
                 contrastLevel = contrastLevel.toDouble(),
                 dynamicColor = dynamicColor
             ) {
-                Surface(color = MaterialTheme.colorScheme.background) {
+                Surface(color = TodoDefaults.BackgroundColor) {
                     TodoNavigation(
                         viewModel = mainViewModel,
                         modifier = Modifier.fillMaxSize()

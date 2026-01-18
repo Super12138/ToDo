@@ -76,7 +76,7 @@ fun RadioItem(
         modifier
             .fillMaxWidth()
             .height(56.dp)
-            .clip(MaterialTheme.shapes.small)
+            .clip(TodoDefaults.SettingsItemDefaultShape)
             .background(MaterialTheme.colorScheme.surfaceContainerHighest)
             .selectable(
                 selected = selected,

@@ -30,9 +30,8 @@ fun SettingsPlainBox(
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(
-                start = TodoDefaults.settingsItemHorizontalPadding,
-                end = TodoDefaults.settingsItemHorizontalPadding,
-                bottom = TodoDefaults.settingsItemVerticalPadding
+                vertical = TodoDefaults.settingsItemVerticalPadding,
+                horizontal = TodoDefaults.settingsItemHorizontalPadding / 2
             ),
     ) {
         Icon(
