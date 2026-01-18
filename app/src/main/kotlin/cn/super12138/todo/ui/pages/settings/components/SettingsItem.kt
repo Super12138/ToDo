@@ -28,6 +28,7 @@ import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.utils.getPartialRoundedShape
 
+// Leading icon as drawable resource
 @Composable
 fun SettingsItem(
     modifier: Modifier = Modifier,
@@ -38,44 +39,20 @@ fun SettingsItem(
     bottomRounded: Boolean = false,
     enableClick: Boolean = true,
     onClick: () -> Unit = {}
-) {
-    SettingsItem(
-        leadingIcon = painterResource(leadingIconRes),
-        title = title,
-        description = description,
-        trailingContent = null,
-        topRounded = topRounded,
-        bottomRounded = bottomRounded,
-        enableClick = enableClick,
-        onClick = onClick,
-        modifier = modifier
-    )
-}
+) = SettingsItem(
+    leadingIcon = painterResource(leadingIconRes),
+    title = title,
+    description = description,
+    trailingContent = null,
+    topRounded = topRounded,
+    bottomRounded = bottomRounded,
+    enableClick = enableClick,
+    onClick = onClick,
+    modifier = modifier
+)
 
-@Composable
-fun SettingsItem(
-    modifier: Modifier = Modifier,
-    leadingIcon: ImageVector? = null,
-    title: String,
-    description: String? = null,
-    topRounded: Boolean = false,
-    bottomRounded: Boolean = false,
-    enableClick: Boolean = true,
-    onClick: () -> Unit = {}
-) {
-    SettingsItem(
-        leadingIcon = leadingIcon,
-        title = title,
-        description = description,
-        trailingContent = null,
-        topRounded = topRounded,
-        bottomRounded = bottomRounded,
-        enableClick = enableClick,
-        onClick = onClick,
-        modifier = modifier
-    )
-}
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SettingsItem(
     modifier: Modifier = Modifier,
@@ -88,29 +65,61 @@ fun SettingsItem(
     bottomRounded: Boolean = false,
     enableClick: Boolean = true,
     onClick: () -> Unit = {}
-) {
-    SettingsItem(
-        leadingIcon = {
-            leadingIcon?.let {
-                Icon(
-                    painter = leadingIcon,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.padding(end = TodoDefaults.settingsItemHorizontalPadding),
-                )
-            }
-        },
-        title = title,
-        description = description,
-        trailingContent = trailingContent,
-        background = background,
-        topRounded = topRounded,
-        bottomRounded = bottomRounded,
-        enableClick = enableClick,
-        onClick = onClick,
-        modifier = modifier
-    )
-}
+) = SettingsItem(
+    leadingIcon = {
+        leadingIcon?.let {
+            /*Box(
+                modifier = Modifier
+                    .padding(end = TodoDefaults.settingsItemHorizontalPadding)
+                    .background(
+                        color = MaterialTheme.colorScheme.secondaryContainer,
+                        shape = MaterialShapes.Cookie6Sided.toShape()
+                    )
+                    .size(35.dp),
+                contentAlignment = Alignment.Center
+            ) {*/
+            Icon(
+                painter = leadingIcon,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(end = TodoDefaults.settingsItemHorizontalPadding)
+            )
+            // }
+        }
+    },
+    title = title,
+    description = description,
+    trailingContent = trailingContent,
+    background = background,
+    topRounded = topRounded,
+    bottomRounded = bottomRounded,
+    enableClick = enableClick,
+    onClick = onClick,
+    modifier = modifier
+)
+
+// Leading icon as ImageVector
+@Composable
+fun SettingsItem(
+    modifier: Modifier = Modifier,
+    leadingIcon: ImageVector? = null,
+    title: String,
+    description: String? = null,
+    topRounded: Boolean = false,
+    bottomRounded: Boolean = false,
+    enableClick: Boolean = true,
+    onClick: () -> Unit = {}
+) = SettingsItem(
+    leadingIcon = leadingIcon,
+    title = title,
+    description = description,
+    trailingContent = null,
+    topRounded = topRounded,
+    bottomRounded = bottomRounded,
+    enableClick = enableClick,
+    onClick = onClick,
+    modifier = modifier
+)
 
 @Composable
 fun SettingsItem(
@@ -124,29 +133,28 @@ fun SettingsItem(
     bottomRounded: Boolean = false,
     enableClick: Boolean = true,
     onClick: () -> Unit = {}
-) {
-    SettingsItem(
-        leadingIcon = {
-            leadingIcon?.let {
-                Icon(
-                    imageVector = it,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.padding(end = TodoDefaults.settingsItemHorizontalPadding),
-                )
-            }
-        },
-        title = title,
-        description = description,
-        trailingContent = trailingContent,
-        background = background,
-        topRounded = topRounded,
-        bottomRounded = bottomRounded,
-        enableClick = enableClick,
-        onClick = onClick,
-        modifier = modifier
-    )
-}
+) = SettingsItem(
+    leadingIcon = {
+        leadingIcon?.let {
+            Icon(
+                imageVector = it,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(end = TodoDefaults.settingsItemHorizontalPadding),
+            )
+        }
+    },
+    title = title,
+    description = description,
+    trailingContent = trailingContent,
+    background = background,
+    topRounded = topRounded,
+    bottomRounded = bottomRounded,
+    enableClick = enableClick,
+    onClick = onClick,
+    modifier = modifier
+)
+
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -163,6 +171,57 @@ fun SettingsItem(
     bottomRounded: Boolean = false,
     enableClick: Boolean = true,
     onClick: () -> Unit = {},
+) = SettingsItem(
+    modifier = modifier,
+    leadingIcon = leadingIcon,
+    headlineContent = {
+        Text(
+            text = title,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            style = MaterialTheme.typography.titleLarge.copy(
+                color = MaterialTheme.colorScheme.onSurface,
+                fontSize = 20.sp
+            )
+        )
+    },
+    supportingContent = {
+        description?.let {
+            Text(
+                text = it,
+                // maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            )
+        }
+    },
+    trailingContent = trailingContent,
+    background = background,
+    shape = shape,
+    roundedShape = roundedShape,
+    topRounded = topRounded,
+    bottomRounded = bottomRounded,
+    enableClick = enableClick,
+    onClick = onClick
+)
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun SettingsItem(
+    modifier: Modifier = Modifier,
+    leadingIcon: (@Composable () -> Unit)? = null,
+    headlineContent: (@Composable () -> Unit)? = null,
+    supportingContent: (@Composable () -> Unit)? = null,
+    trailingContent: (@Composable () -> Unit)? = null,
+    background: Color = TodoDefaults.ContainerColor,
+    shape: CornerBasedShape = TodoDefaults.SettingsItemDefaultShape,
+    roundedShape: CornerBasedShape = TodoDefaults.SettingsItemRoundedShape,
+    topRounded: Boolean = false,
+    bottomRounded: Boolean = false,
+    enableClick: Boolean = true,
+    onClick: () -> Unit = {},
 ) {
     val view = LocalView.current
     Row(
@@ -171,47 +230,23 @@ fun SettingsItem(
             .wrapContentHeight()
             .clip(shape.getPartialRoundedShape(topRounded, bottomRounded, roundedShape))
             .clickable(
-                enabled = enableClick,
-                onClick = {
+                enabled = enableClick, onClick = {
                     VibrationUtils.performHapticFeedback(view)
                     onClick()
-                }
-            )
+                })
             .background(background)
             .padding(
                 horizontal = TodoDefaults.settingsItemHorizontalPadding,
                 vertical = TodoDefaults.settingsItemVerticalPadding
-            ),
-        verticalAlignment = Alignment.CenterVertically
+            ), verticalAlignment = Alignment.CenterVertically
     ) {
-        leadingIcon?.let {
-            it()
-        }
+        leadingIcon?.let { it() }
 
         Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = title,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.titleLarge.copy(
-                    color = MaterialTheme.colorScheme.onSurface,
-                    fontSize = 20.sp
-                )
-            )
-            description?.let {
-                Text(
-                    text = it,
-                    // maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                )
-            }
+            headlineContent?.let { it() }
+            supportingContent?.let { it() }
         }
 
-        trailingContent?.let {
-            it()
-        }
+        trailingContent?.let { it() }
     }
 }

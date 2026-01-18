@@ -1,6 +1,5 @@
 package cn.super12138.todo.ui.pages.settings.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -43,7 +42,7 @@ fun SettingsRadioDialog(
             Column(
                 verticalArrangement = Arrangement.spacedBy(2.dp),
                 modifier = Modifier
-                    .clip(MaterialTheme.shapes.extraLarge)
+                    .clip(TodoDefaults.SettingsItemRoundedShape)
                     .selectableGroup()
                     .verticalScroll(rememberScrollState())
             ) {
@@ -77,7 +76,7 @@ fun RadioItem(
             .fillMaxWidth()
             .height(56.dp)
             .clip(TodoDefaults.SettingsItemDefaultShape)
-            .background(MaterialTheme.colorScheme.surfaceContainerHighest)
+            // .background(MaterialTheme.colorScheme.surfaceContainerHighest)
             .selectable(
                 selected = selected,
                 onClick = {

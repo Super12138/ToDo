@@ -38,7 +38,7 @@ android {
         applicationId = "cn.super12138.todo"
         minSdk = 24
         targetSdk = 36
-        versionCode = 940
+        versionCode = 941
         versionName = "2.3.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -101,12 +101,13 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.animation)
-    implementation(libs.androidx.material3.adaptive)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.android)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.material3.windowsizeclass)
+    implementation(libs.androidx.material3.adaptive)
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
     // About Libraries
@@ -118,8 +119,6 @@ dependencies {
     implementation(libs.kyant0.capsule)
     // Konfetti
     implementation(libs.nl.dionsegijn.konfetti.compose)
-    // Lazy Column Scrollbar
-    implementation(libs.lazycolumnscrollbar)
     // Kotlin
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
