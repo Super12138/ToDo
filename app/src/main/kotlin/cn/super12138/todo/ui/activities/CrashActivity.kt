@@ -1,10 +1,8 @@
 package cn.super12138.todo.ui.activities
 
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.LaunchedEffect
@@ -16,11 +14,12 @@ import androidx.core.view.WindowCompat
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.datastore.DataStoreManager
+import cn.super12138.todo.logic.model.DarkMode
+import cn.super12138.todo.logic.model.PaletteStyle
 import cn.super12138.todo.ui.pages.crash.CrashPage
-import cn.super12138.todo.ui.theme.DarkMode
-import cn.super12138.todo.ui.theme.PaletteStyle
 import cn.super12138.todo.ui.theme.ToDoTheme
 import cn.super12138.todo.utils.VibrationUtils
+import cn.super12138.todo.utils.configureEdgeToEdge
 
 class CrashActivity : ComponentActivity() {
     companion object {
@@ -32,10 +31,7 @@ class CrashActivity : ComponentActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            window.isNavigationBarContrastEnforced = false
-        }
+        configureEdgeToEdge()
         super.onCreate(savedInstanceState)
 
         val crashLogs = intent.getStringExtra("crash_logs")

@@ -117,4 +117,6 @@
     <string name="pref_developer_options_desc">Some debugging options, only for DEVELOPMENT use</string>
     <string name="pref_padding">Padding</string>
     <string name="tip_selected">Selected</string>
+    <string name="page_tasks">Tasks</string>
+    <string name="page_overview">Overview</string>
 </resources>

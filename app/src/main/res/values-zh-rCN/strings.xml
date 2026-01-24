@@ -115,4 +115,7 @@
     <string name="pref_developer_options">开发者选项</string>
     <string name="pref_developer_options_desc">一些调试选项，仅供开发使用</string>
     <string name="pref_padding">边距</string>
+    <string name="tip_selected">已选择</string>
+    <string name="page_tasks">待办</string>
+    <string name="page_overview">概览</string>
 </resources>

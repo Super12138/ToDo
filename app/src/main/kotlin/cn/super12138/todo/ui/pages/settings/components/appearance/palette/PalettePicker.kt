@@ -11,11 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
+import cn.super12138.todo.logic.model.ContrastLevel
+import cn.super12138.todo.logic.model.DarkMode
+import cn.super12138.todo.logic.model.PaletteStyle
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.pages.settings.components.LazyRowSettingsItem
-import cn.super12138.todo.ui.theme.ContrastLevel
-import cn.super12138.todo.ui.theme.DarkMode
-import cn.super12138.todo.ui.theme.PaletteStyle
 
 @Composable
 fun PalettePicker(

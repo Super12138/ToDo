@@ -1,42 +1,45 @@
 package cn.super12138.todo.ui.activities
 
-import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.datastore.DataStoreManager
+import cn.super12138.todo.logic.model.DarkMode
+import cn.super12138.todo.logic.model.PaletteStyle
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.Konfetti
+import cn.super12138.todo.ui.navigation.TodoDestinations
 import cn.super12138.todo.ui.navigation.TodoNavigation
-import cn.super12138.todo.ui.theme.DarkMode
-import cn.super12138.todo.ui.theme.PaletteStyle
 import cn.super12138.todo.ui.theme.ToDoTheme
 import cn.super12138.todo.ui.viewmodels.MainViewModel
 import cn.super12138.todo.utils.VibrationUtils
+import cn.super12138.todo.utils.configureEdgeToEdge
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
-        enableEdgeToEdge()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            window.isNavigationBarContrastEnforced = false
-        }
+        configureEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContent {
             val mainViewModel: MainViewModel = viewModel()
+            val navigationBackStack = mainViewModel.topLevelBackStack
             val showConfetti = mainViewModel.showConfetti
             // 主题
             val dynamicColor by DataStoreManager.dynamicColorFlow.collectAsState(initial = Constants.PREF_DYNAMIC_COLOR_DEFAULT)
@@ -84,10 +87,33 @@ class MainActivity : ComponentActivity() {
                 dynamicColor = dynamicColor
             ) {
                 Surface(color = TodoDefaults.BackgroundColor) {
-                    TodoNavigation(
-                        viewModel = mainViewModel,
-                        modifier = Modifier.fillMaxSize()
-                    )
+                    NavigationSuiteScaffold(
+                        navigationSuiteItems = {
+                            TodoDestinations.entries.forEach {
+                                val selected = it.route == navigationBackStack.topLevelKey
+                                item(
+                                    icon = {
+                                        Icon(
+                                            painter = if (selected) painterResource(it.selectedIcon) else painterResource(
+                                                it.icon
+                                            ),
+                                            contentDescription = null
+                                        )
+                                    },
+                                    label = { Text(stringResource(it.label)) },
+                                    selected = selected,
+                                    onClick = { navigationBackStack.addTopLevel(it.route) }
+                                )
+                            }
+                        },
+                        containerColor = TodoDefaults.BackgroundColor
+                    ) {
+                        TodoNavigation(
+                            backStack = navigationBackStack,
+                            viewModel = mainViewModel,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    }
                     Konfetti(state = showConfetti)
                 }
             }

@@ -5,12 +5,15 @@ import android.net.Uri
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation3.runtime.NavKey
 import cn.super12138.todo.TodoApp
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.Repository
 import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.logic.datastore.DataStoreManager
 import cn.super12138.todo.logic.model.SortingMethod
+import cn.super12138.todo.ui.navigation.TodoScreen
+import cn.super12138.todo.ui.navigation.TopLevelBackStack
 import cn.super12138.todo.utils.FileUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -32,6 +35,8 @@ import java.util.zip.ZipOutputStream
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class MainViewModel : ViewModel() {
+    val topLevelBackStack = TopLevelBackStack<NavKey>(startKey = TodoScreen.Overview)
+
     // 待办
     private val toDos: Flow<List<TodoEntity>> = Repository.getAllTodos()
     val sortedTodos: Flow<List<TodoEntity>> =

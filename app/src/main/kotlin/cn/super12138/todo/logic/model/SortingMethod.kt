@@ -1,38 +1,29 @@
 package cn.super12138.todo.logic.model
 
-import android.content.Context
+import androidx.annotation.StringRes
 import cn.super12138.todo.R
 
-enum class SortingMethod(val id: Int) {
+enum class SortingMethod(
+    val id: Int,
+    @StringRes val nameRes: Int
+) {
     // 按添加先后顺序
-    Sequential(1),
+    Sequential(id = 1, nameRes = R.string.sorting_sequential),
 
     // 按学科
-    Category(2),
+    Category(id = 2, nameRes = R.string.sorting_category),
 
     // 按优先级
-    Priority(3),
+    Priority(id = 3, nameRes = R.string.sorting_priority),
 
     // 按完成情况
-    Completion(4),
+    Completion(id = 4, nameRes = R.string.sorting_completion),
 
     // 按字母升序
-    AlphabeticalAscending(5),
+    AlphabeticalAscending(id = 5, nameRes = R.string.sorting_alphabetical_ascending),
 
     // 按字母降序
-    AlphabeticalDescending(6);
-
-    fun getDisplayName(context: Context): String {
-        val resId = when (this) {
-            Sequential -> R.string.sorting_sequential
-            Category -> R.string.sorting_category
-            Priority -> R.string.sorting_priority
-            Completion -> R.string.sorting_completion
-            AlphabeticalAscending -> R.string.sorting_alphabetical_ascending
-            AlphabeticalDescending -> R.string.sorting_alphabetical_descending
-        }
-        return context.getString(resId)
-    }
+    AlphabeticalDescending(id = 6, nameRes = R.string.sorting_alphabetical_descending);
 
     companion object {
         fun fromId(id: Int) = entries.find { it.id == id } ?: Sequential

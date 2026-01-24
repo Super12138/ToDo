@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.SnackbarHost
@@ -25,7 +24,6 @@ import cn.super12138.todo.R
 import cn.super12138.todo.ui.activities.MainActivity
 import cn.super12138.todo.ui.components.ConfirmDialog
 import cn.super12138.todo.ui.components.TopAppBarScaffold
-import cn.super12138.todo.ui.components.RoundedScreenContainer
 import cn.super12138.todo.ui.pages.settings.components.SettingsCategory
 import cn.super12138.todo.ui.pages.settings.components.SettingsContainer
 import cn.super12138.todo.ui.pages.settings.components.SettingsItem
@@ -102,44 +100,45 @@ fun SettingsData(
         onBack = onNavigateUp,
         snackbarHost = { SnackbarHost(snackbarHostState) },
         modifier = modifier,
-    ) { innerPadding ->
-        RoundedScreenContainer(Modifier.padding(innerPadding)) {
-            SettingsContainer(Modifier.fillMaxSize()) {
-                item {
-                    SettingsCategory(title = stringResource(R.string.pref_category_data_management), first = true)
-                    SettingsItem(
-                        leadingIconRes = R.drawable.ic_download,
-                        title = stringResource(R.string.pref_backup),
-                        description = stringResource(R.string.pref_backup_desc),
-                        onClick = {
-                            backupLauncher.launch("Todo-backup-${SystemUtils.getTime()}.zip")
-                        },
-                        topRounded = true
-                    )
-                }
-                item {
-                    SettingsItem(
-                        leadingIconRes = R.drawable.ic_upload,
-                        title = stringResource(R.string.pref_restore),
-                        description = stringResource(R.string.pref_restore_desc),
-                        onClick = {
-                            restoreLauncher.launch(arrayOf("application/zip"))
-                        },
-                        bottomRounded = true
-                    )
-                }
+    ) {
+        SettingsContainer(Modifier.fillMaxSize()) {
+            item {
+                SettingsCategory(
+                    title = stringResource(R.string.pref_category_data_management),
+                    first = true
+                )
+                SettingsItem(
+                    leadingIconRes = R.drawable.ic_download,
+                    title = stringResource(R.string.pref_backup),
+                    description = stringResource(R.string.pref_backup_desc),
+                    onClick = {
+                        backupLauncher.launch("Todo-backup-${SystemUtils.getTime()}.zip")
+                    },
+                    topRounded = true
+                )
+            }
+            item {
+                SettingsItem(
+                    leadingIconRes = R.drawable.ic_upload,
+                    title = stringResource(R.string.pref_restore),
+                    description = stringResource(R.string.pref_restore_desc),
+                    onClick = {
+                        restoreLauncher.launch(arrayOf("application/zip"))
+                    },
+                    bottomRounded = true
+                )
+            }
 
-                item {
-                    SettingsCategory(stringResource(R.string.pref_category_category_management))
-                    SettingsItem(
-                        leadingIconRes = R.drawable.ic_category,
-                        title = stringResource(R.string.pref_category_category_management),
-                        description = stringResource(R.string.pref_category_management_desc),
-                        onClick = toCategoryManager,
-                        topRounded = true,
-                        bottomRounded = true
-                    )
-                }
+            item {
+                SettingsCategory(stringResource(R.string.pref_category_category_management))
+                SettingsItem(
+                    leadingIconRes = R.drawable.ic_category,
+                    title = stringResource(R.string.pref_category_category_management),
+                    description = stringResource(R.string.pref_category_management_desc),
+                    onClick = toCategoryManager,
+                    topRounded = true,
+                    bottomRounded = true
+                )
             }
         }
     }

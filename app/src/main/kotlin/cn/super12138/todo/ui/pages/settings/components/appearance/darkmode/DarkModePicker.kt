@@ -9,13 +9,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
+import cn.super12138.todo.logic.model.DarkMode
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.pages.settings.components.LazyRowSettingsItem
-import cn.super12138.todo.ui.theme.DarkMode
 
 @Composable
 fun DarkModePicker(
@@ -25,7 +24,6 @@ fun DarkModePicker(
     topRounded: Boolean = false,
     bottomRounded: Boolean = false
 ) {
-    val context = LocalContext.current
     val isInDarkTheme = isSystemInDarkTheme()
 
     val darkModeList = remember { DarkMode.entries.toList() }
@@ -50,7 +48,7 @@ fun DarkModePicker(
 
             DarkModeItem(
                 iconRes = it.iconRes,
-                name = it.getDisplayName(context),
+                name = stringResource(it.nameRes),
                 contentColor = contentColor,
                 containerColor = containerColor,
                 selected = isSelected,

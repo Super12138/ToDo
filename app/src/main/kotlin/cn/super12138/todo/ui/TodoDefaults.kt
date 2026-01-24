@@ -1,7 +1,6 @@
 package cn.super12138.todo.ui
 
 import androidx.compose.foundation.shape.CornerBasedShape
-import androidx.compose.foundation.shape.ZeroCornerSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -58,10 +57,10 @@ object TodoDefaults {
 
     val ScreenContainerShape: Shape
         @Composable
-        get() = MaterialTheme.shapes.large.copy(
+        get() = MaterialTheme.shapes.large/*.copy(
             bottomStart = ZeroCornerSize,
             bottomEnd = ZeroCornerSize
-        )
+        )*/
 
     val ContainerColor: Color
         @Composable

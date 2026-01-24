@@ -121,7 +121,7 @@ fun TodoCard(
                             modifier = Modifier.padding(start = 5.dp)
                         ) {
                             Text(
-                                text = priority.displayName(context),
+                                text = stringResource(priority.nameRes),
                                 textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
                             )
                         }

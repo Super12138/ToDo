@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
@@ -30,7 +29,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import cn.super12138.todo.R
 import cn.super12138.todo.ui.components.BasicDialog
-import cn.super12138.todo.ui.components.RoundedScreenContainer
 import cn.super12138.todo.ui.components.TopAppBarScaffold
 import cn.super12138.todo.ui.pages.settings.components.SettingsContainer
 import cn.super12138.todo.ui.pages.settings.components.SettingsItem
@@ -53,103 +51,100 @@ fun SettingsAboutLicence(
         title = stringResource(R.string.pref_licence),
         onBack = onNavigateUp,
         modifier = modifier
-    ) { innerPadding ->
+    ) {
+        SettingsContainer(Modifier.fillMaxSize()) {
+            itemsIndexed(
+                items = libraries?.libraries ?: listOf(),
+                key = { _, library -> library.artifactId }
+            ) { index, library ->
+                var openDialog by rememberSaveable { mutableStateOf(false) }
 
-        RoundedScreenContainer(Modifier.padding(innerPadding)) {
-            SettingsContainer(Modifier.fillMaxSize()) {
-                itemsIndexed(
-                    items = libraries?.libraries ?: listOf(),
-                    key = { _, library -> library.artifactId }
-                ) { index, library ->
-                    var openDialog by rememberSaveable { mutableStateOf(false) }
-
-                    SettingsItem(
-                        headlineContent = {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
+                SettingsItem(
+                    headlineContent = {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = library.name,
+                                modifier = Modifier.weight(1f),
+                                style = MaterialTheme.typography.titleLarge,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                            val version = library.artifactVersion
+                            if (version != null) {
                                 Text(
-                                    text = library.name,
-                                    modifier = Modifier.weight(1f),
-                                    style = MaterialTheme.typography.titleLarge,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                                val version = library.artifactVersion
-                                if (version != null) {
-                                    Text(
-                                        text = version,
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        textAlign = TextAlign.Center
-                                    )
-                                }
-                            }
-                            val author = library.author
-                            if (author.isNotBlank()) {
-                                Text(
-                                    text = author,
-                                    style = MaterialTheme.typography.bodyMedium
+                                    text = version,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    textAlign = TextAlign.Center
                                 )
                             }
-                        },
-                        supportingContent = {
-                            if (library.licenses.isNotEmpty()) {
-                                FlowRow {
-                                    library.licenses.forEach {
-                                        Badge(containerColor = MaterialTheme.colorScheme.primary) {
-                                            Text(
-                                                maxLines = 1,
-                                                text = it.name,
-                                                // style = MaterialTheme.typography.labelSmall,
-                                                textAlign = TextAlign.Center,
-                                                overflow = TextOverflow.Ellipsis,
-                                            )
-                                        }
+                        }
+                        val author = library.author
+                        if (author.isNotBlank()) {
+                            Text(
+                                text = author,
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                        }
+                    },
+                    supportingContent = {
+                        if (library.licenses.isNotEmpty()) {
+                            FlowRow {
+                                library.licenses.forEach {
+                                    Badge(containerColor = MaterialTheme.colorScheme.primary) {
+                                        Text(
+                                            maxLines = 1,
+                                            text = it.name,
+                                            // style = MaterialTheme.typography.labelSmall,
+                                            textAlign = TextAlign.Center,
+                                            overflow = TextOverflow.Ellipsis,
+                                        )
                                     }
                                 }
                             }
-                        },
-                        onClick = {
-                            val license = library.licenses.firstOrNull()
-                            if (!license?.htmlReadyLicenseContent.isNullOrBlank()) {
-                                openDialog = true
-                            } else if (!license?.url.isNullOrBlank()) {
-                                license.url?.also {
-                                    try {
-                                        uriHandler.openUri(it)
-                                    } catch (t: Throwable) {
-                                        throw Exception("Failed to open licence URL: $it", t)
-                                    }
+                        }
+                    },
+                    onClick = {
+                        val license = library.licenses.firstOrNull()
+                        if (!license?.htmlReadyLicenseContent.isNullOrBlank()) {
+                            openDialog = true
+                        } else if (!license?.url.isNullOrBlank()) {
+                            license.url?.also {
+                                try {
+                                    uriHandler.openUri(it)
+                                } catch (t: Throwable) {
+                                    throw Exception("Failed to open licence URL: $it", t)
                                 }
                             }
-                        },
-                        topRounded = index == 0,
-                        bottomRounded = index == (libraries?.libraries?.size ?: 1) - 1
-                    )
+                        }
+                    },
+                    topRounded = index == 0,
+                    bottomRounded = index == (libraries?.libraries?.size ?: 1) - 1
+                )
 
-                    BasicDialog(
-                        visible = openDialog,
-                        title = { Text(library.name) },
-                        text = {
-                            library.licenses.firstOrNull()?.licenseContent?.let {
-                                Column(Modifier.verticalScroll(rememberScrollState())) {
-                                    SelectionContainer { Text(text = it) }
-                                }
+                BasicDialog(
+                    visible = openDialog,
+                    title = { Text(library.name) },
+                    text = {
+                        library.licenses.firstOrNull()?.licenseContent?.let {
+                            Column(Modifier.verticalScroll(rememberScrollState())) {
+                                SelectionContainer { Text(text = it) }
                             }
-                        },
-                        confirmButton = {
-                            FilledTonalButton(
-                                onClick = {
-                                    openDialog = false
-                                    VibrationUtils.performHapticFeedback(view)
-                                },
-                                shapes = ButtonDefaults.shapes()
-                            ) { Text(stringResource(R.string.action_confirm)) }
-                        },
-                        onDismissRequest = { openDialog = false }
-                    )
-                }
+                        }
+                    },
+                    confirmButton = {
+                        FilledTonalButton(
+                            onClick = {
+                                openDialog = false
+                                VibrationUtils.performHapticFeedback(view)
+                            },
+                            shapes = ButtonDefaults.shapes()
+                        ) { Text(stringResource(R.string.action_confirm)) }
+                    },
+                    onDismissRequest = { openDialog = false }
+                )
             }
         }
     }

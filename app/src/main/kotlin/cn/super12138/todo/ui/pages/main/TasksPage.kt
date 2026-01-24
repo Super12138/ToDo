@@ -2,13 +2,18 @@ package cn.super12138.todo.ui.pages.main
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.SharedTransitionScope
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material3.animateFloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -21,13 +26,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.logic.datastore.DataStoreManager
+import cn.super12138.todo.logic.model.Priority
+import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.ConfirmDialog
 import cn.super12138.todo.ui.components.TodoFloatingActionButton
+import cn.super12138.todo.ui.components.TopAppBarScaffold
+import cn.super12138.todo.ui.pages.main.components.TodoCard
 import cn.super12138.todo.ui.pages.main.components.TodoTopAppBar
 import cn.super12138.todo.ui.viewmodels.MainViewModel
 
@@ -37,9 +48,7 @@ fun MainPage(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel,
     toTodoEditPage: (TodoEntity?) -> Unit,
-    toSettingsPage: () -> Unit,
     sharedTransitionScope: SharedTransitionScope,
-    // windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass,
 ) {
     val animatedVisibilityScope = LocalNavAnimatedContentScope.current
 
@@ -53,8 +62,8 @@ fun MainPage(
     val selectedTodoIds by remember { derivedStateOf { selectedTodos.value } }
     val inSelectedMode by remember { derivedStateOf { !selectedTodoIds.isEmpty() } }
     val toDoList by remember { derivedStateOf { toDos.value } }
-    val totalTasks by remember { derivedStateOf { toDoList.size } }
-    val completedTasks by remember { derivedStateOf { toDoList.count { it.isCompleted } } }
+    /*val totalTasks by remember { derivedStateOf { toDoList.size } }
+    val completedTasks by remember { derivedStateOf { toDoList.count { it.isCompleted } } }*/
     val filteredTodoList =
         if (showCompleted) toDoList else toDoList.filter { item -> !item.isCompleted }
     val expandedFab by remember { derivedStateOf { listState.firstVisibleItemIndex == 0 } }
@@ -62,15 +71,14 @@ fun MainPage(
     // 当按下返回键（或进行返回操作）时清空选择，仅在非选择模式下生效
     BackHandler(inSelectedMode) { viewModel.clearAllTodoSelection() }
 
-    Scaffold(
+    TopAppBarScaffold(
         topBar = {
             TodoTopAppBar(
                 selectedTodoIds = selectedTodoIds,
                 selectedMode = inSelectedMode,
                 onCancelSelect = { viewModel.clearAllTodoSelection() },
                 onSelectAll = { viewModel.selectAllTodos() },
-                onDeleteSelectedTodo = { showDeleteConfirmDialog = true },
-                toSettingsPage = toSettingsPage
+                onDeleteSelectedTodo = { showDeleteConfirmDialog = true }
             )
         },
         floatingActionButton = {
@@ -94,84 +102,68 @@ fun MainPage(
         },
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         modifier = modifier
-    ) { innerPadding ->
-        /*val isMediumScreen =
-            windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND)
-        if (isMediumScreen) {
-            Row(
-                modifier = Modifier.padding(
-                    top = innerPadding.calculateTopPadding(),
-                    bottom = innerPadding.calculateBottomPadding()
-                )
-            ) {
-                ProgressFragment(
-                    totalTasks = totalTasks,
-                    completedTasks = completedTasks,
-                    modifier = Modifier
-                        .weight(2f)
-                        .fillMaxSize()
-                )
-                ManagerFragment(
-                    state = listState,
-                    list = filteredTodoList,
-                    onItemClick = { item ->
-                        if (inSelectedMode) {
-                            viewModel.toggleTodoSelection(item)
-                        } else {
-                            toTodoEditPage(item)
-                        }
-                    },
-                    onItemLongClick = { viewModel.toggleTodoSelection(it) },
-                    onItemChecked = {
-                        viewModel.updateTodo(it.copy(isCompleted = true))
-                        viewModel.playConfetti()
-                    },
-                    selectedTodoIds = selectedTodoIds,
-                    // sharedTransitionScope = sharedTransitionScope,
-                    // animatedVisibilityScope = animatedVisibilityScope,
-                    modifier = Modifier
-                        .weight(3f)
-                        .fillMaxSize()
-                )
-            }
-        } else {*/
-        Column(
-            modifier = Modifier.padding(
-                top = innerPadding.calculateTopPadding(),
-                bottom = innerPadding.calculateBottomPadding()
-            )
+    ) {
+        LazyColumn(
+            state = listState,
+            verticalArrangement = Arrangement.spacedBy(5.dp),
+            modifier = Modifier.fillMaxSize()
         ) {
-            ProgressFragment(
-                totalTasks = totalTasks,
-                completedTasks = completedTasks,
-                modifier = Modifier.fillMaxWidth()
-            )
-            ManagerFragment(
-                state = listState,
-                list = filteredTodoList,
-                onItemClick = { item ->
-                    if (inSelectedMode) {
-                        viewModel.toggleTodoSelection(item)
-                    } else {
-                        toTodoEditPage(item)
-                    }
-                },
-                onItemLongClick = { viewModel.toggleTodoSelection(it) },
-                onItemChecked = {
-                    viewModel.updateTodo(it.copy(isCompleted = true))
-                    viewModel.playConfetti()
-                },
-                selectedTodoIds = selectedTodoIds,
-                modifier = Modifier.fillMaxWidth()
-            )
+            item {
+                Spacer(modifier = Modifier.size(TodoDefaults.settingsItemVerticalPadding))
+            }
+
+            if (filteredTodoList.isEmpty()) {
+                item {
+                    Text(
+                        text = stringResource(R.string.tip_no_task),
+                        style = MaterialTheme.typography.titleMedium,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            } else {
+                items(
+                    items = filteredTodoList,
+                    key = { it.id }
+                ) {
+                    TodoCard(
+                        // id = item.id,
+                        content = it.content,
+                        category = it.category,
+                        completed = it.isCompleted,
+                        priority = Priority.fromFloat(it.priority),
+                        selected = selectedTodoIds.contains(it.id),
+                        onCardClick = {
+                            if (inSelectedMode) {
+                                viewModel.toggleTodoSelection(it)
+                            } else {
+                                toTodoEditPage(it)
+                            }
+                        },
+                        onCardLongClick = { viewModel.toggleTodoSelection(it) },
+                        onChecked = {
+                            viewModel.updateTodo(it.copy(isCompleted = true))
+                            viewModel.playConfetti()
+                        },
+                        modifier = Modifier
+                            .animateItem(
+                                fadeInSpec = MaterialTheme.motionScheme.defaultEffectsSpec(),
+                                placementSpec = MaterialTheme.motionScheme.defaultSpatialSpec(),
+                                fadeOutSpec = MaterialTheme.motionScheme.fastEffectsSpec()
+                            )
+                    )
+                }
+                item {
+                    Spacer(modifier = Modifier.size(TodoDefaults.settingsItemVerticalPadding))
+                }
+            }
         }
-        /*}*/
-        ConfirmDialog(
-            visible = showDeleteConfirmDialog,
-            iconRes = R.drawable.ic_delete,
-            text = stringResource(R.string.tip_delete_task, selectedTodoIds.size),
-            onConfirm = { viewModel.deleteSelectedTodo() },
-            onDismiss = { showDeleteConfirmDialog = false }
-        )
     }
+    ConfirmDialog(
+        visible = showDeleteConfirmDialog,
+        iconRes = R.drawable.ic_delete,
+        text = stringResource(R.string.tip_delete_task, selectedTodoIds.size),
+        onConfirm = { viewModel.deleteSelectedTodo() },
+        onDismiss = { showDeleteConfirmDialog = false }
+    )
 }

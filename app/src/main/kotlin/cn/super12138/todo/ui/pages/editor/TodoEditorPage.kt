@@ -41,11 +41,10 @@ import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.logic.datastore.DataStoreManager
-import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.ChipItem
 import cn.super12138.todo.ui.components.ConfirmDialog
-import cn.super12138.todo.ui.components.TopAppBarScaffold
 import cn.super12138.todo.ui.components.TodoFloatingActionButton
+import cn.super12138.todo.ui.components.TopAppBarScaffold
 import cn.super12138.todo.ui.pages.editor.components.TodoCategoryChip
 import cn.super12138.todo.ui.pages.editor.components.TodoCategoryTextField
 import cn.super12138.todo.ui.pages.editor.components.TodoContentTextField
@@ -159,13 +158,10 @@ fun TodoEditorPage(
         },
         onBack = ::checkModifiedBeforeBack,
         modifier = modifier
-    ) { innerPadding ->
+    ) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(5.dp),
-            modifier = Modifier
-                .padding(innerPadding)
-                .padding(horizontal = TodoDefaults.screenHorizontalPadding)
-                .fillMaxSize()
+            modifier = Modifier.fillMaxSize()
         ) {
             item {
                 TodoContentTextField(

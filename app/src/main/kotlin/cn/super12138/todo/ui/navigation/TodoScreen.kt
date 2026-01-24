@@ -7,13 +7,16 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class TodoScreen : NavKey {
     @Serializable
-    data object Main : TodoScreen()
+    data object Overview : TodoScreen()
+
+    @Serializable
+    data object Tasks : TodoScreen()
 
     @Serializable
     data class Editor(val toDo: TodoEntity?) : TodoScreen()
 
     @Serializable
-    data object SettingsMain : TodoScreen()
+    data object Settings : TodoScreen()
 
     @Serializable
     data object SettingsAppearance : TodoScreen()

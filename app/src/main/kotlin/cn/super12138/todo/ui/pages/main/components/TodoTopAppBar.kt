@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -30,6 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import cn.super12138.todo.R
+import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.utils.VibrationUtils
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,15 +42,14 @@ fun TodoTopAppBar(
     onCancelSelect: () -> Unit,
     onSelectAll: () -> Unit,
     onDeleteSelectedTodo: () -> Unit,
-    toSettingsPage: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val view = LocalView.current
     val animatedTopAppBarColors by animateColorAsState(
         targetValue = if (selectedMode) {
-            TopAppBarDefaults.topAppBarColors().scrolledContainerColor
+            MaterialTheme.colorScheme.surfaceContainerHighest
         } else {
-            TopAppBarDefaults.topAppBarColors().containerColor
+            TodoDefaults.BackgroundColor
         }
     )
 
@@ -103,52 +104,29 @@ fun TodoTopAppBar(
             }
         },
         actions = {
-            AnimatedContent(
-                targetState = selectedMode,
-                transitionSpec = {
-                    (
-                            fadeIn() + scaleIn(initialScale = 0.92f)
-                            ).togetherWith(
-                            fadeOut(animationSpec = tween(90))
-                        )
-                }
-            ) { inSelectedMode ->
-                if (!inSelectedMode) {
+            AnimatedVisibility(visible = selectedMode) {
+                Row {
                     IconButton(
                         onClick = {
                             VibrationUtils.performHapticFeedback(view)
-                            toSettingsPage()
+                            onSelectAll()
                         }
                     ) {
                         Icon(
-                            painter = painterResource(R.drawable.ic_settings),
-                            contentDescription = stringResource(R.string.page_settings)
+                            painter = painterResource(R.drawable.ic_select_all),
+                            contentDescription = stringResource(R.string.tip_select_all)
                         )
                     }
-                } else {
-                    Row {
-                        IconButton(
-                            onClick = {
-                                VibrationUtils.performHapticFeedback(view)
-                                onSelectAll()
-                            }
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_select_all),
-                                contentDescription = stringResource(R.string.tip_select_all)
-                            )
+                    IconButton(
+                        onClick = {
+                            VibrationUtils.performHapticFeedback(view)
+                            onDeleteSelectedTodo()
                         }
-                        IconButton(
-                            onClick = {
-                                VibrationUtils.performHapticFeedback(view)
-                                onDeleteSelectedTodo()
-                            }
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_delete),
-                                contentDescription = stringResource(R.string.action_delete)
-                            )
-                        }
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_delete),
+                            contentDescription = stringResource(R.string.action_delete)
+                        )
                     }
                 }
             }
@@ -170,7 +148,6 @@ private fun TodoTopAppBarPreview() {
         selectedMode = selectedMode,
         onCancelSelect = { selectedMode = !selectedMode },
         onSelectAll = { },
-        onDeleteSelectedTodo = { },
-        toSettingsPage = { selectedMode = !selectedMode }
+        onDeleteSelectedTodo = { }
     )
 }

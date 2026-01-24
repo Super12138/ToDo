@@ -6,7 +6,6 @@ import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -30,8 +29,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.datastore.DataStoreManager
-import cn.super12138.todo.ui.components.TopAppBarScaffold
 import cn.super12138.todo.ui.components.TodoFloatingActionButton
+import cn.super12138.todo.ui.components.TopAppBarScaffold
 import cn.super12138.todo.ui.pages.settings.components.category.CategoryItem
 import cn.super12138.todo.ui.pages.settings.components.category.CategoryPromptDialog
 import kotlinx.coroutines.launch
@@ -70,12 +69,10 @@ fun SettingsDataCategory(
             )
         },
         modifier = modifier,
-    ) { innerPadding ->
+    ) {
         LazyColumn(
             state = listState,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding) //TODO: 可能需要清除屏幕边距
+            modifier = Modifier.fillMaxSize()
         ) {
             if (categories.isEmpty()) {
                 item {

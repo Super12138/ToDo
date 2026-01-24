@@ -7,6 +7,7 @@ import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import cn.super12138.todo.logic.model.PaletteStyle
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable

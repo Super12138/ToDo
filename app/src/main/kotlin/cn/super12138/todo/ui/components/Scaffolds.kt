@@ -1,7 +1,5 @@
 package cn.super12138.todo.ui.components
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
@@ -20,6 +18,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -33,10 +33,9 @@ import cn.super12138.todo.utils.VibrationUtils
  * * 内容默认由 Box 容器包裹；实际使用时推荐配合 Column 或 Row
  *
  * @param title 标题文本
- * @param onBack 当返回按钮被按下时的操作
  * @param contentWindowInsets 内容边距，通常用于将内容和系统状态栏等隔开；可以使用 `WindowInsets.safeContent`
  */
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun TopAppBarScaffold(
     modifier: Modifier = Modifier,
@@ -46,7 +45,7 @@ fun TopAppBarScaffold(
     floatingActionButton: @Composable () -> Unit = {},
     floatingActionButtonPosition: FabPosition = FabPosition.End,
     contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
-    content: @Composable (PaddingValues) -> Unit
+    content: @Composable () -> Unit
 ) {
     val view = LocalView.current
     TopAppBarScaffold(
@@ -77,10 +76,37 @@ fun TopAppBarScaffold(
         floatingActionButtonPosition = floatingActionButtonPosition,
         contentWindowInsets = contentWindowInsets,
         modifier = modifier,
-    ) { innerPadding ->
-        //TODO: 应用圆角效果
-        Box { content(innerPadding) }
-    }
+        content = content
+    )
+}
+
+@Composable
+fun TopAppBarScaffold(
+    modifier: Modifier = Modifier,
+    title: String,
+    navigationIcon: @Composable () -> Unit = {},
+    snackbarHost: @Composable () -> Unit = {},
+    floatingActionButton: @Composable () -> Unit = {},
+    floatingActionButtonPosition: FabPosition = FabPosition.End,
+    contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
+    content: @Composable () -> Unit
+) {
+    TopAppBarScaffold(
+        title = {
+            Text(
+                text = title,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        },
+        navigationIcon = navigationIcon,
+        snackbarHost = snackbarHost,
+        floatingActionButton = floatingActionButton,
+        floatingActionButtonPosition = floatingActionButtonPosition,
+        contentWindowInsets = contentWindowInsets,
+        modifier = modifier,
+        content = content
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -94,9 +120,9 @@ fun TopAppBarScaffold(
     floatingActionButton: @Composable () -> Unit = {},
     floatingActionButtonPosition: FabPosition = FabPosition.End,
     contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
-    content: @Composable (PaddingValues) -> Unit
+    content: @Composable () -> Unit
 ) {
-    Scaffold(
+    TopAppBarScaffold(
         modifier = modifier,
         topBar = {
             TopAppBar(
@@ -112,8 +138,37 @@ fun TopAppBarScaffold(
         floatingActionButton = floatingActionButton,
         floatingActionButtonPosition = floatingActionButtonPosition,
         contentWindowInsets = contentWindowInsets,
-        containerColor = TodoDefaults.BackgroundColor,
-    ) { innerPadding ->
-        Box { content(innerPadding) }
-    }
+        content = content,
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TopAppBarScaffold(
+    modifier: Modifier = Modifier,
+    topBar: @Composable () -> Unit = {},
+    snackbarHost: @Composable () -> Unit = {},
+    floatingActionButton: @Composable () -> Unit = {},
+    floatingActionButtonPosition: FabPosition = FabPosition.End,
+    contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
+    containerColor: Color = TodoDefaults.BackgroundColor,
+    screenShape: Shape = TodoDefaults.ScreenContainerShape,
+    content: @Composable () -> Unit
+) = Scaffold(
+    modifier = modifier,
+    topBar = topBar,
+    snackbarHost = snackbarHost,
+    floatingActionButton = floatingActionButton,
+    floatingActionButtonPosition = floatingActionButtonPosition,
+    contentWindowInsets = contentWindowInsets,
+    containerColor = containerColor,
+) { innerPadding ->
+    Surface(
+        modifier = Modifier
+            .padding(paddingValues = innerPadding)
+            .padding(horizontal = TodoDefaults.screenHorizontalPadding),
+        color = containerColor,
+        shape = screenShape,
+        content = content
+    )
 }

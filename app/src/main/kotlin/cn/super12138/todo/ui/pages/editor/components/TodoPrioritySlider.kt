@@ -15,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.liveRegion
@@ -35,7 +36,7 @@ fun TodoPrioritySlider(
     val view = LocalView.current
     val context = LocalContext.current
 
-    val priorityName = remember { Priority.entries.map { it.displayName(context) } }
+    val priorityName = Priority.entries.map { stringResource(it.nameRes) }
     val interactionSource = remember { MutableInteractionSource() }
 
     Slider(

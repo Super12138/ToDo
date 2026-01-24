@@ -1,16 +1,23 @@
 package cn.super12138.todo.ui.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
-import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import cn.super12138.todo.ui.pages.editor.TodoEditorPage
 import cn.super12138.todo.ui.pages.main.MainPage
+import cn.super12138.todo.ui.pages.overview.OverviewPage
 import cn.super12138.todo.ui.pages.settings.SettingsAbout
 import cn.super12138.todo.ui.pages.settings.SettingsAboutLicence
 import cn.super12138.todo.ui.pages.settings.SettingsAppearance
@@ -28,17 +35,39 @@ private const val INITIAL_OFFSET_FACTOR = 0.10f
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun TodoNavigation(
+    backStack: TopLevelBackStack<NavKey>,
     modifier: Modifier = Modifier,
-    backStack: NavBackStack<NavKey> = rememberNavBackStack(TodoScreen.Main),
     viewModel: MainViewModel
 ) {
     fun onBack() {
-        backStack.removeAt(backStack.lastIndex)
+        backStack.removeLast()
+    }
+
+    val anim = NavDisplay.transitionSpec {
+        // Slide new content up, keeping the old content in place underneath
+        slideInVertically(
+            initialOffsetY = { it / 5 },
+            animationSpec = tween(200)
+        ) + fadeIn(tween(200)) togetherWith ExitTransition.KeepUntilTransitionsFinished
+    } + NavDisplay.popTransitionSpec {
+        // Slide old content down, revealing the new content in place underneath
+        EnterTransition.None togetherWith
+                slideOutVertically(
+                    targetOffsetY = { it / 5 },
+                    animationSpec = tween(200)
+                ) + fadeOut(tween(200))
+    } + NavDisplay.predictivePopTransitionSpec {
+        // Slide old content down, revealing the new content in place underneath
+        EnterTransition.None togetherWith
+                slideOutVertically(
+                    targetOffsetY = { it / 5 },
+                    animationSpec = tween(200)
+                ) + fadeOut(tween(200))
     }
 
     SharedTransitionLayout {
         NavDisplay(
-            backStack = backStack,
+            backStack = backStack.backStack,
             onBack = ::onBack,
             transitionSpec = {
                 materialSharedAxisX(
@@ -50,16 +79,27 @@ fun TodoNavigation(
                     initialOffsetX = { -(it * INITIAL_OFFSET_FACTOR).toInt() },
                     targetOffsetX = { (it * INITIAL_OFFSET_FACTOR).toInt() })
             },
-
             entryProvider = entryProvider {
-                entry<TodoScreen.Main> {
+                entry<TodoScreen.Overview>(metadata = anim) {
+                    OverviewPage()
+                }
+                entry<TodoScreen.Tasks>(metadata = anim) {
                     MainPage(
                         viewModel = viewModel,
                         toTodoEditPage = { backStack.add(TodoScreen.Editor(it)) },
-                        toSettingsPage = { backStack.add(TodoScreen.SettingsMain) },
                         sharedTransitionScope = this@SharedTransitionLayout
                     )
                 }
+
+                entry<TodoScreen.Settings>(metadata = anim) {
+                    SettingsMain(
+                        toAppearancePage = { backStack.add(TodoScreen.SettingsAppearance) },
+                        toAboutPage = { backStack.add(TodoScreen.SettingsAbout) },
+                        toInterfacePage = { backStack.add(TodoScreen.SettingsInterface) },
+                        toDataPage = { backStack.add(TodoScreen.SettingsData) },
+                    )
+                }
+
                 entry<TodoScreen.Editor> { editorArgs ->
                     TodoEditorPage(
                         toDo = editorArgs.toDo,
@@ -79,16 +119,6 @@ fun TodoNavigation(
                         },
                         onNavigateUp = ::onBack,
                         sharedTransitionScope = this@SharedTransitionLayout
-                    )
-                }
-
-                entry<TodoScreen.SettingsMain> {
-                    SettingsMain(
-                        toAppearancePage = { backStack.add(TodoScreen.SettingsAppearance) },
-                        toAboutPage = { backStack.add(TodoScreen.SettingsAbout) },
-                        toInterfacePage = { backStack.add(TodoScreen.SettingsInterface) },
-                        toDataPage = { backStack.add(TodoScreen.SettingsData) },
-                        onNavigateUp = ::onBack,
                     )
                 }
 
