@@ -5,7 +5,7 @@ import cn.super12138.todo.R
 
 enum class ContrastLevel(
     val value: Float,
-    @StringRes val nameRes: Int
+    @param:StringRes val nameRes: Int
 ) {
     VeryLow(value = -1f, nameRes = R.string.contrast_very_low),
     Low(value = -0.5f, nameRes = R.string.contrast_low),

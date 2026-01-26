@@ -16,7 +16,7 @@ object TodoDefaults {
     /**
      * 屏幕上下预留边距（防止内容全部贴边显示过丑）
      */
-    val screenVerticalPadding = 16.dp
+    val screenVerticalPadding = 8.dp
 
     /**
      * 待办卡片默认高度

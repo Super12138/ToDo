@@ -2,7 +2,6 @@ package cn.super12138.todo.ui.pages.editor
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -17,12 +16,9 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -41,6 +37,7 @@ import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.logic.datastore.DataStoreManager
+import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.ChipItem
 import cn.super12138.todo.ui.components.ConfirmDialog
 import cn.super12138.todo.ui.components.TodoFloatingActionButton
@@ -52,23 +49,50 @@ import cn.super12138.todo.ui.pages.editor.components.TodoPrioritySlider
 import cn.super12138.todo.ui.pages.editor.state.rememberEditorState
 import cn.super12138.todo.utils.VibrationUtils
 
-@OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class,
-    ExperimentalMaterial3ExpressiveApi::class
-)
 @Composable
-fun TodoEditorPage(
+fun SharedTransitionScope.TodoAddPage(
+    modifier: Modifier = Modifier,
+    onSave: (TodoEntity) -> Unit,
+    onNavigateUp: () -> Unit
+) = TodoEditorPage(
+    toDo = null,
+    modifier = modifier.sharedBounds(
+        sharedContentState = rememberSharedContentState(key = Constants.KEY_TODO_FAB_TRANSITION),
+        animatedVisibilityScope = LocalNavAnimatedContentScope.current
+    ),
+    onSave = onSave,
+    onDelete = {},
+    onNavigateUp = onNavigateUp
+)
+
+@Composable
+fun SharedTransitionScope.TodoEditPage(
+    modifier: Modifier = Modifier,
+    toDo: TodoEntity,
+    onSave: (TodoEntity) -> Unit,
+    onDelete: () -> Unit,
+    onNavigateUp: () -> Unit
+) = TodoEditorPage(
+    toDo = toDo,
+    modifier = modifier.sharedBounds(
+        sharedContentState = rememberSharedContentState(key = "${Constants.KEY_TODO_ITEM_TRANSITION}_${toDo.id}"),
+        animatedVisibilityScope = LocalNavAnimatedContentScope.current
+    ),
+    onSave = onSave,
+    onDelete = onDelete,
+    onNavigateUp = onNavigateUp
+)
+
+@Composable
+private fun TodoEditorPage(
     modifier: Modifier = Modifier,
     toDo: TodoEntity? = null,
     onSave: (TodoEntity) -> Unit,
     onDelete: () -> Unit,
-    onNavigateUp: () -> Unit,
-    sharedTransitionScope: SharedTransitionScope
+    onNavigateUp: () -> Unit
 ) {
     // TODO: 本页及其相关组件重组性能检查优化
     val view = LocalView.current
-    val animatedVisibilityScope = LocalNavAnimatedContentScope.current
-    TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     val uiState = rememberEditorState(initialTodo = toDo)
 
@@ -114,7 +138,6 @@ fun TodoEditorPage(
     TopAppBarScaffold(
         title = stringResource(if (toDo != null) R.string.title_edit_task else R.string.action_add_task),
         floatingActionButton = {
-            with(sharedTransitionScope) {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     modifier = Modifier.imePadding()
@@ -146,15 +169,9 @@ fun TodoEditorPage(
                                 )
                                 onSave(newTodo)
                             }
-                        },
-                        modifier = Modifier
-                            .sharedElement(
-                                sharedContentState = rememberSharedContentState(key = Constants.KEY_TODO_FAB_TRANSITION),
-                                animatedVisibilityScope = animatedVisibilityScope
-                            )
+                        }
                     )
                 }
-            }
         },
         onBack = ::checkModifiedBeforeBack,
         modifier = modifier
@@ -163,6 +180,10 @@ fun TodoEditorPage(
             verticalArrangement = Arrangement.spacedBy(5.dp),
             modifier = Modifier.fillMaxSize()
         ) {
+            item {
+                Spacer(modifier = Modifier.size(TodoDefaults.screenVerticalPadding))
+            }
+
             item {
                 TodoContentTextField(
                     value = uiState.toDoContent,
@@ -241,7 +262,7 @@ fun TodoEditorPage(
             }
 
             item {
-                Spacer(modifier = Modifier.size(80.dp))
+                Spacer(modifier = Modifier.size(TodoDefaults.screenVerticalPadding))
             }
         }
 

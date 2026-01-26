@@ -13,35 +13,44 @@ sealed class TodoScreen : NavKey {
     data object Tasks : TodoScreen()
 
     @Serializable
-    data class Editor(val toDo: TodoEntity?) : TodoScreen()
+    sealed class Settings : TodoScreen() {
+        @Serializable
+        data object Main : Settings()
+
+        @Serializable
+        data object Appearance : Settings()
+
+        @Serializable
+        data object Interface : Settings()
+
+        @Serializable
+        data object Data : Settings()
+
+        @Serializable
+        data object DataCategory : Settings()
+
+        @Serializable
+        data object About : Settings()
+
+        // @Serializable
+        // data object AboutEasterEgg : Settings()
+
+        @Serializable
+        data object AboutLicence : Settings()
+
+        @Serializable
+        data object DeveloperOptions : Settings()
+
+        @Serializable
+        data object DeveloperOptionsPadding : Settings()
+    }
 
     @Serializable
-    data object Settings : TodoScreen()
+    sealed class Editor : TodoScreen() {
+        @Serializable
+        data object Add : Editor()
 
-    @Serializable
-    data object SettingsAppearance : TodoScreen()
-
-    @Serializable
-    data object SettingsInterface : TodoScreen()
-
-    @Serializable
-    data object SettingsData : TodoScreen()
-
-    @Serializable
-    data object SettingsDataCategory : TodoScreen()
-
-    @Serializable
-    data object SettingsAbout : TodoScreen()
-
-    // @Serializable
-    // data object SettingsAboutSpecial : TodoScreen()
-
-    @Serializable
-    data object SettingsAboutLicence : TodoScreen()
-
-    @Serializable
-    data object SettingsDev : TodoScreen()
-
-    @Serializable
-    data object SettingsDevPadding : TodoScreen()
+        @Serializable
+        data class Edit(val toDo: TodoEntity) : Editor()
+    }
 }

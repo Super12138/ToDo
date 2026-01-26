@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Icon
@@ -26,7 +27,7 @@ import cn.super12138.todo.logic.model.PaletteStyle
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.Konfetti
 import cn.super12138.todo.ui.navigation.TodoDestinations
-import cn.super12138.todo.ui.navigation.TodoNavigation
+import cn.super12138.todo.ui.navigation.TopNavigation
 import cn.super12138.todo.ui.theme.ToDoTheme
 import cn.super12138.todo.ui.viewmodels.MainViewModel
 import cn.super12138.todo.utils.VibrationUtils
@@ -39,7 +40,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val mainViewModel: MainViewModel = viewModel()
-            val navigationBackStack = mainViewModel.topLevelBackStack
+            val mainBackStack = mainViewModel.mainBackStack
             val showConfetti = mainViewModel.showConfetti
             // 主题
             val dynamicColor by DataStoreManager.dynamicColorFlow.collectAsState(initial = Constants.PREF_DYNAMIC_COLOR_DEFAULT)
@@ -89,27 +90,34 @@ class MainActivity : ComponentActivity() {
                 Surface(color = TodoDefaults.BackgroundColor) {
                     NavigationSuiteScaffold(
                         navigationSuiteItems = {
-                            TodoDestinations.entries.forEach {
-                                val selected = it.route == navigationBackStack.topLevelKey
+                            TodoDestinations.entries.forEach { destination ->
+                                val selected = destination.route == mainBackStack.topLevelKey
                                 item(
                                     icon = {
-                                        Icon(
-                                            painter = if (selected) painterResource(it.selectedIcon) else painterResource(
-                                                it.icon
-                                            ),
-                                            contentDescription = null
-                                        )
+                                        Crossfade(selected) {
+                                            if (it) {
+                                                Icon(
+                                                    painter = painterResource(destination.selectedIcon),
+                                                    contentDescription = null
+                                                )
+                                            } else {
+                                                Icon(
+                                                    painter = painterResource(destination.icon),
+                                                    contentDescription = null
+                                                )
+                                            }
+                                        }
                                     },
-                                    label = { Text(stringResource(it.label)) },
+                                    label = { Text(stringResource(destination.label)) },
                                     selected = selected,
-                                    onClick = { navigationBackStack.addTopLevel(it.route) }
+                                    onClick = { mainBackStack.addTopLevel(destination.route) }
                                 )
                             }
                         },
                         containerColor = TodoDefaults.BackgroundColor
                     ) {
-                        TodoNavigation(
-                            backStack = navigationBackStack,
+                        TopNavigation(
+                            backStack = mainBackStack,
                             viewModel = mainViewModel,
                             modifier = Modifier.fillMaxSize()
                         )

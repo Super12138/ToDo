@@ -23,13 +23,13 @@ fun SettingsContainer(
         modifier = modifier
     ) {
         item {
-            Spacer(modifier = Modifier.size(TodoDefaults.settingsItemVerticalPadding))
+            Spacer(modifier = Modifier.size(TodoDefaults.screenVerticalPadding))
         }
 
         content()
 
         item {
-            Spacer(modifier = Modifier.size(TodoDefaults.settingsItemVerticalPadding))
+            Spacer(modifier = Modifier.size(TodoDefaults.screenVerticalPadding))
         }
     }
 }

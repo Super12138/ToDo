@@ -1,12 +1,10 @@
-package cn.super12138.todo.ui.pages.main.components
+package cn.super12138.todo.ui.pages.tasks.components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.combinedClickable
@@ -21,7 +19,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
-import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,7 +31,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -45,10 +43,7 @@ import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.utils.containerColor
 
-@OptIn(
-    ExperimentalFoundationApi::class, ExperimentalSharedTransitionApi::class,
-    ExperimentalMaterial3ExpressiveApi::class
-)
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun TodoCard(
     modifier: Modifier = Modifier,
@@ -63,8 +58,8 @@ fun TodoCard(
     onChecked: () -> Unit = {}
 ) {
     val view = LocalView.current
-    val context = LocalContext.current
-    ElevatedCard(
+    Card(
+        colors = CardDefaults.cardColors(containerColor = TodoDefaults.ContainerColor),
         modifier = modifier
             .fillMaxWidth()
             .height(TodoDefaults.toDoCardHeight)

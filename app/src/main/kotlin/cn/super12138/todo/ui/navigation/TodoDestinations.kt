@@ -6,9 +6,9 @@ import androidx.navigation3.runtime.NavKey
 
 enum class TodoDestinations(
     val route: NavKey,
-    @StringRes val label: Int,
-    @DrawableRes val icon: Int,
-    @DrawableRes val selectedIcon: Int
+    @param:StringRes val label: Int,
+    @param:DrawableRes val icon: Int,
+    @param:DrawableRes val selectedIcon: Int
 ) {
     Overview(
         route = TodoScreen.Overview,
@@ -23,7 +23,7 @@ enum class TodoDestinations(
         selectedIcon = cn.super12138.todo.R.drawable.ic_ballot_filled
     ),
     Settings(
-        route = TodoScreen.Settings,
+        route = TodoScreen.Settings.Main,
         label = cn.super12138.todo.R.string.page_settings,
         icon = cn.super12138.todo.R.drawable.ic_settings,
         selectedIcon = cn.super12138.todo.R.drawable.ic_settings_filled

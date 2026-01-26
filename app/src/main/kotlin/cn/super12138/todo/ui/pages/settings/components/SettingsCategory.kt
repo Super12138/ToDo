@@ -21,10 +21,10 @@ fun SettingsCategory(
         modifier = modifier
             .fillMaxWidth()
             .padding(
-                top = if (first) 0.dp else TodoDefaults.settingsItemVerticalPadding,
-                start = TodoDefaults.settingsItemHorizontalPadding / 2,
-                end = TodoDefaults.settingsItemHorizontalPadding / 2,
-                bottom = TodoDefaults.settingsItemVerticalPadding / 2
+                top = if (first) 0.dp else TodoDefaults.screenVerticalPadding,
+                start = TodoDefaults.screenHorizontalPadding / 2,
+                end = TodoDefaults.screenHorizontalPadding / 2,
+                bottom = TodoDefaults.screenVerticalPadding
             )
     ) {
         Text(

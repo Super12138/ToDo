@@ -5,7 +5,7 @@ import cn.super12138.todo.R
 
 enum class Priority(
     val value: Float,
-    @StringRes val nameRes: Int
+    @param:StringRes val nameRes: Int
 ) {
     Urgent(value = 2f, nameRes = R.string.priority_urgent),
     Important(value = 1f, nameRes = R.string.priority_important),

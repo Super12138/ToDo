@@ -1,4 +1,4 @@
-package cn.super12138.todo.ui.pages.main
+package cn.super12138.todo.ui.pages.tasks
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.SharedTransitionScope
@@ -38,17 +38,17 @@ import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.ConfirmDialog
 import cn.super12138.todo.ui.components.TodoFloatingActionButton
 import cn.super12138.todo.ui.components.TopAppBarScaffold
-import cn.super12138.todo.ui.pages.main.components.TodoCard
-import cn.super12138.todo.ui.pages.main.components.TodoTopAppBar
+import cn.super12138.todo.ui.pages.tasks.components.TodoCard
+import cn.super12138.todo.ui.pages.tasks.components.TodoTopAppBar
 import cn.super12138.todo.ui.viewmodels.MainViewModel
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun MainPage(
+fun SharedTransitionScope.TasksPage(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel,
-    toTodoEditPage: (TodoEntity?) -> Unit,
-    sharedTransitionScope: SharedTransitionScope,
+    toTodoAddPage: () -> Unit,
+    toTodoEditPage: (TodoEntity) -> Unit,
 ) {
     val animatedVisibilityScope = LocalNavAnimatedContentScope.current
 
@@ -82,23 +82,21 @@ fun MainPage(
             )
         },
         floatingActionButton = {
-            with(sharedTransitionScope) {
-                TodoFloatingActionButton(
-                    text = stringResource(R.string.action_add_task),
-                    iconRes = R.drawable.ic_add,
-                    expanded = expandedFab,
-                    onClick = { toTodoEditPage(null) },
-                    modifier = Modifier
-                        .sharedElement(
-                            sharedContentState = rememberSharedContentState(key = Constants.KEY_TODO_FAB_TRANSITION),
-                            animatedVisibilityScope = animatedVisibilityScope
-                        )
-                        .animateFloatingActionButton(
-                            visible = !inSelectedMode,
-                            alignment = Alignment.BottomEnd,
-                        )
-                )
-            }
+            TodoFloatingActionButton(
+                text = stringResource(R.string.action_add_task),
+                iconRes = R.drawable.ic_add,
+                expanded = expandedFab,
+                onClick = { toTodoAddPage() },
+                modifier = Modifier
+                    .sharedBounds(
+                        sharedContentState = rememberSharedContentState(key = Constants.KEY_TODO_FAB_TRANSITION),
+                        animatedVisibilityScope = animatedVisibilityScope
+                    )
+                    .animateFloatingActionButton(
+                        visible = !inSelectedMode,
+                        alignment = Alignment.BottomEnd,
+                    )
+            )
         },
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         modifier = modifier
@@ -109,7 +107,7 @@ fun MainPage(
             modifier = Modifier.fillMaxSize()
         ) {
             item {
-                Spacer(modifier = Modifier.size(TodoDefaults.settingsItemVerticalPadding))
+                Spacer(modifier = Modifier.size(TodoDefaults.screenVerticalPadding))
             }
 
             if (filteredTodoList.isEmpty()) {
@@ -146,6 +144,10 @@ fun MainPage(
                             viewModel.playConfetti()
                         },
                         modifier = Modifier
+                            .sharedBounds(
+                                sharedContentState = rememberSharedContentState(key = "${Constants.KEY_TODO_ITEM_TRANSITION}_${it.id}"),
+                                animatedVisibilityScope = LocalNavAnimatedContentScope.current
+                            )
                             .animateItem(
                                 fadeInSpec = MaterialTheme.motionScheme.defaultEffectsSpec(),
                                 placementSpec = MaterialTheme.motionScheme.defaultSpatialSpec(),
@@ -154,7 +156,7 @@ fun MainPage(
                     )
                 }
                 item {
-                    Spacer(modifier = Modifier.size(TodoDefaults.settingsItemVerticalPadding))
+                    Spacer(modifier = Modifier.size(TodoDefaults.screenVerticalPadding))
                 }
             }
         }

@@ -5,7 +5,7 @@ import cn.super12138.todo.R
 
 enum class SortingMethod(
     val id: Int,
-    @StringRes val nameRes: Int
+    @param:StringRes val nameRes: Int
 ) {
     // 按添加先后顺序
     Sequential(id = 1, nameRes = R.string.sorting_sequential),

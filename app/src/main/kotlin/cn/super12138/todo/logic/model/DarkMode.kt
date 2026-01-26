@@ -6,8 +6,8 @@ import cn.super12138.todo.R
 
 enum class DarkMode(
     val id: Int,
-    @DrawableRes val iconRes: Int,
-    @StringRes val nameRes: Int
+    @param:DrawableRes val iconRes: Int,
+    @param:StringRes val nameRes: Int
 ) {
     FollowSystem(id = -1, iconRes = R.drawable.ic_lightbulb_2, nameRes = R.string.dark_mode_system),
     Light(id = 1, iconRes = R.drawable.ic_light_mode, nameRes = R.string.dark_mode_light),

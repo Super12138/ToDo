@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import cn.super12138.todo.TodoApp
 import cn.super12138.todo.constants.Constants
@@ -35,7 +36,8 @@ import java.util.zip.ZipOutputStream
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class MainViewModel : ViewModel() {
-    val topLevelBackStack = TopLevelBackStack<NavKey>(startKey = TodoScreen.Overview)
+    val mainBackStack = TopLevelBackStack<NavKey>(TodoScreen.Overview)
+    val settingsBackStack = NavBackStack<NavKey>(TodoScreen.Settings.Main)
 
     // 待办
     private val toDos: Flow<List<TodoEntity>> = Repository.getAllTodos()

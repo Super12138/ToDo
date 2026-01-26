@@ -5,8 +5,7 @@ object Constants {
     const val GITHUB_REPO = "https://github.com/Super12138/ToDo/"
 
     const val KEY_TODO_FAB_TRANSITION = "todo_fab"
-    // const val KEY_TODO_CONTENT_TRANSITION = "todo_content"
-    // const val KEY_TODO_CATEGORY_TRANSITION = "todo_category"
+    const val KEY_TODO_ITEM_TRANSITION = "todo_item_id"
 
     const val DB_NAME = "todo"
     const val DB_TABLE_NAME = "todo"
