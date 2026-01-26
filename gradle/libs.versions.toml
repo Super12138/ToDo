@@ -13,8 +13,8 @@ material3 = "1.5.0-alpha12"
 adaptive = "1.2.0"
 nav3Core = "1.0.0"
 # AboutLibraries
-aboutLibsRelease = "14.0.0-b01"
-aboutLibsReleasePlugin = "14.0.0-b01"
+aboutLibsRelease = "14.0.0-b02"
+aboutLibsReleasePlugin = "14.0.0-b02"
 # M3 Color
 m3color = "2025.4"
 # Capsule
@@ -25,7 +25,7 @@ konfetti = "2.0.5"
 lazyColumnScrollbar = "2.2.0"
 # Kotlin
 kotlinCoroutines = "1.10.2"
-kotlinSerialization = "1.9.0"
+kotlinSerialization = "1.10.0"
 # Test
 junit = "4.13.2"
 junitVersion = "1.3.0"
