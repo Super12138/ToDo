@@ -5,7 +5,7 @@ splashScreen = "1.2.0"
 lifecycleRuntimeKtx = "2.10.0"
 datastore = "1.2.0"
 # Compose
-activityCompose = "1.12.2"
+activityCompose = "1.12.3"
 composeBom = "2026.01.01"
 liveData = "1.10.2"
 icons = "1.7.8"
