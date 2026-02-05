@@ -13,23 +13,20 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
@@ -45,9 +42,9 @@ import cn.super12138.todo.ui.components.TopAppBarScaffold
 import cn.super12138.todo.ui.pages.editor.components.TodoCategoryChip
 import cn.super12138.todo.ui.pages.editor.components.TodoCategoryTextField
 import cn.super12138.todo.ui.pages.editor.components.TodoContentTextField
+import cn.super12138.todo.ui.pages.editor.components.TodoMarkAsCompletedCheckbox
 import cn.super12138.todo.ui.pages.editor.components.TodoPrioritySlider
 import cn.super12138.todo.ui.pages.editor.state.rememberEditorState
-import cn.super12138.todo.utils.VibrationUtils
 
 @Composable
 fun SharedTransitionScope.TodoAddPage(
@@ -92,8 +89,6 @@ private fun TodoEditorPage(
     onNavigateUp: () -> Unit
 ) {
     // TODO: 本页及其相关组件重组性能检查优化
-    val view = LocalView.current
-
     val uiState = rememberEditorState(initialTodo = toDo)
 
     val originalCategories by DataStoreManager.categoriesFlow.collectAsState(initial = emptyList())
@@ -180,11 +175,11 @@ private fun TodoEditorPage(
             verticalArrangement = Arrangement.spacedBy(5.dp),
             modifier = Modifier.fillMaxSize()
         ) {
-            item {
+            item(key = 0) {
                 Spacer(modifier = Modifier.size(TodoDefaults.screenVerticalPadding))
             }
 
-            item {
+            item(key=1) {
                 TodoContentTextField(
                     value = uiState.toDoContent,
                     onValueChange = { uiState.toDoContent = it },
@@ -193,7 +188,7 @@ private fun TodoEditorPage(
                 )
             }
 
-            item {
+            item(key = 2) {
                 Text(
                     text = stringResource(R.string.label_category),
                     style = MaterialTheme.typography.titleMedium
@@ -222,7 +217,7 @@ private fun TodoEditorPage(
                 }
             }
 
-            item {
+            item (key = 3){
                 Text(
                     text = stringResource(R.string.label_priority),
                     style = MaterialTheme.typography.titleMedium
@@ -234,34 +229,22 @@ private fun TodoEditorPage(
                 )
             }
 
-            item {
+            item(key = 4) {
                 if (toDo != null) {
                     Text(
                         text = stringResource(R.string.label_more),
                         style = MaterialTheme.typography.titleMedium
                     )
 
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
+                    TodoMarkAsCompletedCheckbox(
+                        checked = uiState.isCompleted,
+                        onCheckedChange = { uiState.isCompleted = it },
                         modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text(
-                            text = stringResource(R.string.tip_mark_completed),
-                            style = MaterialTheme.typography.labelLarge,
-                            modifier = Modifier.padding(end = 10.dp)
-                        )
-                        Switch(
-                            checked = uiState.isCompleted,
-                            onCheckedChange = {
-                                VibrationUtils.performHapticFeedback(view)
-                                uiState.isCompleted = it
-                            }
-                        )
-                    }
+                    )
                 }
             }
 
-            item {
+            item (key = 5){
                 Spacer(modifier = Modifier.size(TodoDefaults.screenVerticalPadding))
             }
         }

@@ -1,6 +1,7 @@
 package cn.super12138.todo.ui.pages.tasks.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -17,10 +18,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material3.Badge
-import androidx.compose.material3.BadgedBox
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,6 +27,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,6 +42,7 @@ import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.utils.containerColor
+import cn.super12138.todo.utils.getPartialRoundedShape
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -55,19 +56,22 @@ fun TodoCard(
     selected: Boolean,
     onCardClick: () -> Unit = {},
     onCardLongClick: () -> Unit = {},
-    onChecked: () -> Unit = {}
+    onChecked: () -> Unit = {},
+    shape: CornerBasedShape = TodoDefaults.SettingsItemDefaultShape,
+    roundedShape: CornerBasedShape = TodoDefaults.SettingsItemRoundedShape,
+    topRounded: Boolean = false,
+    bottomRounded: Boolean = false
 ) {
     val view = LocalView.current
-    Card(
-        colors = CardDefaults.cardColors(containerColor = TodoDefaults.ContainerColor),
-        modifier = modifier
-            .fillMaxWidth()
-            .height(TodoDefaults.toDoCardHeight)
-    ) {
+    // TODO: 滑动删除
+    val animatedContainerColor by animateColorAsState(if (selected) MaterialTheme.colorScheme.secondaryContainer else TodoDefaults.ContainerColor)
+
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxSize()
+            modifier = modifier
+                .fillMaxWidth()
+                .height(TodoDefaults.toDoCardHeight)
+                .clip(shape.getPartialRoundedShape(topRounded, bottomRounded, roundedShape))
                 .combinedClickable(
                     onClick = {
                         VibrationUtils.performHapticFeedback(view)
@@ -77,7 +81,8 @@ fun TodoCard(
                     // 因为 combinedClickable 在更新的 Compose 里已经处理好了触感反馈
                     onLongClick = onCardLongClick
                 )
-                .padding(horizontal = 15.dp)
+                .background(animatedContainerColor)
+                .padding(horizontal = TodoDefaults.screenHorizontalPadding)
         ) {
             AnimatedVisibility(
                 visible = selected,
@@ -104,40 +109,42 @@ fun TodoCard(
             }
 
             Column(
-                verticalArrangement = Arrangement.Center,
+                verticalArrangement = Arrangement.spacedBy(
+                    space = 5.dp,
+                    alignment = Alignment.CenterVertically
+                ),
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxSize()
             ) {
-                BadgedBox(
-                    badge = {
-                        Badge(
-                            containerColor = priority.containerColor(),
-                            modifier = Modifier.padding(start = 5.dp)
-                        ) {
-                            Text(
-                                text = stringResource(priority.nameRes),
-                                textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
-                            )
-                        }
-                    }
+                Text(
+                    text = content,
+                    style = MaterialTheme.typography.titleLarge,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
+                    modifier = Modifier.basicMarquee() // TODO: 后续评估性能影响
+                )
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
+                    Badge(containerColor = MaterialTheme.colorScheme.primary) {
+                        Text(
+                            text = category.ifEmpty { stringResource(R.string.tip_default_category) },
+                            style = MaterialTheme.typography.labelMedium,
+                            textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
+                            maxLines = 1
+                        )
+                    }
+
                     Text(
-                        text = content,
-                        style = MaterialTheme.typography.titleLarge,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
+                        text = stringResource(priority.nameRes),
+                        style = MaterialTheme.typography.labelMedium.copy(priority.containerColor()),
                         textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
-                        modifier = Modifier.basicMarquee() // TODO: 后续评估性能影响
                     )
                 }
-
-                Text(
-                    text = category.ifEmpty { stringResource(R.string.tip_default_category) },
-                    style = MaterialTheme.typography.labelMedium,
-                    textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
-                    maxLines = 1
-                )
             }
 
             AnimatedVisibility(!selected && !completed) {
@@ -172,7 +179,7 @@ fun TodoCard(
                 )
             }*/
         }
-    }
+
 }
 
 /*

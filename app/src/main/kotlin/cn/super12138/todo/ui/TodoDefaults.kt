@@ -21,7 +21,7 @@ object TodoDefaults {
     /**
      * 待办卡片默认高度
      */
-    val toDoCardHeight = 80.dp
+    val toDoCardHeight = 86.dp
 
     /**
      * 设置项水平边距

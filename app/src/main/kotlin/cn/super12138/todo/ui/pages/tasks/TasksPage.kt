@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
@@ -27,7 +27,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
@@ -103,7 +102,7 @@ fun SharedTransitionScope.TasksPage(
     ) {
         LazyColumn(
             state = listState,
-            verticalArrangement = Arrangement.spacedBy(5.dp),
+            verticalArrangement = Arrangement.spacedBy(TodoDefaults.settingsItemPadding),
             modifier = Modifier.fillMaxSize()
         ) {
             item {
@@ -120,32 +119,34 @@ fun SharedTransitionScope.TasksPage(
                     )
                 }
             } else {
-                items(
+                itemsIndexed(
                     items = filteredTodoList,
-                    key = { it.id }
-                ) {
+                    key = { _, task -> task.id }
+                ) { index, task ->
                     TodoCard(
                         // id = item.id,
-                        content = it.content,
-                        category = it.category,
-                        completed = it.isCompleted,
-                        priority = Priority.fromFloat(it.priority),
-                        selected = selectedTodoIds.contains(it.id),
+                        content = task.content,
+                        category = task.category,
+                        completed = task.isCompleted,
+                        priority = Priority.fromFloat(task.priority),
+                        selected = selectedTodoIds.contains(task.id),
                         onCardClick = {
                             if (inSelectedMode) {
-                                viewModel.toggleTodoSelection(it)
+                                viewModel.toggleTodoSelection(task)
                             } else {
-                                toTodoEditPage(it)
+                                toTodoEditPage(task)
                             }
                         },
-                        onCardLongClick = { viewModel.toggleTodoSelection(it) },
+                        onCardLongClick = { viewModel.toggleTodoSelection(task) },
                         onChecked = {
-                            viewModel.updateTodo(it.copy(isCompleted = true))
+                            viewModel.updateTodo(task.copy(isCompleted = true))
                             viewModel.playConfetti()
                         },
+                        topRounded = index == 0,
+                        bottomRounded = index == filteredTodoList.size - 1,
                         modifier = Modifier
                             .sharedBounds(
-                                sharedContentState = rememberSharedContentState(key = "${Constants.KEY_TODO_ITEM_TRANSITION}_${it.id}"),
+                                sharedContentState = rememberSharedContentState(key = "${Constants.KEY_TODO_ITEM_TRANSITION}_${task.id}"),
                                 animatedVisibilityScope = LocalNavAnimatedContentScope.current
                             )
                             .animateItem(

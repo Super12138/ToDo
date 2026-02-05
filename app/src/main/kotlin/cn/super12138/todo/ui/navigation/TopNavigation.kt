@@ -2,11 +2,6 @@ package cn.super12138.todo.ui.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.SharedTransitionLayout
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
-import androidx.compose.animation.unveilIn
-import androidx.compose.animation.veilOut
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,7 +12,12 @@ import cn.super12138.todo.ui.pages.editor.TodoAddPage
 import cn.super12138.todo.ui.pages.editor.TodoEditPage
 import cn.super12138.todo.ui.pages.overview.OverviewPage
 import cn.super12138.todo.ui.pages.tasks.TasksPage
+import cn.super12138.todo.ui.theme.fadeThrough
 import cn.super12138.todo.ui.viewmodels.MainViewModel
+
+/**
+ * 来自：https://github.com/material-components/material-components-android/blob/master/lib/java/com/google/android/material/transition/MaterialFadeThrough.java#L33
+ */
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -53,12 +53,12 @@ fun TopNavigation(
          *     }
          */
 
-    val veilColor = MaterialTheme.colorScheme.surfaceDim
+//    val veilColor = MaterialTheme.colorScheme.surfaceDim
     SharedTransitionLayout {
         NavDisplay(
             backStack = backStack.backStack,
             onBack = ::onBack,
-            transitionSpec = {
+            /*transitionSpec = {
                 fadeIn() togetherWith veilOut(targetColor = veilColor)
             },
             popTransitionSpec = {
@@ -66,6 +66,15 @@ fun TopNavigation(
             },
             predictivePopTransitionSpec = {
                 unveilIn(initialColor = veilColor) togetherWith fadeOut()
+            },*/
+            transitionSpec = {
+                fadeThrough()
+            },
+            popTransitionSpec = {
+                fadeThrough()
+            },
+            predictivePopTransitionSpec = {
+                fadeThrough()
             },
             entryProvider = entryProvider {
                 entry<TodoScreen.Overview> {
