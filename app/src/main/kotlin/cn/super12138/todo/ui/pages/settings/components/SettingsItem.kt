@@ -230,10 +230,12 @@ fun SettingsItem(
             .wrapContentHeight()
             .clip(shape.getPartialRoundedShape(topRounded, bottomRounded, roundedShape))
             .clickable(
-                enabled = enableClick, onClick = {
+                enabled = enableClick,
+                onClick = {
                     VibrationUtils.performHapticFeedback(view)
                     onClick()
-                })
+                }
+            )
             .background(background)
             .padding(
                 horizontal = TodoDefaults.settingsItemHorizontalPadding,

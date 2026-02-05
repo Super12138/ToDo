@@ -123,6 +123,8 @@ fun SharedTransitionScope.TasksPage(
                     items = filteredTodoList,
                     key = { _, task -> task.id }
                 ) { index, task ->
+                    val topRounded by remember { derivedStateOf { index  == 0 } }
+                    val bottomRounded by remember { derivedStateOf { index == filteredTodoList.size - 1 } }
                     TodoCard(
                         // id = item.id,
                         content = task.content,
@@ -142,8 +144,8 @@ fun SharedTransitionScope.TasksPage(
                             viewModel.updateTodo(task.copy(isCompleted = true))
                             viewModel.playConfetti()
                         },
-                        topRounded = index == 0,
-                        bottomRounded = index == filteredTodoList.size - 1,
+                        topRounded = topRounded,
+                        bottomRounded = bottomRounded,
                         modifier = Modifier
                             .sharedBounds(
                                 sharedContentState = rememberSharedContentState(key = "${Constants.KEY_TODO_ITEM_TRANSITION}_${task.id}"),
