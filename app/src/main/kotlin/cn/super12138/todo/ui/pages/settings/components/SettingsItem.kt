@@ -238,7 +238,8 @@ fun SettingsItem(
             .padding(
                 horizontal = TodoDefaults.settingsItemHorizontalPadding,
                 vertical = TodoDefaults.settingsItemVerticalPadding
-            ), verticalAlignment = Alignment.CenterVertically
+            ),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         leadingIcon?.let { it() }
 

@@ -24,6 +24,13 @@ fun Priority.containerColor(): Color =
         Priority.Urgent -> MaterialTheme.colorScheme.error
     }
 
+/**
+ * 获取部分圆角的形状
+ *
+ * @param topRounded 顶部是否圆角
+ * @param bottomRounded 底部是否圆角
+ * @param roundedShape 所需圆角形状
+ */
 @Composable
 fun CornerBasedShape.getPartialRoundedShape(
     topRounded: Boolean,
@@ -37,7 +44,13 @@ fun CornerBasedShape.getPartialRoundedShape(
         bottomStart = if (bottomRounded) roundedShape.bottomStart else this.bottomStart,
     )
 
-
+/**
+ * 绘制渐变边缘遮罩
+ *
+ * @param edgeWidth 渐变边缘宽度
+ * @param maskColor 遮罩颜色
+ * @param leftEdge 是否在左侧边缘添加遮罩（否即在右侧边缘添加）
+ */
 fun ContentDrawScope.drawFadedEdge(
     edgeWidth: Dp,
     maskColor: Color,
