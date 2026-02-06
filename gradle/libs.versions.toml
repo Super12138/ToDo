@@ -18,7 +18,7 @@ aboutLibsReleasePlugin = "14.0.0-b02"
 # M3 Color
 m3color = "2025.4"
 # Capsule
-capsule = "2.1.1"
+capsule = "2.1.3"
 # Konfetti
 konfetti = "2.0.5"
 # Lazy Column Scrollbar
