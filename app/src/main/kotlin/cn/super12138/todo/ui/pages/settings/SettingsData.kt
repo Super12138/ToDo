@@ -5,17 +5,10 @@ import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Category
-import androidx.compose.material.icons.outlined.FileDownload
-import androidx.compose.material.icons.outlined.FileUpload
-import androidx.compose.material.icons.outlined.RestartAlt
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,22 +17,22 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.DialogProperties
 import cn.super12138.todo.R
 import cn.super12138.todo.ui.activities.MainActivity
 import cn.super12138.todo.ui.components.ConfirmDialog
-import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
+import cn.super12138.todo.ui.components.TopAppBarScaffold
 import cn.super12138.todo.ui.pages.settings.components.SettingsCategory
+import cn.super12138.todo.ui.pages.settings.components.SettingsContainer
 import cn.super12138.todo.ui.pages.settings.components.SettingsItem
 import cn.super12138.todo.ui.viewmodels.MainViewModel
 import cn.super12138.todo.utils.SystemUtils
 import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SettingsData(
     viewModel: MainViewModel,
@@ -48,9 +41,7 @@ fun SettingsData(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-
     var showRestoreDialog by rememberSaveable { mutableStateOf(false) }
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
@@ -104,22 +95,20 @@ fun SettingsData(
         }
     )
 
-    LargeTopAppBarScaffold(
+    TopAppBarScaffold(
         title = stringResource(R.string.pref_data),
         onBack = onNavigateUp,
-        scrollBehavior = scrollBehavior,
         snackbarHost = { SnackbarHost(snackbarHostState) },
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-    ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-        ) {
+        modifier = modifier,
+    ) {
+        SettingsContainer(Modifier.fillMaxSize()) {
             item {
-                SettingsCategory(stringResource(R.string.pref_category_data_management))
+                SettingsCategory(
+                    title = stringResource(R.string.pref_category_data_management),
+                    first = true
+                )
                 SettingsItem(
-                    leadingIcon = Icons.Outlined.FileDownload,
+                    leadingIconRes = R.drawable.ic_download,
                     title = stringResource(R.string.pref_backup),
                     description = stringResource(R.string.pref_backup_desc),
                     onClick = {
@@ -129,7 +118,7 @@ fun SettingsData(
             }
             item {
                 SettingsItem(
-                    leadingIcon = Icons.Outlined.FileUpload,
+                    leadingIconRes = R.drawable.ic_upload,
                     title = stringResource(R.string.pref_restore),
                     description = stringResource(R.string.pref_restore_desc),
                     onClick = {
@@ -137,27 +126,28 @@ fun SettingsData(
                     }
                 )
             }
+
             item {
                 SettingsCategory(stringResource(R.string.pref_category_category_management))
                 SettingsItem(
-                    leadingIcon = Icons.Outlined.Category,
+                    leadingIconRes = R.drawable.ic_category,
                     title = stringResource(R.string.pref_category_category_management),
                     description = stringResource(R.string.pref_category_management_desc),
                     onClick = toCategoryManager
                 )
             }
         }
-        ConfirmDialog(
-            visible = showRestoreDialog,
-            icon = Icons.Outlined.RestartAlt,
-            title = stringResource(R.string.tip_tips),
-            text = stringResource(R.string.tip_restore_success),
-            showDismissButton = false,
-            onConfirm = { restartApp(context) },
-            onDismiss = { showRestoreDialog = false },
-            properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
-        )
     }
+    ConfirmDialog(
+        visible = showRestoreDialog,
+        iconRes = R.drawable.ic_restart_alt,
+        title = stringResource(R.string.tip_tips),
+        text = stringResource(R.string.tip_restore_success),
+        showDismissButton = false,
+        onConfirm = { restartApp(context) },
+        onDismiss = { showRestoreDialog = false },
+        properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
+    )
 }
 
 /**

@@ -29,15 +29,15 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
+import cn.super12138.todo.logic.model.ContrastLevel
 import cn.super12138.todo.ui.pages.settings.components.MoreContentSettingsItem
-import cn.super12138.todo.ui.theme.ContrastLevel
 import cn.super12138.todo.utils.VibrationUtils
 
 @Composable
 fun ContrastPicker(
+    modifier: Modifier = Modifier,
     currentContrast: ContrastLevel,
     onContrastChange: (ContrastLevel) -> Unit,
-    modifier: Modifier = Modifier
 ) {
     val view = LocalView.current
     val context = LocalContext.current
@@ -46,8 +46,7 @@ fun ContrastPicker(
         description = stringResource(R.string.pref_contrast_level_desc),
         modifier = modifier
     ) {
-        val contrastLevelName =
-            ContrastLevel.entries.map { it.getDisplayName(context) }
+        val contrastLevelName = ContrastLevel.entries.map { stringResource(it.nameRes) }
         var lastVibratedLevel by remember { mutableFloatStateOf(currentContrast.value) }
 
         Slider(

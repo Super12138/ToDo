@@ -1,34 +1,30 @@
 package cn.super12138.todo.ui.components
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.FloatingActionButton
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.FloatingActionButtonElevation
 import androidx.compose.material3.Icon
+import androidx.compose.material3.SmallExtendedFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import cn.super12138.todo.utils.VibrationUtils
 
 /**
- * 带动画且比 Material 3 内置组件动画好看的的可扩展 FAB
- * * （内置组件的动画总是卡一下。。。）
+ * 封装的内置组件 FAB，在点击时支持添加震动反馈
+ * * （现在内置组件的动画好像好一点了）
  *
  * 将缩放部分转为最简单的`AnimatedVisibility`实现
- * @param icon FAB 的前置图标
+ * @param iconRes FAB 的前置图标
  * @param text FAB 的文本
- * @param textOverflow FAB 文本溢出显示方案
  * @param expanded 是否为展开状态
  * @param containerColor FAB 容器的颜色
  * @param contentColor FAB 文本和图标颜色，通常不需要自己指定，会自动依据容器颜色设置
@@ -36,20 +32,35 @@ import cn.super12138.todo.utils.VibrationUtils
  * @param onClick 点击 FAB 后的回调
  * @param modifier `Modifier` 修改器
  */
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun AnimatedExtendedFloatingActionButton(
-    modifier: Modifier = Modifier,
-    icon: ImageVector,
+fun TodoFloatingActionButton(
     text: String,
-    textOverflow: TextOverflow = TextOverflow.Clip,
-    expanded: Boolean,
+    @DrawableRes iconRes: Int,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    expanded: Boolean = true,
+    shape: Shape = FloatingActionButtonDefaults.smallExtendedFabShape,
     containerColor: Color = FloatingActionButtonDefaults.containerColor,
     contentColor: Color = contentColorFor(containerColor),
     elevation: FloatingActionButtonElevation = FloatingActionButtonDefaults.elevation(),
-    onClick: () -> Unit
+    interactionSource: MutableInteractionSource? = null,
 ) {
     val view = LocalView.current
-    FloatingActionButton(
+    SmallExtendedFloatingActionButton(
+        text = {
+            Text(
+                text = text,
+                maxLines = 1,
+                overflow = TextOverflow.Clip
+            )
+        },
+        icon = {
+            Icon(
+                painter = painterResource(iconRes),
+                contentDescription = null
+            )
+        },
         onClick = {
             VibrationUtils.performHapticFeedback(view)
             onClick()
@@ -57,27 +68,8 @@ fun AnimatedExtendedFloatingActionButton(
         elevation = elevation,
         containerColor = containerColor,
         contentColor = contentColor,
+        shape = shape,
+        interactionSource = interactionSource,
         modifier = modifier
-    ) {
-        Row(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = null
-            )
-            // Spacer(Modifier.width(if (expanded) 8.dp else 0.dp))
-            AnimatedVisibility(expanded) {
-                Row {
-                    Spacer(Modifier.width(8.dp))
-                    Text(
-                        text = text,
-                        maxLines = 1,
-                        overflow = textOverflow
-                    )
-                }
-            }
-        }
-    }
+    )
 }

@@ -9,6 +9,7 @@ import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 
@@ -17,6 +18,8 @@ import androidx.compose.animation.slideOutHorizontally
  */
 
 private const val ProgressThreshold = 0.35f
+private const val DEFAULT_START_SCALE = 0.95f //0.92f
+private const val THRESHOLD_ALPHA = 0.5f
 
 private val Int.ForOutgoing: Int
     get() = (this * ProgressThreshold).toInt()
@@ -82,6 +85,33 @@ fun materialSharedAxisXOut(
     animationSpec = tween(
         durationMillis = durationMillis.ForOutgoing,
         delayMillis = 0,
+        easing = FastOutLinearInEasing
+    )
+)
+
+fun fadeThrough(
+    durationMillis: Int = 200,
+): ContentTransform = ContentTransform(
+    fadeThroughIn(durationMillis = durationMillis),
+    fadeThroughOut(durationMillis = durationMillis)
+)
+
+fun fadeThroughIn(
+    durationMillis: Int = DefaultMotionDuration,
+): EnterTransition =
+    fadeIn(
+        animationSpec = tween(durationMillis),
+        initialAlpha = THRESHOLD_ALPHA
+    ) + scaleIn(
+        animationSpec = tween(durationMillis),
+        initialScale = DEFAULT_START_SCALE
+    )
+
+fun fadeThroughOut(
+    durationMillis: Int = DefaultMotionDuration,
+): ExitTransition = fadeOut(
+    animationSpec = tween(
+        durationMillis = durationMillis,
         easing = FastOutLinearInEasing
     )
 )

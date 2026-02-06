@@ -2,17 +2,19 @@ package cn.super12138.todo.ui.viewmodels
 
 import android.content.Context
 import android.net.Uri
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
 import cn.super12138.todo.TodoApp
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.Repository
 import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.logic.datastore.DataStoreManager
 import cn.super12138.todo.logic.model.SortingMethod
+import cn.super12138.todo.ui.navigation.TodoScreen
+import cn.super12138.todo.ui.navigation.TopLevelBackStack
 import cn.super12138.todo.utils.FileUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -34,6 +36,9 @@ import java.util.zip.ZipOutputStream
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class MainViewModel : ViewModel() {
+    val mainBackStack = TopLevelBackStack<NavKey>(TodoScreen.Overview)
+    val settingsBackStack = NavBackStack<NavKey>(TodoScreen.Settings.Main)
+
     // 待办
     private val toDos: Flow<List<TodoEntity>> = Repository.getAllTodos()
     val sortedTodos: Flow<List<TodoEntity>> =
@@ -51,8 +56,6 @@ class MainViewModel : ViewModel() {
         }
 
     val showConfetti = mutableStateOf(false)
-    var selectedEditTodo by mutableStateOf<TodoEntity?>(null)
-        private set
 
     // 多选逻辑参考：https://github.com/X1nto/Mauth
     private val _selectedTodoIds = MutableStateFlow(listOf<Int>())
@@ -81,10 +84,6 @@ class MainViewModel : ViewModel() {
             Repository.deleteAllTodo()
         }
     }*/
-
-    fun setEditTodoItem(toDo: TodoEntity?) {
-        selectedEditTodo = toDo
-    }
 
     /**
      * 切换待办的选择状态

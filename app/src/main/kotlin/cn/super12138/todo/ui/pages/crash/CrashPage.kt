@@ -10,12 +10,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.ExitToApp
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallExtendedFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -25,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -40,12 +42,11 @@ import cn.super12138.todo.ui.activities.CrashActivity.Companion.BRAND_PREFIX
 import cn.super12138.todo.ui.activities.CrashActivity.Companion.CRASH_TIME_PREFIX
 import cn.super12138.todo.ui.activities.CrashActivity.Companion.DEVICE_SDK_PREFIX
 import cn.super12138.todo.ui.activities.CrashActivity.Companion.MODEL_PREFIX
-import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun CrashPage(
     crashLog: String,
@@ -77,11 +78,16 @@ fun CrashPage(
             )
         },
         floatingActionButton = {
-            AnimatedExtendedFloatingActionButton(
-                onClick = exitApp,
-                icon = Icons.AutoMirrored.Outlined.ExitToApp,
-                text = stringResource(R.string.action_exit_app),
-                expanded = isExpanded
+            SmallExtendedFloatingActionButton(
+                text = { Text(stringResource(R.string.action_exit_app)) },
+                icon = {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_exit_to_app),
+                        contentDescription = null
+                    )
+                },
+                expanded = isExpanded,
+                onClick = exitApp
             )
         },
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
@@ -107,7 +113,7 @@ fun CrashPage(
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .padding(horizontal = TodoDefaults.screenPadding)
+                .padding(horizontal = TodoDefaults.screenHorizontalPadding)
                 .fillMaxSize()
                 .verticalScroll(scrollState)
         ) {

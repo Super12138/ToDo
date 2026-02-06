@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import cn.super12138.todo.logic.model.PaletteStyle
 import com.kyant.m3color.hct.Hct
 import com.kyant.m3color.scheme.SchemeContent
 import com.kyant.m3color.scheme.SchemeExpressive
@@ -98,6 +99,5 @@ private inline fun Int.toColor(): Color = Color(this)
 
 // https://github.com/jordond/MaterialKolor/blob/main/material-kolor/src/commonMain/kotlin/com/materialkolor/DynamicMaterialTheme.kt
 @Composable
-private fun Color.animate(animationSpec: AnimationSpec<Color> = spring()): Color {
-    return animateColorAsState(this, animationSpec).value
-}
+private fun Color.animate(animationSpec: AnimationSpec<Color> = spring()): Color =
+    animateColorAsState(this, animationSpec).value

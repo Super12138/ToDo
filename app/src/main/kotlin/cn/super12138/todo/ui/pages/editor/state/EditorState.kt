@@ -74,7 +74,7 @@ class EditorState(val initialTodo: TodoEntity? = null) {
      * 保存状态的 Saver 对象，用于适配 rememberSaveable
      */
     object Saver : androidx.compose.runtime.saveable.Saver<EditorState, Any> {
-        override fun SaverScope.save(value: EditorState): Any? {
+        override fun SaverScope.save(value: EditorState): Any {
             return listOf(
                 value.initialTodo?.id ?: 0,
                 value.toDoContent,
@@ -89,7 +89,7 @@ class EditorState(val initialTodo: TodoEntity? = null) {
             )
         }
 
-        override fun restore(value: Any): EditorState? {
+        override fun restore(value: Any): EditorState {
             val list = value as List<*>
             val initialTodo = list[0] as? TodoEntity?
             return EditorState(initialTodo).apply {

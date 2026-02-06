@@ -4,7 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import cn.super12138.todo.constants.Constants
+import kotlinx.serialization.Serializable
 
+@Serializable
 @Entity(tableName = Constants.DB_TABLE_NAME)
 data class TodoEntity(
     @ColumnInfo(name = "content") val content: String,

@@ -8,16 +8,17 @@ datastore = "1.2.0"
 activityCompose = "1.12.3"
 composeBom = "2026.01.01"
 liveData = "1.10.2"
-icons = "1.7.8"
 room = "2.8.4"
-navigation = "2.9.7"
 material3 = "1.5.0-alpha13"
 adaptive = "1.2.0"
+nav3Core = "1.0.0"
 # AboutLibraries
 aboutLibsRelease = "14.0.0-b02"
 aboutLibsReleasePlugin = "14.0.0-b02"
 # M3 Color
 m3color = "2025.4"
+# Capsule
+capsule = "2.1.1"
 # Konfetti
 konfetti = "2.0.5"
 # Lazy Column Scrollbar
@@ -47,8 +48,6 @@ androidx-datastore-preferences = { group = "androidx.datastore", name = "datasto
 # Compose
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-animation = { group = "androidx.compose.animation", name = "animation" }
-androidx-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
-androidx-material3-adaptive = { group = "androidx.compose.material3.adaptive", name = "adaptive", version.ref = "adaptive" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
@@ -57,8 +56,10 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
-androidx-material-icon-core = { group = "androidx.compose.material", name = "material-icons-core", version.ref = "icons" }
-androidx-material-icon-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "icons" }
+androidx-material3-windowsizeclass = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "material3" }
+androidx-material3-adaptive = { group = "androidx.compose.material3", name = "material3-adaptive-navigation-suite", version.ref = "material3" }
+androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "nav3Core" }
+androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "nav3Core" }
 
 # Room
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
@@ -70,13 +71,12 @@ aboutlibraries-core = { group = "com.mikepenz", name = "aboutlibraries-core", ve
 aboutlibraries-compose = { group = "com.mikepenz", name = "aboutlibraries-compose-m3", version.ref = "aboutLibsRelease" }
 
 # M3 Color
-com-kyant0-m3color = { group = "com.github.Kyant0", name = "m3color", version.ref = "m3color" }
+kyant0-m3color = { group = "com.github.Kyant0", name = "m3color", version.ref = "m3color" }
+# Capsule
+kyant0-capsule = { group = "io.github.kyant0", name = "capsule", version.ref = "capsule" }
 
 # Konfetti
 nl-dionsegijn-konfetti-compose = { group = "nl.dionsegijn", name = "konfetti-compose", version.ref = "konfetti" }
-
-# Lazy Column Scrollbar
-lazycolumnscrollbar = { group = "com.github.nanihadesuka", name = "LazyColumnScrollbar", version.ref = "lazyColumnScrollbar" }
 
 # Kotlin
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }

@@ -1,17 +1,56 @@
 package cn.super12138.todo.ui.navigation
 
-enum class TodoScreen {
-    Main,
-    TodoEditor,
-    SettingsMain,
-    SettingsAppearance,
-    SettingsInterface,
-    SettingsData,
-    SettingsDataCategory,
-    SettingsAbout,
+import androidx.navigation3.runtime.NavKey
+import cn.super12138.todo.logic.database.TodoEntity
+import kotlinx.serialization.Serializable
 
-    //SettingsAboutSpecial,
-    SettingsAboutLicence,
-    SettingsDev,
-    SettingsDevPadding
+@Serializable
+sealed class TodoScreen : NavKey {
+    @Serializable
+    data object Overview : TodoScreen()
+
+    @Serializable
+    data object Tasks : TodoScreen()
+
+    @Serializable
+    sealed class Settings : TodoScreen() {
+        @Serializable
+        data object Main : Settings()
+
+        @Serializable
+        data object Appearance : Settings()
+
+        @Serializable
+        data object Interface : Settings()
+
+        @Serializable
+        data object Data : Settings()
+
+        @Serializable
+        data object DataCategory : Settings()
+
+        @Serializable
+        data object About : Settings()
+
+        // @Serializable
+        // data object AboutEasterEgg : Settings()
+
+        @Serializable
+        data object AboutLicence : Settings()
+
+        @Serializable
+        data object DeveloperOptions : Settings()
+
+        @Serializable
+        data object DeveloperOptionsPadding : Settings()
+    }
+
+    @Serializable
+    sealed class Editor : TodoScreen() {
+        @Serializable
+        data object Add : Editor()
+
+        @Serializable
+        data class Edit(val toDo: TodoEntity) : Editor()
+    }
 }

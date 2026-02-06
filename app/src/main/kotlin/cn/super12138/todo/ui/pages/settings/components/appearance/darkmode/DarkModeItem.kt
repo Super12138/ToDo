@@ -1,5 +1,6 @@
 package cn.super12138.todo.ui.pages.settings.components.appearance.darkmode
 
+import androidx.annotation.DrawableRes
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,15 +19,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.utils.VibrationUtils
 
 @Composable
 fun DarkModeItem(
-    icon: ImageVector,
+    @DrawableRes iconRes: Int,
     name: String,
     contentColor: Color,
     containerColor: Color,
@@ -61,7 +62,7 @@ fun DarkModeItem(
                 ),
         ) {
             Icon(
-                imageVector = icon,
+                painter = painterResource(iconRes),
                 contentDescription = null,
                 tint = contentColor,
                 modifier = Modifier

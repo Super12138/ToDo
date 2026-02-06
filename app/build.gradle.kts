@@ -18,7 +18,9 @@ val verCode = "git rev-list --count HEAD".exec().toInt() */
 
 android {
     namespace = "cn.super12138.todo"
-    compileSdk = 36
+    compileSdk {
+        version = release(36)
+    }
 
     // 获取 Release 签名
     val releaseSigning = if (project.hasProperty("releaseStoreFile")) {
@@ -36,7 +38,7 @@ android {
         applicationId = "cn.super12138.todo"
         minSdk = 24
         targetSdk = 36
-        versionCode = 923
+        versionCode = 955
         versionName = "2.3.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -99,24 +101,24 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.animation)
-    implementation(libs.androidx.navigation)
-    implementation(libs.androidx.material3.adaptive)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.android)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.androidx.material.icon.core)
-    implementation(libs.androidx.material.icon.extended)
+    implementation(libs.androidx.material3.windowsizeclass)
+    implementation(libs.androidx.material3.adaptive)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
     // About Libraries
     implementation(libs.aboutlibraries.core)
     implementation(libs.aboutlibraries.compose)
     // M3 Color
-    implementation(libs.com.kyant0.m3color)
+    implementation(libs.kyant0.m3color)
+    // Capsule
+    implementation(libs.kyant0.capsule)
     // Konfetti
     implementation(libs.nl.dionsegijn.konfetti.compose)
-    // Lazy Column Scrollbar
-    implementation(libs.lazycolumnscrollbar)
     // Kotlin
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)

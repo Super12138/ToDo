@@ -1,5 +1,8 @@
 package cn.super12138.todo.ui.pages.settings.components
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,10 +12,13 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,6 +27,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.components.BasicDialog
+import cn.super12138.todo.ui.theme.shapeByInteraction
 import cn.super12138.todo.utils.VibrationUtils
 
 @Composable
@@ -39,6 +46,7 @@ fun SettingsRadioDialog(
         text = {
             // Modifier.selectableGroup() 用来确保无障碍功能运行正确
             Column(
+                verticalArrangement = Arrangement.spacedBy(2.dp),
                 modifier = Modifier
                     .selectableGroup()
                     .verticalScroll(rememberScrollState())
@@ -60,6 +68,7 @@ fun SettingsRadioDialog(
     )
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun RadioItem(
     selected: Boolean,
@@ -68,12 +77,23 @@ fun RadioItem(
     modifier: Modifier = Modifier
 ) {
     val view = LocalView.current
+    val interactionSource = remember { MutableInteractionSource() }
+    val pressed by interactionSource.collectIsPressedAsState()
+
     Row(
         modifier
             .fillMaxWidth()
             .height(56.dp)
-            .clip(MaterialTheme.shapes.large)
+            .clip(
+                shapeByInteraction(
+                    shapes = TodoDefaults.shapes(),
+                    pressed = pressed,
+                    animationSpec = TodoDefaults.shapesDefaultAnimationSpec
+                )
+            )
+            // .background(MaterialTheme.colorScheme.surfaceContainerHighest)
             .selectable(
+                interactionSource = interactionSource,
                 selected = selected,
                 onClick = {
                     VibrationUtils.performHapticFeedback(view)
@@ -81,7 +101,7 @@ fun RadioItem(
                 },
                 role = Role.RadioButton
             )
-            .padding(horizontal = TodoDefaults.screenPadding),
+            .padding(horizontal = TodoDefaults.screenHorizontalPadding),
         verticalAlignment = Alignment.CenterVertically
     ) {
         RadioButton(

@@ -1,23 +1,19 @@
 package cn.super12138.todo.ui.pages.settings
 
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.VisibilityThreshold
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FilledTonalIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
@@ -28,26 +24,29 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.text.style.TextOverflow
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.datastore.DataStoreManager
-import cn.super12138.todo.ui.components.AnimatedExtendedFloatingActionButton
-import cn.super12138.todo.ui.components.LargeTopAppBarScaffold
-import cn.super12138.todo.ui.pages.settings.components.category.CategoryItem
+import cn.super12138.todo.ui.components.TodoFloatingActionButton
+import cn.super12138.todo.ui.components.TopAppBarScaffold
+import cn.super12138.todo.ui.pages.settings.components.SettingsContainer
+import cn.super12138.todo.ui.pages.settings.components.SettingsItem
 import cn.super12138.todo.ui.pages.settings.components.category.CategoryPromptDialog
+import cn.super12138.todo.utils.VibrationUtils
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SettingsDataCategory(
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     // TODO: 本页及其相关组件重组性能检查优化
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val view = LocalView.current
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val listState = rememberLazyListState()
@@ -59,14 +58,14 @@ fun SettingsDataCategory(
 
     val isExpanded by remember { derivedStateOf { listState.firstVisibleItemIndex == 0 } }
 
-    LargeTopAppBarScaffold(
+    // TODO: 取消5字分类限制
+    TopAppBarScaffold(
         title = stringResource(R.string.pref_category_category_management),
         onBack = onNavigateUp,
-        scrollBehavior = scrollBehavior,
         snackbarHost = { SnackbarHost(snackbarHostState) },
         floatingActionButton = {
-            AnimatedExtendedFloatingActionButton(
-                icon = Icons.Outlined.Add,
+            TodoFloatingActionButton(
+                iconRes = R.drawable.ic_add,
                 text = stringResource(R.string.action_add_category),
                 expanded = isExpanded,
                 onClick = {
@@ -75,14 +74,9 @@ fun SettingsDataCategory(
                 }
             )
         },
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-    ) { innerPadding ->
-        LazyColumn(
-            state = listState,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-        ) {
+        modifier = modifier,
+    ) {
+        SettingsContainer(Modifier.fillMaxSize()) {
             if (categories.isEmpty()) {
                 item {
                     Text(
@@ -93,23 +87,43 @@ fun SettingsDataCategory(
                     )
                 }
             } else {
-                items(items = categories, key = { it }) {
-                    CategoryItem(
-                        name = it,
-                        onClick = { category ->
+                // Keep stable content key (category) for animations, but compute rounding based on content
+                items(
+                    items = categories,
+                    key = { it }
+                ) { category ->
+                    SettingsItem(
+                        headlineContent = {
+                            Text(
+                                text = category,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                style = MaterialTheme.typography.titleMedium,
+                                modifier = Modifier.basicMarquee()
+                            )
+                        },
+                        trailingContent = {
+                            FilledTonalIconButton(
+                                shapes = IconButtonDefaults.shapes(),
+                                onClick = {
+                                    VibrationUtils.performHapticFeedback(view)
+                                    scope.launch { DataStoreManager.setCategories(categories - category) }
+                                }
+                            ) {
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_delete),
+                                    contentDescription = stringResource(R.string.action_delete)
+                                )
+                            }
+                        },
+                        onClick = {
                             initialCategory = category
                             showDialog = true
                         },
-                        onDelete = { category ->
-                            scope.launch { DataStoreManager.setCategories(categories - category) }
-                        },
                         modifier = Modifier.animateItem(
-                            fadeInSpec = tween(100),
-                            placementSpec = spring(
-                                stiffness = Spring.StiffnessMediumLow,
-                                visibilityThreshold = IntOffset.VisibilityThreshold
-                            ),
-                            fadeOutSpec = tween(100)
+                            fadeInSpec = MaterialTheme.motionScheme.defaultEffectsSpec(),
+                            placementSpec = MaterialTheme.motionScheme.defaultSpatialSpec(),
+                            fadeOutSpec = MaterialTheme.motionScheme.defaultEffectsSpec()
                         )
                     )
                 }

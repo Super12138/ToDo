@@ -22,14 +22,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
-import cn.super12138.todo.ui.theme.ContrastLevel
-import cn.super12138.todo.ui.theme.PaletteStyle
+import cn.super12138.todo.logic.model.ContrastLevel
+import cn.super12138.todo.logic.model.PaletteStyle
 import cn.super12138.todo.ui.theme.dynamicColorScheme
 import cn.super12138.todo.utils.VibrationUtils
 
@@ -44,7 +44,6 @@ fun PaletteItem(
     modifier: Modifier = Modifier
 ) {
     val view = LocalView.current
-    val context = LocalContext.current
 
     Column(
         modifier = modifier
@@ -107,8 +106,11 @@ fun PaletteItem(
         Spacer(Modifier.size(8.dp))
 
         Text(
-            text = paletteStyle.getDisplayName(context),
-            style = MaterialTheme.typography.bodyMedium
+            text = stringResource(paletteStyle.nameRes),
+            style = MaterialTheme.typography.bodyMedium,
+            color = if (selected) {
+                MaterialTheme.colorScheme.primary
+            } else MaterialTheme.colorScheme.onSurface
         )
     }
 }

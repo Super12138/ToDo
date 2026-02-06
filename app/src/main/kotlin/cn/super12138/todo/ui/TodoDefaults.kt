@@ -1,17 +1,30 @@
 package cn.super12138.todo.ui
 
+import androidx.compose.animation.core.FiniteAnimationSpec
+import androidx.compose.foundation.shape.CornerBasedShape
+import androidx.compose.material3.ButtonShapes
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 
 object TodoDefaults {
     /**
      * 屏幕左右两边预留边距（防止内容全部贴边显示过丑）
      */
-    val screenPadding = 16.dp
+    val screenHorizontalPadding = 16.dp
+
+    /**
+     * 屏幕上下预留边距（防止内容全部贴边显示过丑）
+     */
+    val screenVerticalPadding = 8.dp
 
     /**
      * 待办卡片默认高度
      */
-    val toDoCardHeight = 80.dp
+    val toDoCardHeight = 86.dp
 
     /**
      * 设置项水平边距
@@ -21,5 +34,66 @@ object TodoDefaults {
     /**
      * 设置项垂直边距
      */
-    val settingsItemVerticalPadding = 20.dp
+    val settingsItemVerticalPadding = 16.dp
+
+    val settingsItemPadding = 4.dp
+
+    /**
+     * 待办进度条粗度
+     */
+    val trackThickness = 7.0.dp
+
+    /**
+     * 待办进度条波长
+     */
+    val waveLength = 35.dp
+
+    /**
+     * 待办进度条波速
+     */
+    val waveSpeed = 3.dp
+
+    /**
+     * 待办进度条波幅
+     */
+    const val waveAmplitude = 0.6f
+
+    val ScreenContainerShape: Shape
+        @Composable
+        get() = MaterialTheme.shapes.large/*.copy(
+            bottomStart = ZeroCornerSize,
+            bottomEnd = ZeroCornerSize
+        )*/
+
+    val ContainerColor: Color
+        @Composable
+        get() = MaterialTheme.colorScheme.surfaceBright
+
+    val BackgroundColor: Color
+        @Composable
+        get() = MaterialTheme.colorScheme.surfaceContainer
+
+
+    val fadedEdgeWidth = 8.dp
+
+    val defaultShape: CornerBasedShape
+        @Composable
+        get() = MaterialTheme.shapes.large
+
+    val pressedShape: CornerBasedShape
+        @Composable
+        get() = MaterialTheme.shapes.small
+
+
+    @OptIn(ExperimentalMaterial3ExpressiveApi::class)
+    @Composable
+    fun shapes() = ButtonShapes(
+        shape = defaultShape,
+        pressedShape = pressedShape
+    )
+
+    @OptIn(ExperimentalMaterial3ExpressiveApi::class)
+    val shapesDefaultAnimationSpec: FiniteAnimationSpec<Float>
+        @Composable
+        get() = MaterialTheme.motionScheme.defaultEffectsSpec<Float>()
 }
