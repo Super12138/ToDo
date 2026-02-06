@@ -25,8 +25,6 @@ fun PalettePicker(
     isDynamicColor: Boolean,
     isDarkMode: DarkMode,
     contrastLevel: ContrastLevel,
-    topRounded: Boolean = false,
-    bottomRounded: Boolean = false
 ) {
     val paletteOptions = remember { PaletteStyle.entries.toList() }
 
@@ -35,8 +33,6 @@ fun PalettePicker(
         description = stringResource(R.string.pref_palette_style_desc),
         horizontalArrangement = Arrangement.spacedBy(5.dp),
         fadedEdgeWidth = TodoDefaults.fadedEdgeWidth,
-        topRounded = topRounded,
-        bottomRounded = bottomRounded,
         modifier = modifier
     ) {
         items(items = paletteOptions, key = { it.id }) {

@@ -21,8 +21,6 @@ fun DarkModePicker(
     modifier: Modifier = Modifier,
     currentDarkMode: () -> DarkMode,
     onDarkModeChange: (darkMode: DarkMode) -> Unit,
-    topRounded: Boolean = false,
-    bottomRounded: Boolean = false
 ) {
     val isInDarkTheme = isSystemInDarkTheme()
 
@@ -33,8 +31,6 @@ fun DarkModePicker(
         description = stringResource(R.string.pref_dark_mode_desc),
         horizontalArrangement = Arrangement.spacedBy(5.dp),
         fadedEdgeWidth = TodoDefaults.fadedEdgeWidth,
-        topRounded = topRounded,
-        bottomRounded = bottomRounded,
         modifier = modifier
     ) {
         items(items = darkModeList, key = { it.id }) {

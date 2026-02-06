@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
@@ -119,12 +119,10 @@ fun SharedTransitionScope.TasksPage(
                     )
                 }
             } else {
-                itemsIndexed(
+                items(
                     items = filteredTodoList,
-                    key = { _, task -> task.id }
-                ) { index, task ->
-                    val topRounded by remember { derivedStateOf { index  == 0 } }
-                    val bottomRounded by remember { derivedStateOf { index == filteredTodoList.size - 1 } }
+                    key = { it.id }
+                ) { task ->
                     TodoCard(
                         // id = item.id,
                         content = task.content,
@@ -144,8 +142,6 @@ fun SharedTransitionScope.TasksPage(
                             viewModel.updateTodo(task.copy(isCompleted = true))
                             viewModel.playConfetti()
                         },
-                        topRounded = topRounded,
-                        bottomRounded = bottomRounded,
                         modifier = Modifier
                             .sharedBounds(
                                 sharedContentState = rememberSharedContentState(key = "${Constants.KEY_TODO_ITEM_TRANSITION}_${task.id}"),

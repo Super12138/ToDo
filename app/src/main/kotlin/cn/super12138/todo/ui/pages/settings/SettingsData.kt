@@ -113,8 +113,7 @@ fun SettingsData(
                     description = stringResource(R.string.pref_backup_desc),
                     onClick = {
                         backupLauncher.launch("Todo-backup-${SystemUtils.getTime()}.zip")
-                    },
-                    topRounded = true
+                    }
                 )
             }
             item {
@@ -124,8 +123,7 @@ fun SettingsData(
                     description = stringResource(R.string.pref_restore_desc),
                     onClick = {
                         restoreLauncher.launch(arrayOf("application/zip"))
-                    },
-                    bottomRounded = true
+                    }
                 )
             }
 
@@ -135,9 +133,7 @@ fun SettingsData(
                     leadingIconRes = R.drawable.ic_category,
                     title = stringResource(R.string.pref_category_category_management),
                     description = stringResource(R.string.pref_category_management_desc),
-                    onClick = toCategoryManager,
-                    topRounded = true,
-                    bottomRounded = true
+                    onClick = toCategoryManager
                 )
             }
         }

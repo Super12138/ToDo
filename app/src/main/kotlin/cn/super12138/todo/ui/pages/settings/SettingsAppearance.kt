@@ -46,8 +46,7 @@ fun SettingsAppearance(
                     leadingIconRes = R.drawable.ic_wand_stars,
                     title = stringResource(R.string.pref_appearance_dynamic_color),
                     description = stringResource(R.string.pref_appearance_dynamic_color_desc),
-                    onCheckedChange = { scope.launch { DataStoreManager.setDynamicColor(it) } },
-                    topRounded = true
+                    onCheckedChange = { scope.launch { DataStoreManager.setDynamicColor(it) } }
                 )
             }
 
@@ -71,8 +70,7 @@ fun SettingsAppearance(
             item(key = 4) {
                 ContrastPicker(
                     currentContrast = ContrastLevel.fromFloat(contrastLevel),
-                    onContrastChange = { scope.launch { DataStoreManager.setContrastLevel(it.value) } },
-                    bottomRounded = true
+                    onContrastChange = { scope.launch { DataStoreManager.setContrastLevel(it.value) } }
                 )
             }
         }

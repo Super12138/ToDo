@@ -71,8 +71,7 @@ fun SettingsAbout(
                             }
                             clickCount = 0
                         }
-                    },
-                    topRounded = true
+                    }
                 )
             }
             item {
@@ -104,8 +103,7 @@ fun SettingsAbout(
                     leadingIconRes = R.drawable.ic_code_blocks,
                     title = stringResource(R.string.pref_developer_options),
                     description = stringResource(R.string.pref_developer_options_desc),
-                    onClick = toDevPage,
-                    bottomRounded = true
+                    onClick = toDevPage
                 )
             }
         }

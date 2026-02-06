@@ -11,7 +11,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
@@ -38,7 +37,6 @@ fun SettingsInterface(
     val sortingMethod by DataStoreManager.sortingMethodFlow.collectAsState(initial = Constants.PREF_SORTING_METHOD_DEFAULT)
     val hapticFeedback by DataStoreManager.hapticFeedbackFlow.collectAsState(initial = Constants.PREF_HAPTIC_FEEDBACK_DEFAULT)
 
-    val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var showSortingMethodDialog by rememberSaveable { mutableStateOf(false) }
     TopAppBarScaffold(
@@ -57,8 +55,7 @@ fun SettingsInterface(
                     title = stringResource(R.string.pref_show_completed),
                     description = stringResource(R.string.pref_show_completed_desc),
                     checked = showCompleted,
-                    onCheckedChange = { scope.launch { DataStoreManager.setShowCompleted(it) } },
-                    topRounded = true
+                    onCheckedChange = { scope.launch { DataStoreManager.setShowCompleted(it) } }
                 )
             }
             item {
@@ -66,8 +63,7 @@ fun SettingsInterface(
                     leadingIconRes = R.drawable.ic_sort,
                     title = stringResource(R.string.pref_sorting_method),
                     description = stringResource(SortingMethod.fromId(sortingMethod).nameRes),
-                    onClick = { showSortingMethodDialog = true },
-                    bottomRounded = true
+                    onClick = { showSortingMethodDialog = true }
                 )
             }
 
@@ -78,8 +74,7 @@ fun SettingsInterface(
                     leadingIconRes = R.drawable.ic_shield,
                     title = stringResource(R.string.pref_secure_mode),
                     description = stringResource(R.string.pref_secure_mode_desc),
-                    onCheckedChange = { scope.launch { DataStoreManager.setSecureMode(it) } },
-                    topRounded = true
+                    onCheckedChange = { scope.launch { DataStoreManager.setSecureMode(it) } }
                 )
             }
 
@@ -89,8 +84,7 @@ fun SettingsInterface(
                     leadingIconRes = R.drawable.ic_touch_long,
                     title = stringResource(R.string.pref_haptic_feedback),
                     description = stringResource(R.string.pref_haptic_feedback_desc),
-                    onCheckedChange = { scope.launch { DataStoreManager.setHapticFeedback(it) } },
-                    bottomRounded = true
+                    onCheckedChange = { scope.launch { DataStoreManager.setHapticFeedback(it) } }
                 )
                 SettingsPlainBox(stringResource(R.string.pref_haptic_feedback_more_info))
             }

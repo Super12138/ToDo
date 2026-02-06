@@ -92,11 +92,6 @@ fun SettingsDataCategory(
                     items = categories,
                     key = { it }
                 ) { category ->
-                    // compute rounding by content rather than by index so insertion/moves
-                    // correctly update rounded corners while keeping content key for animations
-                    val topRounded = category == categories.first()
-                    val bottomRounded = category == categories.last()
-
                     SettingsItem(
                         headlineContent = {
                             Text(
@@ -125,8 +120,6 @@ fun SettingsDataCategory(
                             initialCategory = category
                             showDialog = true
                         },
-                        topRounded = topRounded,
-                        bottomRounded = bottomRounded,
                         modifier = Modifier.animateItem(
                             fadeInSpec = MaterialTheme.motionScheme.defaultEffectsSpec(),
                             placementSpec = MaterialTheme.motionScheme.defaultSpatialSpec(),

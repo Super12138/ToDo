@@ -30,8 +30,7 @@ fun SettingsMain(
                     leadingIconRes = R.drawable.ic_palette,
                     title = stringResource(R.string.pref_appearance),
                     description = stringResource(R.string.pref_appearance_desc),
-                    onClick = toAppearancePage,
-                    topRounded = true
+                    onClick = toAppearancePage
                 )
             }
 
@@ -58,8 +57,7 @@ fun SettingsMain(
                     leadingIconRes = R.drawable.ic_info,
                     title = stringResource(R.string.pref_about),
                     description = stringResource(R.string.pref_about_desc),
-                    onClick = toAboutPage,
-                    bottomRounded = true
+                    onClick = toAboutPage
                 )
             }
         }

@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.utils.drawFadedEdge
-import cn.super12138.todo.utils.getPartialRoundedShape
 
 @Composable
 fun RowSettingsItem(
@@ -44,8 +43,6 @@ fun RowSettingsItem(
     scrollState: ScrollState = rememberScrollState(),
     fadedEdgeWidth: Dp,
     maskColor: Color = TodoDefaults.ContainerColor,
-    topRounded: Boolean = false,
-    bottomRounded: Boolean = false,
     content: @Composable RowScope.() -> Unit
 ) {
     MoreContentSettingsItem(
@@ -54,8 +51,6 @@ fun RowSettingsItem(
         description = description,
         trailingContent = trailingContent,
         background = background,
-        topRounded = topRounded,
-        bottomRounded = bottomRounded,
         modifier = modifier
     ) {
         Row(
@@ -98,8 +93,6 @@ fun LazyRowSettingsItem(
     verticalAlignment: Alignment.Vertical = Alignment.Top,
     fadedEdgeWidth: Dp,
     maskColor: Color = TodoDefaults.ContainerColor,
-    topRounded: Boolean = false,
-    bottomRounded: Boolean = false,
     content: LazyListScope.() -> Unit
 ) {
     MoreContentSettingsItem(
@@ -107,8 +100,6 @@ fun LazyRowSettingsItem(
         title = title,
         description = description,
         trailingContent = trailingContent,
-        topRounded = topRounded,
-        bottomRounded = bottomRounded,
         background = background,
         modifier = modifier
     ) {
@@ -147,17 +138,14 @@ fun MoreContentSettingsItem(
     description: String? = null,
     trailingContent: (@Composable () -> Unit)? = null,
     background: Color = TodoDefaults.ContainerColor,
-    shape: CornerBasedShape = TodoDefaults.SettingsItemDefaultShape,
-    roundedShape: CornerBasedShape = TodoDefaults.SettingsItemRoundedShape,
-    topRounded: Boolean = false,
-    bottomRounded: Boolean = false,
+    shape: CornerBasedShape = TodoDefaults.defaultShape,
     content: @Composable () -> Unit
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .clip(shape.getPartialRoundedShape(topRounded, bottomRounded, roundedShape))
+            .clip(shape)
             .background(background)
             .padding(
                 horizontal = TodoDefaults.settingsItemHorizontalPadding,

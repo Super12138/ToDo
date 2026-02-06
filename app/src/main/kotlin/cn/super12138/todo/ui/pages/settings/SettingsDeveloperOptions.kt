@@ -27,9 +27,7 @@ fun SettingsDeveloperOptions(
                 SettingsItem(
                     leadingIconRes = R.drawable.ic_padding,
                     title = stringResource(R.string.pref_padding),
-                    onClick = toPaddingPage,
-                    topRounded = true,
-                    bottomRounded = true
+                    onClick = toPaddingPage
                 )
             }
         }

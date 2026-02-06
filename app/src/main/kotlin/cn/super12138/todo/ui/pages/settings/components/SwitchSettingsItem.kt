@@ -2,6 +2,7 @@ package cn.super12138.todo.ui.pages.settings.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -11,14 +12,13 @@ import androidx.compose.ui.res.painterResource
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.utils.VibrationUtils
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SwitchSettingsItem(
     modifier: Modifier = Modifier,
     @DrawableRes leadingIconRes: Int,
     title: String,
     description: String? = null,
-    topRounded: Boolean = false,
-    bottomRounded: Boolean = false,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit
 ) {
@@ -34,12 +34,11 @@ fun SwitchSettingsItem(
             )
         },
         onClick = { onCheckedChange(!checked) },
-        topRounded = topRounded,
-        bottomRounded = bottomRounded,
         modifier = modifier,
     )
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SwitchSettingsItem(
     modifier: Modifier = Modifier,

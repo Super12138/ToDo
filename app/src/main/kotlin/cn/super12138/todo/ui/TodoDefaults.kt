@@ -1,6 +1,9 @@
 package cn.super12138.todo.ui
 
+import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.foundation.shape.CornerBasedShape
+import androidx.compose.material3.ButtonShapes
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -33,7 +36,7 @@ object TodoDefaults {
      */
     val settingsItemVerticalPadding = 16.dp
 
-    val settingsItemPadding = 2.dp
+    val settingsItemPadding = 4.dp
 
     /**
      * 待办进度条粗度
@@ -70,13 +73,27 @@ object TodoDefaults {
         @Composable
         get() = MaterialTheme.colorScheme.surfaceContainer
 
-    val SettingsItemDefaultShape: CornerBasedShape
-        @Composable
-        get() = MaterialTheme.shapes.small
 
-    val SettingsItemRoundedShape: CornerBasedShape
+    val fadedEdgeWidth = 8.dp
+
+    val defaultShape: CornerBasedShape
         @Composable
         get() = MaterialTheme.shapes.large
 
-    val fadedEdgeWidth = 8.dp
+    val pressedShape: CornerBasedShape
+        @Composable
+        get() = MaterialTheme.shapes.small
+
+
+    @OptIn(ExperimentalMaterial3ExpressiveApi::class)
+    @Composable
+    fun shapes() = ButtonShapes(
+        shape = defaultShape,
+        pressedShape = pressedShape
+    )
+
+    @OptIn(ExperimentalMaterial3ExpressiveApi::class)
+    val shapesDefaultAnimationSpec: FiniteAnimationSpec<Float>
+        @Composable
+        get() = MaterialTheme.motionScheme.defaultEffectsSpec<Float>()
 }

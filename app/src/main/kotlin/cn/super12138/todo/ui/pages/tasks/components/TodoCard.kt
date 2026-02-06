@@ -9,6 +9,8 @@ import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,8 +20,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material3.Badge
+import androidx.compose.material3.ButtonShapes
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,6 +30,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,9 +43,9 @@ import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.ui.TodoDefaults
+import cn.super12138.todo.ui.theme.shapeByInteraction
 import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.utils.containerColor
-import cn.super12138.todo.utils.getPartialRoundedShape
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -57,111 +60,115 @@ fun TodoCard(
     onCardClick: () -> Unit = {},
     onCardLongClick: () -> Unit = {},
     onChecked: () -> Unit = {},
-    shape: CornerBasedShape = TodoDefaults.SettingsItemDefaultShape,
-    roundedShape: CornerBasedShape = TodoDefaults.SettingsItemRoundedShape,
-    topRounded: Boolean = false,
-    bottomRounded: Boolean = false
+    shapes: ButtonShapes = TodoDefaults.shapes(),
 ) {
     val view = LocalView.current
     // TODO: 滑动删除
     val animatedContainerColor by animateColorAsState(if (selected) MaterialTheme.colorScheme.secondaryContainer else TodoDefaults.ContainerColor)
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier
-                .fillMaxWidth()
-                .height(TodoDefaults.toDoCardHeight)
-                .clip(shape.getPartialRoundedShape(topRounded, bottomRounded, roundedShape))
-                .combinedClickable(
-                    onClick = {
-                        VibrationUtils.performHapticFeedback(view)
-                        onCardClick()
-                    },
-                    // 不再需要使用：VibrationUtils.performHapticFeedback(view, HapticFeedbackConstants.LONG_PRESS)
-                    // 因为 combinedClickable 在更新的 Compose 里已经处理好了触感反馈
-                    onLongClick = onCardLongClick
-                )
-                .background(animatedContainerColor)
-                .padding(horizontal = TodoDefaults.screenHorizontalPadding)
+    val interactionSource = remember { MutableInteractionSource() }
+    val pressed by interactionSource.collectIsPressedAsState()
+    val animatedShape = shapeByInteraction(
+        shapes = shapes,
+        pressed = if (selected) true else pressed,
+        animationSpec = TodoDefaults.shapesDefaultAnimationSpec
+    )
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .fillMaxWidth()
+            .height(TodoDefaults.toDoCardHeight)
+            .clip(animatedShape)
+            .combinedClickable(
+                interactionSource = interactionSource,
+                onClick = {
+                    VibrationUtils.performHapticFeedback(view)
+                    onCardClick()
+                },
+                // 不再需要使用：VibrationUtils.performHapticFeedback(view, HapticFeedbackConstants.LONG_PRESS)
+                // 因为 combinedClickable 在更新的 Compose 里已经处理好了触感反馈
+                onLongClick = onCardLongClick
+            )
+            .background(animatedContainerColor)
+            .padding(horizontal = TodoDefaults.screenHorizontalPadding)
+    ) {
+        AnimatedVisibility(
+            visible = selected,
+            enter = fadeIn(MaterialTheme.motionScheme.fastSpatialSpec()) + expandHorizontally(
+                MaterialTheme.motionScheme.fastSpatialSpec()
+            ),
+            exit = fadeOut(MaterialTheme.motionScheme.fastSpatialSpec()) + shrinkHorizontally(
+                MaterialTheme.motionScheme.fastSpatialSpec()
+            )
         ) {
-            AnimatedVisibility(
-                visible = selected,
-                enter = fadeIn(MaterialTheme.motionScheme.fastSpatialSpec()) + expandHorizontally(
-                    MaterialTheme.motionScheme.fastSpatialSpec()
-                ),
-                exit = fadeOut(MaterialTheme.motionScheme.fastSpatialSpec()) + shrinkHorizontally(
-                    MaterialTheme.motionScheme.fastSpatialSpec()
-                )
+            Box(
+                Modifier
+                    .padding(end = 15.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.secondary)
+                    .padding(5.dp)
             ) {
-                Box(
-                    Modifier
-                        .padding(end = 15.dp)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.secondary)
-                        .padding(5.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_check),
-                        tint = contentColorFor(MaterialTheme.colorScheme.secondary),
-                        contentDescription = stringResource(R.string.tip_selected)
-                    )
-                }
+                Icon(
+                    painter = painterResource(R.drawable.ic_check),
+                    tint = contentColorFor(MaterialTheme.colorScheme.secondary),
+                    contentDescription = stringResource(R.string.tip_selected)
+                )
             }
+        }
 
-            Column(
-                verticalArrangement = Arrangement.spacedBy(
-                    space = 5.dp,
-                    alignment = Alignment.CenterVertically
-                ),
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxSize()
+        Column(
+            verticalArrangement = Arrangement.spacedBy(
+                space = 5.dp,
+                alignment = Alignment.CenterVertically
+            ),
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxSize()
+        ) {
+            Text(
+                text = content,
+                style = MaterialTheme.typography.titleLarge,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
+                modifier = Modifier.basicMarquee() // TODO: 后续评估性能影响
+            )
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(5.dp)
             ) {
-                Text(
-                    text = content,
-                    style = MaterialTheme.typography.titleLarge,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
-                    modifier = Modifier.basicMarquee() // TODO: 后续评估性能影响
-                )
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(5.dp)
-                ) {
-                    Badge(containerColor = MaterialTheme.colorScheme.primary) {
-                        Text(
-                            text = category.ifEmpty { stringResource(R.string.tip_default_category) },
-                            style = MaterialTheme.typography.labelMedium,
-                            textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
-                            maxLines = 1
-                        )
-                    }
-
+                Badge(containerColor = MaterialTheme.colorScheme.primary) {
                     Text(
-                        text = stringResource(priority.nameRes),
-                        style = MaterialTheme.typography.labelMedium.copy(priority.containerColor()),
+                        text = category.ifEmpty { stringResource(R.string.tip_default_category) },
+                        style = MaterialTheme.typography.labelMedium,
                         textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
+                        maxLines = 1
                     )
                 }
-            }
 
-            AnimatedVisibility(!selected && !completed) {
-                IconButton(
-                    onClick = {
-                        VibrationUtils.performHapticFeedback(view)
-                        onChecked()
-                    }
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_check),
-                        tint = MaterialTheme.colorScheme.primary,
-                        contentDescription = stringResource(R.string.tip_mark_completed)
-                    )
+                Text(
+                    text = stringResource(priority.nameRes),
+                    style = MaterialTheme.typography.labelMedium.copy(priority.containerColor()),
+                    textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
+                )
+            }
+        }
+
+        AnimatedVisibility(!selected && !completed) {
+            IconButton(
+                onClick = {
+                    VibrationUtils.performHapticFeedback(view)
+                    onChecked()
                 }
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_check),
+                    tint = MaterialTheme.colorScheme.primary,
+                    contentDescription = stringResource(R.string.tip_mark_completed)
+                )
             }
-
             /*Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
@@ -179,7 +186,7 @@ fun TodoCard(
                 )
             }*/
         }
-
+    }
 }
 
 /*

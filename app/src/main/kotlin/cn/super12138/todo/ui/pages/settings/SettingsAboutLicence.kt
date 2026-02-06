@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
@@ -16,10 +16,8 @@ import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -55,17 +53,11 @@ fun SettingsAboutLicence(
         modifier = modifier
     ) {
         SettingsContainer(Modifier.fillMaxSize()) {
-            itemsIndexed(
+            items(
                 items = libraries?.libraries ?: listOf(),
-                key = { _, library -> library.artifactId }
-            ) { index, library ->
+                key = { it.artifactId }
+            ) { library ->
                 var openDialog by rememberSaveable { mutableStateOf(false) }
-                val topRounded by remember { derivedStateOf { index == 0 } }
-                val bottomRounded by remember {
-                    derivedStateOf {
-                        index == (libraries?.libraries?.size ?: 1) - 1
-                    }
-                }
                 SettingsItem(
                     headlineContent = {
                         Row(
@@ -126,9 +118,7 @@ fun SettingsAboutLicence(
                                 }
                             }
                         }
-                    },
-                    topRounded = topRounded,
-                    bottomRounded = bottomRounded
+                    }
                 )
 
                 BasicDialog(
