@@ -1,6 +1,8 @@
 ![应用界面一览](https://s2.loli.net/2025/02/17/l7soMcfm6HJRg8t.png)
+
 # 待办
-一个简单的、遵循 Material Design 3 的待办应用，使用 Jetpack Compose 编写
+
+一个简单的、遵循 Material 3 Expressive 的待办应用，使用 Jetpack Compose 编写
 
 **简体中文** | [English](https://github.com/Super12138/ToDo/blob/main/README_EN.md)
 
@@ -9,19 +11,28 @@
 ![GitHub Release 总下载数](https://img.shields.io/github/downloads/Super12138/ToDo/total?style=flat-square)
 
 # 📦 版本支持
+
 支持 `Android 7.0 (Nougat)` 至 `Android 16.0 (Baklava)`
 
 # ✨ 功能
-- Jetpack Compose
-- 基于 Material Design 3 设计的可自定义主题系统
-- 自定义分类
-- 任务优先级
-- ……
+
+- [x] Jetpack Compose
+
+- [x] 最新的 Material 3 Expressive 设计
+
+- [x] 任务分类
+
+- [x] 任务优先级
+
+- [x] 数据备份
+
+- [ ] 时间划分功能（正在施工中）
 
 # ⬇️ 下载
+
 > [!IMPORTANT]
 > 下方两个渠道是官方认定的安全渠道，请从这两个渠道下载待办以保证个人隐私不被侵犯。
->
+> 
 > 待办不会自动更新，建议[订阅 GitHub Release 发行通知](https://docs.github.com/zh/account-and-profile/managing-subscriptions-and-notifications-on-github/setting-up-notifications/configuring-notifications#configuring-your-watch-settings-for-an-individual-repository)或者[安装 F-Droid](https://f-droid.org/) 检查更新
 
 [前往 GitHub Release](https://github.com/Super12138/ToDo/releases/)
@@ -31,11 +42,13 @@
 [<img src="./art/get-it-on-fdroid-zh-cn.png" height="100" />](https://f-droid.org/packages/cn.super12138.todo)
 
 # 📸 截图
-| ![主界面（浅色）](https://s2.loli.net/2025/02/17/mDz9jFIHW23YPUK.png) | ![主界面（深色）](https://s2.loli.net/2025/02/17/7ZLoHRifKka93c1.png) |
-| --- | --- |
-| 主界面（浅色） | 主界面（深色） |
-| ![添加待办](https://s2.loli.net/2025/08/01/NWOQGRtVUpDmXIA.png) | ![正在完成待办的效果](https://s2.loli.net/2025/02/17/UFna9tvRkAphrIS.png) |
-| 添加待办 | 正在完成待办的效果 |
+
+| ![主界面（浅色）](https://s2.loli.net/2025/02/17/mDz9jFIHW23YPUK.png) | ![主界面（深色）](https://s2.loli.net/2025/02/17/7ZLoHRifKka93c1.png)   |
+| -------------------------------------------------------------- | ---------------------------------------------------------------- |
+| 主界面（浅色）                                                        | 主界面（深色）                                                          |
+| ![添加待办](https://s2.loli.net/2025/08/01/NWOQGRtVUpDmXIA.png)    | ![正在完成待办的效果](https://s2.loli.net/2025/02/17/UFna9tvRkAphrIS.png) |
+| 添加待办                                                           | 正在完成待办的效果                                                        |
 
 # 📃 许可证
+
 [GPL-3.0-only](https://github.com/Super12138/ToDo/blob/main/LICENSE)

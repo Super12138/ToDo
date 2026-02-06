@@ -38,7 +38,7 @@ android {
         applicationId = "cn.super12138.todo"
         minSdk = 24
         targetSdk = 36
-        versionCode = 955
+        versionCode = 969
         versionName = "2.3.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -116,7 +116,7 @@ dependencies {
     // M3 Color
     implementation(libs.kyant0.m3color)
     // Capsule
-    implementation(libs.kyant0.capsule)
+    // implementation(libs.kyant0.capsule)
     // Konfetti
     implementation(libs.nl.dionsegijn.konfetti.compose)
     // Kotlin
