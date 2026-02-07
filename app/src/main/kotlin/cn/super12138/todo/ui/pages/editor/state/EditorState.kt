@@ -12,6 +12,13 @@ import cn.super12138.todo.R
 import cn.super12138.todo.logic.database.TodoEntity
 
 class EditorState(val initialTodo: TodoEntity? = null) {
+    /* companion object{
+         fun Saver() =
+             androidx.compose.runtime.saveable.Saver<EditorState, TodoEntity>(
+                 save = { it.initialTodo },
+                 restore = { EditorState(it) },
+             )
+     }*/
     var toDoContent by mutableStateOf(initialTodo?.content ?: "")
     var isErrorContent by mutableStateOf(false)
     var selectedCategoryIndex by mutableIntStateOf(-1)

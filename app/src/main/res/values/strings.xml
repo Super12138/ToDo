@@ -118,4 +118,5 @@
     <string name="page_tasks">Tasks</string>
     <string name="page_overview">Overview</string>
     <string name="tip_short_category">Keep category names concise</string>
+    <string name="action_clear">Clear</string>
 </resources>

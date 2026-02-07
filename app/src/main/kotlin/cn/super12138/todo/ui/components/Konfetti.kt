@@ -1,7 +1,6 @@
 package cn.super12138.todo.ui.components
 
 import androidx.annotation.FloatRange
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -45,9 +44,9 @@ fun Konfetti(
         }
     }
     KonfettiView(
-        modifier = Modifier
-            .fillMaxSize()
-            .then(modifier),
+        modifier = modifier
+        /*.fillMaxSize()
+        .then(modifier)*/,
         parties = remember { particles(primary.toArgb()) },
         updateListener = listener
     )

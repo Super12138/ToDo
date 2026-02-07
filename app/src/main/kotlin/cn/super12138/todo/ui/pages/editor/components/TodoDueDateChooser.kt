@@ -121,7 +121,7 @@ fun TodoDueDateChooser(
                         },
                         shapes = ButtonDefaults.shapes()
                     ) {
-                        Text("清除")
+                        Text(stringResource(R.string.action_clear))
                     }
                     TextButton(
                         onClick = {

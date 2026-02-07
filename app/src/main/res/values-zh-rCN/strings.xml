@@ -117,4 +117,5 @@
     <string name="page_tasks">待办</string>
     <string name="page_overview">概览</string>
     <string name="tip_short_category">尽量使用简短的分类名称</string>
+    <string name="action_clear">清除</string>
 </resources>

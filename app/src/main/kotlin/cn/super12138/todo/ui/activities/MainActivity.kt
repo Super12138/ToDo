@@ -11,10 +11,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldValue
+import androidx.compose.material3.adaptive.navigationsuite.rememberNavigationSuiteScaffoldState
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -40,8 +43,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val mainViewModel: MainViewModel = viewModel()
-            val mainBackStack = mainViewModel.mainBackStack
+
             val showConfetti = mainViewModel.showConfetti
+
+            val mainBackStack = mainViewModel.mainBackStack
+            val navigationScaffoldState = rememberNavigationSuiteScaffoldState()
+
             // 主题
             val dynamicColor by DataStoreManager.dynamicColorFlow.collectAsState(initial = Constants.PREF_DYNAMIC_COLOR_DEFAULT)
             val paletteStyle by DataStoreManager.paletteStyleFlow.collectAsState(initial = Constants.PREF_PALETTE_STYLE_DEFAULT)
@@ -81,14 +88,30 @@ class MainActivity : ComponentActivity() {
                 VibrationUtils.setEnabled(hapticFeedback)
             }
 
+            // 当BackStack出现非顶层路由时，隐藏底部导航栏
+            LaunchedEffect(mainBackStack.backStack.lastOrNull()) {
+                val isTopLevel =
+                    mainBackStack.backStack.lastOrNull() in TodoDestinations.entries.map { it.route }
+                if (isTopLevel) {
+                    if (navigationScaffoldState.currentValue != NavigationSuiteScaffoldValue.Visible) navigationScaffoldState.show()
+                } else {
+                    if (navigationScaffoldState.currentValue != NavigationSuiteScaffoldValue.Hidden) navigationScaffoldState.hide()
+                }
+            }
+
             ToDoTheme(
                 darkTheme = darkTheme,
                 style = PaletteStyle.fromId(paletteStyle),
                 contrastLevel = contrastLevel.toDouble(),
                 dynamicColor = dynamicColor
             ) {
-                Surface(color = TodoDefaults.BackgroundColor) {
+                Surface(
+                    color = TodoDefaults.BackgroundColor,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    val view = LocalView.current
                     NavigationSuiteScaffold(
+                        state = navigationScaffoldState,
                         navigationSuiteItems = {
                             TodoDestinations.entries.forEach { destination ->
                                 val selected = destination.route == mainBackStack.topLevelKey
@@ -110,11 +133,15 @@ class MainActivity : ComponentActivity() {
                                     },
                                     label = { Text(stringResource(destination.label)) },
                                     selected = selected,
-                                    onClick = { mainBackStack.addTopLevel(destination.route) }
+                                    onClick = {
+                                        VibrationUtils.performHapticFeedback(view)
+                                        mainBackStack.addTopLevel(destination.route)
+                                    }
                                 )
                             }
                         },
-                        containerColor = TodoDefaults.BackgroundColor
+                        containerColor = TodoDefaults.BackgroundColor,
+                        modifier = Modifier.fillMaxSize()
                     ) {
                         TopNavigation(
                             backStack = mainBackStack,
@@ -122,7 +149,10 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier.fillMaxSize()
                         )
                     }
-                    Konfetti(state = showConfetti)
+                    Konfetti(
+                        state = showConfetti,
+                        modifier = Modifier.fillMaxSize()
+                    )
                 }
             }
         }
