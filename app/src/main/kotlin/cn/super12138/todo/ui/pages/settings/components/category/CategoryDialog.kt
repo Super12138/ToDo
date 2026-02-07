@@ -43,9 +43,8 @@ fun CategoryPromptDialog(
     }
 
     val supportingText = listOf(
-        stringResource(R.string.tip_max_length_5),
+        stringResource(R.string.tip_short_category),
         stringResource(R.string.error_no_content_entered),
-        stringResource(R.string.error_exceeds_5_chars)
     )
 
     var currentSupportingText by remember { mutableStateOf(supportingText[0]) }
@@ -70,26 +69,16 @@ fun CategoryPromptDialog(
         dismissButton = stringResource(R.string.action_cancel),
         onConfirm = {
             val trimmedText = textFieldState.text.trim()
-            when {
-                trimmedText.isEmpty() -> {
-                    isError = true
-                    currentSupportingText = supportingText[1]
-                    return@BasicDialog
-                }
-
-                trimmedText.length > 5 -> {
-                    isError = true
-                    currentSupportingText = supportingText[2]
-                    return@BasicDialog
-                }
-
-                else -> {
-                    onSave(initialCategory, trimmedText.toString())
-                    isError = false
-                    currentSupportingText = supportingText[0]
-                    textFieldState.clearText()
-                    onDismiss()
-                }
+            if (trimmedText.isEmpty()) {
+                isError = true
+                currentSupportingText = supportingText[1]
+                return@BasicDialog
+            } else {
+                onSave(initialCategory, trimmedText.toString())
+                isError = false
+                currentSupportingText = supportingText[0]
+                textFieldState.clearText()
+                onDismiss()
             }
         },
         onDismiss = onDismiss,

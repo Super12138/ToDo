@@ -105,8 +105,6 @@
     <string name="pref_category_management_desc">Manage the category of tasks</string>
     <string name="action_add_category">Add Category</string>
     <string name="label_enter_sth">Enter something</string>
-    <string name="tip_max_length_5">Up to 5 characters</string>
-    <string name="error_exceeds_5_chars">Exceeds 5 characters</string>
     <string name="tip_enter_category">Enter the category you want to add</string>
     <!--<string name="error_category_duplicate">The category is duplicate</string>-->
     <string name="tip_no_category_chip">There are currently no custom categories. You can add categories in the settings.</string>
@@ -119,4 +117,5 @@
     <string name="tip_selected">Selected</string>
     <string name="page_tasks">Tasks</string>
     <string name="page_overview">Overview</string>
+    <string name="tip_short_category">Keep category names concise</string>
 </resources>

@@ -51,7 +51,6 @@ fun SharedTransitionScope.TasksPage(
 ) {
     val animatedVisibilityScope = LocalNavAnimatedContentScope.current
 
-    val toDos = viewModel.sortedTodos.collectAsState(initial = emptyList())
     val selectedTodos = viewModel.selectedTodoIds.collectAsState()
     val showCompleted by DataStoreManager.showCompletedFlow.collectAsState(initial = Constants.PREF_SHOW_COMPLETED_DEFAULT)
 
@@ -60,9 +59,7 @@ fun SharedTransitionScope.TasksPage(
 
     val selectedTodoIds by remember { derivedStateOf { selectedTodos.value } }
     val inSelectedMode by remember { derivedStateOf { !selectedTodoIds.isEmpty() } }
-    val toDoList by remember { derivedStateOf { toDos.value } }
-    /*val totalTasks by remember { derivedStateOf { toDoList.size } }
-    val completedTasks by remember { derivedStateOf { toDoList.count { it.isCompleted } } }*/
+    val toDoList by viewModel.sortedTodos.collectAsState(initial = emptyList())
     val filteredTodoList =
         if (showCompleted) toDoList else toDoList.filter { item -> !item.isCompleted }
     val expandedFab by remember { derivedStateOf { listState.firstVisibleItemIndex == 0 } }

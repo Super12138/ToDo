@@ -12,6 +12,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.unit.Dp
 import cn.super12138.todo.logic.model.Priority
+import java.text.SimpleDateFormat
+import java.util.Date
 
 @Composable
 @Stable
@@ -68,4 +70,17 @@ fun ContentDrawScope.drawFadedEdge(
             ),
         blendMode = BlendMode.DstIn
     )
+}
+
+/**
+ * 将时间戳转换为本地日期字符串
+ *
+ * @receiver Long? 时间戳（单位为毫秒）或 null
+ * @return String 格式化后的日期字符串。如果为传入参数为null则返回空字符串，反之格式为 “yyyy-MM-dd”
+ */
+fun Long?.toLocalDateString(): String {
+    if (this == null) return ""
+    val date = Date(this)
+    val format = SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
+    return format.format(date)
 }

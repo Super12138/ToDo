@@ -8,7 +8,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import cn.super12138.todo.constants.Constants
 
-@Database(entities = [TodoEntity::class], version = 4)
+@Database(entities = [TodoEntity::class], version = 5)
 abstract class TodoDatabase : RoomDatabase() {
     abstract fun toDoDao(): TodoDao
 
@@ -22,7 +22,7 @@ abstract class TodoDatabase : RoomDatabase() {
                     TodoDatabase::class.java,
                     Constants.DB_NAME
                 )
-                    .addMigrations(MIGRATION_2_3, MIGRATION_3_4)
+                    .addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
                     .fallbackToDestructiveMigration(false)
                     .build()
 
@@ -48,6 +48,12 @@ abstract class TodoDatabase : RoomDatabase() {
                 db.execSQL("DROP TABLE todo")
                 // 重命名新表
                 db.execSQL("ALTER TABLE todo_new RENAME TO todo")
+            }
+        }
+
+        private val MIGRATION_4_5 = object : Migration(4, 5) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE ${Constants.DB_TABLE_NAME} ADD COLUMN due_date INTEGER")
             }
         }
     }

@@ -42,7 +42,7 @@ fun TodoCategoryTextField(
     value: String,
     onValueChange: (String) -> Unit,
     isError: Boolean,
-    supportingText: String = stringResource(R.string.tip_max_length_5),
+    supportingText: String = stringResource(R.string.tip_short_category),
     modifier: Modifier = Modifier
 ) {
     TextField(

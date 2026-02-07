@@ -2,7 +2,6 @@ package cn.super12138.todo.ui.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.SharedTransitionLayout
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavKey
@@ -78,7 +77,7 @@ fun TopNavigation(
             },
             entryProvider = entryProvider {
                 entry<TodoScreen.Overview> {
-                    OverviewPage()
+                    OverviewPage(viewModel = viewModel)
                 }
 
                 entry<TodoScreen.Tasks> {

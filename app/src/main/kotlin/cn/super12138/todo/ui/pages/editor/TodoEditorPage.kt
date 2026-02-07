@@ -22,7 +22,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -42,6 +41,7 @@ import cn.super12138.todo.ui.components.TopAppBarScaffold
 import cn.super12138.todo.ui.pages.editor.components.TodoCategoryChip
 import cn.super12138.todo.ui.pages.editor.components.TodoCategoryTextField
 import cn.super12138.todo.ui.pages.editor.components.TodoContentTextField
+import cn.super12138.todo.ui.pages.editor.components.TodoDueDateChooser
 import cn.super12138.todo.ui.pages.editor.components.TodoMarkAsCompletedCheckbox
 import cn.super12138.todo.ui.pages.editor.components.TodoPrioritySlider
 import cn.super12138.todo.ui.pages.editor.state.rememberEditorState
@@ -81,7 +81,7 @@ fun SharedTransitionScope.TodoEditPage(
 )
 
 @Composable
-private fun TodoEditorPage(
+fun TodoEditorPage(
     modifier: Modifier = Modifier,
     toDo: TodoEntity? = null,
     onSave: (TodoEntity) -> Unit,
@@ -133,53 +133,54 @@ private fun TodoEditorPage(
     TopAppBarScaffold(
         title = stringResource(if (toDo != null) R.string.title_edit_task else R.string.action_add_task),
         floatingActionButton = {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    modifier = Modifier.imePadding()
-                ) {
-                    if (toDo !== null) {
-                        TodoFloatingActionButton(
-                            text = stringResource(R.string.action_delete),
-                            iconRes = R.drawable.ic_delete,
-                            expanded = true,
-                            containerColor = MaterialTheme.colorScheme.errorContainer,
-                            onClick = { uiState.showDeleteConfirmDialog = true }
-                        )
-                    }
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                modifier = Modifier.imePadding()
+            ) {
+                if (toDo !== null) {
                     TodoFloatingActionButton(
-                        text = stringResource(R.string.action_save),
-                        iconRes = R.drawable.ic_save,
+                        text = stringResource(R.string.action_delete),
+                        iconRes = R.drawable.ic_delete,
                         expanded = true,
-                        onClick = {
-                            if (uiState.setErrorIfNotValid()) {
-                                return@TodoFloatingActionButton
-                            } else {
-                                uiState.clearError()
-                                val newTodo = TodoEntity(
-                                    id = toDo?.id ?: 0,
-                                    content = uiState.toDoContent,
-                                    category = if (isCustomCategory) uiState.categoryContent else categories[uiState.selectedCategoryIndex].name,
-                                    priority = uiState.priorityState,
-                                    isCompleted = uiState.isCompleted
-                                )
-                                onSave(newTodo)
-                            }
-                        }
+                        containerColor = MaterialTheme.colorScheme.errorContainer,
+                        onClick = { uiState.showDeleteConfirmDialog = true }
                     )
                 }
+                TodoFloatingActionButton(
+                    text = stringResource(R.string.action_save),
+                    iconRes = R.drawable.ic_save,
+                    expanded = true,
+                    onClick = {
+                        if (uiState.setErrorIfNotValid()) {
+                            return@TodoFloatingActionButton
+                        } else {
+                            uiState.clearError()
+                            val newTodo = TodoEntity(
+                                id = toDo?.id ?: 0,
+                                content = uiState.toDoContent,
+                                category = if (isCustomCategory) uiState.categoryContent else categories[uiState.selectedCategoryIndex].name,
+                                priority = uiState.priorityState,
+                                dueDate = uiState.dueDateState,
+                                isCompleted = uiState.isCompleted
+                            )
+                            onSave(newTodo)
+                        }
+                    }
+                )
+            }
         },
         onBack = ::checkModifiedBeforeBack,
         modifier = modifier
     ) {
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(5.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier.fillMaxSize()
         ) {
             item(key = 0) {
                 Spacer(modifier = Modifier.size(TodoDefaults.screenVerticalPadding))
             }
 
-            item(key=1) {
+            item(key = 1) {
                 TodoContentTextField(
                     value = uiState.toDoContent,
                     onValueChange = { uiState.toDoContent = it },
@@ -217,7 +218,7 @@ private fun TodoEditorPage(
                 }
             }
 
-            item (key = 3){
+            item(key = 3) {
                 Text(
                     text = stringResource(R.string.label_priority),
                     style = MaterialTheme.typography.titleMedium
@@ -230,12 +231,16 @@ private fun TodoEditorPage(
             }
 
             item(key = 4) {
+                Text(
+                    text = stringResource(R.string.label_more),
+                    style = MaterialTheme.typography.titleMedium
+                )
+                TodoDueDateChooser(
+                    value = uiState.dueDateState,
+                    onValueChange = { uiState.dueDateState = it },
+                    modifier = Modifier.fillMaxWidth()
+                )
                 if (toDo != null) {
-                    Text(
-                        text = stringResource(R.string.label_more),
-                        style = MaterialTheme.typography.titleMedium
-                    )
-
                     TodoMarkAsCompletedCheckbox(
                         checked = uiState.isCompleted,
                         onCheckedChange = { uiState.isCompleted = it },
@@ -244,28 +249,28 @@ private fun TodoEditorPage(
                 }
             }
 
-            item (key = 5){
+            item(key = 5) {
                 Spacer(modifier = Modifier.size(TodoDefaults.screenVerticalPadding))
             }
         }
-
-        ConfirmDialog(
-            visible = uiState.showExitConfirmDialog,
-            iconRes = R.drawable.ic_undo,
-            text = stringResource(R.string.tip_discard_changes),
-            onConfirm = {
-                uiState.showExitConfirmDialog = false
-                onNavigateUp()
-            },
-            onDismiss = { uiState.showExitConfirmDialog = false }
-        )
-
-        ConfirmDialog(
-            visible = uiState.showDeleteConfirmDialog,
-            iconRes = R.drawable.ic_delete,
-            text = stringResource(R.string.tip_delete_task, 1),
-            onConfirm = onDelete,
-            onDismiss = { uiState.showDeleteConfirmDialog = false }
-        )
     }
+
+    ConfirmDialog(
+        visible = uiState.showExitConfirmDialog,
+        iconRes = R.drawable.ic_undo,
+        text = stringResource(R.string.tip_discard_changes),
+        onConfirm = {
+            uiState.showExitConfirmDialog = false
+            onNavigateUp()
+        },
+        onDismiss = { uiState.showExitConfirmDialog = false }
+    )
+
+    ConfirmDialog(
+        visible = uiState.showDeleteConfirmDialog,
+        iconRes = R.drawable.ic_delete,
+        text = stringResource(R.string.tip_delete_task, 1),
+        onConfirm = onDelete,
+        onDismiss = { uiState.showDeleteConfirmDialog = false }
+    )
 }

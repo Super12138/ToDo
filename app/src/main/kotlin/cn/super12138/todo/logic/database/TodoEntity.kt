@@ -13,5 +13,6 @@ data class TodoEntity(
     @ColumnInfo(name = "category") val category: String = "",
     @ColumnInfo(name = "completed") val isCompleted: Boolean = false,
     @ColumnInfo(name = "priority") val priority: Float,
+    @ColumnInfo(name = "due_date") val dueDate: Long? = null,
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Int = 0,
 )

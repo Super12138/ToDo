@@ -105,8 +105,6 @@
     <string name="pref_category_management_desc">إدارة فئات المهام</string>
     <string name="action_add_category">إضافة فئة</string>
     <string name="label_enter_sth">أدخل شيئًا</string>
-    <string name="tip_max_length_5">حتى 5 أحرف</string>
-    <string name="error_exceeds_5_chars">تجاوز 5 أحرف</string>
     <string name="tip_enter_category">أدخل الفئة التي تريد إضافتها</string>
     <!--<string name="error_category_duplicate">الفئة مكررة</string>-->
     <string name="tip_no_category_chip">لا توجد فئات مخصصة حاليًا. يمكنك إضافتها من الإعدادات.</string>

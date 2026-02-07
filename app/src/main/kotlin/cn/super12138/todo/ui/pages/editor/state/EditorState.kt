@@ -18,9 +18,9 @@ class EditorState(val initialTodo: TodoEntity? = null) {
     var categoryContent by mutableStateOf(initialTodo?.category ?: "")
     var isErrorCategory by mutableStateOf(false)
     var priorityState by mutableFloatStateOf(initialTodo?.priority ?: 0f)
+    var dueDateState by mutableStateOf(initialTodo?.dueDate)
     var isCompleted by mutableStateOf(initialTodo?.isCompleted == true)
-
-    var categorySupportingText by mutableIntStateOf(R.string.tip_max_length_5)
+    var categorySupportingText by mutableIntStateOf(R.string.tip_short_category)
         private set
 
     var showExitConfirmDialog by mutableStateOf(false)
@@ -33,17 +33,9 @@ class EditorState(val initialTodo: TodoEntity? = null) {
      */
     fun setErrorIfNotValid(): Boolean {
         isErrorContent = toDoContent.trim().isEmpty()
-        if (selectedCategoryIndex == -1) {
-            if (categoryContent.trim().isEmpty()) {
+        if (selectedCategoryIndex == -1 && categoryContent.trim().isEmpty()) {
                 isErrorCategory = true
                 categorySupportingText = R.string.error_no_content_entered
-            } else if (categoryContent.length > 5) {
-                isErrorCategory = true
-                categorySupportingText = R.string.error_exceeds_5_chars
-            } else {
-                isErrorCategory = false
-                categorySupportingText = R.string.tip_max_length_5
-            }
         } else {
             isErrorCategory = false
         }
@@ -67,6 +59,7 @@ class EditorState(val initialTodo: TodoEntity? = null) {
         if ((initialTodo?.category ?: "") != categoryContent) isModified = true
         if ((initialTodo?.priority ?: 0f) != priorityState) isModified = true
         if ((initialTodo?.isCompleted == true) != isCompleted) isModified = true
+        if (initialTodo?.dueDate != dueDateState) isModified = true
         return isModified
     }
 
@@ -83,6 +76,7 @@ class EditorState(val initialTodo: TodoEntity? = null) {
                 value.categoryContent,
                 value.isErrorCategory,
                 value.priorityState,
+                value.dueDateState,
                 value.isCompleted,
                 value.showExitConfirmDialog,
                 value.showDeleteConfirmDialog
@@ -99,9 +93,10 @@ class EditorState(val initialTodo: TodoEntity? = null) {
                 categoryContent = list[4] as String
                 isErrorCategory = list[5] as Boolean
                 priorityState = list[6] as Float
-                isCompleted = list[7] as Boolean
-                showExitConfirmDialog = list[8] as Boolean
-                showDeleteConfirmDialog = list[9] as Boolean
+                dueDateState = list[7] as Long?
+                isCompleted = list[8] as Boolean
+                showExitConfirmDialog = list[9] as Boolean
+                showDeleteConfirmDialog = list[10] as Boolean
             }
         }
     }

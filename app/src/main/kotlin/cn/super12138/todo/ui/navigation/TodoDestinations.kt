@@ -13,8 +13,8 @@ enum class TodoDestinations(
     Overview(
         route = TodoScreen.Overview,
         label = cn.super12138.todo.R.string.page_overview,
-        icon = cn.super12138.todo.R.drawable.ic_view_kanban,
-        selectedIcon = cn.super12138.todo.R.drawable.ic_view_kanban_filled
+        icon = cn.super12138.todo.R.drawable.ic_dashboard,
+        selectedIcon = cn.super12138.todo.R.drawable.ic_dashboard_filled
     ),
     Tasks(
         route = TodoScreen.Tasks,

@@ -104,8 +104,6 @@
     <string name="pref_category_management_desc">管理任务的分类标签</string>
     <string name="action_add_category">添加分类</string>
     <string name="label_enter_sth">输入内容</string>
-    <string name="tip_max_length_5">不超过 5 个字</string>
-    <string name="error_exceeds_5_chars">超过 5 个字</string>
     <string name="tip_enter_category">输入你想添加的分类名称</string>
     <!--<string name="error_category_duplicate">该分类已经存在</string>-->
     <string name="tip_no_category_chip">当前暂无自定义分类，你可以在设置中添加分类</string>
@@ -118,4 +116,5 @@
     <string name="tip_selected">已选择</string>
     <string name="page_tasks">待办</string>
     <string name="page_overview">概览</string>
+    <string name="tip_short_category">尽量使用简短的分类名称</string>
 </resources>
