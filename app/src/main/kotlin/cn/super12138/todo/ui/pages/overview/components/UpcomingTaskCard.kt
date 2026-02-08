@@ -112,21 +112,21 @@ fun UpcomingTaskItem(
             )
         }
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(5.dp)
-        ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             Badge(containerColor = MaterialTheme.colorScheme.primary) {
                 Text(
                     text = category.ifEmpty { stringResource(R.string.tip_default_category) },
                     style = MaterialTheme.typography.labelMedium,
-                    maxLines = 1
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f)
                 )
             }
 
             Text(
                 text = stringResource(priority.nameRes),
                 style = MaterialTheme.typography.labelMedium.copy(priority.containerColor()),
+                modifier = Modifier.padding(start = TodoDefaults.screenVerticalPadding)
             )
         }
     }
