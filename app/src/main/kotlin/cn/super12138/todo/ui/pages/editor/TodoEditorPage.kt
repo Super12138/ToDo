@@ -73,7 +73,8 @@ fun SharedTransitionScope.TodoEditPage(
     toDo = toDo,
     modifier = modifier.sharedBounds(
         sharedContentState = rememberSharedContentState(key = "${Constants.KEY_TODO_ITEM_TRANSITION}_${toDo.id}"),
-        animatedVisibilityScope = LocalNavAnimatedContentScope.current
+        animatedVisibilityScope = LocalNavAnimatedContentScope.current,
+        resizeMode = SharedTransitionScope.ResizeMode.RemeasureToBounds
     ),
     onSave = onSave,
     onDelete = onDelete,
