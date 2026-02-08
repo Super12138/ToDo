@@ -2,6 +2,7 @@ package cn.super12138.todo.ui.pages.editor.components
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -22,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.utils.toLocalDateString
@@ -112,7 +114,7 @@ fun TodoDueDateChooser(
                 }
             },
             dismissButton = {
-                Row {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     TextButton(
                         onClick = {
                             VibrationUtils.performHapticFeedback(view)
