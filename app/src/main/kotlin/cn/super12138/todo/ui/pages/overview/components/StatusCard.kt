@@ -81,7 +81,7 @@ fun RoundedCornerCardLarge(
             ) {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.titleMedium
                 )
 
                 BasicText(

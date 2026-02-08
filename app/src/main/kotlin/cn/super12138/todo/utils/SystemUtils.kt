@@ -41,6 +41,19 @@ object SystemUtils {
 
         return sdf.format(currentTime)
     }
+
+    /**
+     * 获取当天的时间戳
+     */
+    fun getToday(): Long = Calendar.getInstance().apply {
+        // 将时间设置为当天的开始（00:00:00.000）
+        // 兼容API24
+        set(Calendar.HOUR_OF_DAY, 0)
+        set(Calendar.MINUTE, 0)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
+    }.timeInMillis
+
 }
 
 fun ComponentActivity.configureEdgeToEdge() {

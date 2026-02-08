@@ -52,7 +52,7 @@ fun TodoDueDateChooser(
     TextField(
         value = value.toLocalDateString(),
         onValueChange = {},
-        label = { Text("截止日期（可选）") },
+        label = { Text(stringResource(R.string.label_due_date)) },
         readOnly = true,
         interactionSource = interactionSource,
         modifier = modifier

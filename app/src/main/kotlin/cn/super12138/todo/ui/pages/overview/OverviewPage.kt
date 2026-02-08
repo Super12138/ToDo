@@ -20,7 +20,7 @@ import cn.super12138.todo.ui.components.TopAppBarScaffold
 import cn.super12138.todo.ui.pages.overview.components.RoundedCornerCardLarge
 import cn.super12138.todo.ui.pages.overview.components.UpcomingTaskCard
 import cn.super12138.todo.ui.viewmodels.MainViewModel
-import java.util.Calendar
+import cn.super12138.todo.utils.SystemUtils
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -28,25 +28,16 @@ fun OverviewPage(
     viewModel: MainViewModel,
     modifier: Modifier = Modifier
 ) {
-    val today = Calendar.getInstance().apply {
-        // 将时间设置为当天的开始（00:00:00.000）
-        // 兼容API24
-        set(Calendar.HOUR_OF_DAY, 0)
-        set(Calendar.MINUTE, 0)
-        set(Calendar.SECOND, 0)
-        set(Calendar.MILLISECOND, 0)
-    }
-
     val toDos by viewModel.sortedTodos.collectAsState(initial = emptyList())
     val totalTasks by remember { derivedStateOf { toDos.size } }
     val completedTasks by remember { derivedStateOf { toDos.count { it.isCompleted } } }
     val nextWeekTodo by remember {
         derivedStateOf {
-            val now = System.currentTimeMillis()
-            val weekFromNow = now + 7L * 24 * 60 * 60 * 1000
+            val today = SystemUtils.getToday()
+            val weekFromToday = today + 7L * 24 * 60 * 60 * 1000
             toDos.filter { todo ->
                 val due = todo.dueDate ?: return@filter false
-                due >= today.timeInMillis && due < weekFromNow
+                due in today..<weekFromToday
             }
         }
     }
@@ -66,14 +57,14 @@ fun OverviewPage(
                 item {
                     RoundedCornerCardLarge(
                         iconRes = R.drawable.ic_apps,
-                        title = "总任务",
+                        title = stringResource(R.string.title_all_task),
                         count = totalTasks
                     )
                 }
                 item {
                     RoundedCornerCardLarge(
                         iconRes = R.drawable.ic_check_circle,
-                        title = "已完成",
+                        title = stringResource(R.string.title_completed_task),
                         count = completedTasks,
                         containerColor = MaterialTheme.colorScheme.secondaryContainer
                     )
@@ -81,7 +72,7 @@ fun OverviewPage(
                 item {
                     RoundedCornerCardLarge(
                         iconRes = R.drawable.ic_pending,
-                        title = "未完成",
+                        title = stringResource(R.string.title_pending_task),
                         count = totalTasks - completedTasks,
                         containerColor = MaterialTheme.colorScheme.errorContainer // tertiaryContainer
                     )

@@ -119,4 +119,14 @@
     <string name="tip_short_category">尽量使用简短的分类名称</string>
     <string name="action_clear">清除</string>
     <string name="title_upcoming_task">临近的任务</string>
+    <string name="time_today">今天</string>
+    <string name="time_tomorrow">明天</string>
+    <string name="time_in_days">%d 天后</string>
+    <string name="time_in_weeks">%d 周后</string>
+    <string name="time_in_months">%d 个月后</string>
+    <string name="time_in_years">%d 年后</string>
+    <string name="label_due_date">截止日期（可选）</string>
+    <string name="title_all_task">总任务</string>
+    <string name="title_completed_task">已完成</string>
+    <string name="title_pending_task">未完成</string>
 </resources>

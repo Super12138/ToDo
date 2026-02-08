@@ -119,5 +119,15 @@
     <string name="page_overview">Overview</string>
     <string name="tip_short_category">Keep category names concise</string>
     <string name="action_clear">Clear</string>
-    <string name="title_upcoming_task">Upcoming Task</string>
+    <string name="title_upcoming_task">Upcoming</string>
+    <string name="time_today">Today</string>
+    <string name="time_tomorrow">Tomorrow</string>
+    <string name="time_in_days">in %d d</string>
+    <string name="time_in_weeks">in %d w</string>
+    <string name="time_in_months">in %d mo</string>
+    <string name="time_in_years">in %d y</string>
+    <string name="label_due_date">Due Date (Optional)</string>
+    <string name="title_all_task">All</string>
+    <string name="title_completed_task">Completed</string>
+    <string name="title_pending_task">Pending</string>
 </resources>

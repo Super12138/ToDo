@@ -41,8 +41,8 @@ class EditorState(val initialTodo: TodoEntity? = null) {
     fun setErrorIfNotValid(): Boolean {
         isErrorContent = toDoContent.trim().isEmpty()
         if (selectedCategoryIndex == -1 && categoryContent.trim().isEmpty()) {
-                isErrorCategory = true
-                categorySupportingText = R.string.error_no_content_entered
+            isErrorCategory = true
+            categorySupportingText = R.string.error_no_content_entered
         } else {
             isErrorCategory = false
         }
