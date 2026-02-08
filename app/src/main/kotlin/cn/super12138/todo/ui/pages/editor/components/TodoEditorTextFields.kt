@@ -23,6 +23,7 @@ fun TodoContentTextField(
         value = value,
         onValueChange = onValueChange,
         label = { Text(stringResource(R.string.placeholder_add_todo)) },
+        maxLines = 3,
         isError = isError,
         supportingText = {
             AnimatedVisibility(
