@@ -7,7 +7,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.background
-import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -132,7 +131,7 @@ fun TodoCard(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
-                modifier = Modifier.basicMarquee() // TODO: 后续评估性能影响
+                // modifier = Modifier.basicMarquee()
             )
 
             Row(
