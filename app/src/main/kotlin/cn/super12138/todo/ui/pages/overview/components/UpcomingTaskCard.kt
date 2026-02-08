@@ -15,7 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import cn.super12138.todo.R
 import cn.super12138.todo.logic.database.TodoEntity
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.ui.pages.settings.components.SettingsItem
@@ -23,9 +25,9 @@ import cn.super12138.todo.utils.toLocalDateString
 
 @Composable
 fun UpcomingTaskCard(
+    modifier: Modifier = Modifier,
     nextWeekTodo: List<TodoEntity>,
-    containerColor: Color = TodoDefaults.ContainerColor,
-    modifier: Modifier = Modifier
+    containerColor: Color = TodoDefaults.ContainerColor
 ) {
     Card(
         modifier = modifier.height(300.dp),
@@ -40,7 +42,7 @@ fun UpcomingTaskCard(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
-                text = "临近的任务",
+                text = stringResource(R.string.title_upcoming_task),
                 style = MaterialTheme.typography.titleMedium
             )
 

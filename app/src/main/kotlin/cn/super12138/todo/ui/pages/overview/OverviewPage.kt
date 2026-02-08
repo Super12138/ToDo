@@ -20,6 +20,7 @@ import cn.super12138.todo.ui.components.TopAppBarScaffold
 import cn.super12138.todo.ui.pages.overview.components.RoundedCornerCardLarge
 import cn.super12138.todo.ui.pages.overview.components.UpcomingTaskCard
 import cn.super12138.todo.ui.viewmodels.MainViewModel
+import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -27,10 +28,29 @@ fun OverviewPage(
     viewModel: MainViewModel,
     modifier: Modifier = Modifier
 ) {
+    val today = Calendar.getInstance().apply {
+        // 将时间设置为当天的开始（00:00:00.000）
+        // 兼容API24
+        set(Calendar.HOUR_OF_DAY, 0)
+        set(Calendar.MINUTE, 0)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
+    }
+
     val toDos by viewModel.sortedTodos.collectAsState(initial = emptyList())
     val totalTasks by remember { derivedStateOf { toDos.size } }
     val completedTasks by remember { derivedStateOf { toDos.count { it.isCompleted } } }
-    val nextWeekTodo by remember { derivedStateOf { toDos.filter { it.dueDate != null && it.dueDate < System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000 } } }
+    val nextWeekTodo by remember {
+        derivedStateOf {
+            val now = System.currentTimeMillis()
+            val weekFromNow = now + 7L * 24 * 60 * 60 * 1000
+            toDos.filter { todo ->
+                val due = todo.dueDate ?: return@filter false
+                due >= today.timeInMillis && due < weekFromNow
+            }
+        }
+    }
+
 
     TopAppBarScaffold(
         title = stringResource(R.string.page_overview),
