@@ -87,7 +87,7 @@ fun TodoTopAppBar(
             ) {
                 if (it) {
                     Text(
-                        text = stringResource(R.string.app_name),
+                        text = stringResource(R.string.page_tasks),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
