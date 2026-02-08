@@ -59,7 +59,7 @@ fun OverviewPage(
         Column {
             LazyVerticalStaggeredGrid(
                 modifier = Modifier.fillMaxSize(),
-                columns = StaggeredGridCells.Adaptive(150.dp),
+                columns = StaggeredGridCells.Adaptive(160.dp),
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
                 verticalItemSpacing = 10.dp
             ) {

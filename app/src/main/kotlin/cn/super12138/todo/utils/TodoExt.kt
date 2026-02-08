@@ -13,7 +13,10 @@ import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.unit.Dp
 import cn.super12138.todo.logic.model.Priority
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 @Stable
@@ -83,4 +86,29 @@ fun Long?.toLocalDateString(): String {
     val date = Date(this)
     val format = SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
     return format.format(date)
+}
+
+// 未来相对时间（如“3天后”）的实现，最小层级为天
+fun Long?.toRelativeTimeString(): String {
+    if (this == null) return ""
+    val today = Calendar.getInstance().apply {
+        // 将时间设置为当天的开始（00:00:00.000）
+        // 兼容API24
+        set(Calendar.HOUR_OF_DAY, 0)
+        set(Calendar.MINUTE, 0)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
+    }.timeInMillis
+    val diff = (this - today).milliseconds
+
+    return diff.toComponents { days, _, _, _, _ ->
+        when {
+            days.days == 1.days -> "明天"
+            days.days > 1.days && days.days < 7.days -> "${days}天后"
+            days.days in 7.days..<30.days -> "${days / 7}周后"
+            days.days in 30.days..<365.days -> "${days / 30}个月后"
+            days.days >= 365.days -> "${days / 365}年后"
+            else -> "今天"
+        }
+    }
 }

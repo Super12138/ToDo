@@ -38,25 +38,7 @@ object TodoDefaults {
 
     val settingsItemPadding = 4.dp
 
-    /**
-     * 待办进度条粗度
-     */
-    val trackThickness = 7.0.dp
-
-    /**
-     * 待办进度条波长
-     */
-    val waveLength = 35.dp
-
-    /**
-     * 待办进度条波速
-     */
-    val waveSpeed = 3.dp
-
-    /**
-     * 待办进度条波幅
-     */
-    const val waveAmplitude = 0.6f
+    val overviewCardHeight = 120.dp
 
     val ScreenContainerShape: Shape
         @Composable

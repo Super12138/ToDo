@@ -7,9 +7,13 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.ButtonShapes
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -23,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorProducer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -44,14 +49,15 @@ fun RoundedCornerCardLarge(
     val pressed by interactionSource.collectIsPressedAsState()
     val animatedShape = shapeByInteraction(shapes, pressed, TodoDefaults.shapesDefaultAnimationSpec)
 
+    val cardColors = CardDefaults.cardColors(containerColor = containerColor)
     Card(
-        modifier = modifier.wrapContentHeight(),
-        colors = CardDefaults.cardColors(containerColor = containerColor),
+        modifier = modifier.height(TodoDefaults.overviewCardHeight),
+        colors = cardColors,
         shape = animatedShape
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .clickable(
                     enabled = true,
                     onClick = onClick,
@@ -63,18 +69,29 @@ fun RoundedCornerCardLarge(
         ) {
             Icon(
                 painter = painterResource(iconRes),
-                contentDescription = null
+                contentDescription = null,
+                modifier = Modifier.size(30.dp)
             )
-            Column(horizontalAlignment = Alignment.Start) {
+            Column(
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(vertical = 8.dp)
+            ) {
                 Text(
                     text = title,
                     style = MaterialTheme.typography.bodyMedium
                 )
-                Text(
+
+                BasicText(
                     text = count.toString(),
-                    style = MaterialTheme.typography.headlineLarge.copy(
-                        fontWeight = FontWeight.ExtraBold
-                    )
+                    style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
+                    color = ColorProducer { cardColors.contentColor },
+                    autoSize = TextAutoSize.StepBased(
+                        MaterialTheme.typography.headlineSmall.fontSize,
+                        MaterialTheme.typography.displayMedium.fontSize
+                    ),
                 )
             }
         }
