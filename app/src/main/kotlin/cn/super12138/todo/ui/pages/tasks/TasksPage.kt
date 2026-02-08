@@ -27,7 +27,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.zIndex
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
@@ -87,7 +86,8 @@ fun SharedTransitionScope.TasksPage(
                 modifier = Modifier
                     .sharedBounds(
                         sharedContentState = rememberSharedContentState(key = Constants.KEY_TODO_FAB_TRANSITION),
-                        animatedVisibilityScope = animatedVisibilityScope
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        resizeMode = SharedTransitionScope.ResizeMode.RemeasureToBounds
                     )
                     .animateFloatingActionButton(
                         visible = !inSelectedMode,

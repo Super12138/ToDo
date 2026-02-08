@@ -3,6 +3,7 @@ package cn.super12138.todo.ui.theme
 import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -12,6 +13,9 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.unveilIn
+import androidx.compose.animation.veilOut
+import androidx.compose.ui.graphics.Color
 
 /**
  * 来自：https://github.com/Ashinch/ReadYou/blob/main/app/src/main/java/me/ash/reader/ui/motion/MaterialSharedAxis.kt
@@ -115,3 +119,36 @@ fun fadeThroughOut(
         easing = FastOutLinearInEasing
     )
 )
+
+fun veilFade(
+    initialColor: Color,
+    durationMillis: Int = 200
+): ContentTransform = ContentTransform(
+    veilFadeIn(
+        initialColor = initialColor,
+        durationMillis = durationMillis
+    ),
+    veilFadeOut(
+        initialColor = initialColor,
+        durationMillis = durationMillis
+    )
+)
+
+@OptIn(ExperimentalAnimationApi::class)
+fun veilFadeIn(
+    initialColor: Color,
+    durationMillis: Int = DefaultMotionDuration,
+): EnterTransition =
+    fadeIn(
+    ) + unveilIn(
+        initialColor = initialColor
+    )
+
+@OptIn(ExperimentalAnimationApi::class)
+fun veilFadeOut(
+    initialColor: Color,
+    durationMillis: Int = DefaultMotionDuration,
+): ExitTransition =
+    fadeOut() + veilOut(
+        targetColor = initialColor
+    )

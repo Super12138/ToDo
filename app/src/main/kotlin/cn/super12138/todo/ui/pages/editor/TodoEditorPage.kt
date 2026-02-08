@@ -53,10 +53,13 @@ fun SharedTransitionScope.TodoAddPage(
     onNavigateUp: () -> Unit
 ) = TodoEditorPage(
     toDo = null,
-    modifier = modifier.sharedBounds(
-        sharedContentState = rememberSharedContentState(key = Constants.KEY_TODO_FAB_TRANSITION),
-        animatedVisibilityScope = LocalNavAnimatedContentScope.current
-    ),
+    modifier = modifier
+        .sharedBounds(
+            sharedContentState = rememberSharedContentState(key = Constants.KEY_TODO_FAB_TRANSITION),
+            animatedVisibilityScope = LocalNavAnimatedContentScope.current,
+            resizeMode = SharedTransitionScope.ResizeMode.RemeasureToBounds
+        )
+        .skipToLookaheadSize(), // 这个修饰符必须放后面
     onSave = onSave,
     onDelete = {},
     onNavigateUp = onNavigateUp
@@ -76,13 +79,14 @@ fun SharedTransitionScope.TodoEditPage(
         animatedVisibilityScope = LocalNavAnimatedContentScope.current,
         resizeMode = SharedTransitionScope.ResizeMode.RemeasureToBounds
     ),
+        //TODO: 没想好加不加 .skipToLookaheadSize(),
     onSave = onSave,
     onDelete = onDelete,
     onNavigateUp = onNavigateUp
 )
 
 @Composable
-fun TodoEditorPage(
+fun SharedTransitionScope.TodoEditorPage(
     modifier: Modifier = Modifier,
     toDo: TodoEntity? = null,
     onSave: (TodoEntity) -> Unit,

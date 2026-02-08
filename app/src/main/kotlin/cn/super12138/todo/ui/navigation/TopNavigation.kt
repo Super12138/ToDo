@@ -2,6 +2,7 @@ package cn.super12138.todo.ui.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavKey
@@ -22,27 +23,8 @@ import cn.super12138.todo.ui.pages.settings.SettingsMain
 import cn.super12138.todo.ui.pages.tasks.TasksPage
 import cn.super12138.todo.ui.theme.fadeThrough
 import cn.super12138.todo.ui.theme.materialSharedAxisX
+import cn.super12138.todo.ui.theme.veilFade
 import cn.super12138.todo.ui.viewmodels.MainViewModel
-
-
-private const val INITIAL_OFFSET_FACTOR = 0.10f
-
-private fun settingsTransition() = NavDisplay.transitionSpec {
-    materialSharedAxisX(
-        initialOffsetX = { (it * INITIAL_OFFSET_FACTOR).toInt() },
-        targetOffsetX = { -(it * INITIAL_OFFSET_FACTOR).toInt() }
-    )
-} + NavDisplay.popTransitionSpec {
-    materialSharedAxisX(
-        initialOffsetX = { -(it * INITIAL_OFFSET_FACTOR).toInt() },
-        targetOffsetX = { (it * INITIAL_OFFSET_FACTOR).toInt() }
-    )
-} + NavDisplay.predictivePopTransitionSpec {
-    materialSharedAxisX(
-        initialOffsetX = { -(it * INITIAL_OFFSET_FACTOR).toInt() },
-        targetOffsetX = { (it * INITIAL_OFFSET_FACTOR).toInt() }
-    )
-}
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -55,7 +37,33 @@ fun TopNavigation(
         backStack.removeLast()
     }
 
-//    val veilColor = MaterialTheme.colorScheme.surfaceDim
+    val veilColor = MaterialTheme.colorScheme.surfaceDim
+    fun editorTransition() = NavDisplay.transitionSpec {
+        veilFade(veilColor)
+    } + NavDisplay.popTransitionSpec {
+        veilFade(veilColor)
+    } + NavDisplay.predictivePopTransitionSpec {
+        veilFade(veilColor)
+    }
+
+    val initialOffestFactor = 0.10f
+    fun settingsTransition() = NavDisplay.transitionSpec {
+        materialSharedAxisX(
+            initialOffsetX = { (it * initialOffestFactor).toInt() },
+            targetOffsetX = { -(it * initialOffestFactor).toInt() }
+        )
+    } + NavDisplay.popTransitionSpec {
+        materialSharedAxisX(
+            initialOffsetX = { -(it * initialOffestFactor).toInt() },
+            targetOffsetX = { (it * initialOffestFactor).toInt() }
+        )
+    } + NavDisplay.predictivePopTransitionSpec {
+        materialSharedAxisX(
+            initialOffsetX = { -(it * initialOffestFactor).toInt() },
+            targetOffsetX = { (it * initialOffestFactor).toInt() }
+        )
+    }
+
     SharedTransitionLayout {
         NavDisplay(
             backStack = backStack.backStack,
@@ -88,7 +96,7 @@ fun TopNavigation(
                     )
                 }
 
-                entry<TodoScreen.Editor.Add> {
+                entry<TodoScreen.Editor.Add>(metadata = editorTransition()) {
                     TodoAddPage(
                         onSave = {
                             viewModel.addTodo(it)
@@ -98,7 +106,7 @@ fun TopNavigation(
                     )
                 }
 
-                entry<TodoScreen.Editor.Edit> { editorArgs ->
+                entry<TodoScreen.Editor.Edit>(metadata = editorTransition()) { editorArgs ->
                     TodoEditPage(
                         toDo = editorArgs.toDo,
                         onSave = {
