@@ -4,11 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cn.super12138.todo.logic.IRepository
 import cn.super12138.todo.logic.database.TaskEntity
-import cn.super12138.todo.logic.datastore.DataStoreManager
 import cn.super12138.todo.logic.model.ScreenMode
 import cn.super12138.todo.logic.model.SortingMethod
 import cn.super12138.todo.utils.sort
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -17,14 +15,11 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class TaskViewModel(
-    private val repository: IRepository,
-    private val dataStoreManager: DataStoreManager
-) : ViewModel() {
+class TaskViewModel(private val repository: IRepository) : ViewModel() {
     private val localUiState = MutableStateFlow(TasksPageUiState())
     val uiState: StateFlow<TasksPageUiState> = combine(
         repository.getAllTasks(),
-        dataStoreManager.sortingMethodFlow,
+        repository.sortingMethodFlow,
         localUiState
     ) { taskList, sortingMethod, localUiState ->
         val sortedList = taskList.sort(SortingMethod.fromId(sortingMethod))

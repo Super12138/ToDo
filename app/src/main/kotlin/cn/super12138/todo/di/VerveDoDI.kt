@@ -56,7 +56,7 @@ object VerveDoDI {
                 .build()
         }
         single<TaskDao> { get<TaskDatabase>().taskDao() }
-        single<IRepository> { Repository(get()) }
+        single<IRepository> { Repository(taskDao = get(), dataStoreManager = get()) }
     }
 
     val datastoreModule = module {
@@ -74,7 +74,7 @@ object VerveDoDI {
             EditorViewModel(
                 // initialTask = it.getOrNull(),
                 context = androidApplication(),
-                dataStoreManager = get()
+                repository = get()
             )
         }
 

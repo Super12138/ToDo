@@ -10,9 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-class OverviewViewModel(
-    private val repository: IRepository
-) : ViewModel() {
+class OverviewViewModel(private val repository: IRepository) : ViewModel() {
     val uiState: StateFlow<OverviewUiState> = repository.getAllTasks()
         .map {
             val total = it.size

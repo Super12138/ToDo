@@ -5,7 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cn.super12138.todo.constants.Constants
-import cn.super12138.todo.logic.datastore.DataStoreManager
+import cn.super12138.todo.logic.IRepository
 import cn.super12138.todo.logic.model.ColorSpecVersion
 import cn.super12138.todo.logic.model.ContrastLevel
 import cn.super12138.todo.logic.model.DarkMode
@@ -28,14 +28,14 @@ import java.io.FileOutputStream
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 
-class SettingsViewModel(private val dataStoreManager: DataStoreManager) : ViewModel() {
+class SettingsViewModel(private val repository: IRepository) : ViewModel() {
     // 把整体Ui状态流拆成3个小流以保证类型安全
     val appearanceUiState: StateFlow<SettingsAppearanceUiState> = combine(
-        dataStoreManager.dynamicColorFlow,
-        dataStoreManager.paletteStyleFlow,
-        dataStoreManager.darkModeFlow,
-        dataStoreManager.pureBlackFlow,
-        dataStoreManager.contrastLevelFlow
+        repository.dynamicColorFlow,
+        repository.paletteStyleFlow,
+        repository.darkModeFlow,
+        repository.pureBlackFlow,
+        repository.contrastLevelFlow
     ) { dynamicColor, paletteStyle, darkMode, pureBlackMode, contrastLevel ->
         SettingsAppearanceUiState(
             dynamicColor = dynamicColor,
@@ -51,10 +51,10 @@ class SettingsViewModel(private val dataStoreManager: DataStoreManager) : ViewMo
     )
 
     val interfaceUiState: StateFlow<SettingsInterfaceUiState> = combine(
-        dataStoreManager.sortingMethodFlow,
-        dataStoreManager.textFieldAutoFocusFlow,
-        dataStoreManager.secureModeFlow,
-        dataStoreManager.hapticFeedbackFlow
+        repository.sortingMethodFlow,
+        repository.textFieldAutoFocusFlow,
+        repository.secureModeFlow,
+        repository.hapticFeedbackFlow
     ) { sortingMethod, textFieldAutoFocus, secureMode, hapticFeedback ->
         SettingsInterfaceUiState(
             sortingMethod = SortingMethod.fromId(sortingMethod),
@@ -68,7 +68,7 @@ class SettingsViewModel(private val dataStoreManager: DataStoreManager) : ViewMo
         initialValue = SettingsInterfaceUiState()
     )
 
-    val dataUiState: StateFlow<SettingsDataUiState> = dataStoreManager.categoriesFlow.map {
+    val dataUiState: StateFlow<SettingsDataUiState> = repository.categoriesFlow.map {
         SettingsDataUiState(categories = it)
     }.stateIn(
         scope = viewModelScope,
@@ -77,8 +77,8 @@ class SettingsViewModel(private val dataStoreManager: DataStoreManager) : ViewMo
     )
 
     val devUiState: StateFlow<SettingsDevUiState> = combine(
-        dataStoreManager.colorSpecVersionFlow,
-        dataStoreManager.dynamicSchemePlatformFlow
+        repository.colorSpecVersionFlow,
+        repository.dynamicSchemePlatformFlow
     ) { colorSpecVersion, colorSpecPlatform ->
         SettingsDevUiState(
             colorSpecVersion = ColorSpecVersion.fromId(colorSpecVersion),
@@ -176,73 +176,73 @@ class SettingsViewModel(private val dataStoreManager: DataStoreManager) : ViewMo
 
     fun setDynamicColor(value: Boolean) {
         viewModelScope.launch {
-            dataStoreManager.setDynamicColor(value)
+            repository.setDynamicColor(value)
         }
     }
 
     fun setPaletteStyle(id: Int) {
         viewModelScope.launch {
-            dataStoreManager.setPaletteStyle(id)
+            repository.setPaletteStyle(id)
         }
     }
 
     fun setDarkMode(id: Int) {
         viewModelScope.launch {
-            dataStoreManager.setDarkMode(id)
+            repository.setDarkMode(id)
         }
     }
 
     fun setPureBlackMode(value: Boolean) {
         viewModelScope.launch {
-            dataStoreManager.setPureBlackMode(value)
+            repository.setPureBlackMode(value)
         }
     }
 
     fun setContrastLevel(value: Float) {
         viewModelScope.launch {
-            dataStoreManager.setContrastLevel(value)
+            repository.setContrastLevel(value)
         }
     }
 
     fun setSortingMethod(id: Int) {
         viewModelScope.launch {
-            dataStoreManager.setSortingMethod(id)
+            repository.setSortingMethod(id)
         }
     }
 
     fun setTextFieldAutoFocus(value: Boolean) {
         viewModelScope.launch {
-            dataStoreManager.setTextFieldAutoFocus(value)
+            repository.setTextFieldAutoFocus(value)
         }
     }
 
     fun setSecureMode(value: Boolean) {
         viewModelScope.launch {
-            dataStoreManager.setSecureMode(value)
+            repository.setSecureMode(value)
         }
     }
 
     fun setHapticFeedback(value: Boolean) {
         viewModelScope.launch {
-            dataStoreManager.setHapticFeedback(value)
+            repository.setHapticFeedback(value)
         }
     }
 
     fun setCategories(categories: List<String>) {
         viewModelScope.launch {
-            dataStoreManager.setCategories(categories)
+            repository.setCategories(categories)
         }
     }
 
     fun setColorSpecVersion(id: Int) {
         viewModelScope.launch {
-            dataStoreManager.setColorSpecVersion(id)
+            repository.setColorSpecVersion(id)
         }
     }
 
     fun setDynamicSchemePlatform(id: Int) {
         viewModelScope.launch {
-            dataStoreManager.setDynamicSchemePlatform(id)
+            repository.setDynamicSchemePlatform(id)
         }
     }
 }
