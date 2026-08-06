@@ -6,7 +6,7 @@ import androidx.datastore.preferences.SharedPreferencesMigration
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.navigation3.runtime.NavKey
-import androidx.room.Room
+import androidx.room3.Room
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.IRepository
 import cn.super12138.todo.logic.Repository

@@ -7,10 +7,10 @@ import androidx.lifecycle.viewModelScope
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.database.TaskDatabase
 import cn.super12138.todo.logic.datastore.DataStoreManager
-import cn.super12138.todo.logic.model.DynamicSchemePlatform
 import cn.super12138.todo.logic.model.ColorSpecVersion
 import cn.super12138.todo.logic.model.ContrastLevel
 import cn.super12138.todo.logic.model.DarkMode
+import cn.super12138.todo.logic.model.DynamicSchemePlatform
 import cn.super12138.todo.logic.model.PaletteStyle
 import cn.super12138.todo.logic.model.SortingMethod
 import cn.super12138.todo.utils.FileUtils
@@ -144,7 +144,7 @@ class SettingsViewModel(
      * * DataStore Preferences 文件
      */
     private fun getBackupFiles(context: Context): List<File> {
-        val dbPath = database.openHelper.writableDatabase.path
+        val dbPath = context.getDatabasePath(Constants.DB_NAME)
         val prefPath = "${context.filesDir}/datastore"
         return listOf(
             context.getDatabasePath(Constants.DB_NAME), // 数据库
