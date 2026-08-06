@@ -7,12 +7,12 @@ import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.LargeFlexibleTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -121,7 +121,7 @@ fun TopAppBarScaffold(
     TopAppBarScaffold(
         modifier = modifier,
         topBar = {
-            LargeFlexibleTopAppBar(
+            TopAppBar(
                 title = title,
                 navigationIcon = navigationIcon,
                 actions = actions,

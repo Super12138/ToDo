@@ -1,9 +1,9 @@
 package cn.super12138.todo.ui.pages.settings
 
-import cn.super12138.todo.logic.model.DynamicSchemePlatform
 import cn.super12138.todo.logic.model.ColorSpecVersion
 import cn.super12138.todo.logic.model.ContrastLevel
 import cn.super12138.todo.logic.model.DarkMode
+import cn.super12138.todo.logic.model.DynamicSchemePlatform
 import cn.super12138.todo.logic.model.PaletteStyle
 import cn.super12138.todo.logic.model.SortingMethod
 
