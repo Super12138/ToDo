@@ -33,7 +33,6 @@ import cn.super12138.todo.utils.toLocalDate
 import cn.super12138.todo.utils.toLocalDateString
 import java.time.YearMonth
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun TodoDueDateChooser(
     dateMillis: Long?,

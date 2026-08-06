@@ -65,14 +65,12 @@ object VerveDoDefaults {
         @Composable get() = MaterialTheme.shapes.small
 
 
-    @OptIn(ExperimentalMaterial3ExpressiveApi::class)
     @Composable
     fun shapes() = ButtonDefaults.shapes(
         shape = defaultShape,
         pressedShape = pressedShape
     )
 
-    @OptIn(ExperimentalMaterial3ExpressiveApi::class)
     val shapesDefaultAnimationSpec: FiniteAnimationSpec<Float>
         @Composable get() = MaterialTheme.motionScheme.defaultEffectsSpec()
 }

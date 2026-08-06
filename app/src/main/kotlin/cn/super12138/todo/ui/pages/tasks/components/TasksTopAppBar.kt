@@ -35,7 +35,6 @@ import cn.super12138.todo.ui.VerveDoDefaults
 import cn.super12138.todo.ui.theme.fadeScale
 import cn.super12138.todo.utils.VibrationUtils
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun TasksTopAppBar(
     screenMode: ScreenMode,
@@ -167,7 +166,6 @@ fun TasksTopAppBar(
     )
 }
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ActionMultipleSelection(
     onSelectAll: () -> Unit,

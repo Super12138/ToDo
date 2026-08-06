@@ -26,10 +26,10 @@ android {
     // 获取 Release 签名
     val releaseSigning = if (project.hasProperty("releaseStoreFile")) {
         signingConfigs.create("release") {
-            storeFile = File(project.properties["releaseStoreFile"] as String)
-            storePassword = project.properties["releaseStorePassword"] as String
-            keyAlias = project.properties["releaseKeyAlias"] as String
-            keyPassword = project.properties["releaseKeyPassword"] as String
+            storeFile = File(providers.gradleProperty("releaseStoreFile").get())
+            storePassword = providers.gradleProperty("releaseStorePassword").get()
+            keyAlias = providers.gradleProperty("releaseKeyAlias").get()
+            keyPassword = providers.gradleProperty("releaseKeyPassword").get()
         }
     } else {
         signingConfigs.getByName("debug")

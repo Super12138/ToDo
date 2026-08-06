@@ -24,7 +24,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Badge
 import androidx.compose.material3.ButtonShapes
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -57,7 +56,6 @@ import cn.super12138.todo.utils.disabledContentColor
 import cn.super12138.todo.utils.toLocalDateString
 import cn.super12138.todo.utils.toRelativeTimeString
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun TaskCard(
     modifier: Modifier = Modifier,

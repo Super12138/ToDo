@@ -2,7 +2,6 @@ package cn.super12138.todo.ui.pages.settings.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,7 +11,6 @@ import androidx.compose.ui.res.painterResource
 import cn.super12138.todo.ui.VerveDoDefaults
 import cn.super12138.todo.utils.VibrationUtils
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SwitchSettingsItem(
     modifier: Modifier = Modifier,
@@ -38,7 +36,6 @@ fun SwitchSettingsItem(
     )
 }
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SwitchSettingsItem(
     modifier: Modifier = Modifier,

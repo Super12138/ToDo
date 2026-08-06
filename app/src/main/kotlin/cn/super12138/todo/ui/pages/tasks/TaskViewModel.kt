@@ -17,12 +17,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-/*.stateIn(
-scope = viewModelScope,
-started = SharingStarted.WhileSubscribed(5000),
-initialValue = emptyList()
-)*/
-@OptIn(ExperimentalCoroutinesApi::class)
 class TaskViewModel(
     private val repository: IRepository,
     private val dataStoreManager: DataStoreManager

@@ -7,7 +7,6 @@ import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonShapes
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
@@ -27,11 +26,9 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 internal val ButtonShapes.hasRoundedCornerShapes: Boolean
     get() = shape is RoundedCornerShape && pressedShape is RoundedCornerShape
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 internal val ButtonShapes.hasCornerBasedShapes: Boolean
     get() = shape is CornerBasedShape && pressedShape is CornerBasedShape
 
@@ -46,7 +43,6 @@ internal val ButtonShapes.hasCornerBasedShapes: Boolean
  * @param pressed 是否处于按下状态
  * @param animationSpec 动画曲线
  */
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun shapeByInteraction(
     shapes: ButtonShapes,

@@ -26,7 +26,6 @@ import com.kyant.m3color.scheme.SchemeRainbow
 import com.kyant.m3color.scheme.SchemeTonalSpot
 import com.kyant.m3color.scheme.SchemeVibrant
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 @Stable
 fun dynamicColorScheme(

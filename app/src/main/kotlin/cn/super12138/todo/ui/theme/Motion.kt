@@ -16,7 +16,6 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.unveilIn
 import androidx.compose.animation.veilOut
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -157,7 +156,6 @@ fun veilFadeOut(
         targetColor = initialColor
     )
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun fadeScaleIn(
     effectSpec: FiniteAnimationSpec<Float> = MaterialTheme.motionScheme.fastEffectsSpec(),
@@ -168,13 +166,11 @@ fun fadeScaleIn(
             initialScale = 0.92f
         )
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun fadeScaleOut(
     effectSpec: FiniteAnimationSpec<Float> = MaterialTheme.motionScheme.fastEffectsSpec()
 ): ExitTransition = fadeOut(effectSpec)
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun fadeScale(
     effectSpec: FiniteAnimationSpec<Float> = MaterialTheme.motionScheme.fastEffectsSpec(),

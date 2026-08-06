@@ -51,10 +51,6 @@ fun ComponentActivity.configureEdgeToEdge() {
     }
 }
 
-/**
- * 重启应用
- * @param context 上下文
- */
 fun Context.restartApp() {
     val intent = Intent(
         this,

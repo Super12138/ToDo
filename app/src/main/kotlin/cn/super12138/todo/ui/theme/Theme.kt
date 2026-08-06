@@ -15,7 +15,6 @@ import cn.super12138.todo.logic.model.toPlatform
 import cn.super12138.todo.logic.model.toSpecVersion
 import com.kyant.m3color.dynamiccolor.DynamicScheme
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun VerveDoTheme(
     color: Color? = null,

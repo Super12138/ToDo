@@ -2,7 +2,6 @@ package cn.super12138.todo.ui.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.FloatingActionButtonElevation
 import androidx.compose.material3.Icon
@@ -32,7 +31,6 @@ import cn.super12138.todo.utils.VibrationUtils
  * @param onClick 点击 FAB 后的回调
  * @param modifier `Modifier` 修改器
  */
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun TodoFloatingActionButton(
     text: String,

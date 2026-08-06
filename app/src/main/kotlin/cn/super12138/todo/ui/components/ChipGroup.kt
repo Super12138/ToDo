@@ -1,6 +1,5 @@
 package cn.super12138.todo.ui.components
 
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -25,7 +24,6 @@ import cn.super12138.todo.utils.VibrationUtils
 /**
  * 部分参考：https://github.com/Rhythamtech/FilterChipGroup-Compose-Android/blob/main/FilterChipGroup.kt
  */
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun FilterChipGroup(
     modifier: Modifier = Modifier,

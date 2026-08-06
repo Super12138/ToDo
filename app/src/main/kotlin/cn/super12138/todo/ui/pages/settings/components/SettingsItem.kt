@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.ButtonShapes
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -33,7 +32,6 @@ import cn.super12138.todo.utils.VibrationUtils
 //TODO: MaterialTheme.colorscheme.surfaceContainer.blend(Color.Red, 0.7) 作为新的leading图标后背景色
 
 // Leading icon as drawable resource
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SettingsItem(
     modifier: Modifier = Modifier,
@@ -51,7 +49,6 @@ fun SettingsItem(
 )
 
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SettingsItem(
     modifier: Modifier = Modifier,
@@ -94,7 +91,6 @@ fun SettingsItem(
 )
 
 // Leading icon as ImageVector
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SettingsItem(
     modifier: Modifier = Modifier,
@@ -111,7 +107,6 @@ fun SettingsItem(
     modifier = modifier
 )
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SettingsItem(
     modifier: Modifier = Modifier,
@@ -143,7 +138,6 @@ fun SettingsItem(
 )
 
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SettingsItem(
     modifier: Modifier = Modifier,
@@ -186,7 +180,6 @@ fun SettingsItem(
     onClick = onClick
 )
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SettingsItem(
     modifier: Modifier = Modifier,

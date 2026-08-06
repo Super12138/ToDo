@@ -1,7 +1,6 @@
 package cn.super12138.todo.ui.pages.settings
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -16,7 +15,6 @@ import cn.super12138.todo.ui.pages.settings.components.appearance.contrast.Contr
 import cn.super12138.todo.ui.pages.settings.components.appearance.palette.PalettePicker
 import org.koin.compose.viewmodel.koinViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsAppearance(
     modifier: Modifier = Modifier,

@@ -2,8 +2,6 @@ package cn.super12138.todo.ui.pages.settings
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -23,8 +21,8 @@ import cn.super12138.todo.ui.pages.settings.components.SettingsContainer
 import cn.super12138.todo.ui.pages.settings.components.SettingsItem
 import cn.super12138.todo.utils.appVersion
 import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.milliseconds
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SettingsAbout(
     //toSpecialPage: () -> Unit,
@@ -47,7 +45,7 @@ fun SettingsAbout(
             if (clickCount > 0) {
                 lastClickTime = System.currentTimeMillis()
                 val currentClickTime = lastClickTime
-                delay(300L)
+                delay(300.milliseconds)
 
                 if (currentClickTime == lastClickTime) {
                     clickCount = 0

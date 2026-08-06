@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
@@ -26,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -44,9 +43,7 @@ import cn.super12138.todo.ui.activities.CrashActivity.Companion.DEVICE_SDK_PREFI
 import cn.super12138.todo.ui.activities.CrashActivity.Companion.MODEL_PREFIX
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Locale
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun CrashPage(
     crashLog: String,
@@ -94,12 +91,13 @@ fun CrashPage(
     ) { innerPadding ->
         val context = LocalContext.current
         val packageName = context.packageName
+        val local = LocalLocale.current
 
         val deviceBrand = Build.BRAND
         val deviceModel = Build.MODEL
         val sdkLevel = Build.VERSION.SDK_INT
         val currentDateTime = Calendar.getInstance().time
-        val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", local.platformLocale)
         val formattedDateTime = formatter.format(currentDateTime)
 
         val deviceInfo = StringBuilder().apply {

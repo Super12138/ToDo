@@ -5,7 +5,6 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cn.super12138.todo.constants.Constants
-import cn.super12138.todo.logic.database.TaskDatabase
 import cn.super12138.todo.logic.datastore.DataStoreManager
 import cn.super12138.todo.logic.model.ColorSpecVersion
 import cn.super12138.todo.logic.model.ContrastLevel
@@ -29,10 +28,7 @@ import java.io.FileOutputStream
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 
-class SettingsViewModel(
-    private val database: TaskDatabase,
-    private val dataStoreManager: DataStoreManager
-) : ViewModel() {
+class SettingsViewModel(private val dataStoreManager: DataStoreManager) : ViewModel() {
     // 把整体Ui状态流拆成3个小流以保证类型安全
     val appearanceUiState: StateFlow<SettingsAppearanceUiState> = combine(
         dataStoreManager.dynamicColorFlow,
