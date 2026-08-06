@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialShapes
@@ -26,9 +27,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.animateFloatingActionButton
 import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,6 +43,7 @@ import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.database.TaskEntity
 import cn.super12138.todo.logic.model.Priority
+import cn.super12138.todo.logic.model.ScreenMode
 import cn.super12138.todo.ui.VerveDoDefaults
 import cn.super12138.todo.ui.components.ConfirmDialog
 import cn.super12138.todo.ui.components.EmptyTip
@@ -51,9 +55,13 @@ import cn.super12138.todo.ui.pages.tasks.components.TaskSearchTextField
 import cn.super12138.todo.ui.pages.tasks.components.TasksTopAppBar
 import cn.super12138.todo.ui.theme.fadeScale
 import cn.super12138.todo.ui.viewmodels.MainViewModel
+import cn.super12138.todo.utils.toLocalDateString
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.debounce
 import org.koin.compose.viewmodel.koinViewModel
+import kotlin.time.Duration.Companion.milliseconds
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@OptIn(ExperimentalMaterial3ExpressiveApi::class, FlowPreview::class)
 @Composable
 fun SharedTransitionScope.TasksPage(
     modifier: Modifier = Modifier,
@@ -62,15 +70,42 @@ fun SharedTransitionScope.TasksPage(
     viewModel: TaskViewModel = koinViewModel(),
     mainViewModel: MainViewModel = koinViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val taskListState = rememberLazyListState()
     val animatedVisibilityScope = LocalNavAnimatedContentScope.current
+
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val searchQueryState = rememberTextFieldState()
+    val taskListState = rememberLazyListState()
+
     val expandedFab by remember { derivedStateOf { taskListState.firstVisibleItemIndex == 0 } }
+    val isInSelectionMode by remember { derivedStateOf { uiState.screenMode == ScreenMode.Selection } }
+    val isInSearchMode by remember { derivedStateOf { uiState.screenMode == ScreenMode.Search } }
+    val taskList = remember(uiState.originalTaskList, uiState.searchQuery) {
+        if (uiState.searchQuery.isEmpty()) {
+            uiState.originalTaskList
+        } else {
+            uiState.originalTaskList.filter { task ->
+                listOf(
+                    task.content,
+                    task.category,
+                    task.dueDate?.toLocalDateString() ?: ""
+                ).any {
+                    it.contains(uiState.searchQuery, ignoreCase = true)
+                }
+            }
+        }
+    }
+
     val transitionSpec = fadeScale()
 
+    LaunchedEffect(searchQueryState) {
+        snapshotFlow { searchQueryState.text.toString().trim() }
+            .debounce(300.milliseconds)
+            .collect { viewModel.updateSearchQuery(it) }
+    }
+
     // 当按下返回键（或进行返回操作）时清空选择，仅在非选择模式下生效
-    BackHandler(uiState.isInSelectionMode) { viewModel.exitMultiSelectMode() }
-    BackHandler(uiState.isInSearchMode) { viewModel.exitSearchMode() }
+    BackHandler(isInSelectionMode) { viewModel.exitMultiSelectMode() }
+    BackHandler(isInSearchMode) { viewModel.exitSearchMode() }
 
     TopAppBarScaffold(
         topBar = {
@@ -78,7 +113,7 @@ fun SharedTransitionScope.TasksPage(
                 screenMode = uiState.screenMode,
                 selectedTasksIds = uiState.selectedTaskIds,
                 onCancelSelect = { viewModel.exitMultiSelectMode() },
-                onSelectAll = { viewModel.selectAllTask() },
+                onSelectAll = { viewModel.selectVisibleAllTask(taskList) },
                 onDeleteSelectedTodo = { viewModel.showDeleteConfirmDialog() },
                 onSearchModeChange = { if (it) viewModel.enterSearchMode() else viewModel.exitSearchMode() },
             )
@@ -96,7 +131,7 @@ fun SharedTransitionScope.TasksPage(
                         resizeMode = SharedTransitionScope.ResizeMode.RemeasureToBounds
                     )
                     .animateFloatingActionButton(
-                        visible = !uiState.isInSelectionMode,
+                        visible = !isInSelectionMode,
                         alignment = Alignment.BottomEnd,
                     )
             )
@@ -106,7 +141,7 @@ fun SharedTransitionScope.TasksPage(
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(VerveDoDefaults.settingsItemPadding)) {
             AnimatedVisibility(
-                visible = uiState.isInSearchMode,
+                visible = isInSearchMode,
                 enter = fadeIn(MaterialTheme.motionScheme.fastEffectsSpec()) + expandVertically(
                     MaterialTheme.motionScheme.fastSpatialSpec()
                 ),
@@ -115,13 +150,13 @@ fun SharedTransitionScope.TasksPage(
                 ),
             ) {
                 TaskSearchTextField(
-                    searchMode = uiState.isInSearchMode,
+                    searchMode = isInSearchMode,
                     onSearchModeChange = { viewModel.exitSearchMode() },
-                    textFieldState = uiState.searchTextState
+                    textFieldState = searchQueryState
                 )
             }
             AnimatedContent(
-                targetState = uiState.taskList.isEmpty(),
+                targetState = taskList.isEmpty(),
                 transitionSpec = { transitionSpec }
             ) {
                 if (it) {
@@ -134,13 +169,13 @@ fun SharedTransitionScope.TasksPage(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         EmptyTip(
-                            type = if (uiState.isInSearchMode) EmptyTipType.Search else EmptyTipType.TaskCompleted,
+                            type = if (isInSearchMode) EmptyTipType.Search else EmptyTipType.TaskCompleted,
                             size = VerveDoDefaults.Sizes.EmptyTip.large,
                             shape = MaterialShapes.Cookie6Sided.toShape()
                         )
 
                         Text(
-                            text = stringResource(if (uiState.isInSearchMode) R.string.tip_search_task_not_found else R.string.tip_no_task),
+                            text = stringResource(if (isInSearchMode) R.string.tip_search_task_not_found else R.string.tip_no_task),
                             style = MaterialTheme.typography.titleMedium,
                             textAlign = TextAlign.Center,
                             modifier = Modifier.fillMaxWidth()
@@ -159,26 +194,33 @@ fun SharedTransitionScope.TasksPage(
                         }
 
                         items(
-                            items = uiState.taskList,
+                            items = taskList,
                             key = { task -> task.id }
                         ) { task ->
+                            val priority =
+                                remember(task.priority) { Priority.fromFloat(task.priority) }
+                            val selected by remember(task.id, uiState.selectedTaskIds) {
+                                derivedStateOf {
+                                    task.id in uiState.selectedTaskIds
+                                }
+                            }
                             TaskCard(
                                 // id = item.id,
                                 content = task.content,
                                 category = task.category,
                                 completed = task.isCompleted,
                                 dueDate = task.dueDate,
-                                priority = Priority.fromFloat(task.priority),
-                                selected = uiState.selectedTaskIds.contains(task.id),
+                                priority = priority,
+                                selected = selected,
                                 onCardClick = {
-                                    if (uiState.isInSelectionMode) {
+                                    if (isInSelectionMode) {
                                         viewModel.toggleTaskSelection(task)
                                     } else {
                                         toTodoEditPage(task)
                                     }
                                 },
                                 onCardLongClick = {
-                                    if (!uiState.isInSelectionMode) {
+                                    if (!isInSelectionMode) {
                                         viewModel.enterMultiSelectMode(task.id)
                                     } else {
                                         viewModel.toggleTaskSelection(task)

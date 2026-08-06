@@ -159,16 +159,19 @@ fun TaskCard(
                             end = VerveDoDefaults.screenHorizontalPadding
                         )
                     ) {
+                        val dueDateText = remember(content, dueDate) { dueDate.toLocalDateString() }
                         Text(
-                            text = dueDate.toLocalDateString(),
+                            text = dueDateText,
                             style = MaterialTheme.typography.labelLarge.copy(
                                 color = if (completed) cardColors.disabledContentColor else MaterialTheme.colorScheme.onSurface,
                                 fontWeight = FontWeight.Bold
                             )
                         )
 
+                        val relativeTimeString =
+                            remember(content, dueDate) { dueDate.toRelativeTimeString(context) }
                         Text(
-                            text = dueDate.toRelativeTimeString(context),
+                            text = relativeTimeString,
                             style = MaterialTheme.typography.labelSmall.copy(
                                 color = if (completed) cardColors.disabledContentColor else MaterialTheme.colorScheme.onSurfaceVariant
                             )

@@ -16,14 +16,14 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class TaskViewModel(private val repository: IRepository) : ViewModel() {
-    private val localUiState = MutableStateFlow(TasksPageUiState())
+    private val _uiState = MutableStateFlow(TasksPageUiState())
     val uiState: StateFlow<TasksPageUiState> = combine(
         repository.getAllTasks(),
         repository.sortingMethodFlow,
-        localUiState
-    ) { taskList, sortingMethod, localUiState ->
+        _uiState
+    ) { taskList, sortingMethod, _uiState ->
         val sortedList = taskList.sort(SortingMethod.fromId(sortingMethod))
-        localUiState.copy(originalTaskList = sortedList)
+        _uiState.copy(originalTaskList = sortedList)
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
@@ -36,17 +36,11 @@ class TaskViewModel(private val repository: IRepository) : ViewModel() {
         }
     }
 
-    /*fun deleteAllTodo() {
-        viewModelScope.launch {
-            Repository.deleteAllTodo()
-        }
-    }*/
-
     /**
      * 切换待办的选择状态
      */
     fun toggleTaskSelection(task: TaskEntity) {
-        localUiState.update {
+        _uiState.update {
             val newIds = if (it.selectedTaskIds.contains(task.id)) { // 已选择的Id里包含切换选择状态的Id
                 it.selectedTaskIds - task.id // 那么就给他删了
             } else {
@@ -54,7 +48,7 @@ class TaskViewModel(private val repository: IRepository) : ViewModel() {
             }
             val newMode = if (newIds.isEmpty()) {
                 // 如果之前是搜索模式，回到搜索模式，否则回到普通模式
-                if (uiState.value.searchTextState.text.isNotEmpty()) ScreenMode.Search else ScreenMode.Default
+                if (uiState.value.searchQuery.isNotEmpty()) ScreenMode.Search else ScreenMode.Default
             } else {
                 ScreenMode.Selection
             }
@@ -65,15 +59,15 @@ class TaskViewModel(private val repository: IRepository) : ViewModel() {
     /**
      * 切换是否全选
      */
-    fun selectAllTask() {
-        val allIds = uiState.value.taskList.map { it.id }.toSet()
-        localUiState.update { it.copy(selectedTaskIds = allIds) }
+    fun selectVisibleAllTask(taskList: List<TaskEntity>) {
+        val allIds = taskList.map { it.id }.toSet()
+        _uiState.update { it.copy(selectedTaskIds = allIds) }
     }
 
     /**
      * 清除全部已选择的待办
      */
-    fun clearAllTaskSelection() = localUiState.update { it.copy(selectedTaskIds = emptySet()) }
+    fun clearAllTaskSelection() = _uiState.update { it.copy(selectedTaskIds = emptySet()) }
 
     /**
      * 删除选择的待办
@@ -86,7 +80,7 @@ class TaskViewModel(private val repository: IRepository) : ViewModel() {
     }
 
     fun enterMultiSelectMode(id: Int) =
-        localUiState.update {
+        _uiState.update {
             it.copy(
                 selectedTaskIds = setOf(id),
                 screenMode = ScreenMode.Selection
@@ -94,15 +88,17 @@ class TaskViewModel(private val repository: IRepository) : ViewModel() {
         }
 
     fun exitMultiSelectMode() =
-        localUiState.update {
+        _uiState.update {
             it.copy(
                 selectedTaskIds = emptySet(),
                 screenMode = ScreenMode.Default
             )
         }
 
-    fun enterSearchMode() = localUiState.update { it.copy(screenMode = ScreenMode.Search) }
-    fun exitSearchMode() = localUiState.update { it.copy(screenMode = ScreenMode.Default) }
-    fun showDeleteConfirmDialog() = localUiState.update { it.copy(showDeleteConfirmDialog = true) }
-    fun hideDeleteConfirmDialog() = localUiState.update { it.copy(showDeleteConfirmDialog = false) }
+    fun enterSearchMode() = _uiState.update { it.copy(screenMode = ScreenMode.Search) }
+    fun exitSearchMode() = _uiState.update { it.copy(screenMode = ScreenMode.Default) }
+    fun showDeleteConfirmDialog() = _uiState.update { it.copy(showDeleteConfirmDialog = true) }
+    fun hideDeleteConfirmDialog() = _uiState.update { it.copy(showDeleteConfirmDialog = false) }
+
+    fun updateSearchQuery(query: String) = _uiState.update { it.copy(searchQuery = query) }
 }
