@@ -9,7 +9,7 @@ activityCompose = "1.13.0"
 composeBom = "2026.06.01"
 liveData = "1.11.4"
 room3 = "3.0.1"
-material3 = "1.5.0-alpha25"
+material3 = "1.5.0-alpha26"
 nav3Core = "1.1.5"
 # AboutLibraries
 aboutLibsRelease = "15.0.4"
