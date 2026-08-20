@@ -2,10 +2,10 @@ package cn.super12138.todo.ui.pages.tasks
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cn.super12138.todo.logic.IRepository
+import cn.super12138.todo.logic.SettingsRepository
+import cn.super12138.todo.logic.TaskRepository
 import cn.super12138.todo.logic.database.TaskEntity
 import cn.super12138.todo.logic.model.ScreenMode
-import cn.super12138.todo.logic.model.SortingMethod
 import cn.super12138.todo.utils.sort
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -15,14 +15,17 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class TaskViewModel(private val repository: IRepository) : ViewModel() {
+class TaskViewModel(
+    private val taskRepository: TaskRepository,
+    private val settingsRepository: SettingsRepository
+) : ViewModel() {
     private val _uiState = MutableStateFlow(TasksPageUiState())
     val uiState: StateFlow<TasksPageUiState> = combine(
-        repository.getAllTasks(),
-        repository.sortingMethodFlow,
+        taskRepository.getAllTasks(),
+        settingsRepository.sortingMethodFlow,
         _uiState
     ) { taskList, sortingMethod, _uiState ->
-        val sortedList = taskList.sort(SortingMethod.fromId(sortingMethod))
+        val sortedList = taskList.sort(sortingMethod)
         _uiState.copy(originalTaskList = sortedList)
     }.stateIn(
         scope = viewModelScope,
@@ -32,7 +35,7 @@ class TaskViewModel(private val repository: IRepository) : ViewModel() {
 
     fun updateTask(task: TaskEntity) {
         viewModelScope.launch {
-            repository.updateTask(task)
+            taskRepository.updateTask(task)
         }
     }
 
@@ -74,7 +77,7 @@ class TaskViewModel(private val repository: IRepository) : ViewModel() {
      */
     fun deleteSelectedTask() {
         viewModelScope.launch {
-            repository.deleteTaskFromIds(uiState.value.selectedTaskIds)
+            taskRepository.deleteTaskFromIds(uiState.value.selectedTaskIds)
             clearAllTaskSelection()
         }
     }

@@ -5,13 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cn.super12138.todo.constants.Constants
-import cn.super12138.todo.logic.IRepository
-import cn.super12138.todo.logic.model.ColorSpecVersion
-import cn.super12138.todo.logic.model.ContrastLevel
-import cn.super12138.todo.logic.model.DarkMode
-import cn.super12138.todo.logic.model.DynamicSchemePlatform
-import cn.super12138.todo.logic.model.PaletteStyle
-import cn.super12138.todo.logic.model.SortingMethod
+import cn.super12138.todo.logic.SettingsRepository
 import cn.super12138.todo.utils.FileUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
@@ -28,21 +22,21 @@ import java.io.FileOutputStream
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 
-class SettingsViewModel(private val repository: IRepository) : ViewModel() {
+class SettingsViewModel(private val settingsRepository: SettingsRepository) : ViewModel() {
     // 把整体Ui状态流拆成3个小流以保证类型安全
     val appearanceUiState: StateFlow<SettingsAppearanceUiState> = combine(
-        repository.dynamicColorFlow,
-        repository.paletteStyleFlow,
-        repository.darkModeFlow,
-        repository.pureBlackFlow,
-        repository.contrastLevelFlow
+        settingsRepository.dynamicColorFlow,
+        settingsRepository.paletteStyleFlow,
+        settingsRepository.darkModeFlow,
+        settingsRepository.pureBlackFlow,
+        settingsRepository.contrastLevelFlow
     ) { dynamicColor, paletteStyle, darkMode, pureBlackMode, contrastLevel ->
         SettingsAppearanceUiState(
             dynamicColor = dynamicColor,
-            paletteStyle = PaletteStyle.fromId(paletteStyle),
-            darkMode = DarkMode.fromId(darkMode),
+            paletteStyle = paletteStyle,
+            darkMode = darkMode,
             pureBlackMode = pureBlackMode,
-            contrastLevel = ContrastLevel.fromFloat(contrastLevel)
+            contrastLevel = contrastLevel
         )
     }.stateIn(
         scope = viewModelScope,
@@ -51,13 +45,13 @@ class SettingsViewModel(private val repository: IRepository) : ViewModel() {
     )
 
     val interfaceUiState: StateFlow<SettingsInterfaceUiState> = combine(
-        repository.sortingMethodFlow,
-        repository.textFieldAutoFocusFlow,
-        repository.secureModeFlow,
-        repository.hapticFeedbackFlow
+        settingsRepository.sortingMethodFlow,
+        settingsRepository.textFieldAutoFocusFlow,
+        settingsRepository.secureModeFlow,
+        settingsRepository.hapticFeedbackFlow
     ) { sortingMethod, textFieldAutoFocus, secureMode, hapticFeedback ->
         SettingsInterfaceUiState(
-            sortingMethod = SortingMethod.fromId(sortingMethod),
+            sortingMethod = sortingMethod,
             textFieldAutoFocus = textFieldAutoFocus,
             secureMode = secureMode,
             hapticFeedback = hapticFeedback
@@ -68,7 +62,7 @@ class SettingsViewModel(private val repository: IRepository) : ViewModel() {
         initialValue = SettingsInterfaceUiState()
     )
 
-    val dataUiState: StateFlow<SettingsDataUiState> = repository.categoriesFlow.map {
+    val dataUiState: StateFlow<SettingsDataUiState> = settingsRepository.categoriesFlow.map {
         SettingsDataUiState(categories = it)
     }.stateIn(
         scope = viewModelScope,
@@ -77,12 +71,12 @@ class SettingsViewModel(private val repository: IRepository) : ViewModel() {
     )
 
     val devUiState: StateFlow<SettingsDevUiState> = combine(
-        repository.colorSpecVersionFlow,
-        repository.dynamicSchemePlatformFlow
+        settingsRepository.colorSpecVersionFlow,
+        settingsRepository.dynamicSchemePlatformFlow
     ) { colorSpecVersion, colorSpecPlatform ->
         SettingsDevUiState(
-            colorSpecVersion = ColorSpecVersion.fromId(colorSpecVersion),
-            dynamicSchemePlatform = DynamicSchemePlatform.fromId(colorSpecPlatform)
+            colorSpecVersion = colorSpecVersion,
+            dynamicSchemePlatform = colorSpecPlatform
         )
     }.stateIn(
         scope = viewModelScope,
@@ -176,73 +170,73 @@ class SettingsViewModel(private val repository: IRepository) : ViewModel() {
 
     fun setDynamicColor(value: Boolean) {
         viewModelScope.launch {
-            repository.setDynamicColor(value)
+            settingsRepository.setDynamicColor(value)
         }
     }
 
     fun setPaletteStyle(id: Int) {
         viewModelScope.launch {
-            repository.setPaletteStyle(id)
+            settingsRepository.setPaletteStyle(id)
         }
     }
 
     fun setDarkMode(id: Int) {
         viewModelScope.launch {
-            repository.setDarkMode(id)
+            settingsRepository.setDarkMode(id)
         }
     }
 
     fun setPureBlackMode(value: Boolean) {
         viewModelScope.launch {
-            repository.setPureBlackMode(value)
+            settingsRepository.setPureBlackMode(value)
         }
     }
 
     fun setContrastLevel(value: Float) {
         viewModelScope.launch {
-            repository.setContrastLevel(value)
+            settingsRepository.setContrastLevel(value)
         }
     }
 
     fun setSortingMethod(id: Int) {
         viewModelScope.launch {
-            repository.setSortingMethod(id)
+            settingsRepository.setSortingMethod(id)
         }
     }
 
     fun setTextFieldAutoFocus(value: Boolean) {
         viewModelScope.launch {
-            repository.setTextFieldAutoFocus(value)
+            settingsRepository.setTextFieldAutoFocus(value)
         }
     }
 
     fun setSecureMode(value: Boolean) {
         viewModelScope.launch {
-            repository.setSecureMode(value)
+            settingsRepository.setSecureMode(value)
         }
     }
 
     fun setHapticFeedback(value: Boolean) {
         viewModelScope.launch {
-            repository.setHapticFeedback(value)
+            settingsRepository.setHapticFeedback(value)
         }
     }
 
     fun setCategories(categories: List<String>) {
         viewModelScope.launch {
-            repository.setCategories(categories)
+            settingsRepository.setCategories(categories)
         }
     }
 
     fun setColorSpecVersion(id: Int) {
         viewModelScope.launch {
-            repository.setColorSpecVersion(id)
+            settingsRepository.setColorSpecVersion(id)
         }
     }
 
     fun setDynamicSchemePlatform(id: Int) {
         viewModelScope.launch {
-            repository.setDynamicSchemePlatform(id)
+            settingsRepository.setDynamicSchemePlatform(id)
         }
     }
 }

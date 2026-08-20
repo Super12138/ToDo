@@ -8,8 +8,8 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.navigation3.runtime.NavKey
 import androidx.room3.Room
 import cn.super12138.todo.constants.Constants
-import cn.super12138.todo.logic.IRepository
-import cn.super12138.todo.logic.Repository
+import cn.super12138.todo.logic.SettingsRepository
+import cn.super12138.todo.logic.TaskRepository
 import cn.super12138.todo.logic.database.TaskDao
 import cn.super12138.todo.logic.database.TaskDatabase
 import cn.super12138.todo.logic.datastore.DataStoreManager
@@ -43,9 +43,9 @@ object VerveDoDI {
     val databaseModule = module {
         single<TaskDatabase> {
             Room.databaseBuilder(
-                androidApplication(),
-                TaskDatabase::class.java,
-                Constants.DB_NAME
+                context = androidApplication(),
+                klass = TaskDatabase::class.java,
+                name = Constants.DB_NAME
             )
                 .addMigrations(
                     TaskDatabase.MIGRATION_2_3,
@@ -56,7 +56,8 @@ object VerveDoDI {
                 .build()
         }
         single<TaskDao> { get<TaskDatabase>().taskDao() }
-        single<IRepository> { Repository(taskDao = get(), dataStoreManager = get()) }
+        singleOf(::TaskRepository)
+        singleOf(::SettingsRepository)
     }
 
     val datastoreModule = module {
@@ -74,7 +75,7 @@ object VerveDoDI {
             EditorViewModel(
                 // initialTask = it.getOrNull(),
                 context = androidApplication(),
-                repository = get()
+                settingsRepository = get()
             )
         }
 

@@ -5,11 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cn.super12138.todo.logic.IRepository
+import cn.super12138.todo.logic.TaskRepository
 import cn.super12138.todo.logic.database.TaskEntity
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val repository: IRepository) : ViewModel() {
+class MainViewModel(private val taskRepository: TaskRepository) : ViewModel() {
     var showConfetti by mutableStateOf(false)
         private set
 
@@ -19,19 +19,19 @@ class MainViewModel(private val repository: IRepository) : ViewModel() {
 
     fun addTask(task: TaskEntity) {
         viewModelScope.launch {
-            repository.insertTask(task)
+            taskRepository.insertTask(task)
         }
     }
 
     fun updateTask(task: TaskEntity) {
         viewModelScope.launch {
-            repository.updateTask(task)
+            taskRepository.updateTask(task)
         }
     }
 
     fun deleteTask(task: TaskEntity) {
         viewModelScope.launch {
-            repository.deleteTask(task)
+            taskRepository.deleteTask(task)
         }
     }
 

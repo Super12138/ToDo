@@ -38,21 +38,21 @@ import org.koin.android.ext.android.get
 import org.koin.android.scope.AndroidScopeComponent
 import org.koin.androidx.scope.activityRetainedScope
 import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.scope.Scope
 
 class MainActivity : ComponentActivity(), AndroidScopeComponent {
     override val scope: Scope by activityRetainedScope()
 
-    @OptIn(KoinExperimentalAPI::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         configureEdgeToEdge()
         super.onCreate(savedInstanceState)
+
+        val backStack: TopLevelBackStack<NavKey> = get()
+
         setContent {
             val mainViewModel: MainViewModel = koinViewModel()
             val settingsViewModel: SettingsViewModel = koinViewModel()
-            val backStack: TopLevelBackStack<NavKey> = get()
 
             val appearanceUiState by settingsViewModel.appearanceUiState.collectAsStateWithLifecycle()
             val interfaceUiState by settingsViewModel.interfaceUiState.collectAsStateWithLifecycle()

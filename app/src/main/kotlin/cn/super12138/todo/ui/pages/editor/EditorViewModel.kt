@@ -6,7 +6,7 @@ import androidx.compose.foundation.text.input.TextFieldState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cn.super12138.todo.R
-import cn.super12138.todo.logic.IRepository
+import cn.super12138.todo.logic.SettingsRepository
 import cn.super12138.todo.logic.database.TaskEntity
 import cn.super12138.todo.ui.components.ChipItem
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.update
 
 class EditorViewModel(
     private val context: Context,
-    private val repository: IRepository
+    private val settingsRepository: SettingsRepository
 ) : ViewModel() {
     companion object {
         const val TAG = "Editor"
@@ -26,8 +26,8 @@ class EditorViewModel(
 
     private val localUiState = MutableStateFlow(TaskEditorUiState())
     val uiState: StateFlow<TaskEditorUiState> = combine(
-        repository.textFieldAutoFocusFlow,
-        repository.categoriesFlow,
+        settingsRepository.textFieldAutoFocusFlow,
+        settingsRepository.categoriesFlow,
         localUiState
     ) { textFieldAutoFocus, categories, localState ->
         val categoryList = categories.mapIndexed { index, category ->

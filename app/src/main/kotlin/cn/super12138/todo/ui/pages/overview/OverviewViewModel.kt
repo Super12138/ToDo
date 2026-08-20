@@ -2,7 +2,7 @@ package cn.super12138.todo.ui.pages.overview
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cn.super12138.todo.logic.IRepository
+import cn.super12138.todo.logic.TaskRepository
 import cn.super12138.todo.logic.database.TaskEntity
 import cn.super12138.todo.utils.SystemUtils
 import kotlinx.coroutines.flow.SharingStarted
@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
-class OverviewViewModel(private val repository: IRepository) : ViewModel() {
-    val uiState: StateFlow<OverviewUiState> = repository.getAllTasks()
+class OverviewViewModel(private val taskRepository: TaskRepository) : ViewModel() {
+    val uiState: StateFlow<OverviewUiState> = taskRepository.getAllTasks()
         .map {
             val total = it.size
             val completed = it.count { task -> task.isCompleted }
