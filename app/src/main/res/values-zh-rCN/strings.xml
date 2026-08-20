@@ -64,8 +64,8 @@
     <string name="contrast_very_high">极高</string>
     <string name="pref_interface_interaction">界面与交互</string>
     <string name="pref_interface_interaction_desc">待办列表、触感反馈</string>
-    <!--<string name="pref_show_completed">显示已完成待办</string>
-    <string name="pref_show_completed_desc">在待办列表里显示已完成的待办</string>-->
+    <!--<string name="pref_show_completed">Show Completed Tasks</string>
+    <string name="pref_show_completed_desc">Show completed tasks in to-do list</string>-->
     <string name="pref_category_todo_list">待办列表</string>
     <string name="pref_view_on_github">在 GitHub 上查看</string>
     <string name="pref_view_on_github_desc">查看源代码、提交错误报告和改进建议</string>
@@ -104,7 +104,7 @@
     <string name="action_add_category">添加分类</string>
     <string name="label_enter_sth">输入内容</string>
     <string name="tip_enter_category">输入你想添加的分类名称</string>
-    <!--<string name="error_category_duplicate">该分类已经存在</string>-->
+    <!--<string name="error_category_duplicate">The category is duplicate</string>-->
     <string name="tip_no_category_chip">当前暂无自定义分类，你可以在设置中添加分类</string>
     <string name="tip_no_category_page">暂无自定义分类</string>
     <string name="tip_default_category">默认分类，请修改</string>
