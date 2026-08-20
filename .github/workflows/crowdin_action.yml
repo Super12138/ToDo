@@ -1,13 +1,22 @@
 name: Crowdin Action
 
+# 参考 https://github.com/LibChecker/LibChecker/blob/master/.github/workflows/translation.yml
+
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - app/src/main/res/values/strings.xml
   workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   synchronize-with-crowdin:
     runs-on: ubuntu-latest
+    if: github.repository == 'Super12138/VerveDo'
 
     steps:
       - name: Checkout
@@ -27,6 +36,6 @@ jobs:
           config: crowdin.yml
           crowdin_branch_name: main
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
