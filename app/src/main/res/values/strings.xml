@@ -71,7 +71,7 @@
     <string name="pref_category_todo_list">To-Do List</string>
     <string name="pref_view_on_github">View On GitHub</string>
     <string name="pref_view_on_github_desc">View source code, submit bug reports, and improvement suggestions</string>
-    <string name="tip_discard_changes">After exiting edit mode, you will not be able to retrieve the data you have modified. Are you sure you want to exit editing?</string>
+    <string name="tip_discard_changes">After exiting edit mode, you will not be able to retrieve the task data you have modified. Are you sure you want to exit editing?</string>
     <string name="sorting_sequential">Sequential</string>
     <string name="sorting_category">Category</string>
     <string name="sorting_priority">Priority</string>
@@ -150,4 +150,5 @@
     <string name="pref_dynamic_scheme_platform">Dynamic Scheme Platform</string>
     <string name="label_none">None</string>
     <string name="time_next_week">Next Week</string>
+    <string name="label_basic_information">Basic Information</string>
 </resources>

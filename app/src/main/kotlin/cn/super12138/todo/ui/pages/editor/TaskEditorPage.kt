@@ -1,6 +1,5 @@
 package cn.super12138.todo.ui.pages.editor
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedContent
@@ -17,6 +16,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.material3.ButtonGroupDefaults
@@ -31,7 +31,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -115,8 +117,10 @@ fun TaskEditorPage(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val focusRequester = remember { FocusRequester() }
-    val isContentError by remember { derivedStateOf { uiState.content.isEmpty() } }
-    val isCategoryError by remember { derivedStateOf { uiState.category.isEmpty() } }
+    var validate by remember { mutableStateOf(false) }
+
+    val isContentError by remember { derivedStateOf { validate && uiState.content.isBlank() } }
+    val isCategoryError by remember { derivedStateOf { validate && uiState.category.isBlank() } }
 
     fun navigateUpIfUnchanged() {
         if (viewModel.isModified()) {
@@ -126,6 +130,7 @@ fun TaskEditorPage(
         }
     }
 
+    // 已知问题：聚焦时光标放在了内容的开始，而不是结尾
     SideEffect(uiState.shouldAutoFocusContent) { focusRequester.requestFocus() }
 
     BackHandler(onBack = ::navigateUpIfUnchanged)
@@ -166,7 +171,12 @@ fun TaskEditorPage(
                     iconRes = R.drawable.ic_save,
                     expanded = true,
                     onClick = {
-                        if (isContentError || isCategoryError) return@TodoFloatingActionButton
+                        validate = true
+
+                        if (uiState.content.isBlank() || uiState.category.isBlank()) {
+                            return@TodoFloatingActionButton
+                        }
+
                         onSave(viewModel.getNewTaskEntity())
                     }
                 )
@@ -174,8 +184,7 @@ fun TaskEditorPage(
         },
         modifier = modifier
     ) {
-        /*val contentField = rememberTextFieldState()
-        val categoryField = rememberTextFieldState()*/
+        /*val contentField = rememberTextFieldState()*/
         val customizationText = stringResource(R.string.label_customization)
 
         val categoryChipList = remember(uiState.categoryList) {
@@ -187,27 +196,25 @@ fun TaskEditorPage(
         /*LaunchedEffect(contentField, categoryField) {
             snapshotFlow { contentField.text.trim().toString() }
                 .collect { }
-
-            snapshotFlow { categoryField.text.trim().toString() }
-                .collect { }
         }*/
 
-        SideEffect(categoryChipList) { //看看要不要改成uiState.categoryList
+        SideEffect(categoryChipList) {
             val id = if (task == null) {
                 if (categoryChipList.size == 1) -1 else 0
             } else {
                 task.category findIdIn categoryChipList
             }
             viewModel.setSelectedCategory(categoryChipList.firstOrNull { it.id == id })
-            Log.d(Constants.TAG, "TaskEditorPage: SetSelectedId Successfully")
         }
 
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(VerveDoDefaults.contentPadding * 2),
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = VerveDoDefaults.screenVerticalPadding)
         ) {
             item {
-                Subtitle(R.string.placeholder_add_todo)
+                Subtitle(R.string.label_basic_information)
                 /*TextField(
                     state = contentField,
                     label = { Text(stringResource(R.string.placeholder_add_todo)) },
@@ -270,28 +277,6 @@ fun TaskEditorPage(
                         onSelectedChanged = { viewModel.setSelectedCategory(it) }
                     )
                     AnimatedVisibility(uiState.selectedCategoryId == -1) {
-                        /*TextField(
-                            state = categoryField,
-                            label = { Text(stringResource(R.string.label_enter_category_name)) },
-                            isError = isCategoryError,
-                            supportingText = {
-                                AnimatedContent(
-                                    targetState = isCategoryError,
-                                    // transitionSpec = { enterTransition togetherWith exitTransition }
-                                ) { error ->
-                                    Text(
-                                        text = if (error) {
-                                            stringResource(R.string.error_no_content_entered)
-                                        } else {
-                                            stringResource(R.string.tip_short_category)
-                                        },
-                                        maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis
-                                    )
-                                }
-                            },
-                            lineLimits = TextFieldLineLimits.SingleLine
-                        )*/
                         TextField(
                             value = uiState.category,
                             onValueChange = { viewModel.setCategoryText(it) },
