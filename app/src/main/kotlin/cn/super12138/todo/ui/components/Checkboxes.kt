@@ -1,4 +1,4 @@
-package cn.super12138.todo.ui.pages.editor.components
+package cn.super12138.todo.ui.components
 
 import android.view.HapticFeedbackConstants
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -13,13 +13,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
-import cn.super12138.todo.R
 import cn.super12138.todo.utils.VibrationUtils
 
 @Composable
-fun TodoMarkAsCompletedCheckbox(
+fun CheckboxWithLabel(
+    label: String,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
@@ -43,7 +42,7 @@ fun TodoMarkAsCompletedCheckbox(
             )
     ) {
         Text(
-            text = stringResource(R.string.tip_mark_completed),
+            text = label,
             style = MaterialTheme.typography.labelLarge
         )
 

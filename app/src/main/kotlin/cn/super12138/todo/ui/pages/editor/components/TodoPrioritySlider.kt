@@ -13,7 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.LiveRegionMode
@@ -34,10 +33,11 @@ fun TodoPrioritySlider(
     modifier: Modifier = Modifier
 ) {
     val view = LocalView.current
-    val context = LocalContext.current
-
-    val priorityName = Priority.entries.map { stringResource(it.nameRes) }
     val interactionSource = remember { MutableInteractionSource() }
+
+    val priorityAccessibilityText = stringResource(R.string.label_priority)
+    val priorityName = Priority.entries.map { stringResource(it.nameRes) }
+    val label = remember(value()) { priorityName[Priority.fromFloat(value()).ordinal] }
 
     Slider(
         value = value(),
@@ -56,7 +56,7 @@ fun TodoPrioritySlider(
                             .sizeIn(45.dp, 25.dp)
                             .wrapContentWidth()
                     ) {
-                        Text(priorityName[Priority.fromFloat(value()).ordinal])
+                        Text(label)
                     }
                 },
                 interactionSource = interactionSource
@@ -65,11 +65,8 @@ fun TodoPrioritySlider(
             }
         },
         modifier = modifier.semantics {
-            contentDescription =
-                context.getString(R.string.label_priority) + priorityName[Priority.fromFloat(
-                    value()
-                ).ordinal]
-            stateDescription = priorityName[Priority.fromFloat(value()).ordinal]
+            contentDescription = priorityAccessibilityText + label
+            stateDescription = label
             liveRegion = LiveRegionMode.Polite
         }
     )

@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 
 object VerveDoDefaults {
+    val contentPadding = 8.dp
     /**
      * 屏幕左右两边预留边距（防止内容全部贴边显示过丑）
      */

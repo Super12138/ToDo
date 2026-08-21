@@ -1,125 +1,97 @@
 package cn.super12138.todo.ui.pages.editor.components
 
-import android.util.Log
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExposedDropdownMenu
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberDatePickerState
-import androidx.compose.material3.setDisplayedMonth
-import androidx.compose.material3.setSelectedDate
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
+import cn.super12138.todo.ui.VerveDoDefaults
+import cn.super12138.todo.utils.SystemUtils
 import cn.super12138.todo.utils.VibrationUtils
-import cn.super12138.todo.utils.toLocalDate
 import cn.super12138.todo.utils.toLocalDateString
-import java.time.YearMonth
+import java.time.LocalDate
 
 @Composable
 fun TodoDueDateChooser(
     dateMillis: Long?,
-    onDateChange: (Long?) -> Unit,
-    modifier: Modifier = Modifier
+    onDateChange: (Long?) -> Unit
 ) {
-    val view = LocalView.current
-
-    val datePickerState = rememberDatePickerState()
-    val openDialog = remember { mutableStateOf(false) }
-
-    val interactionSource = remember { MutableInteractionSource() }
-    val pressed by interactionSource.collectIsPressedAsState()
-    LaunchedEffect(pressed) {
-        if (pressed) {
-            VibrationUtils.performHapticFeedback(view)
-            openDialog.value = true
-            // 时间戳转LocalDate
-            val date = dateMillis?.toLocalDate()
-            datePickerState.apply {
-                setSelectedDate(date)
-                date?.let { setDisplayedMonth(YearMonth.of(it.year, date.month)) }
-            }
-            Log.d(
-                "Editor",
-                "DatePicker: getTime: $dateMillis, stateTime: ${datePickerState.selectedDateMillis}"
-            )
-        }
-    }
-
-    TextField(
-        value = dateMillis.toLocalDateString(),
-        onValueChange = {},
-        label = { Text(stringResource(R.string.label_due_date)) },
-        readOnly = true,
-        interactionSource = interactionSource,
-        modifier = modifier
+    val dueDateItems = listOf(
+        DueDateItem(label = "Not specific", dueDate = null),
+        DueDateItem(label = "Today", dueDate = SystemUtils.getTodayEightAM()),
+        DueDateItem(label = "Tomorrow", dueDate = LocalDate.now().plusDays(1)),
+        DueDateItem(label = "Next Week", dueDate = LocalDate.now().plusWeeks(1)),
+        DueDateItem(
+            label = stringResource(R.string.label_customization),
+            dueDate = null,
+            isCustom = true
+        )
     )
 
+    val view = LocalView.current
 
-    /*val interactionSource = remember { MutableInteractionSource() }
-    val pressed by interactionSource.collectIsPressedAsState()
-    val animatedShape = shapeByInteraction(
-        ButtonDefaults.shapes(),
-        pressed,
-        TodoDefaults.shapesDefaultAnimationSpec
-    )*/
-    /*Surface(
-        modifier = modifier
-            .semantics { role = Role.Button }
-            .weight(1f),
-        color = ButtonDefaults.filledTonalButtonColors().containerColor,
-        shape = animatedShape
-    ) {
-        Row(
-            modifier = Modifier
-                .defaultMinSize(
-                    minWidth = ButtonDefaults.MinWidth,
-                    minHeight = ButtonDefaults.MinHeight,
-                )
-                .combinedClickable(
-                    interactionSource = interactionSource,
-                    onClick = {
-                        VibrationUtils.performHapticFeedback(view)
-                        openDialog = true
-                    },
-                    onLongClick = { onValueChange(null) }
-                )
-                .padding(ButtonDefaults.ContentPadding),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                text = "选择",
-                style = MaterialTheme.typography.labelLarge
-            )
-        }
-    }*/
+    val datePickerState = rememberDatePickerState(initialSelectedDateMillis = dateMillis)
 
+    var openDialog by remember { mutableStateOf(false) }
+    val confirmEnabled by remember { derivedStateOf { datePickerState.selectedDateMillis != null } }
+    var menuExpanded by remember { mutableStateOf(false) }
+    var selectedItem by rememberSaveable { mutableStateOf(if (dateMillis != null) dueDateItems.last() else dueDateItems.first()) }
 
-    if (openDialog.value) {
+    ExposedDropdownMenu(
+        expanded = menuExpanded,
+        onExpandedChange = { menuExpanded = it },
+        items = dueDateItems,
+        selectedItem = selectedItem,
+        onSelectedItemChange = {
+            selectedItem = it
+            if (it.isCustom) openDialog = true
+        },
+        specificDateMillis = dateMillis
+    )
+
+    if (openDialog) {
         DatePickerDialog(
+            content = {
+                DatePicker(
+                    state = datePickerState,
+                    modifier = Modifier.verticalScroll(rememberScrollState()),
+                )
+            },
             confirmButton = {
                 FilledTonalButton(
+                    enabled = confirmEnabled,
                     onClick = {
                         VibrationUtils.performHapticFeedback(view)
                         onDateChange(datePickerState.selectedDateMillis)
-                        openDialog.value = false
+                        openDialog = false
                     },
                     shapes = ButtonDefaults.shapes(),
                 ) {
@@ -127,7 +99,7 @@ fun TodoDueDateChooser(
                 }
             },
             dismissButton = {
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Row(horizontalArrangement = Arrangement.spacedBy(VerveDoDefaults.contentPadding)) {
                     TextButton(
                         onClick = {
                             VibrationUtils.performHapticFeedback(view)
@@ -140,7 +112,7 @@ fun TodoDueDateChooser(
                     TextButton(
                         onClick = {
                             VibrationUtils.performHapticFeedback(view)
-                            openDialog.value = false
+                            openDialog = false
                         },
                         shapes = ButtonDefaults.shapes()
                     ) {
@@ -148,14 +120,98 @@ fun TodoDueDateChooser(
                     }
                 }
             },
-            onDismissRequest = {
-                openDialog.value = false
+            onDismissRequest = { openDialog = false }
+        )
+    }
+}
+
+data class DueDateItem(
+    val label: String,
+    val dueDate: Long? = null,
+    val isCustom: Boolean = false
+)
+
+@Composable
+fun ExposedDropdownMenu(
+    expanded: Boolean,
+    onExpandedChange: (Boolean) -> Unit,
+    items: List<DueDateItem>,
+    selectedItem: DueDateItem,
+    onSelectedItemChange: (DueDateItem) -> Unit,
+    modifier: Modifier = Modifier,
+    specificDateMillis: Long? = null,
+) {
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = onExpandedChange,
+        modifier = modifier
+    ) {
+        val selectedText = buildString {
+            append(selectedItem.label)
+
+            if (selectedItem.isCustom) {
+                specificDateMillis?.let {
+                    append(" ")
+                    append(it.toLocalDateString())
+                }
             }
+        }
+        TextField(
+            value = selectedText,
+            onValueChange = {},
+            label = { Text(stringResource(R.string.label_due_date)) },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            readOnly = true,
+            singleLine = true,
+            colors = ExposedDropdownMenuDefaults.textFieldColors(),
+            modifier = Modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable),
+        )
+
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { onExpandedChange(false) },
+            containerColor = MenuDefaults.groupStandardContainerColor,
+            shape = MenuDefaults.standaloneGroupShape,
         ) {
-            DatePicker(
-                state = datePickerState,
-                modifier = Modifier.verticalScroll(rememberScrollState()),
-            )
+            val optionCount = items.size
+            items.forEachIndexed { index, option ->
+                DropdownMenuItem(
+                    shapes = MenuDefaults.itemShape(index, optionCount),
+                    text = { Text(option.label, style = MaterialTheme.typography.bodyLarge) },
+                    selected = option == selectedItem,
+                    onClick = {
+                        onExpandedChange(false)
+                        onSelectedItemChange(option)
+                    },
+                    selectedLeadingIcon = {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_check),
+                            modifier = Modifier.size(MenuDefaults.LeadingIconSize),
+                            contentDescription = null,
+                        )
+                    },
+                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                )
+            }
         }
     }
 }
+
+
+/*aunchedEffect(pressed) {
+    if (pressed) {
+        VibrationUtils.performHapticFeedback(view)
+        openDialog = true
+        // 时间戳转LocalDate
+        val date = dateMillis?.toLocalDate()
+        datePickerState.apply {
+            setSelectedDate(date)
+            date?.let { setDisplayedMonth(YearMonth.of(it.year, it.month)) }
+        }
+        Log.d(
+            "Editor",
+            "DatePicker: getTime: $dateMillis, stateTime: ${datePickerState.selectedDateMillis}"
+        )
+    }
+}*/
+//    dateMillis.toLocalDateString()
