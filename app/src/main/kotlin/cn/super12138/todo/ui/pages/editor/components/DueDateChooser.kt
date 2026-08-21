@@ -37,8 +37,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import cn.super12138.todo.R
 import cn.super12138.todo.ui.VerveDoDefaults
+import cn.super12138.todo.utils.SystemUtils
 import cn.super12138.todo.utils.VibrationUtils
+import cn.super12138.todo.utils.toLocalDate
 import cn.super12138.todo.utils.toLocalDateString
+import java.time.LocalDate
 
 enum class DueDateSelection(@StringRes val labelRes: Int) {
     None(R.string.label_none),
@@ -66,8 +69,23 @@ fun DueDateChooser(
     val dueDateItems = DueDateSelection.entries.map { it }
 
     SideEffect(dateMillis) {
-        selectedItem =
-            if (dateMillis == null) DueDateSelection.None else DueDateSelection.Customization
+        // @DeepSeek
+        val today: LocalDate = SystemUtils.getStartOfDayMillis(0).toLocalDate()
+        val newSelection = when (dateMillis) {
+            null -> DueDateSelection.None
+            else -> {
+                val selectedDate = dateMillis.toLocalDate()
+                when (selectedDate) {
+                    today -> DueDateSelection.Today
+                    today.plusDays(1) -> DueDateSelection.Tomorrow
+                    today.plusDays(7) -> DueDateSelection.NextWeek
+                    else -> DueDateSelection.Customization
+                }
+            }
+        }
+        if (selectedItem != newSelection) {
+            selectedItem = newSelection
+        }
     }
 
     ExposedDropdownMenu(
@@ -77,7 +95,13 @@ fun DueDateChooser(
         selectedItem = selectedItem,
         onSelectedItemChange = {
             selectedItem = it
-            if (it == DueDateSelection.Customization) openDialog = true
+            when (it) {
+                DueDateSelection.None -> onDateChange(null)
+                DueDateSelection.Today -> onDateChange(SystemUtils.getStartOfDayMillis(0))
+                DueDateSelection.Tomorrow -> onDateChange(SystemUtils.getStartOfDayMillis(1))
+                DueDateSelection.NextWeek -> onDateChange(SystemUtils.getStartOfDayMillis(7))
+                DueDateSelection.Customization -> openDialog = true
+            }
         },
         specificDateMillis = dateMillis
     )

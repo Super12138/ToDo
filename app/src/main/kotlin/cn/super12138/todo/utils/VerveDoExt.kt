@@ -110,7 +110,7 @@ fun Long?.toLocalDateString(): String {
  */
 fun Long?.toRelativeTimeString(context: Context): String {
     if (this == null) return ""
-    val today = SystemUtils.getTodayEightAM()
+    val today = SystemUtils.getStartOfDayMillis(0)
 
     return when (this - today) {
         in 0L..0L -> context.getString(R.string.time_today)

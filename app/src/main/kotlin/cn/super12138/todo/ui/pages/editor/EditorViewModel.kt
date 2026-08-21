@@ -53,13 +53,25 @@ class EditorViewModel(
     fun setCategoryText(category: String) = localUiState.update { it.copy(category = category) }
     fun setPriority(priority: Priority) = localUiState.update { it.copy(priority = priority) }
     fun setDueDate(dueDate: Long?) = localUiState.update { it.copy(dueDateMillis = dueDate) }
-    fun setCompleted(isCompleted: Boolean) =
-        localUiState.update { it.copy(isCompleted = isCompleted) }
+    fun setCompleted(completed: Boolean) = localUiState.update { it.copy(isCompleted = completed) }
+    fun isModified(): Boolean {
+        var isModified = false
+
+        with(uiState.value) {
+            if ((initialTask?.content ?: "") != content.trim()) isModified = true
+            if ((initialTask?.category ?: "") != category.trim()) isModified = true
+            if ((initialTask?.priority ?: 0f) != priority.value) isModified = true
+            if ((initialTask?.isCompleted == true) != isCompleted) isModified = true
+            if (initialTask?.dueDate != dueDateMillis) isModified = true
+        }
+
+        return isModified
+    }
+
 
     fun showDeleteConfirmDialog() = localUiState.update { it.copy(showDeleteConfirmDialog = true) }
-    fun hideDeleteConfirmDialog() = localUiState.update { it.copy(showDeleteConfirmDialog = false) }
-
     fun showExitConfirmDialog() = localUiState.update { it.copy(showExitConfirmDialog = true) }
+    fun hideDeleteConfirmDialog() = localUiState.update { it.copy(showDeleteConfirmDialog = false) }
     fun hideExitConfirmDialog() = localUiState.update { it.copy(showExitConfirmDialog = false) }
     fun setSelectedCategory(chipItem: ChipItem?) {
         if (chipItem == null) return
@@ -71,7 +83,6 @@ class EditorViewModel(
         }
     }
 
-    fun setSelectedCategoryId(id: Int) = localUiState.update { it.copy(selectedCategoryId = id) }
     fun getNewTaskEntity(): TaskEntity {
         with(uiState.value) {
             return TaskEntity(

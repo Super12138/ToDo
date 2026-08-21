@@ -1,6 +1,7 @@
 package cn.super12138.todo.ui.pages.editor
 
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -117,7 +118,17 @@ fun TaskEditorPage(
     val isContentError by remember { derivedStateOf { uiState.content.isEmpty() } }
     val isCategoryError by remember { derivedStateOf { uiState.category.isEmpty() } }
 
+    fun navigateUpIfUnchanged() {
+        if (viewModel.isModified()) {
+            viewModel.showExitConfirmDialog()
+        } else {
+            onNavigateUp()
+        }
+    }
+
     SideEffect(uiState.shouldAutoFocusContent) { focusRequester.requestFocus() }
+
+    BackHandler(onBack = ::navigateUpIfUnchanged)
 
     TopAppBarScaffold(
         title = stringResource(if (task == null) R.string.action_add_task else R.string.title_edit_task),
@@ -127,7 +138,7 @@ fun TaskEditorPage(
                 shapes = IconButtonDefaults.shapes(),
                 onClick = {
                     VibrationUtils.performHapticFeedback(view)
-                    onNavigateUp()
+                    navigateUpIfUnchanged()
                 }
             ) {
                 Icon(
@@ -147,7 +158,7 @@ fun TaskEditorPage(
                         iconRes = R.drawable.ic_delete,
                         expanded = true,
                         containerColor = MaterialTheme.colorScheme.errorContainer,
-                        onClick = { viewModel.showDeleteConfirmDialog() }
+                        onClick = viewModel::showDeleteConfirmDialog
                     )
                 }
                 TodoFloatingActionButton(

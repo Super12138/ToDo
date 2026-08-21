@@ -15,6 +15,7 @@ import kotlin.system.exitProcess
 
 object SystemUtils {
     val today: LocalDate = LocalDate.now()
+
     /**
      * 获取格式化后的当前时间
      * 参考 https://github.com/rafi0101/Android-Room-Database-Backup/blob/master/core/src/main/java/de/raphaelebner/roomdatabasebackup/core/RoomBackup.kt#L770
@@ -33,12 +34,16 @@ object SystemUtils {
     }
 
     /**
-     * 获取当天的时间戳
+     * 获取当天起偏移天数的早上8点的时间戳
+     *
+     * @param offsetDays 偏移天数（例如：0 - 今天，1 - 明天）
      */
-    fun getTodayEightAM(): Long {
-        val eightAM = today.atTime(8, 0)
-        val zoneId = ZoneId.systemDefault()
-        return eightAM.atZone(zoneId).toInstant().toEpochMilli()
+    fun getStartOfDayMillis(offsetDays: Int): Long {
+        val target = today.plusDays(offsetDays.toLong())
+        return target.atTime(8, 0, 0)
+            .atZone(ZoneId.systemDefault())
+            .toInstant()
+            .toEpochMilli()
     }
 }
 
