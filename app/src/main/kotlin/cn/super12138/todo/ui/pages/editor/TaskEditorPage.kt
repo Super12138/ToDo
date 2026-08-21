@@ -32,6 +32,8 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -111,8 +113,11 @@ fun TaskEditorPage(
     val view = LocalView.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    val focusRequester = remember { FocusRequester() }
     val isContentError by remember { derivedStateOf { uiState.content.isEmpty() } }
     val isCategoryError by remember { derivedStateOf { uiState.category.isEmpty() } }
+
+    SideEffect(uiState.shouldAutoFocusContent) { focusRequester.requestFocus() }
 
     TopAppBarScaffold(
         title = stringResource(if (task == null) R.string.action_add_task else R.string.title_edit_task),
@@ -230,7 +235,9 @@ fun TaskEditorPage(
                             )
                         }
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .focusRequester(focusRequester)
                 )
             }
             item {
