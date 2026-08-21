@@ -164,9 +164,14 @@ private fun ExposedDropdownMenu(
     modifier: Modifier = Modifier,
     specificDateMillis: Long? = null,
 ) {
+    val view = LocalView.current
+
     ExposedDropdownMenuBox(
         expanded = expanded,
-        onExpandedChange = onExpandedChange,
+        onExpandedChange = {
+            onExpandedChange(it)
+            if (it) VibrationUtils.performHapticFeedback(view)
+        },
         modifier = modifier
     ) {
         val selectedText = buildString {
@@ -212,6 +217,7 @@ private fun ExposedDropdownMenu(
                     onClick = {
                         onExpandedChange(false)
                         onSelectedItemChange(option)
+                        VibrationUtils.performHapticFeedback(view)
                     },
                     selectedLeadingIcon = {
                         Icon(

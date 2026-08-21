@@ -117,7 +117,7 @@ fun TaskEditorPage(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val focusRequester = remember { FocusRequester() }
-    var validate by remember { mutableStateOf(false) }
+    var validate by remember { mutableStateOf(false) } // @ChatGPT
 
     val isContentError by remember { derivedStateOf { validate && uiState.content.isBlank() } }
     val isCategoryError by remember { derivedStateOf { validate && uiState.category.isBlank() } }
@@ -378,7 +378,7 @@ private fun LazyItemScope.Subtitle(@StringRes titleRes: Int) =
     )
 
 private infix fun String.findIdIn(chipList: List<ChipItem>) =
-    chipList.firstOrNull { item -> item.label == this }?.id ?: -1
+    chipList.firstOrNull { it.label == this }?.id ?: -1
 
 @Composable
 private fun Int.toggleButtonShapesIn(list: List<Priority>) = when (this) {
