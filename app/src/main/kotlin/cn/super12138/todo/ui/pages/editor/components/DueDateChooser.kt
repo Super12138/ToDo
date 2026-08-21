@@ -40,7 +40,7 @@ import cn.super12138.todo.utils.toLocalDateString
 import java.time.LocalDate
 
 @Composable
-fun TodoDueDateChooser(
+fun DueDateChooser(
     dateMillis: Long?,
     onDateChange: (Long?) -> Unit
 ) {
@@ -132,7 +132,7 @@ data class DueDateItem(
 )
 
 @Composable
-fun ExposedDropdownMenu(
+private fun ExposedDropdownMenu(
     expanded: Boolean,
     onExpandedChange: (Boolean) -> Unit,
     items: List<DueDateItem>,
@@ -196,22 +196,3 @@ fun ExposedDropdownMenu(
         }
     }
 }
-
-
-/*aunchedEffect(pressed) {
-    if (pressed) {
-        VibrationUtils.performHapticFeedback(view)
-        openDialog = true
-        // 时间戳转LocalDate
-        val date = dateMillis?.toLocalDate()
-        datePickerState.apply {
-            setSelectedDate(date)
-            date?.let { setDisplayedMonth(YearMonth.of(it.year, it.month)) }
-        }
-        Log.d(
-            "Editor",
-            "DatePicker: getTime: $dateMillis, stateTime: ${datePickerState.selectedDateMillis}"
-        )
-    }
-}*/
-//    dateMillis.toLocalDateString()

@@ -36,7 +36,6 @@ fun TodoPrioritySlider(
     val interactionSource = remember { MutableInteractionSource() }
 
     val priorityAccessibilityText = stringResource(R.string.label_priority)
-    val priorityName = Priority.entries.map { stringResource(it.nameRes) }
     val label = remember(value()) { priorityName[Priority.fromFloat(value()).ordinal] }
 
     Slider(

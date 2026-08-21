@@ -1,6 +1,7 @@
 package cn.super12138.todo.constants
 
 object Constants {
+    const val TAG = "VerveDo"
     const val DEVELOPER_GITHUB = "https://github.com/Super12138/"
     const val GITHUB_REPO = "https://github.com/Super12138/VerveDo/"
 

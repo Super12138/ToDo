@@ -21,7 +21,7 @@ fun FilterChipGroup(
     items: List<ChipItem>,
     modifier: Modifier = Modifier,
     selectedItemId: Int? = null,
-    onSelectedChanged: (Int) -> Unit = {}
+    onSelectedChanged: (ChipItem) -> Unit = {}
 ) {
     val view = LocalView.current
     FlowRow(
@@ -44,7 +44,7 @@ fun FilterChipGroup(
                     },
                     label = { Text(text = label, maxLines = 1) },
                     onClick = {
-                        onSelectedChanged(id)
+                        onSelectedChanged(this)
                         VibrationUtils.performHapticFeedback(view)
                     },
                     shapes = FilterChipDefaults.shapes()

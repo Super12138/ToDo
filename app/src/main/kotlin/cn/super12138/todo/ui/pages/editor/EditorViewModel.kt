@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cn.super12138.todo.logic.SettingsRepository
 import cn.super12138.todo.logic.database.TaskEntity
+import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.ui.components.ChipItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -16,28 +17,14 @@ class EditorViewModel(
     private val settingsRepository: SettingsRepository,
     val initialTask: TaskEntity? = null,
 ) : ViewModel() {
-    companion object {
-        const val TAG = "Editor"
-    }
-
     private val localUiState = MutableStateFlow(TaskEditorUiState())
     val uiState: StateFlow<TaskEditorUiState> = combine(
         settingsRepository.textFieldAutoFocusFlow,
         settingsRepository.categoriesFlow,
         localUiState
-    ) { textFieldAutoFocus, categories, localState ->/*
-        val categoryList = categories.mapIndexed { index, category ->
-            ChipItem(
-                id = index,
-                label = category
-            )
-        } + ChipItem(
-            id = -1,
-            label =
-        )*/
-
+    ) { textFieldAutoFocus, categories, localState ->
         localState.copy(
-            isTextFieldAutoFocus = textFieldAutoFocus,
+            shouldAutoFocusContent = textFieldAutoFocus,
             categoryList = categories
         )
     }.stateIn(
@@ -53,8 +40,8 @@ class EditorViewModel(
                     it.copy(
                         content = content,
                         category = category,
-                        priority = priority,
-                        dueDate = dueDate,
+                        priority = Priority.fromFloat(priority),
+                        dueDateMillis = dueDate,
                         isCompleted = isCompleted
                     )
                 }
@@ -64,8 +51,8 @@ class EditorViewModel(
 
     fun setContentText(content: String) = localUiState.update { it.copy(content = content) }
     fun setCategoryText(category: String) = localUiState.update { it.copy(content = category) }
-    fun setPriority(priority: Float) = localUiState.update { it.copy(priority = priority) }
-    fun setDueDate(dueDate: Long?) = localUiState.update { it.copy(dueDate = dueDate) }
+    fun setPriority(priority: Priority) = localUiState.update { it.copy(priority = priority) }
+    fun setDueDate(dueDate: Long?) = localUiState.update { it.copy(dueDateMillis = dueDate) }
     fun setCompleted(isCompleted: Boolean) =
         localUiState.update { it.copy(isCompleted = isCompleted) }
 
@@ -74,43 +61,12 @@ class EditorViewModel(
 
     fun showExitConfirmDialog() = localUiState.update { it.copy(showExitConfirmDialog = true) }
     fun hideExitConfirmDialog() = localUiState.update { it.copy(showExitConfirmDialog = false) }
-    fun setSelectedCategory(id: Int) = localUiState.update { it.copy(selectedCategoryId = id) }
+    fun setSelectedCategory(chipItem: ChipItem) = localUiState.update {
+        it.copy(
+            selectedCategoryId = chipItem.id,
+            category = chipItem.label
+        )
+    }
 
-    /*fun setTaskEntity(task: TaskEntity?) = localUiState.update {
-        if (task == null) {
-            // 新建模式，清空一切
-            it.copy(
-                initialTask = null,
-                contentState = TextFieldState(),
-                categoryContentState = TextFieldState(),
-                selectedCategoryIndex = if (uiState.value.categoryList.size - 1 >= 1) 0 else -1,
-                priorityState = 0f,
-                dueDateState = null,
-                isCompleted = false,
-                isContentError = false,
-                isCategoryError = false,
-                showExitConfirmDialog = false,
-                showDeleteConfirmDialog = false
-            )
-        } else {
-            // 编辑模式，填充任务数据
-            val index =
-
-            it.copy(
-                initialTask = task,
-                contentState = TextFieldState(task.content),
-                categoryContentState = TextFieldState(task.category),
-                selectedCategoryIndex = index,
-                priorityState = task.priority,
-                dueDateState = task.dueDate,
-                isCompleted = task.isCompleted,
-                isContentError = false,
-                isCategoryError = false,
-                showExitConfirmDialog = false,
-                showDeleteConfirmDialog = false
-            )
-        }
-    }*/
-
-
+    fun setSelectedCategoryId(id: Int) = localUiState.update { it.copy(selectedCategoryId = id) }
 }

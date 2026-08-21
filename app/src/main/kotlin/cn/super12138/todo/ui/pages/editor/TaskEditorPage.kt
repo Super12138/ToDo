@@ -10,26 +10,29 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
-import androidx.compose.foundation.text.input.TextFieldLineLimits
-import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.material3.ButtonGroupDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.ToggleButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -37,6 +40,7 @@ import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.database.TaskEntity
+import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.ui.VerveDoDefaults
 import cn.super12138.todo.ui.components.CheckboxWithLabel
 import cn.super12138.todo.ui.components.ChipItem
@@ -45,8 +49,7 @@ import cn.super12138.todo.ui.components.FilterChipGroup
 import cn.super12138.todo.ui.components.TodoFloatingActionButton
 import cn.super12138.todo.ui.components.TopAppBarScaffold
 import cn.super12138.todo.ui.components.bottomPadding
-import cn.super12138.todo.ui.pages.editor.components.TodoDueDateChooser
-import cn.super12138.todo.ui.pages.editor.components.TodoPrioritySlider
+import cn.super12138.todo.ui.pages.editor.components.DueDateChooser
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -125,8 +128,8 @@ fun TaskEditorPage(
         },
         modifier = modifier
     ) {
-        val contentField = rememberTextFieldState()
-        val categoryField = rememberTextFieldState()
+        /*val contentField = rememberTextFieldState()
+        val categoryField = rememberTextFieldState()*/
         val customizationText = stringResource(R.string.label_customization)
 
         val isContentError by remember { derivedStateOf { uiState.content.isEmpty() } }
@@ -138,18 +141,16 @@ fun TaskEditorPage(
             } + ChipItem(-1, customizationText)
         }
 
-        LaunchedEffect(contentField) {
+        /*LaunchedEffect(contentField, categoryField) {
             snapshotFlow { contentField.text.trim().toString() }
                 .collect { }
-        }
 
-        LaunchedEffect(categoryField) {
             snapshotFlow { categoryField.text.trim().toString() }
                 .collect { }
-        }
+        }*/
 
-        SideEffect(categoryChipList) {
-            viewModel.setSelectedCategory(task?.category.findIdIn(categoryChipList))
+        SideEffect(categoryChipList) { //看看要不要改成uiState.categoryList
+            viewModel.setSelectedCategoryId(task?.category findIdIn categoryChipList)
         }
 
         LazyColumn(
@@ -158,10 +159,30 @@ fun TaskEditorPage(
         ) {
             item {
                 Subtitle(R.string.placeholder_add_todo)
-                TextField(
+                /*TextField(
                     state = contentField,
                     label = { Text(stringResource(R.string.placeholder_add_todo)) },
                     lineLimits = TextFieldLineLimits.MultiLine(maxHeightInLines = 3),
+                    isError = isContentError,
+                    supportingText = {
+                        AnimatedVisibility(
+                            visible = isContentError,
+                            enter = fadeIn() + expandVertically(),
+                            exit = fadeOut() + shrinkVertically()
+                        ) {
+                            Text(
+                                text = stringResource(R.string.error_no_content_entered),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                    }
+                )*/
+                TextField(
+                    value = uiState.content,
+                    onValueChange = { viewModel.setContentText(it) },
+                    label = { Text(stringResource(R.string.placeholder_add_todo)) },
+                    maxLines = 3,
                     isError = isContentError,
                     supportingText = {
                         AnimatedVisibility(
@@ -194,10 +215,10 @@ fun TaskEditorPage(
                         FilterChipGroup(
                             items = categoryChipList,
                             selectedItemId = uiState.selectedCategoryId,
-                            onSelectedChanged = {}
+                            onSelectedChanged = { viewModel.setSelectedCategory(it) }
                         )
                         AnimatedVisibility(uiState.selectedCategoryId == -1) {
-                            TextField(
+                            /*TextField(
                                 state = categoryField,
                                 label = { Text(stringResource(R.string.label_enter_category_name)) },
                                 isError = isCategoryError,
@@ -218,26 +239,63 @@ fun TaskEditorPage(
                                     }
                                 },
                                 lineLimits = TextFieldLineLimits.SingleLine
+                            )*/
+                            TextField(
+                                value = uiState.category,
+                                onValueChange = { viewModel.setCategoryText(it) },
+                                label = { Text(stringResource(R.string.label_enter_category_name)) },
+                                isError = isCategoryError,
+                                supportingText = {
+                                    AnimatedContent(
+                                        targetState = isCategoryError,
+                                        // transitionSpec = { enterTransition togetherWith exitTransition }
+                                    ) { error ->
+                                        Text(
+                                            text = if (error) {
+                                                stringResource(R.string.error_no_content_entered)
+                                            } else {
+                                                stringResource(R.string.tip_short_category)
+                                            },
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis
+                                        )
+                                    }
+                                },
+                                singleLine = true
                             )
                         }
                     }
                 }
             }
             item {
-                Subtitle(R.string.label_priority)
+                val priorityList = Priority.entries
 
-                TodoPrioritySlider(
-                    value = { uiState.priority },
-                    onValueChange = { viewModel.setPriority(it) },
-                )
+                Subtitle(R.string.label_priority)
+                FlowRow(
+                    modifier = Modifier
+                        .padding(horizontal = VerveDoDefaults.contentPadding)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(ButtonGroupDefaults.ConnectedSpaceBetween),
+                    verticalArrangement = Arrangement.spacedBy(VerveDoDefaults.contentPadding / 4),
+                ) {
+                    priorityList.forEachIndexed { index, priority ->
+                        ToggleButton(
+                            content = { Text(stringResource(priority.nameRes)) },
+                            checked = uiState.priority == priority,
+                            onCheckedChange = { viewModel.setPriority(priority) },
+                            shapes = index.toggleButtonShapesIn(priorityList),
+                            modifier = Modifier.semantics { role = Role.RadioButton },
+                        )
+                    }
+                }
             }
             item {
                 Text(
                     text = stringResource(R.string.label_more),
                     style = MaterialTheme.typography.titleMedium
                 )
-                TodoDueDateChooser(
-                    dateMillis = uiState.dueDate,
+                DueDateChooser(
+                    dateMillis = uiState.dueDateMillis,
                     onDateChange = { viewModel.setDueDate(it) }
                 )
                 if (task != null) {
@@ -282,3 +340,10 @@ private fun LazyItemScope.Subtitle(@StringRes titleRes: Int) =
 
 private infix fun String?.findIdIn(chipList: List<ChipItem>) =
     chipList.firstOrNull { item -> item.label == this }?.id ?: -1
+
+@Composable
+private fun Int.toggleButtonShapesIn(list: List<Priority>) = when (this) {
+    0 -> ButtonGroupDefaults.connectedLeadingButtonShapes()
+    list.lastIndex -> ButtonGroupDefaults.connectedTrailingButtonShapes()
+    else -> ButtonGroupDefaults.connectedMiddleButtonShapes()
+}
