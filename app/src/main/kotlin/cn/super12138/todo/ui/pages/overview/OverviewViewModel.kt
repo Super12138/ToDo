@@ -17,7 +17,7 @@ class OverviewViewModel(private val taskRepository: TaskRepository) : ViewModel(
             val completed = it.count { task -> task.isCompleted }
             val pending = total - completed
 
-            val todayMillis = SystemUtils.getTodayEightAM()
+            val todayMillis = SystemUtils.getStartOfDayMillis(0)
             val dayMillis = 24L * 60 * 60 * 1000
 
             val todayTasks = it.filter { task ->

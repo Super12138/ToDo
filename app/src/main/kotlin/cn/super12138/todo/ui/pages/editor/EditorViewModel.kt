@@ -1,13 +1,10 @@
 package cn.super12138.todo.ui.pages.editor
 
-import android.content.Context
-import android.util.Log
-import androidx.compose.foundation.text.input.TextFieldState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cn.super12138.todo.R
 import cn.super12138.todo.logic.SettingsRepository
 import cn.super12138.todo.logic.database.TaskEntity
+import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.ui.components.ChipItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -17,110 +14,84 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
 class EditorViewModel(
-    private val context: Context,
-    private val settingsRepository: SettingsRepository
+    val initialTask: TaskEntity?,
+    private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
-    companion object {
-        const val TAG = "Editor"
-    }
-
     private val localUiState = MutableStateFlow(TaskEditorUiState())
     val uiState: StateFlow<TaskEditorUiState> = combine(
         settingsRepository.textFieldAutoFocusFlow,
         settingsRepository.categoriesFlow,
         localUiState
     ) { textFieldAutoFocus, categories, localState ->
-        val categoryList = categories.mapIndexed { index, category ->
-            ChipItem(
-                id = index,
-                name = category
-            )
-        } + ChipItem(
-            id = -1,
-            name = context.getString(R.string.label_customization)
-        )
-
         localState.copy(
-            isTextFieldAutoFocus = textFieldAutoFocus,
-            categoryList = categoryList
+            shouldAutoFocusContent = textFieldAutoFocus,
+            categoryList = categories
         )
     }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.Eagerly,
+        started = SharingStarted.WhileSubscribed(5000),
         initialValue = TaskEditorUiState()
     )
 
-    fun setPriority(priority: Float) = localUiState.update { it.copy(priorityState = priority) }
-    fun setDueDate(dueDate: Long?) = localUiState.update { it.copy(dueDateState = dueDate) }
-    fun setCompleted(isCompleted: Boolean) =
-        localUiState.update { it.copy(isCompleted = isCompleted) }
+    init {
+        if (initialTask != null) {
+            with(initialTask) {
+                localUiState.update {
+                    it.copy(
+                        content = content,
+                        category = category,
+                        priority = Priority.fromFloat(priority),
+                        dueDateMillis = dueDate,
+                        isCompleted = isCompleted
+                    )
+                }
+            }
+        }
+    }
+
+    fun setContentText(content: String) = localUiState.update { it.copy(content = content) }
+    fun setCategoryText(category: String) = localUiState.update { it.copy(category = category) }
+    fun setPriority(priority: Priority) = localUiState.update { it.copy(priority = priority) }
+    fun setDueDate(dueDate: Long?) = localUiState.update { it.copy(dueDateMillis = dueDate) }
+    fun setCompleted(completed: Boolean) = localUiState.update { it.copy(isCompleted = completed) }
+    fun isModified(): Boolean {
+        var isModified = false
+
+        with(uiState.value) {
+            if ((initialTask?.content ?: "") != content.trim()) isModified = true
+            if ((initialTask?.category ?: "") != category.trim()) isModified = true
+            if ((initialTask?.priority ?: 0f) != priority.value) isModified = true
+            if ((initialTask?.isCompleted == true) != isCompleted) isModified = true
+            if (initialTask?.dueDate != dueDateMillis) isModified = true
+        }
+
+        return isModified
+    }
+
 
     fun showDeleteConfirmDialog() = localUiState.update { it.copy(showDeleteConfirmDialog = true) }
-    fun hideDeleteConfirmDialog() = localUiState.update { it.copy(showDeleteConfirmDialog = false) }
-
     fun showExitConfirmDialog() = localUiState.update { it.copy(showExitConfirmDialog = true) }
+    fun hideDeleteConfirmDialog() = localUiState.update { it.copy(showDeleteConfirmDialog = false) }
     fun hideExitConfirmDialog() = localUiState.update { it.copy(showExitConfirmDialog = false) }
-    fun setSelectedCategory(index: Int) =
-        localUiState.update {
-            Log.d(TAG, "Selected category index: $index")
-            it.copy(selectedCategoryIndex = index)
-        }
-
-    fun clearError() = localUiState.update {
-        it.copy(
-            isContentError = false,
-            isCategoryError = false
-        )
-    }
-
-    fun setErrorIfNotValid(): Boolean {
-        val contentError = !uiState.value.isContentValid()
-        val categoryError = !uiState.value.isCategoryValid()
-        val hasError = contentError || categoryError
-
+    fun setSelectedCategory(chipItem: ChipItem?) {
+        if (chipItem == null) return
         localUiState.update {
             it.copy(
-                isContentError = contentError,
-                isCategoryError = categoryError
+                selectedCategoryId = chipItem.id,
+                category = if (chipItem.id == -1) it.category else chipItem.label
             )
         }
-
-        return hasError
     }
 
-    fun setTaskEntity(task: TaskEntity?) = localUiState.update {
-        if (task == null) {
-            // 新建模式，清空一切
-            it.copy(
-                initialTask = null,
-                contentState = TextFieldState(),
-                categoryContentState = TextFieldState(),
-                selectedCategoryIndex = if (uiState.value.categoryList.size - 1 >= 1) 0 else -1,
-                priorityState = 0f,
-                dueDateState = null,
-                isCompleted = false,
-                isContentError = false,
-                isCategoryError = false,
-                showExitConfirmDialog = false,
-                showDeleteConfirmDialog = false
-            )
-        } else {
-            // 编辑模式，填充任务数据
-            val index =
-                uiState.value.categoryList.firstOrNull { item -> item.name == task.category }?.id
-                    ?: -1
-            it.copy(
-                initialTask = task,
-                contentState = TextFieldState(task.content),
-                categoryContentState = TextFieldState(task.category),
-                selectedCategoryIndex = index,
-                priorityState = task.priority,
-                dueDateState = task.dueDate,
-                isCompleted = task.isCompleted,
-                isContentError = false,
-                isCategoryError = false,
-                showExitConfirmDialog = false,
-                showDeleteConfirmDialog = false
+    fun getNewTaskEntity(): TaskEntity {
+        with(uiState.value) {
+            return TaskEntity(
+                content = content,
+                category = category,
+                isCompleted = isCompleted,
+                priority = priority.value,
+                dueDate = dueDateMillis,
+                id = initialTask?.id ?: 0
             )
         }
     }

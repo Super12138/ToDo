@@ -69,16 +69,12 @@ object VerveDoDI {
         viewModelOf(::MainViewModel)
         viewModelOf(::OverviewViewModel)
         viewModelOf(::TaskViewModel)
-
-        // https://insert-koin.io/docs/reference/koin-compose/compose-viewmodel#classic-dsl-with-parameters
-        viewModel<EditorViewModel> {
+        viewModel<EditorViewModel> { params ->
             EditorViewModel(
-                // initialTask = it.getOrNull(),
-                context = androidApplication(),
+                initialTask = params.getOrNull(),
                 settingsRepository = get()
             )
         }
-
         viewModelOf(::SettingsViewModel)
     }
 

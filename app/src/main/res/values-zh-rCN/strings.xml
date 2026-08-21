@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="page_settings">设置</string>
-    <string name="action_add_task">添加待办</string>
+    <string name="action_add_task">添加任务</string>
     <string name="tip_no_task">目前没有要完成的任务，好好休息一下吧~</string>
-    <string name="placeholder_add_todo">待办内容</string>
+    <string name="placeholder_add_todo">任务内容</string>
     <string name="action_cancel">取消</string>
     <string name="action_save">保存</string>
     <string name="error_no_content_entered">没有输入内容</string>
     <string name="tip_select_this">选择该项</string>
     <string name="tip_mark_completed">标记为已完成</string>
-    <string name="title_edit_task">修改待办</string>
+    <string name="title_edit_task">修改任务</string>
     <string name="tip_remain_tasks">剩余 %s 项任务</string>
     <string name="page_crash">应用程序出现错误</string>
     <string name="tip_no_crash_logs">没有日志传入</string>
@@ -69,7 +69,7 @@
     <string name="pref_category_todo_list">待办列表</string>
     <string name="pref_view_on_github">在 GitHub 上查看</string>
     <string name="pref_view_on_github_desc">查看源代码、提交错误报告和改进建议</string>
-    <string name="tip_discard_changes">退出编辑后将无法找回你修改过的数据。确定退出编辑吗？</string>
+    <string name="tip_discard_changes">退出编辑后将无法找回你修改过的任务数据。确定退出编辑吗？</string>
     <string name="sorting_sequential">添加先后顺序</string>
     <string name="sorting_category">分类</string>
     <string name="sorting_priority">优先级</string>
@@ -146,4 +146,7 @@
     <string name="pref_pure_black_mode_desc">深色模式下压暗应用颜色并使应用背景变成纯黑色（在 OLED 屏幕上开启可获得更佳体验）</string>
     <string name="pref_color_spec_version">色彩标准版本</string>
     <string name="pref_dynamic_scheme_platform">动态色彩平台</string>
+    <string name="label_none">无</string>
+    <string name="time_next_week">下周</string>
+    <string name="label_basic_information">基本信息</string>
 </resources>

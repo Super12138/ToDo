@@ -1,7 +1,8 @@
 package cn.super12138.todo.ui.pages.editor
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
+import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.expandVertically
@@ -9,48 +10,59 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyItemScope
+import androidx.compose.material3.ButtonGroupDefaults
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.ToggleButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import cn.super12138.todo.R
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.database.TaskEntity
+import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.ui.VerveDoDefaults
+import cn.super12138.todo.ui.components.CheckboxWithLabel
+import cn.super12138.todo.ui.components.ChipItem
 import cn.super12138.todo.ui.components.ConfirmDialog
+import cn.super12138.todo.ui.components.FilterChipGroup
 import cn.super12138.todo.ui.components.TodoFloatingActionButton
 import cn.super12138.todo.ui.components.TopAppBarScaffold
-import cn.super12138.todo.ui.pages.editor.components.TaskCategoryTextField
-import cn.super12138.todo.ui.pages.editor.components.TaskContentTextField
-import cn.super12138.todo.ui.pages.editor.components.TodoCategoryChip
-import cn.super12138.todo.ui.pages.editor.components.TodoDueDateChooser
-import cn.super12138.todo.ui.pages.editor.components.TodoMarkAsCompletedCheckbox
-import cn.super12138.todo.ui.pages.editor.components.TodoPrioritySlider
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
+import cn.super12138.todo.ui.components.bottomPadding
+import cn.super12138.todo.ui.pages.editor.components.DueDateChooser
+import cn.super12138.todo.utils.VibrationUtils
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun SharedTransitionScope.TaskAddPage(
@@ -99,66 +111,59 @@ fun TaskEditorPage(
     onNavigateUp: () -> Unit,
     onSave: (TaskEntity) -> Unit,
     onDelete: () -> Unit,
-    viewModel: EditorViewModel = koinViewModel()
+    viewModel: EditorViewModel = koinViewModel { parametersOf(task) }
 ) {
-    // TODO: 本页及其相关组件重组性能检查优化
+    val view = LocalView.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val isCustomCategory by remember { derivedStateOf { uiState.selectedCategoryIndex == -1 } }
 
-    // 控制只有第一次进入界面才聚焦待办内容文本框
     val focusRequester = remember { FocusRequester() }
-    val keyboardController = LocalSoftwareKeyboardController.current
+    var validate by remember { mutableStateOf(false) }
 
-    var isFocusedOnTextField by rememberSaveable { mutableStateOf(false) }
-    LaunchedEffect(isFocusedOnTextField, uiState.isTextFieldAutoFocus) {
-        Log.d(
-            "Editor",
-            "LaunchedEffect 01: isFocused $isFocusedOnTextField} - isAutoFocused ${uiState.isTextFieldAutoFocus}"
-        )
-        if (!isFocusedOnTextField && uiState.isTextFieldAutoFocus) {
-            Log.d("Editor", "LaunchedEffect 01: Requesting focus for task content text field")
-            withFrameNanos { }
-            focusRequester.requestFocus()
-            keyboardController?.show()
-            isFocusedOnTextField = true
-        }
-    }
+    val isContentError by remember { derivedStateOf { validate && uiState.content.isBlank() } }
+    val isCategoryError by remember { derivedStateOf { validate && uiState.category.isBlank() } }
 
-    var isInitializedTask by rememberSaveable { mutableStateOf(false) }
-    LaunchedEffect(task?.id) {
-        if (!isInitializedTask) {
-            viewModel.uiState
-                .map { it.categoryList.isNotEmpty() }
-                .first { it } // 强制挂起，直到 categoryList 数据填充完成以避免匹配分类时出错
-
-            viewModel.setTaskEntity(task)
-            isInitializedTask = true
-        }
-    }
-
-    fun checkModifiedBeforeBack() {
-        if (uiState.isModified()) {
+    fun navigateUpIfUnchanged() {
+        if (viewModel.isModified()) {
             viewModel.showExitConfirmDialog()
         } else {
             onNavigateUp()
         }
     }
-    BackHandler(onBack = ::checkModifiedBeforeBack)
+
+    // 已知问题：聚焦时光标放在了内容的开始，而不是结尾
+    SideEffect(uiState.shouldAutoFocusContent) { focusRequester.requestFocus() }
+
+    BackHandler(onBack = ::navigateUpIfUnchanged)
 
     TopAppBarScaffold(
-        title = stringResource(if (task != null) R.string.title_edit_task else R.string.action_add_task),
+        title = stringResource(if (task == null) R.string.action_add_task else R.string.title_edit_task),
+        navigationIcon = {
+            FilledIconButton(
+                colors = IconButtonDefaults.filledIconButtonColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHighest),
+                shapes = IconButtonDefaults.shapes(),
+                onClick = {
+                    VibrationUtils.performHapticFeedback(view)
+                    navigateUpIfUnchanged()
+                }
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_arrow_back),
+                    contentDescription = stringResource(R.string.action_back)
+                )
+            }
+        },
         floatingActionButton = {
             Row(
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                horizontalArrangement = Arrangement.spacedBy(VerveDoDefaults.contentPadding),
                 modifier = Modifier.imePadding()
             ) {
-                if (task !== null) {
+                if (task != null) {
                     TodoFloatingActionButton(
                         text = stringResource(R.string.action_delete),
                         iconRes = R.drawable.ic_delete,
                         expanded = true,
                         containerColor = MaterialTheme.colorScheme.errorContainer,
-                        onClick = { viewModel.showDeleteConfirmDialog() }
+                        onClick = viewModel::showDeleteConfirmDialog
                     )
                 }
                 TodoFloatingActionButton(
@@ -166,115 +171,182 @@ fun TaskEditorPage(
                     iconRes = R.drawable.ic_save,
                     expanded = true,
                     onClick = {
-                        if (viewModel.setErrorIfNotValid()) {
+                        validate = true
+
+                        if (uiState.content.isBlank() || uiState.category.isBlank()) {
                             return@TodoFloatingActionButton
-                        } else {
-                            viewModel.clearError()
-                            val newTask = TaskEntity(
-                                id = task?.id ?: 0,
-                                content = uiState.contentState.text.toString(),
-                                category = if (isCustomCategory) uiState.categoryContentState.text.toString() else uiState.categoryList[uiState.selectedCategoryIndex].name,
-                                priority = uiState.priorityState,
-                                dueDate = uiState.dueDateState,
-                                isCompleted = uiState.isCompleted
-                            )
-                            Log.d(
-                                "Editor",
-                                "newTask category: ${newTask.category}, isCustomCategory: $isCustomCategory"
-                            )
-                            onSave(newTask)
                         }
+
+                        onSave(viewModel.getNewTaskEntity())
                     }
                 )
             }
         },
-        onBack = ::checkModifiedBeforeBack,
         modifier = modifier
     ) {
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.fillMaxSize()
-        ) {
-            item(key = 0) {
-                Spacer(modifier = Modifier.size(VerveDoDefaults.screenVerticalPadding))
-            }
+        /*val contentField = rememberTextFieldState()*/
+        val customizationText = stringResource(R.string.label_customization)
 
-            item(key = 1) {
-                TaskContentTextField(
-                    state = uiState.contentState,
-                    isError = uiState.isContentError,
+        val categoryChipList = remember(uiState.categoryList) {
+            uiState.categoryList.mapIndexed { index, category ->
+                ChipItem(index, category)
+            } + ChipItem(-1, customizationText)
+        }
+
+        /*LaunchedEffect(contentField, categoryField) {
+            snapshotFlow { contentField.text.trim().toString() }
+                .collect { }
+        }*/
+
+        SideEffect(categoryChipList) {
+            val id = if (task == null) {
+                if (categoryChipList.size == 1) -1 else 0
+            } else {
+                task.category findIdIn categoryChipList
+            }
+            viewModel.setSelectedCategory(categoryChipList.firstOrNull { it.id == id })
+        }
+
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(VerveDoDefaults.contentPadding * 2),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = VerveDoDefaults.screenVerticalPadding)
+        ) {
+            item {
+                Subtitle(R.string.label_basic_information)
+                /*TextField(
+                    state = contentField,
+                    label = { Text(stringResource(R.string.placeholder_add_todo)) },
+                    lineLimits = TextFieldLineLimits.MultiLine(maxHeightInLines = 3),
+                    isError = isContentError,
+                    supportingText = {
+                        AnimatedVisibility(
+                            visible = isContentError,
+                            enter = fadeIn() + expandVertically(),
+                            exit = fadeOut() + shrinkVertically()
+                        ) {
+                            Text(
+                                text = stringResource(R.string.error_no_content_entered),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                    }
+                )*/
+                TextField(
+                    value = uiState.content,
+                    onValueChange = { viewModel.setContentText(it) },
+                    label = { Text(stringResource(R.string.placeholder_add_todo)) },
+                    maxLines = 3,
+                    isError = isContentError,
+                    supportingText = {
+                        AnimatedVisibility(
+                            visible = isContentError,
+                            enter = fadeIn() + expandVertically(),
+                            exit = fadeOut() + shrinkVertically()
+                        ) {
+                            Text(
+                                text = stringResource(R.string.error_no_content_entered),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .focusRequester(focusRequester)
                 )
             }
-
-            item(key = 2) {
-                Text(
-                    text = stringResource(R.string.label_category),
-                    style = MaterialTheme.typography.titleMedium
-                )
-
-                TodoCategoryChip(
-                    items = uiState.categoryList,
-                    defaultSelectedItemIndex = uiState.selectedCategoryIndex,
-                    isLoading = (uiState.categoryList.size - 1) == 0,
-                    onCategorySelected = { viewModel.setSelectedCategory(it) },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                AnimatedVisibility(
-                    visible = isCustomCategory,
-                    enter = fadeIn(MaterialTheme.motionScheme.defaultEffectsSpec()) + expandVertically(
-                        MaterialTheme.motionScheme.defaultEffectsSpec()
-                    ),
-                    exit = fadeOut(MaterialTheme.motionScheme.defaultEffectsSpec()) + shrinkVertically(
-                        MaterialTheme.motionScheme.defaultEffectsSpec()
+            item {
+                Subtitle(R.string.label_category)
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    if (uiState.categoryList.isEmpty()) {
+                        Text(
+                            text = stringResource(R.string.tip_no_category_chip),
+                            style = MaterialTheme.typography.labelLarge.copy(
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            ),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
+                    FilterChipGroup(
+                        items = categoryChipList,
+                        selectedItemId = uiState.selectedCategoryId,
+                        onSelectedChanged = { viewModel.setSelectedCategory(it) }
                     )
-                ) {
-                    TaskCategoryTextField(
-                        state = uiState.categoryContentState,
-                        isError = uiState.isCategoryError,
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                    AnimatedVisibility(uiState.selectedCategoryId == -1) {
+                        TextField(
+                            value = uiState.category,
+                            onValueChange = { viewModel.setCategoryText(it) },
+                            label = { Text(stringResource(R.string.label_enter_category_name)) },
+                            isError = isCategoryError,
+                            supportingText = {
+                                AnimatedContent(
+                                    targetState = isCategoryError,
+                                    // transitionSpec = { enterTransition togetherWith exitTransition }
+                                ) { error ->
+                                    Text(
+                                        text = if (error) {
+                                            stringResource(R.string.error_no_content_entered)
+                                        } else {
+                                            stringResource(R.string.tip_short_category)
+                                        },
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                }
+                            },
+                            singleLine = true,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
                 }
             }
+            item {
+                val priorityList = Priority.entries.reversed()
 
-            item(key = 3) {
-                Text(
-                    text = stringResource(R.string.label_priority),
-                    style = MaterialTheme.typography.titleMedium
-                )
-
-                TodoPrioritySlider(
-                    value = { uiState.priorityState },
-                    onValueChange = { viewModel.setPriority(it) },
-                )
+                Subtitle(R.string.label_priority)
+                FlowRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(ButtonGroupDefaults.ConnectedSpaceBetween),
+                    verticalArrangement = Arrangement.spacedBy(VerveDoDefaults.contentPadding / 4),
+                ) {
+                    priorityList.forEachIndexed { index, priority ->
+                        ToggleButton(
+                            content = { Text(stringResource(priority.nameRes)) },
+                            checked = uiState.priority == priority,
+                            onCheckedChange = {
+                                viewModel.setPriority(priority)
+                                VibrationUtils.performHapticFeedback(view)
+                            },
+                            shapes = index.toggleButtonShapesIn(priorityList),
+                            colors = VerveDoDefaults.toggleButtonColors,
+                            modifier = Modifier.semantics { role = Role.RadioButton }
+                        )
+                    }
+                }
             }
-
-            item(key = 4) {
+            item {
                 Text(
                     text = stringResource(R.string.label_more),
                     style = MaterialTheme.typography.titleMedium
                 )
-                Spacer(modifier = Modifier.size(4.dp))
-                TodoDueDateChooser(
-                    dateMillis = uiState.dueDateState,
-                    onDateChange = { viewModel.setDueDate(it) },
-                    modifier = Modifier.fillMaxWidth()
+                DueDateChooser(
+                    dateMillis = uiState.dueDateMillis,
+                    onDateChange = { viewModel.setDueDate(it) }
                 )
                 if (task != null) {
-                    TodoMarkAsCompletedCheckbox(
+                    CheckboxWithLabel(
+                        label = stringResource(R.string.tip_mark_completed),
                         checked = uiState.isCompleted,
                         onCheckedChange = { viewModel.setCompleted(it) },
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
             }
-
-            item(key = 5) {
-                Spacer(modifier = Modifier.size(VerveDoDefaults.screenVerticalPadding))
-            }
+            bottomPadding()
         }
     }
 
@@ -296,4 +368,21 @@ fun TaskEditorPage(
         onConfirm = onDelete,
         onDismiss = { viewModel.hideDeleteConfirmDialog() }
     )
+}
+
+@Composable
+private fun LazyItemScope.Subtitle(@StringRes titleRes: Int) =
+    Text(
+        text = stringResource(titleRes),
+        style = MaterialTheme.typography.titleMedium
+    )
+
+private infix fun String.findIdIn(chipList: List<ChipItem>) =
+    chipList.firstOrNull { item -> item.label == this }?.id ?: -1
+
+@Composable
+private fun Int.toggleButtonShapesIn(list: List<Priority>) = when (this) {
+    0 -> ButtonGroupDefaults.connectedLeadingButtonShapes()
+    list.lastIndex -> ButtonGroupDefaults.connectedTrailingButtonShapes()
+    else -> ButtonGroupDefaults.connectedMiddleButtonShapes()
 }

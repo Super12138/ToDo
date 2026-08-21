@@ -6,8 +6,10 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import cn.super12138.todo.ui.pages.editor.TaskAddPage
 import cn.super12138.todo.ui.pages.editor.TaskEditPage
@@ -79,6 +81,11 @@ fun TopNavigation(
             transitionSpec = { defaultTransition },
             popTransitionSpec = { defaultTransition },
             predictivePopTransitionSpec = { defaultTransition },
+            entryDecorators = listOf(
+                // 让ViewModel Owner绑定在每一个页面上而非Activity上
+                rememberSaveableStateHolderNavEntryDecorator(),
+                rememberViewModelStoreNavEntryDecorator()
+            ),
             entryProvider = entryProvider {
                 entry<VerveDoScreen.Overview> {
                     OverviewPage()
