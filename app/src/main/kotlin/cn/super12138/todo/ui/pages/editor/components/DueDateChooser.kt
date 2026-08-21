@@ -1,7 +1,9 @@
 package cn.super12138.todo.ui.pages.editor.components
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -22,6 +24,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,36 +37,38 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import cn.super12138.todo.R
 import cn.super12138.todo.ui.VerveDoDefaults
-import cn.super12138.todo.utils.SystemUtils
 import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.utils.toLocalDateString
-import java.time.LocalDate
+
+enum class DueDateSelection(@StringRes val labelRes: Int) {
+    None(R.string.label_none),
+    Today(R.string.time_today),
+    Tomorrow(R.string.time_tomorrow),
+    NextWeek(R.string.time_next_week),
+    Customization(R.string.label_customization)
+}
 
 @Composable
 fun DueDateChooser(
     dateMillis: Long?,
     onDateChange: (Long?) -> Unit
 ) {
-    val dueDateItems = listOf(
-        DueDateItem(label = "Not specific", dueDate = null),
-        DueDateItem(label = "Today", dueDate = SystemUtils.getTodayEightAM()),
-        DueDateItem(label = "Tomorrow", dueDate = LocalDate.now().plusDays(1)),
-        DueDateItem(label = "Next Week", dueDate = LocalDate.now().plusWeeks(1)),
-        DueDateItem(
-            label = stringResource(R.string.label_customization),
-            dueDate = null,
-            isCustom = true
-        )
-    )
-
     val view = LocalView.current
 
-    val datePickerState = rememberDatePickerState(initialSelectedDateMillis = dateMillis)
-
     var openDialog by remember { mutableStateOf(false) }
-    val confirmEnabled by remember { derivedStateOf { datePickerState.selectedDateMillis != null } }
     var menuExpanded by remember { mutableStateOf(false) }
-    var selectedItem by rememberSaveable { mutableStateOf(if (dateMillis != null) dueDateItems.last() else dueDateItems.first()) }
+
+    val datePickerState = rememberDatePickerState(initialSelectedDateMillis = dateMillis)
+    var selectedItem by rememberSaveable { mutableStateOf(DueDateSelection.None) }
+
+    val confirmEnabled by remember { derivedStateOf { datePickerState.selectedDateMillis != null } }
+
+    val dueDateItems = DueDateSelection.entries.map { it }
+
+    SideEffect(dateMillis) {
+        selectedItem =
+            if (dateMillis == null) DueDateSelection.None else DueDateSelection.Customization
+    }
 
     ExposedDropdownMenu(
         expanded = menuExpanded,
@@ -72,7 +77,7 @@ fun DueDateChooser(
         selectedItem = selectedItem,
         onSelectedItemChange = {
             selectedItem = it
-            if (it.isCustom) openDialog = true
+            if (it == DueDateSelection.Customization) openDialog = true
         },
         specificDateMillis = dateMillis
     )
@@ -125,19 +130,13 @@ fun DueDateChooser(
     }
 }
 
-data class DueDateItem(
-    val label: String,
-    val dueDate: Long? = null,
-    val isCustom: Boolean = false
-)
-
 @Composable
 private fun ExposedDropdownMenu(
     expanded: Boolean,
     onExpandedChange: (Boolean) -> Unit,
-    items: List<DueDateItem>,
-    selectedItem: DueDateItem,
-    onSelectedItemChange: (DueDateItem) -> Unit,
+    items: List<DueDateSelection>,
+    selectedItem: DueDateSelection,
+    onSelectedItemChange: (DueDateSelection) -> Unit,
     modifier: Modifier = Modifier,
     specificDateMillis: Long? = null,
 ) {
@@ -147,9 +146,9 @@ private fun ExposedDropdownMenu(
         modifier = modifier
     ) {
         val selectedText = buildString {
-            append(selectedItem.label)
+            append(stringResource(selectedItem.labelRes))
 
-            if (selectedItem.isCustom) {
+            if (selectedItem == DueDateSelection.Customization) {
                 specificDateMillis?.let {
                     append(" ")
                     append(it.toLocalDateString())
@@ -164,7 +163,9 @@ private fun ExposedDropdownMenu(
             readOnly = true,
             singleLine = true,
             colors = ExposedDropdownMenuDefaults.textFieldColors(),
-            modifier = Modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable),
+            modifier = Modifier
+                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
+                .fillMaxWidth(),
         )
 
         ExposedDropdownMenu(
@@ -177,7 +178,12 @@ private fun ExposedDropdownMenu(
             items.forEachIndexed { index, option ->
                 DropdownMenuItem(
                     shapes = MenuDefaults.itemShape(index, optionCount),
-                    text = { Text(option.label, style = MaterialTheme.typography.bodyLarge) },
+                    text = {
+                        Text(
+                            stringResource(option.labelRes),
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    },
                     selected = option == selectedItem,
                     onClick = {
                         onExpandedChange(false)

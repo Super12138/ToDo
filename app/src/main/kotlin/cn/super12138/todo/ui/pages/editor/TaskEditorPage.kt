@@ -1,5 +1,6 @@
 package cn.super12138.todo.ui.pages.editor
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -15,10 +16,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.material3.ButtonGroupDefaults
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -29,6 +32,8 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
@@ -50,7 +55,9 @@ import cn.super12138.todo.ui.components.TodoFloatingActionButton
 import cn.super12138.todo.ui.components.TopAppBarScaffold
 import cn.super12138.todo.ui.components.bottomPadding
 import cn.super12138.todo.ui.pages.editor.components.DueDateChooser
+import cn.super12138.todo.utils.VibrationUtils
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun SharedTransitionScope.TaskAddPage(
@@ -99,11 +106,31 @@ fun TaskEditorPage(
     onNavigateUp: () -> Unit,
     onSave: (TaskEntity) -> Unit,
     onDelete: () -> Unit,
-    viewModel: EditorViewModel = koinViewModel()
+    viewModel: EditorViewModel = koinViewModel { parametersOf(task) }
 ) {
+    val view = LocalView.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val isContentError by remember { derivedStateOf { uiState.content.isEmpty() } }
+    val isCategoryError by remember { derivedStateOf { uiState.category.isEmpty() } }
+
     TopAppBarScaffold(
-        title = stringResource(if (task != null) R.string.title_edit_task else R.string.action_add_task),
+        title = stringResource(if (task == null) R.string.action_add_task else R.string.title_edit_task),
+        navigationIcon = {
+            FilledIconButton(
+                colors = IconButtonDefaults.filledIconButtonColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHighest),
+                shapes = IconButtonDefaults.shapes(),
+                onClick = {
+                    VibrationUtils.performHapticFeedback(view)
+                    onNavigateUp()
+                }
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_arrow_back),
+                    contentDescription = stringResource(R.string.action_back)
+                )
+            }
+        },
         floatingActionButton = {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(VerveDoDefaults.contentPadding),
@@ -115,14 +142,17 @@ fun TaskEditorPage(
                         iconRes = R.drawable.ic_delete,
                         expanded = true,
                         containerColor = MaterialTheme.colorScheme.errorContainer,
-                        onClick = {}
+                        onClick = { viewModel.showDeleteConfirmDialog() }
                     )
                 }
                 TodoFloatingActionButton(
                     text = stringResource(R.string.action_save),
                     iconRes = R.drawable.ic_save,
                     expanded = true,
-                    onClick = {}
+                    onClick = {
+                        if (isContentError || isCategoryError) return@TodoFloatingActionButton
+                        onSave(viewModel.getNewTaskEntity())
+                    }
                 )
             }
         },
@@ -131,9 +161,6 @@ fun TaskEditorPage(
         /*val contentField = rememberTextFieldState()
         val categoryField = rememberTextFieldState()*/
         val customizationText = stringResource(R.string.label_customization)
-
-        val isContentError by remember { derivedStateOf { uiState.content.isEmpty() } }
-        val isCategoryError by remember { derivedStateOf { uiState.category.isEmpty() } }
 
         val categoryChipList = remember(uiState.categoryList) {
             uiState.categoryList.mapIndexed { index, category ->
@@ -150,7 +177,13 @@ fun TaskEditorPage(
         }*/
 
         SideEffect(categoryChipList) { //看看要不要改成uiState.categoryList
-            viewModel.setSelectedCategoryId(task?.category findIdIn categoryChipList)
+            val id = if (task == null) {
+                if (categoryChipList.size == 1) -1 else 0
+            } else {
+                task.category findIdIn categoryChipList
+            }
+            viewModel.setSelectedCategory(categoryChipList.firstOrNull { it.id == id })
+            Log.d(Constants.TAG, "TaskEditorPage: SetSelectedId Successfully")
         }
 
         LazyColumn(
@@ -196,7 +229,8 @@ fun TaskEditorPage(
                                 overflow = TextOverflow.Ellipsis
                             )
                         }
-                    }
+                    },
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
             item {
@@ -211,70 +245,68 @@ fun TaskEditorPage(
                             textAlign = TextAlign.Center,
                             modifier = Modifier.fillMaxWidth(),
                         )
-                    } else {
-                        FilterChipGroup(
-                            items = categoryChipList,
-                            selectedItemId = uiState.selectedCategoryId,
-                            onSelectedChanged = { viewModel.setSelectedCategory(it) }
+                    }
+                    FilterChipGroup(
+                        items = categoryChipList,
+                        selectedItemId = uiState.selectedCategoryId,
+                        onSelectedChanged = { viewModel.setSelectedCategory(it) }
+                    )
+                    AnimatedVisibility(uiState.selectedCategoryId == -1) {
+                        /*TextField(
+                            state = categoryField,
+                            label = { Text(stringResource(R.string.label_enter_category_name)) },
+                            isError = isCategoryError,
+                            supportingText = {
+                                AnimatedContent(
+                                    targetState = isCategoryError,
+                                    // transitionSpec = { enterTransition togetherWith exitTransition }
+                                ) { error ->
+                                    Text(
+                                        text = if (error) {
+                                            stringResource(R.string.error_no_content_entered)
+                                        } else {
+                                            stringResource(R.string.tip_short_category)
+                                        },
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                }
+                            },
+                            lineLimits = TextFieldLineLimits.SingleLine
+                        )*/
+                        TextField(
+                            value = uiState.category,
+                            onValueChange = { viewModel.setCategoryText(it) },
+                            label = { Text(stringResource(R.string.label_enter_category_name)) },
+                            isError = isCategoryError,
+                            supportingText = {
+                                AnimatedContent(
+                                    targetState = isCategoryError,
+                                    // transitionSpec = { enterTransition togetherWith exitTransition }
+                                ) { error ->
+                                    Text(
+                                        text = if (error) {
+                                            stringResource(R.string.error_no_content_entered)
+                                        } else {
+                                            stringResource(R.string.tip_short_category)
+                                        },
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                }
+                            },
+                            singleLine = true,
+                            modifier = Modifier.fillMaxWidth()
                         )
-                        AnimatedVisibility(uiState.selectedCategoryId == -1) {
-                            /*TextField(
-                                state = categoryField,
-                                label = { Text(stringResource(R.string.label_enter_category_name)) },
-                                isError = isCategoryError,
-                                supportingText = {
-                                    AnimatedContent(
-                                        targetState = isCategoryError,
-                                        // transitionSpec = { enterTransition togetherWith exitTransition }
-                                    ) { error ->
-                                        Text(
-                                            text = if (error) {
-                                                stringResource(R.string.error_no_content_entered)
-                                            } else {
-                                                stringResource(R.string.tip_short_category)
-                                            },
-                                            maxLines = 1,
-                                            overflow = TextOverflow.Ellipsis
-                                        )
-                                    }
-                                },
-                                lineLimits = TextFieldLineLimits.SingleLine
-                            )*/
-                            TextField(
-                                value = uiState.category,
-                                onValueChange = { viewModel.setCategoryText(it) },
-                                label = { Text(stringResource(R.string.label_enter_category_name)) },
-                                isError = isCategoryError,
-                                supportingText = {
-                                    AnimatedContent(
-                                        targetState = isCategoryError,
-                                        // transitionSpec = { enterTransition togetherWith exitTransition }
-                                    ) { error ->
-                                        Text(
-                                            text = if (error) {
-                                                stringResource(R.string.error_no_content_entered)
-                                            } else {
-                                                stringResource(R.string.tip_short_category)
-                                            },
-                                            maxLines = 1,
-                                            overflow = TextOverflow.Ellipsis
-                                        )
-                                    }
-                                },
-                                singleLine = true
-                            )
-                        }
                     }
                 }
             }
             item {
-                val priorityList = Priority.entries
+                val priorityList = Priority.entries.reversed()
 
                 Subtitle(R.string.label_priority)
                 FlowRow(
-                    modifier = Modifier
-                        .padding(horizontal = VerveDoDefaults.contentPadding)
-                        .fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(ButtonGroupDefaults.ConnectedSpaceBetween),
                     verticalArrangement = Arrangement.spacedBy(VerveDoDefaults.contentPadding / 4),
                 ) {
@@ -282,9 +314,13 @@ fun TaskEditorPage(
                         ToggleButton(
                             content = { Text(stringResource(priority.nameRes)) },
                             checked = uiState.priority == priority,
-                            onCheckedChange = { viewModel.setPriority(priority) },
+                            onCheckedChange = {
+                                viewModel.setPriority(priority)
+                                VibrationUtils.performHapticFeedback(view)
+                            },
                             shapes = index.toggleButtonShapesIn(priorityList),
-                            modifier = Modifier.semantics { role = Role.RadioButton },
+                            colors = VerveDoDefaults.toggleButtonColors,
+                            modifier = Modifier.semantics { role = Role.RadioButton }
                         )
                     }
                 }
@@ -338,7 +374,7 @@ private fun LazyItemScope.Subtitle(@StringRes titleRes: Int) =
         style = MaterialTheme.typography.titleMedium
     )
 
-private infix fun String?.findIdIn(chipList: List<ChipItem>) =
+private infix fun String.findIdIn(chipList: List<ChipItem>) =
     chipList.firstOrNull { item -> item.label == this }?.id ?: -1
 
 @Composable

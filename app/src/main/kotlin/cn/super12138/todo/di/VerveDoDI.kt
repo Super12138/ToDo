@@ -23,6 +23,7 @@ import cn.super12138.todo.ui.viewmodels.MainViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.scope.dsl.activityRetainedScope
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -68,7 +69,12 @@ object VerveDoDI {
         viewModelOf(::MainViewModel)
         viewModelOf(::OverviewViewModel)
         viewModelOf(::TaskViewModel)
-        viewModelOf(::EditorViewModel)
+        viewModel<EditorViewModel> { params ->
+            EditorViewModel(
+                initialTask = params.getOrNull(),
+                settingsRepository = get()
+            )
+        }
         viewModelOf(::SettingsViewModel)
     }
 

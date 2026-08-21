@@ -14,8 +14,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
 class EditorViewModel(
+    val initialTask: TaskEntity?,
     private val settingsRepository: SettingsRepository,
-    val initialTask: TaskEntity? = null,
 ) : ViewModel() {
     private val localUiState = MutableStateFlow(TaskEditorUiState())
     val uiState: StateFlow<TaskEditorUiState> = combine(
@@ -29,7 +29,7 @@ class EditorViewModel(
         )
     }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.Eagerly,
+        started = SharingStarted.WhileSubscribed(5000),
         initialValue = TaskEditorUiState()
     )
 
@@ -50,7 +50,7 @@ class EditorViewModel(
     }
 
     fun setContentText(content: String) = localUiState.update { it.copy(content = content) }
-    fun setCategoryText(category: String) = localUiState.update { it.copy(content = category) }
+    fun setCategoryText(category: String) = localUiState.update { it.copy(category = category) }
     fun setPriority(priority: Priority) = localUiState.update { it.copy(priority = priority) }
     fun setDueDate(dueDate: Long?) = localUiState.update { it.copy(dueDateMillis = dueDate) }
     fun setCompleted(isCompleted: Boolean) =
@@ -61,12 +61,27 @@ class EditorViewModel(
 
     fun showExitConfirmDialog() = localUiState.update { it.copy(showExitConfirmDialog = true) }
     fun hideExitConfirmDialog() = localUiState.update { it.copy(showExitConfirmDialog = false) }
-    fun setSelectedCategory(chipItem: ChipItem) = localUiState.update {
-        it.copy(
-            selectedCategoryId = chipItem.id,
-            category = chipItem.label
-        )
+    fun setSelectedCategory(chipItem: ChipItem?) {
+        if (chipItem == null) return
+        localUiState.update {
+            it.copy(
+                selectedCategoryId = chipItem.id,
+                category = if (chipItem.id == -1) it.category else chipItem.label
+            )
+        }
     }
 
     fun setSelectedCategoryId(id: Int) = localUiState.update { it.copy(selectedCategoryId = id) }
+    fun getNewTaskEntity(): TaskEntity {
+        with(uiState.value) {
+            return TaskEntity(
+                content = content,
+                category = category,
+                isCompleted = isCompleted,
+                priority = priority.value,
+                dueDate = dueDateMillis,
+                id = initialTask?.id ?: 0
+            )
+        }
+    }
 }

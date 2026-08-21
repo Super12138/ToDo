@@ -33,15 +33,15 @@ fun FilterChipGroup(
                 val selected = selectedItemId == id
                 FilterChip(
                     selected = selected,
-                    leadingIcon = {
-                        if (selected) {
+                    leadingIcon = if (selected) {
+                        {
                             Icon(
                                 painter = painterResource(R.drawable.ic_check),
                                 contentDescription = stringResource(R.string.tip_selected),
                                 modifier = Modifier.size(FilterChipDefaults.IconSize)
                             )
                         }
-                    },
+                    } else null,
                     label = { Text(text = label, maxLines = 1) },
                     onClick = {
                         onSelectedChanged(this)

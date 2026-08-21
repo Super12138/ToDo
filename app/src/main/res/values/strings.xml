@@ -148,4 +148,6 @@
     <string name="pref_pure_black_mode_desc">Set the background to pure black and dim the colors when dark mode turns on (Enable on OLED screens for better experience)</string>
     <string name="pref_color_spec_version">Color Spec Version</string>
     <string name="pref_dynamic_scheme_platform">Dynamic Scheme Platform</string>
+    <string name="label_none">None</string>
+    <string name="time_next_week">Next Week</string>
 </resources>

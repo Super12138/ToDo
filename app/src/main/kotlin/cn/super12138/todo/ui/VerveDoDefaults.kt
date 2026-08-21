@@ -4,6 +4,8 @@ import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ToggleButtonColors
+import androidx.compose.material3.ToggleButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -11,6 +13,7 @@ import androidx.compose.ui.unit.dp
 
 object VerveDoDefaults {
     val contentPadding = 8.dp
+
     /**
      * 屏幕左右两边预留边距（防止内容全部贴边显示过丑）
      */
@@ -73,4 +76,7 @@ object VerveDoDefaults {
 
     val shapesDefaultAnimationSpec: FiniteAnimationSpec<Float>
         @Composable get() = MaterialTheme.motionScheme.defaultEffectsSpec()
+
+    val toggleButtonColors: ToggleButtonColors
+        @Composable get() = ToggleButtonDefaults.toggleButtonColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHighest)
 }
