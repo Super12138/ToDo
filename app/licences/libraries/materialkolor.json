@@ -1,0 +1,16 @@
+{
+  "uniqueId": "com.materialkolor",
+  "artifactVersion": "5.0.0",
+  "name": "Read You",
+  "developers": [
+    {
+      "name": "MaterialKolor"
+    }
+  ],
+  "description": "\uD83C\uDFA8 Generate a dynamic Material3 color scheme from a seed color",
+  "website": "https://github.com/jordond/MaterialKolor/",
+  "tag": "custom",
+  "licenses": [
+    "MIT"
+  ]
+}

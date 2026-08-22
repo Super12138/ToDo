@@ -1,6 +1,5 @@
 package cn.super12138.todo.ui.pages.settings.components.appearance.palette
 
-import android.os.Build
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -25,9 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
@@ -38,9 +35,11 @@ import androidx.compose.ui.util.fastForEach
 import cn.super12138.todo.logic.model.ContrastLevel
 import cn.super12138.todo.logic.model.PaletteStyle
 import cn.super12138.todo.ui.VerveDoDefaults
-import cn.super12138.todo.ui.theme.dynamicColorScheme
+import cn.super12138.todo.ui.theme.animateColorScheme
+import cn.super12138.todo.ui.theme.rememberDynamicColorScheme
 import cn.super12138.todo.ui.theme.shapeByInteraction
 import cn.super12138.todo.utils.VibrationUtils
+import cn.super12138.todo.utils.keyColorBasedOnDynamicColor
 
 @Composable
 fun PaletteItem(
@@ -76,20 +75,15 @@ fun PaletteItem(
                 .padding(VerveDoDefaults.contentPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            val colorScheme = rememberDynamicColorScheme(
+                keyColor = isDynamicColor.keyColorBasedOnDynamicColor(),
+                isDark = isDark,
+                contrastLevel = contrastLevel.value.toDouble(),
+                pureBlack = pureBlackMode,
+                style = paletteStyle
+            )
             // 为不同主题样式设置不同色板
-            MaterialTheme(
-                colorScheme = dynamicColorScheme(
-                    keyColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && isDynamicColor) {
-                        colorResource(id = android.R.color.system_accent1_500)
-                    } else {
-                        Color(0xFF0061A4)
-                    },
-                    isDark = isDark,
-                    contrastLevel = contrastLevel.value.toDouble(),
-                    pureBlack = pureBlackMode,
-                    style = paletteStyle
-                )
-            ) {
+            MaterialTheme(animateColorScheme(colorScheme)) {
                 val borderWidth by animateDpAsState(if (selected) 3.dp else (-1).dp)
                 // 颜色预览区域
                 Column(

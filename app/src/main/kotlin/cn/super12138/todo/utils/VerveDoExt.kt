@@ -1,6 +1,7 @@
 package cn.super12138.todo.utils
 
 import android.content.Context
+import android.os.Build
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material3.MaterialTheme
@@ -12,6 +13,7 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.Dp
 import androidx.core.graphics.ColorUtils
 import cn.super12138.todo.R
@@ -222,3 +224,11 @@ fun List<TaskEntity>.sort(sortingMethod: SortingMethod): List<TaskEntity> = when
             .thenBy(nullsLast()) { it.dueDate }
     )
 }
+
+@Composable
+fun Boolean.keyColorBasedOnDynamicColor() =
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && this) {
+        colorResource(id = android.R.color.system_accent1_500)
+    } else {
+        Color(0xFF0061A4)
+    }

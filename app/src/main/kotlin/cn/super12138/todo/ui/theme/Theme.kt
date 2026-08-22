@@ -1,17 +1,16 @@
 package cn.super12138.todo.ui.theme
 
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import cn.super12138.todo.logic.model.ColorSpecVersion
 import cn.super12138.todo.logic.model.ContrastLevel
 import cn.super12138.todo.logic.model.DynamicSchemePlatform
 import cn.super12138.todo.logic.model.PaletteStyle
 import cn.super12138.todo.logic.model.toPlatform
 import cn.super12138.todo.logic.model.toSpecVersion
+import cn.super12138.todo.utils.keyColorBasedOnDynamicColor
 
 @Composable
 fun VerveDoTheme(
@@ -20,22 +19,16 @@ fun VerveDoTheme(
     pureBlackMode: Boolean = false,
     style: PaletteStyle = PaletteStyle.TonalSpot,
     contrastLevel: ContrastLevel = ContrastLevel.Default,
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = true, // Dynamic color is available on Android 12+
     specVersion: ColorSpecVersion = ColorSpecVersion.Spec2025,
     platform: DynamicSchemePlatform = DynamicSchemePlatform.Phone,
+    animate: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val baseColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && dynamicColor) {
-        colorResource(id = android.R.color.system_accent1_500)
-    } else {
-        Color(0xFF0061A4)
-    }
-
     // 关键色，如果指定就使用
-    val keyColor = color ?: baseColor
+    val keyColor = color ?: dynamicColor.keyColorBasedOnDynamicColor()
 
-    val colorScheme = dynamicColorScheme(
+    val colorScheme = rememberDynamicColorScheme(
         keyColor = keyColor,
         isDark = darkTheme,
         pureBlack = pureBlackMode,
@@ -46,7 +39,7 @@ fun VerveDoTheme(
     )
 
     MaterialExpressiveTheme(
-        colorScheme = colorScheme,
+        colorScheme = if (animate) animateColorScheme(colorScheme) else colorScheme,
         typography = Typography,
         content = content
     )
