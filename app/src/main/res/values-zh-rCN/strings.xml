@@ -20,7 +20,7 @@
     <string name="title_selected_count">已选择 %s 项</string>
     <string name="action_confirm">确定</string>
     <string name="title_warning">警告</string>
-    <string name="tip_delete_task">即将删除 %s 项待办。删除后将无法恢复，确定删除？</string>
+    <string name="tip_delete_task">即将删除 %s 项任务。删除后将无法恢复，确定删除？</string>
     <string name="action_back">返回</string>
     <string name="pref_about">关于</string>
     <string name="pref_about_desc">关于本应用</string>
@@ -63,10 +63,8 @@
     <string name="contrast_high">高</string>
     <string name="contrast_very_high">极高</string>
     <string name="pref_interface_interaction">界面与交互</string>
-    <string name="pref_interface_interaction_desc">待办列表、触感反馈</string>
-    <!--<string name="pref_show_completed">Show Completed Tasks</string>
-    <string name="pref_show_completed_desc">Show completed tasks in to-do list</string>-->
-    <string name="pref_category_todo_list">待办列表</string>
+    <string name="pref_interface_interaction_desc">任务列表、触感反馈</string>
+    <string name="pref_category_todo_list">任务列表</string>
     <string name="pref_view_on_github">在 GitHub 上查看</string>
     <string name="pref_view_on_github_desc">查看源代码、提交错误报告和改进建议</string>
     <string name="tip_discard_changes">退出编辑后将无法找回你修改过的任务数据。确定退出编辑吗？</string>
@@ -140,7 +138,7 @@
     <string name="tip_no_task_brief">暂无任务</string>
     <string name="title_today_task">今日任务进度</string>
     <string name="pref_text_field_auto_focus">自动聚焦文本框</string>
-    <string name="pref_text_field_auto_focus_desc">在编辑待办页面自动聚焦待办内容文本框并拉起键盘</string>
+    <string name="pref_text_field_auto_focus_desc">在编辑任务页面自动聚焦任务内容文本框并拉起键盘</string>
     <string name="pref_dark_mode_desc1">控制应用的深色模式</string>
     <string name="pref_pure_black_mode">纯黑深色模式</string>
     <string name="pref_pure_black_mode_desc">深色模式下压暗应用颜色并使应用背景变成纯黑色（在 OLED 屏幕上开启可获得更佳体验）</string>
