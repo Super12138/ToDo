@@ -63,7 +63,7 @@ fun DarkModeItem(
         interactionSource = interactionSource,
     ) {
         Column(
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(VerveDoDefaults.contentPadding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box(
@@ -87,7 +87,7 @@ fun DarkModeItem(
                 )
             }
 
-            Spacer(Modifier.size(8.dp))
+            Spacer(Modifier.size(VerveDoDefaults.contentPadding))
 
             Text(
                 text = name,

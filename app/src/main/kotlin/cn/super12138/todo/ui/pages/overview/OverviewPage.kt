@@ -13,6 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cn.super12138.todo.R
+import cn.super12138.todo.ui.VerveDoDefaults
 import cn.super12138.todo.ui.components.TopAppBarScaffold
 import cn.super12138.todo.ui.pages.overview.components.ListCard
 import cn.super12138.todo.ui.pages.overview.components.ProgressCard
@@ -34,8 +35,8 @@ fun OverviewPage(
             LazyVerticalStaggeredGrid(
                 modifier = Modifier.fillMaxSize(),
                 columns = StaggeredGridCells.Adaptive(160.dp),
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-                verticalItemSpacing = 10.dp
+                horizontalArrangement = Arrangement.spacedBy(VerveDoDefaults.contentPadding),
+                verticalItemSpacing = VerveDoDefaults.contentPadding
             ) {
                 item {
                     RoundedCornerCardLarge(

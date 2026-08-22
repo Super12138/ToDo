@@ -15,7 +15,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.ui.VerveDoDefaults
 
@@ -38,7 +37,7 @@ fun SettingsPlainBox(
             painter = painterResource(R.drawable.ic_info),
             contentDescription = null
         )
-        Spacer(Modifier.size(20.dp))
+        Spacer(Modifier.size(VerveDoDefaults.settingsItemVerticalPadding))
         Text(
             text = text,
             style = MaterialTheme.typography.bodyMedium.copy(

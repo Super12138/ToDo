@@ -121,7 +121,7 @@ fun PaletteItem(
                 }
             }
 
-            Spacer(Modifier.size(8.dp))
+            Spacer(Modifier.size(VerveDoDefaults.contentPadding))
 
             Text(
                 text = stringResource(paletteStyle.nameRes),

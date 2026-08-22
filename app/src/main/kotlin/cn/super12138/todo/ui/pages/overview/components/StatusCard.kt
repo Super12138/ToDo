@@ -85,7 +85,7 @@ fun RoundedCornerCardLarge(
                 verticalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
                     .fillMaxHeight()
-                    .padding(vertical = 8.dp)
+                    .padding(vertical = VerveDoDefaults.contentPadding)
             ) {
                 Text(
                     text = title,
