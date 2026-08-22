@@ -3,7 +3,9 @@ package cn.super12138.todo.utils
 import android.content.Context
 import android.os.Build
 import androidx.annotation.FloatRange
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.CornerBasedShape
+import androidx.compose.material3.ButtonGroupDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -18,6 +20,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.core.graphics.ColorUtils
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.database.TaskEntity
+import cn.super12138.todo.logic.model.DarkMode
 import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.logic.model.SortingMethod
 import java.text.SimpleDateFormat
@@ -232,3 +235,17 @@ fun Boolean.keyColorBasedOnDynamicColor() =
     } else {
         Color(0xFF0061A4)
     }
+
+@Composable
+infix fun Int.toggleButtonShapesIn(list: List<Any>) = when (this) {
+    0 -> ButtonGroupDefaults.connectedLeadingButtonShapes()
+    list.lastIndex -> ButtonGroupDefaults.connectedTrailingButtonShapes()
+    else -> ButtonGroupDefaults.connectedMiddleButtonShapes()
+}
+
+@Composable
+fun DarkMode.isDark() = when (this) {
+    DarkMode.FollowSystem -> isSystemInDarkTheme()
+    DarkMode.Light -> false
+    DarkMode.Dark -> true
+}

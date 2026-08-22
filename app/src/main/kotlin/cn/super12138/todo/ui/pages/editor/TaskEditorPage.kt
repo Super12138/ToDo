@@ -61,6 +61,7 @@ import cn.super12138.todo.ui.components.TopAppBarScaffold
 import cn.super12138.todo.ui.components.bottomPadding
 import cn.super12138.todo.ui.pages.editor.components.DueDateChooser
 import cn.super12138.todo.utils.VibrationUtils
+import cn.super12138.todo.utils.toggleButtonShapesIn
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -305,13 +306,13 @@ fun TaskEditorPage(
                 }
             }
             item {
-                val priorityList = Priority.entries.reversed()
+                val priorityList = Priority.entries
 
                 Subtitle(R.string.label_priority)
                 FlowRow(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(ButtonGroupDefaults.ConnectedSpaceBetween),
-                    verticalArrangement = Arrangement.spacedBy(VerveDoDefaults.contentPadding / 4),
+                    verticalArrangement = Arrangement.spacedBy(VerveDoDefaults.contentPadding / 4)
                 ) {
                     priorityList.forEachIndexed { index, priority ->
                         ToggleButton(
@@ -321,7 +322,7 @@ fun TaskEditorPage(
                                 viewModel.setPriority(priority)
                                 VibrationUtils.performHapticFeedback(view)
                             },
-                            shapes = index.toggleButtonShapesIn(priorityList),
+                            shapes = index toggleButtonShapesIn priorityList,
                             colors = VerveDoDefaults.toggleButtonColors,
                             modifier = Modifier.semantics { role = Role.RadioButton }
                         )
@@ -379,10 +380,3 @@ private fun LazyItemScope.Subtitle(@StringRes titleRes: Int) =
 
 private infix fun String.findIdIn(chipList: List<ChipItem>) =
     chipList.firstOrNull { it.label == this }?.id ?: -1
-
-@Composable
-private fun Int.toggleButtonShapesIn(list: List<Priority>) = when (this) {
-    0 -> ButtonGroupDefaults.connectedLeadingButtonShapes()
-    list.lastIndex -> ButtonGroupDefaults.connectedTrailingButtonShapes()
-    else -> ButtonGroupDefaults.connectedMiddleButtonShapes()
-}

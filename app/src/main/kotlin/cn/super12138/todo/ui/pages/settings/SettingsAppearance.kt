@@ -37,7 +37,6 @@ fun SettingsAppearance(
                     description = stringResource(R.string.pref_dark_mode_desc),
                     onClick = toDarkModePage
                 )
-
             }
 
             item(key = 2) {
@@ -52,8 +51,8 @@ fun SettingsAppearance(
 
             item(key = 3) {
                 PalettePicker(
-                    currentPalette = { uiState.paletteStyle },
-                    onPaletteChange = { viewModel.setPaletteStyle(it.id) },
+                    currentPalette = uiState.paletteStyle,
+                    onPaletteChange = { viewModel.setPaletteStyle(it) },
                     isDynamicColor = uiState.dynamicColor,
                     darkMode = uiState.darkMode,
                     pureBlackMode = uiState.pureBlackMode,
@@ -64,7 +63,7 @@ fun SettingsAppearance(
             item(key = 4) {
                 ContrastPicker(
                     currentContrast = uiState.contrastLevel,
-                    onContrastChange = { viewModel.setContrastLevel(it.value) }
+                    onContrastChange = { viewModel.setContrastLevel(it) }
                 )
             }
         }

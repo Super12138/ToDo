@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.SettingsRepository
+import cn.super12138.todo.logic.model.ContrastLevel
+import cn.super12138.todo.logic.model.PaletteStyle
 import cn.super12138.todo.utils.FileUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
@@ -174,9 +176,9 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
         }
     }
 
-    fun setPaletteStyle(id: Int) {
+    fun setPaletteStyle(paletteStyle: PaletteStyle) {
         viewModelScope.launch {
-            settingsRepository.setPaletteStyle(id)
+            settingsRepository.setPaletteStyle(paletteStyle.id)
         }
     }
 
@@ -192,9 +194,9 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
         }
     }
 
-    fun setContrastLevel(value: Float) {
+    fun setContrastLevel(contrastLevel: ContrastLevel) {
         viewModelScope.launch {
-            settingsRepository.setContrastLevel(value)
+            settingsRepository.setContrastLevel(contrastLevel.value)
         }
     }
 

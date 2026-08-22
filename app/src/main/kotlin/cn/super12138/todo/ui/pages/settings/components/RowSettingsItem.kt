@@ -91,7 +91,7 @@ fun LazyRowSettingsItem(
     background: Color = VerveDoDefaults.Colors.Container,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
     verticalAlignment: Alignment.Vertical = Alignment.Top,
-    fadedEdgeWidth: Dp,
+    fadedEdgeWidth: Dp = VerveDoDefaults.Sizes.fadedEdgeWidth,
     maskColor: Color = VerveDoDefaults.Colors.Container,
     content: LazyListScope.() -> Unit
 ) {

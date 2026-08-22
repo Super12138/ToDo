@@ -5,7 +5,6 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
@@ -23,7 +22,6 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavKey
-import cn.super12138.todo.logic.model.DarkMode
 import cn.super12138.todo.ui.VerveDoDefaults
 import cn.super12138.todo.ui.components.Confetti
 import cn.super12138.todo.ui.navigation.TopLevelBackStack
@@ -34,6 +32,7 @@ import cn.super12138.todo.ui.theme.VerveDoTheme
 import cn.super12138.todo.ui.viewmodels.MainViewModel
 import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.utils.configureEdgeToEdge
+import cn.super12138.todo.utils.isDark
 import org.koin.android.ext.android.get
 import org.koin.android.scope.AndroidScopeComponent
 import org.koin.androidx.scope.activityRetainedScope
@@ -59,17 +58,13 @@ class MainActivity : ComponentActivity(), AndroidScopeComponent {
             val devUiState by settingsViewModel.devUiState.collectAsStateWithLifecycle()
             val navigationScaffoldState = rememberNavigationSuiteScaffoldState()
 
-            val darkTheme = when (appearanceUiState.darkMode) {
-                DarkMode.FollowSystem -> isSystemInDarkTheme()
-                DarkMode.Light -> false
-                DarkMode.Dark -> true
-            }
+            val isDark = appearanceUiState.darkMode.isDark()
             // 配置状态栏和底部导航栏的颜色（在用户切换深色模式时）
             // https://github.com/dn0ne/lotus/blob/master/app/src/main/java/com/dn0ne/player/MainActivity.kt#L266
             LaunchedEffect(appearanceUiState.darkMode) {
                 WindowCompat.getInsetsController(window, window.decorView).apply {
-                    isAppearanceLightStatusBars = !darkTheme
-                    isAppearanceLightNavigationBars = !darkTheme
+                    isAppearanceLightStatusBars = !isDark
+                    isAppearanceLightNavigationBars = !isDark
                 }
             }
 
@@ -101,7 +96,7 @@ class MainActivity : ComponentActivity(), AndroidScopeComponent {
             }
 
             VerveDoTheme(
-                darkTheme = darkTheme,
+                darkTheme = isDark,
                 pureBlackMode = appearanceUiState.pureBlackMode,
                 style = appearanceUiState.paletteStyle,
                 contrastLevel = appearanceUiState.contrastLevel,

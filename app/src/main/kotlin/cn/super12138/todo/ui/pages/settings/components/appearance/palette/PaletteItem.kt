@@ -43,14 +43,14 @@ import cn.super12138.todo.utils.keyColorBasedOnDynamicColor
 
 @Composable
 fun PaletteItem(
-    modifier: Modifier = Modifier,
     isDynamicColor: Boolean,
     isDark: Boolean,
     pureBlackMode: Boolean,
     paletteStyle: PaletteStyle,
     contrastLevel: ContrastLevel,
     selected: Boolean,
-    onSelect: () -> Unit,
+    modifier: Modifier = Modifier,
+    onSelect: () -> Unit = {},
     shapes: ButtonShapes = VerveDoDefaults.shapes
 ) {
     val view = LocalView.current
