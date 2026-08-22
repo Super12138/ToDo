@@ -71,14 +71,13 @@ fun SharedTransitionScope.TasksPage(
     mainViewModel: MainViewModel = koinViewModel()
 ) {
     val animatedVisibilityScope = LocalNavAnimatedContentScope.current
+    val transitionSpec = fadeScale()
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     val searchQueryState = rememberTextFieldState()
     val taskListState = rememberLazyListState()
 
-    val expandedFab by remember { derivedStateOf { taskListState.firstVisibleItemIndex == 0 } }
-    val isInSelectionMode by remember { derivedStateOf { uiState.screenMode == ScreenMode.Selection } }
-    val isInSearchMode by remember { derivedStateOf { uiState.screenMode == ScreenMode.Search } }
     val taskList = remember(uiState.originalTaskList, uiState.searchQuery) {
         if (uiState.searchQuery.isEmpty()) {
             uiState.originalTaskList
@@ -95,7 +94,9 @@ fun SharedTransitionScope.TasksPage(
         }
     }
 
-    val transitionSpec = fadeScale()
+    val expandedFab by remember { derivedStateOf { taskListState.firstVisibleItemIndex == 0 } }
+    val isInSelectionMode by remember { derivedStateOf { uiState.screenMode == ScreenMode.Selection } }
+    val isInSearchMode by remember { derivedStateOf { uiState.screenMode == ScreenMode.Search } }
 
     LaunchedEffect(searchQueryState) {
         snapshotFlow { searchQueryState.text.toString().trim() }
@@ -136,7 +137,6 @@ fun SharedTransitionScope.TasksPage(
                     )
             )
         },
-        // contentWindowInsets = WindowInsets(0, 0, 0, 0),
         modifier = modifier
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(VerveDoDefaults.settingsItemPadding)) {
@@ -205,21 +205,20 @@ fun SharedTransitionScope.TasksPage(
                                 }
                             }
                             TaskCard(
-                                // id = item.id,
                                 content = task.content,
                                 category = task.category,
                                 completed = task.isCompleted,
-                                dueDate = task.dueDate,
+                                dueDateMillis = task.dueDate,
                                 priority = priority,
                                 selected = selected,
-                                onCardClick = {
+                                onClick = {
                                     if (isInSelectionMode) {
                                         viewModel.toggleTaskSelection(task)
                                     } else {
                                         toTodoEditPage(task)
                                     }
                                 },
-                                onCardLongClick = {
+                                onLongClick = {
                                     if (!isInSelectionMode) {
                                         viewModel.enterMultiSelectMode(task.id)
                                     } else {

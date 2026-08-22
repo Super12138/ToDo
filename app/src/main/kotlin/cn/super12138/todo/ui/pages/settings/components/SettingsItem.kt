@@ -57,7 +57,7 @@ fun SettingsItem(
     description: String? = null,
     trailingContent: (@Composable () -> Unit)? = null,
     background: Color = VerveDoDefaults.Colors.Container,
-    shapes: ButtonShapes = VerveDoDefaults.shapes(),
+    shapes: ButtonShapes = VerveDoDefaults.shapes,
     onClick: () -> Unit = {}
 ) = SettingsItem(
     leadingIcon = {
@@ -115,7 +115,7 @@ fun SettingsItem(
     description: String? = null,
     trailingContent: (@Composable () -> Unit)? = null,
     background: Color = VerveDoDefaults.Colors.Container,
-    shapes: ButtonShapes = VerveDoDefaults.shapes(),
+    shapes: ButtonShapes = VerveDoDefaults.shapes,
     onClick: () -> Unit = {}
 ) = SettingsItem(
     leadingIcon = {
@@ -146,7 +146,7 @@ fun SettingsItem(
     description: String? = null,
     trailingContent: (@Composable () -> Unit)? = null,
     background: Color = VerveDoDefaults.Colors.Container,
-    shapes: ButtonShapes = VerveDoDefaults.shapes(),
+    shapes: ButtonShapes = VerveDoDefaults.shapes,
     onClick: () -> Unit = {},
 ) = SettingsItem(
     modifier = modifier,
@@ -188,7 +188,7 @@ fun SettingsItem(
     supportingContent: (@Composable () -> Unit)? = null,
     trailingContent: (@Composable () -> Unit)? = null,
     background: Color = VerveDoDefaults.Colors.Container,
-    shapes: ButtonShapes = VerveDoDefaults.shapes(),
+    shapes: ButtonShapes = VerveDoDefaults.shapes,
     interactionSource: MutableInteractionSource? = null,
     onClick: () -> Unit = {},
 ) {

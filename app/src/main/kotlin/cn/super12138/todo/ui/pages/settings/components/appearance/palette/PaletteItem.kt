@@ -52,7 +52,7 @@ fun PaletteItem(
     contrastLevel: ContrastLevel,
     selected: Boolean,
     onSelect: () -> Unit,
-    shapes: ButtonShapes = VerveDoDefaults.shapes()
+    shapes: ButtonShapes = VerveDoDefaults.shapes
 ) {
     val view = LocalView.current
     val interactionSource = remember { MutableInteractionSource() }
@@ -73,7 +73,7 @@ fun PaletteItem(
         Column(
             modifier = Modifier
                 .width(90.dp)
-                .padding(8.dp),
+                .padding(VerveDoDefaults.contentPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             // 为不同主题样式设置不同色板
@@ -101,7 +101,7 @@ fun PaletteItem(
                             color = MaterialTheme.colorScheme.primary,
                             shape = MaterialTheme.shapes.large
                         ),
-                    verticalArrangement = Arrangement.spacedBy(2.dp)
+                    verticalArrangement = Arrangement.spacedBy(VerveDoDefaults.contentPadding / 2)
                 ) {
                     listOf(
                         MaterialTheme.colorScheme.primary,

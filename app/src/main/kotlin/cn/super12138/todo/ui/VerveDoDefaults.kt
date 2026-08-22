@@ -3,6 +3,9 @@ package cn.super12138.todo.ui
 import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ButtonShapes
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ToggleButtonColors
 import androidx.compose.material3.ToggleButtonDefaults
@@ -67,12 +70,16 @@ object VerveDoDefaults {
     val pressedShape: CornerBasedShape
         @Composable get() = MaterialTheme.shapes.small
 
+    val shapes: ButtonShapes
+        @Composable get() = ButtonDefaults.shapes(
+            shape = defaultShape,
+            pressedShape = pressedShape
+        )
 
-    @Composable
-    fun shapes() = ButtonDefaults.shapes(
-        shape = defaultShape,
-        pressedShape = pressedShape
-    )
+    val listColor: CardColors
+        @Composable get() = CardDefaults.cardColors(
+            containerColor = Colors.Container
+        )
 
     val shapesDefaultAnimationSpec: FiniteAnimationSpec<Float>
         @Composable get() = MaterialTheme.motionScheme.defaultEffectsSpec()

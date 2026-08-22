@@ -23,7 +23,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Badge
 import androidx.compose.material3.ButtonShapes
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -44,7 +44,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.ui.VerveDoDefaults
@@ -58,25 +57,29 @@ import cn.super12138.todo.utils.toRelativeTimeString
 
 @Composable
 fun TaskCard(
-    modifier: Modifier = Modifier,
-    // id: Int,
     content: String,
     category: String,
     completed: Boolean,
-    dueDate: Long?,
+    dueDateMillis: Long?,
     priority: Priority,
     selected: Boolean,
-    onCardClick: () -> Unit = {},
-    onCardLongClick: () -> Unit = {},
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
+    onLongClick: () -> Unit = {},
     onChecked: () -> Unit = {},
-    shapes: ButtonShapes = VerveDoDefaults.shapes(),
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    colors: CardColors = VerveDoDefaults.listColor,
+    shapes: ButtonShapes = VerveDoDefaults.shapes,
 ) {
     val view = LocalView.current
-    val context = LocalContext.current
-    val cardColors = CardDefaults.cardColors(containerColor = VerveDoDefaults.Colors.Container)
-    val animatedContainerColor by animateColorAsState(targetValue = if (selected) MaterialTheme.colorScheme.secondaryContainer else if (completed) cardColors.disabledContainerColor else cardColors.containerColor)
 
-    val interactionSource = remember { MutableInteractionSource() }
+    val enterTransition = fadeIn(MaterialTheme.motionScheme.fastSpatialSpec()) + expandHorizontally(
+        MaterialTheme.motionScheme.fastSpatialSpec()
+    )
+    val exitTransition = fadeOut(MaterialTheme.motionScheme.fastSpatialSpec()) + shrinkHorizontally(
+        MaterialTheme.motionScheme.fastSpatialSpec()
+    )
+
     val pressed by interactionSource.collectIsPressedAsState()
     val animatedShape = shapeByInteraction(
         shapes = shapes,
@@ -84,11 +87,38 @@ fun TaskCard(
         animationSpec = VerveDoDefaults.shapesDefaultAnimationSpec
     )
 
-    val enterTransition = fadeIn(MaterialTheme.motionScheme.fastSpatialSpec()) + expandHorizontally(
-        MaterialTheme.motionScheme.fastSpatialSpec()
+    val containerColor by animateColorAsState( // @ChatGPT
+        targetValue = when {
+            selected -> MaterialTheme.colorScheme.secondaryContainer
+            completed -> colors.disabledContainerColor
+            else -> colors.containerColor
+        },
+        label = "containerColor"
     )
-    val exitTransition = fadeOut(MaterialTheme.motionScheme.fastSpatialSpec()) + shrinkHorizontally(
-        MaterialTheme.motionScheme.fastSpatialSpec()
+
+    val contentColor by animateColorAsState(
+        targetValue = if (completed) colors.disabledContentColor else colors.contentColor,
+        label = "contentColor"
+    )
+
+    val badgeColor by animateColorAsState(
+        targetValue = if (completed) disabledContainerColor() else MaterialTheme.colorScheme.primary,
+        label = "badgeColor"
+    )
+
+    val dateColor by animateColorAsState(
+        targetValue = if (completed) colors.disabledContentColor else MaterialTheme.colorScheme.onSurface,
+        label = "contentColor"
+    )
+
+    val relativeDateColor by animateColorAsState(
+        targetValue = if (completed) colors.disabledContentColor else MaterialTheme.colorScheme.onSurfaceVariant,
+        label = "contentColor"
+    )
+
+    val priorityColor by animateColorAsState(
+        targetValue = if (completed) disabledContentColor() else priority.containerColor(),
+        label = "priorityColor"
     )
 
     Row(
@@ -101,43 +131,27 @@ fun TaskCard(
                 interactionSource = interactionSource,
                 onClick = {
                     VibrationUtils.performHapticFeedback(view)
-                    onCardClick()
+                    onClick()
                 },
                 // 不再需要使用：VibrationUtils.performHapticFeedback(view, HapticFeedbackConstants.LONG_PRESS)
                 // 因为 combinedClickable 在更新的 Compose 里已经处理好了触感反馈
-                onLongClick = onCardLongClick
+                onLongClick = onLongClick
             )
-            .drawBehind { drawRect(animatedContainerColor) }
+            .drawBehind { drawRect(containerColor) }
             .padding(start = VerveDoDefaults.screenHorizontalPadding)
     ) {
         AnimatedVisibility(
             visible = selected,
             enter = enterTransition,
             exit = exitTransition
-        ) {
-            Box(
-                Modifier
-                    .padding(end = 15.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.secondary)
-                    .padding(5.dp)
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_check),
-                    tint = contentColorFor(MaterialTheme.colorScheme.secondary),
-                    contentDescription = stringResource(R.string.tip_selected)
-                )
-            }
-        }
+        ) { SelectedIcon(Modifier.padding(end = VerveDoDefaults.contentPadding * 2)) }
 
-        Column(
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxSize()
-        ) {
-            CompositionLocalProvider(
-                LocalContentColor provides if (completed) cardColors.disabledContentColor else cardColors.contentColor,
+        CompositionLocalProvider(LocalContentColor provides contentColor) {
+            Column(
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxSize()
             ) {
                 Row(
                     verticalAlignment = Alignment.Top,
@@ -152,28 +166,14 @@ fun TaskCard(
                         modifier = Modifier.weight(1f)
                     )
 
-                    Column(
-                        horizontalAlignment = Alignment.End,
-                        modifier = Modifier.padding(
-                            start = VerveDoDefaults.screenVerticalPadding,
-                            end = VerveDoDefaults.screenHorizontalPadding
-                        )
-                    ) {
-                        val dueDateText = remember(content, dueDate) { dueDate.toLocalDateString() }
-                        Text(
-                            text = dueDateText,
-                            style = MaterialTheme.typography.labelLarge.copy(
-                                color = if (completed) cardColors.disabledContentColor else MaterialTheme.colorScheme.onSurface,
-                                fontWeight = FontWeight.Bold
-                            )
-                        )
-
-                        val relativeTimeString =
-                            remember(content, dueDate) { dueDate.toRelativeTimeString(context) }
-                        Text(
-                            text = relativeTimeString,
-                            style = MaterialTheme.typography.labelSmall.copy(
-                                color = if (completed) cardColors.disabledContentColor else MaterialTheme.colorScheme.onSurfaceVariant
+                    dueDateMillis?.let {
+                        DueDatePresenter(
+                            dueDateMillis = it,
+                            dateColor = dateColor,
+                            relativeDateColor = relativeDateColor,
+                            modifier = Modifier.padding(
+                                start = VerveDoDefaults.screenVerticalPadding,
+                                end = VerveDoDefaults.screenHorizontalPadding
                             )
                         )
                     }
@@ -181,21 +181,14 @@ fun TaskCard(
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(5.dp)
+                    horizontalArrangement = Arrangement.spacedBy(VerveDoDefaults.contentPadding / 2)
                 ) {
-                    Badge(containerColor = if (completed) disabledContainerColor() else MaterialTheme.colorScheme.primary) {
-                        Text(
-                            text = category.ifEmpty { stringResource(R.string.tip_default_category) },
-                            style = MaterialTheme.typography.labelMedium,
-                            maxLines = 1
-                        )
-                    }
+                    CategoryBadge(category = category, containerColor = badgeColor)
 
                     Text(
                         text = stringResource(priority.nameRes),
-                        style = MaterialTheme.typography.labelMedium.copy(
-                            color = if (completed) disabledContentColor() else priority.containerColor()
-                        ),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = priorityColor
                     )
                 }
             }
@@ -205,42 +198,95 @@ fun TaskCard(
             visible = !selected && !completed,
             enter = enterTransition,
             exit = exitTransition
-        ) {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .background(VerveDoDefaults.Colors.Green)
-                    .clickable {
-                        VibrationUtils.performHapticFeedback(view)
-                        onChecked()
-                    }
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_check),
-                    tint = Color.White,
-                    contentDescription = null,
-                    modifier = Modifier.padding(VerveDoDefaults.screenHorizontalPadding)
-                )
-            }
-        }
+        ) { CheckButton(onChecked = onChecked) }
     }
 }
 
-/*
-@Preview(locale = "zh-rCN", showBackground = true)
 @Composable
-private fun TodoCardPreview() {
-    TodoCard(
-        content = "背《岳阳楼记》《出师表》《琵琶行》",
-        subject = "语文",
-        completed = false,
-        priority = Priority.Important.value,
-        selected = false,
-        onCardClick = {},
-        onCardLongClick = {},
-        onChecked = {},
-        sharedTransitionScope = ,
-        animatedVisibilityScope =
-    )
-}*/
+private fun SelectedIcon(modifier: Modifier = Modifier) {
+    Box(
+        modifier
+            .clip(CircleShape)
+            .background(MaterialTheme.colorScheme.secondary)
+            .padding(VerveDoDefaults.contentPadding / 2)
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_check),
+            tint = contentColorFor(MaterialTheme.colorScheme.secondary),
+            contentDescription = stringResource(R.string.tip_selected)
+        )
+    }
+}
+
+@Composable
+private fun DueDatePresenter(
+    dueDateMillis: Long,
+    modifier: Modifier = Modifier,
+    dateColor: Color = MaterialTheme.colorScheme.onSurface,
+    relativeDateColor: Color = MaterialTheme.colorScheme.onSurfaceVariant
+) {
+    val context = LocalContext.current
+    Column(
+        horizontalAlignment = Alignment.End,
+        modifier = modifier
+    ) {
+        val dueDateText = remember(dueDateMillis) { dueDateMillis.toLocalDateString() }
+        Text(
+            text = dueDateText,
+            style = MaterialTheme.typography.labelLarge,
+            fontWeight = FontWeight.Bold,
+            color = dateColor
+        )
+
+        val relativeTimeString =
+            remember(dueDateMillis) { dueDateMillis.toRelativeTimeString(context) }
+        Text(
+            text = relativeTimeString,
+            style = MaterialTheme.typography.labelSmall,
+            color = relativeDateColor
+        )
+    }
+}
+
+@Composable
+fun CategoryBadge(
+    category: String,
+    modifier: Modifier = Modifier,
+    containerColor: Color = MaterialTheme.colorScheme.primary
+) {
+    Badge(
+        containerColor = containerColor,
+        modifier = modifier
+    ) {
+        Text(
+            text = category.ifEmpty { stringResource(R.string.tip_default_category) },
+            style = MaterialTheme.typography.labelMedium,
+            maxLines = 1
+        )
+    }
+}
+
+@Composable
+private fun CheckButton(
+    modifier: Modifier = Modifier,
+    onChecked: () -> Unit = {}
+) {
+    val view = LocalView.current
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = modifier
+            .fillMaxHeight()
+            .background(VerveDoDefaults.Colors.Green)
+            .clickable {
+                VibrationUtils.performHapticFeedback(view)
+                onChecked()
+            }
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_check),
+            tint = Color.White,
+            contentDescription = null,
+            modifier = Modifier.padding(VerveDoDefaults.screenHorizontalPadding)
+        )
+    }
+}

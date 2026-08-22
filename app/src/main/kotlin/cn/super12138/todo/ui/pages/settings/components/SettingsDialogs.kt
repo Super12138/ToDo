@@ -84,7 +84,7 @@ fun RadioItem(
             .height(56.dp)
             .clip(
                 shapeByInteraction(
-                    shapes = VerveDoDefaults.shapes(),
+                    shapes = VerveDoDefaults.shapes,
                     pressed = pressed,
                     animationSpec = VerveDoDefaults.shapesDefaultAnimationSpec
                 )

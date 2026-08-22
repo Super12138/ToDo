@@ -42,7 +42,7 @@ fun DarkModeItem(
     containerColor: Color,
     selected: Boolean,
     onSelect: () -> Unit,
-    shapes: ButtonShapes = VerveDoDefaults.shapes()
+    shapes: ButtonShapes = VerveDoDefaults.shapes
 ) {
     val view = LocalView.current
 

@@ -44,7 +44,7 @@ fun RoundedCornerCardLarge(
     title: String,
     count: Int,
     containerColor: Color = VerveDoDefaults.Colors.Container,
-    shapes: ButtonShapes = VerveDoDefaults.shapes(),
+    shapes: ButtonShapes = VerveDoDefaults.shapes,
     onClick: () -> Unit = {}
 ) {
 

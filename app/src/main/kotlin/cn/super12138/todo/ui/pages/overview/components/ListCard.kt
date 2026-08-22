@@ -61,7 +61,7 @@ fun ListCard(
                 .fillMaxWidth()
                 .padding(VerveDoDefaults.screenHorizontalPadding),
             horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(VerveDoDefaults.contentPadding)
         ) {
             Text(
                 text = title,

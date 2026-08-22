@@ -33,7 +33,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.dp
 import cn.super12138.todo.R
 import cn.super12138.todo.ui.VerveDoDefaults
 import cn.super12138.todo.ui.activities.CrashActivity.Companion.BEGINNING_CRASH
@@ -115,7 +114,7 @@ fun CrashPage(
                 .fillMaxSize()
                 .verticalScroll(scrollState)
         ) {
-            Spacer(Modifier.height(5.dp))
+            Spacer(Modifier.height(VerveDoDefaults.contentPadding / 2))
             SelectionContainer {
                 Text(
                     text = buildAnnotatedString {
