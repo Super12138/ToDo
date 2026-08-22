@@ -52,7 +52,7 @@
 
 ## 🤝 贡献
 你可以为 VerveDo 贡献代码和翻译。
-贡献代码只需提交 Pull Request 即可，贡献翻译请加入 Crowdin 项目。若需提出新语言，请提交 Issue。
+贡献代码只需提交 Pull Request 即可，贡献翻译请[加入 Crowdin 项目](https://crowdin.com/project/vervedo)。若需提出新语言，请提交 Issue。
 
 <a href="https://crowdin.com/project/vervedo">
     <img style="width:140; height:40px" src="art/localization-at-white-rounded-bordered@1x.png" srcset="art/localization-at-white-rounded-bordered@1x.png 1x,art/localization-at-white-rounded-bordered@2x.png 2x" alt="VerveDo Crowdin 项目" />
