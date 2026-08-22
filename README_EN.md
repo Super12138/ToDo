@@ -50,7 +50,7 @@ Or get it from [F-Droid](https://f-droid.org/packages/cn.super12138.todo)
 | Task list                                                                    | Add new task                                                                |
 
 ## 🤝 Contributing
-You can contribute to VerveDo by submitting code or translations. To contribute code, simply submit a Pull Request. To contribute translations, please join the Crowdin project. If you want to propose a new language, please submit an Issue.
+You can contribute to VerveDo by submitting code or translations. To contribute code, simply submit a Pull Request. To contribute translations, please [join the Crowdin project](https://crowdin.com/project/vervedo). If you want to propose a new language, please submit an Issue.
 
 <a href="https://crowdin.com/project/vervedo">
     <img style="width:140; height:40px" src="art/localization-at-white-rounded-bordered@1x.png" srcset="art/localization-at-white-rounded-bordered@1x.png 1x,art/localization-at-white-rounded-bordered@2x.png 2x" alt="VerveDo Crowdin 项目" />
