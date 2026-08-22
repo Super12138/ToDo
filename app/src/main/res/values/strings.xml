@@ -129,7 +129,7 @@
     <string name="time_weeks_ago">%d w ago</string>
     <string name="time_months_ago">%d mo ago</string>
     <string name="time_years_ago">%d y ago</string>
-    <string name="label_due_date">Due Date (Optional)</string>
+    <string name="label_due_date">Due Date</string>
     <string name="title_all_task">All</string>
     <string name="title_completed_task">Completed</string>
     <string name="title_pending_task">Pending</string>
