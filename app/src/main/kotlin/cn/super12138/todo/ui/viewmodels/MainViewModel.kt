@@ -1,38 +1,57 @@
 package cn.super12138.todo.ui.viewmodels
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cn.super12138.todo.logic.TaskRepository
-import cn.super12138.todo.logic.database.TaskEntity
-import kotlinx.coroutines.launch
+import cn.super12138.todo.logic.SettingsRepository
+import cn.super12138.todo.ui.pages.settings.SettingsAppearanceUiState
+import cn.super12138.todo.ui.pages.settings.SettingsDevUiState
+import cn.super12138.todo.utils.ConfettiController
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 
-class MainViewModel(private val taskRepository: TaskRepository) : ViewModel() {
-    var showConfetti by mutableStateOf(false)
-        private set
+class MainViewModel(
+    private val settingsRepository: SettingsRepository,
+    private val confettiController: ConfettiController
+) : ViewModel() {
+    val isConfettiVisible = confettiController.visible
+    val secureModeFlow = settingsRepository.secureModeFlow
+    val hapticFeedbackFlow = settingsRepository.hapticFeedbackFlow
 
-    fun setConfettiVisibility(visible: Boolean) {
-        showConfetti = visible
-    }
+    val appearanceUiState: StateFlow<SettingsAppearanceUiState> = combine(
+        settingsRepository.dynamicColorFlow,
+        settingsRepository.paletteStyleFlow,
+        settingsRepository.darkModeFlow,
+        settingsRepository.pureBlackFlow,
+        settingsRepository.contrastLevelFlow
+    ) { dynamicColor, paletteStyle, darkMode, pureBlackMode, contrastLevel ->
+        SettingsAppearanceUiState(
+            dynamicColor = dynamicColor,
+            paletteStyle = paletteStyle,
+            darkMode = darkMode,
+            pureBlackMode = pureBlackMode,
+            contrastLevel = contrastLevel
+        )
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = SettingsAppearanceUiState()
+    )
 
-    fun addTask(task: TaskEntity) {
-        viewModelScope.launch {
-            taskRepository.insertTask(task)
-        }
-    }
+    val devUiState: StateFlow<SettingsDevUiState> = combine(
+        settingsRepository.colorSpecVersionFlow,
+        settingsRepository.dynamicSchemePlatformFlow
+    ) { colorSpecVersion, colorSpecPlatform ->
+        SettingsDevUiState(
+            colorSpecVersion = colorSpecVersion,
+            dynamicSchemePlatform = colorSpecPlatform
+        )
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = SettingsDevUiState()
+    )
 
-    fun updateTask(task: TaskEntity) {
-        viewModelScope.launch {
-            taskRepository.updateTask(task)
-        }
-    }
-
-    fun deleteTask(task: TaskEntity) {
-        viewModelScope.launch {
-            taskRepository.deleteTask(task)
-        }
-    }
-
+    fun setConfettiVisibility(visible: Boolean) = confettiController.setVisibility(visible)
 }

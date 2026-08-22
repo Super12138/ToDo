@@ -20,6 +20,7 @@ import cn.super12138.todo.ui.pages.overview.OverviewViewModel
 import cn.super12138.todo.ui.pages.settings.SettingsViewModel
 import cn.super12138.todo.ui.pages.tasks.TaskViewModel
 import cn.super12138.todo.ui.viewmodels.MainViewModel
+import cn.super12138.todo.utils.ConfettiController
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.scope.dsl.activityRetainedScope
 import org.koin.core.module.dsl.singleOf
@@ -63,6 +64,7 @@ object VerveDoDI {
     val datastoreModule = module {
         single<DataStore<Preferences>> { androidApplication().dataStore }
         singleOf(::DataStoreManager)
+        singleOf(::ConfettiController)
     }
 
     val viewModelModule = module {
@@ -72,7 +74,9 @@ object VerveDoDI {
         viewModel<EditorViewModel> { params ->
             EditorViewModel(
                 initialTask = params.getOrNull(),
-                settingsRepository = get()
+                taskRepository = get(),
+                settingsRepository = get(),
+                confettiController = get()
             )
         }
         viewModelOf(::SettingsViewModel)

@@ -3,19 +3,24 @@ package cn.super12138.todo.ui.pages.editor
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cn.super12138.todo.logic.SettingsRepository
+import cn.super12138.todo.logic.TaskRepository
 import cn.super12138.todo.logic.database.TaskEntity
 import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.ui.components.ChipItem
+import cn.super12138.todo.utils.ConfettiController
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class EditorViewModel(
     val initialTask: TaskEntity?,
+    private val taskRepository: TaskRepository,
     private val settingsRepository: SettingsRepository,
+    private val confettiController: ConfettiController
 ) : ViewModel() {
     private val localUiState = MutableStateFlow(TaskEditorUiState())
     val uiState: StateFlow<TaskEditorUiState> = combine(
@@ -83,9 +88,10 @@ class EditorViewModel(
         }
     }
 
-    fun getNewTaskEntity(): TaskEntity {
-        with(uiState.value) {
-            return TaskEntity(
+    fun saveNewTask() {
+        if (!isModified()) return
+        val task = with(uiState.value) {
+            TaskEntity(
                 content = content,
                 category = category,
                 isCompleted = isCompleted,
@@ -94,5 +100,13 @@ class EditorViewModel(
                 id = initialTask?.id ?: 0
             )
         }
+        viewModelScope.launch { taskRepository.insertTask(task) }
     }
+
+    fun deleteTask() {
+        if (initialTask == null) return
+        viewModelScope.launch { taskRepository.deleteTask(initialTask) }
+    }
+
+    fun setConfettiVisibility(visible: Boolean) = confettiController.setVisibility(visible)
 }

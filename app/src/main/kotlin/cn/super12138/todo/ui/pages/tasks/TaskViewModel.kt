@@ -6,6 +6,7 @@ import cn.super12138.todo.logic.SettingsRepository
 import cn.super12138.todo.logic.TaskRepository
 import cn.super12138.todo.logic.database.TaskEntity
 import cn.super12138.todo.logic.model.ScreenMode
+import cn.super12138.todo.utils.ConfettiController
 import cn.super12138.todo.utils.sort
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -17,7 +18,8 @@ import kotlinx.coroutines.launch
 
 class TaskViewModel(
     private val taskRepository: TaskRepository,
-    private val settingsRepository: SettingsRepository
+    private val settingsRepository: SettingsRepository,
+    private val confettiController: ConfettiController
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(TasksPageUiState())
     val uiState: StateFlow<TasksPageUiState> = combine(
@@ -104,4 +106,6 @@ class TaskViewModel(
     fun hideDeleteConfirmDialog() = _uiState.update { it.copy(showDeleteConfirmDialog = false) }
 
     fun updateSearchQuery(query: String) = _uiState.update { it.copy(searchQuery = query) }
+
+    fun setConfettiVisibility(visible: Boolean) = confettiController.setVisibility(visible)
 }

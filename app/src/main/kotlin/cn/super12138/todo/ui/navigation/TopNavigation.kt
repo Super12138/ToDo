@@ -28,15 +28,12 @@ import cn.super12138.todo.ui.pages.tasks.TasksPage
 import cn.super12138.todo.ui.theme.fadeScale
 import cn.super12138.todo.ui.theme.materialSharedAxisX
 import cn.super12138.todo.ui.theme.veilFade
-import cn.super12138.todo.ui.viewmodels.MainViewModel
-import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun TopNavigation(
     modifier: Modifier = Modifier,
-    backStack: TopLevelBackStack<NavKey>,
-    viewModel: MainViewModel = koinViewModel()
+    backStack: TopLevelBackStack<NavKey>
 ) {
     fun onBack() {
         backStack.removeLast()
@@ -93,36 +90,18 @@ fun TopNavigation(
 
                 entry<VerveDoScreen.Tasks> {
                     TasksPage(
-                        toTodoAddPage = { backStack.add(VerveDoScreen.Editor.Add) },
-                        toTodoEditPage = { backStack.add(VerveDoScreen.Editor.Edit(it)) }
+                        toTaskAddPage = { backStack.add(VerveDoScreen.Editor.Add) },
+                        toTaskEditPage = { backStack.add(VerveDoScreen.Editor.Edit(it)) }
                     )
                 }
 
                 entry<VerveDoScreen.Editor.Add>(metadata = editorTransition()) {
-                    TaskAddPage(
-                        onSave = {
-                            viewModel.addTask(it)
-                            onBack()
-                        },
-                        onNavigateUp = ::onBack
-                    )
+                    TaskAddPage(onNavigateUp = ::onBack)
                 }
 
                 entry<VerveDoScreen.Editor.Edit>(metadata = editorTransition()) { editorArgs ->
                     TaskEditPage(
                         task = editorArgs.task,
-                        onSave = {
-                            viewModel.addTask(it)
-                            // 如果原来的待办状态为未完成并且修改后状态为完成
-                            if (!editorArgs.task.isCompleted && it.isCompleted) {
-                                viewModel.setConfettiVisibility(true)
-                            }
-                            onBack()
-                        },
-                        onDelete = {
-                            viewModel.deleteTask(editorArgs.task)
-                            onBack()
-                        },
                         onNavigateUp = ::onBack
                     )
                 }

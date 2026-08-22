@@ -68,7 +68,6 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun SharedTransitionScope.TaskAddPage(
     modifier: Modifier = Modifier,
-    onSave: (TaskEntity) -> Unit,
     onNavigateUp: () -> Unit
 ) = TaskEditorPage(
     task = null,
@@ -79,8 +78,6 @@ fun SharedTransitionScope.TaskAddPage(
             resizeMode = SharedTransitionScope.ResizeMode.RemeasureToBounds
         )
         .skipToLookaheadSize(), // 这个修饰符必须放后面
-    onSave = onSave,
-    onDelete = {},
     onNavigateUp = onNavigateUp
 )
 
@@ -88,8 +85,6 @@ fun SharedTransitionScope.TaskAddPage(
 fun SharedTransitionScope.TaskEditPage(
     modifier: Modifier = Modifier,
     task: TaskEntity,
-    onSave: (TaskEntity) -> Unit,
-    onDelete: () -> Unit,
     onNavigateUp: () -> Unit
 ) = TaskEditorPage(
     task = task,
@@ -100,8 +95,6 @@ fun SharedTransitionScope.TaskEditPage(
             resizeMode = SharedTransitionScope.ResizeMode.RemeasureToBounds
         )
         .skipToLookaheadSize(),
-    onSave = onSave,
-    onDelete = onDelete,
     onNavigateUp = onNavigateUp
 )
 
@@ -109,9 +102,7 @@ fun SharedTransitionScope.TaskEditPage(
 fun TaskEditorPage(
     modifier: Modifier = Modifier,
     task: TaskEntity? = null,
-    onNavigateUp: () -> Unit,
-    onSave: (TaskEntity) -> Unit,
-    onDelete: () -> Unit,
+    onNavigateUp: () -> Unit = {},
     viewModel: EditorViewModel = koinViewModel { parametersOf(task) }
 ) {
     val view = LocalView.current
@@ -178,7 +169,12 @@ fun TaskEditorPage(
                             return@TodoFloatingActionButton
                         }
 
-                        onSave(viewModel.getNewTaskEntity())
+                        viewModel.saveNewTask()
+                        // 如果原来的待办状态为未完成并且修改后状态为完成
+                        if (task != null && !task.isCompleted && uiState.isCompleted) {
+                            viewModel.setConfettiVisibility(true)
+                        }
+                        onNavigateUp()
                     }
                 )
             }
@@ -366,7 +362,10 @@ fun TaskEditorPage(
         visible = uiState.showDeleteConfirmDialog,
         iconRes = R.drawable.ic_delete,
         text = stringResource(R.string.tip_delete_task, 1),
-        onConfirm = onDelete,
+        onConfirm = {
+            viewModel.deleteTask()
+            onNavigateUp()
+        },
         onDismiss = { viewModel.hideDeleteConfirmDialog() }
     )
 }

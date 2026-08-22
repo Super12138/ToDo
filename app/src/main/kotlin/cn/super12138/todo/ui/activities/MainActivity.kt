@@ -22,12 +22,12 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavKey
+import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.ui.VerveDoDefaults
 import cn.super12138.todo.ui.components.Confetti
 import cn.super12138.todo.ui.navigation.TopLevelBackStack
 import cn.super12138.todo.ui.navigation.TopNavigation
 import cn.super12138.todo.ui.navigation.VerveDoDestinations
-import cn.super12138.todo.ui.pages.settings.SettingsViewModel
 import cn.super12138.todo.ui.theme.VerveDoTheme
 import cn.super12138.todo.ui.viewmodels.MainViewModel
 import cn.super12138.todo.utils.VibrationUtils
@@ -51,11 +51,15 @@ class MainActivity : ComponentActivity(), AndroidScopeComponent {
 
         setContent {
             val mainViewModel: MainViewModel = koinViewModel()
-            val settingsViewModel: SettingsViewModel = koinViewModel()
 
-            val appearanceUiState by settingsViewModel.appearanceUiState.collectAsStateWithLifecycle()
-            val interfaceUiState by settingsViewModel.interfaceUiState.collectAsStateWithLifecycle()
-            val devUiState by settingsViewModel.devUiState.collectAsStateWithLifecycle()
+            val appearanceUiState by mainViewModel.appearanceUiState.collectAsStateWithLifecycle()
+            val devUiState by mainViewModel.devUiState.collectAsStateWithLifecycle()
+            val secureMode by mainViewModel.secureModeFlow.collectAsStateWithLifecycle(Constants.PREF_SECURE_MODE_DEFAULT)
+            val hapticFeedback by mainViewModel.hapticFeedbackFlow.collectAsStateWithLifecycle(
+                Constants.PREF_HAPTIC_FEEDBACK_DEFAULT
+            )
+            val isConfettiVisible by mainViewModel.isConfettiVisible
+
             val navigationScaffoldState = rememberNavigationSuiteScaffoldState()
 
             val isDark = appearanceUiState.darkMode.isDark()
@@ -69,8 +73,8 @@ class MainActivity : ComponentActivity(), AndroidScopeComponent {
             }
 
             // 安全模式相关配置
-            LaunchedEffect(interfaceUiState.secureMode) {
-                if (interfaceUiState.secureMode) {
+            LaunchedEffect(secureMode) {
+                if (secureMode) {
                     window.setFlags(
                         WindowManager.LayoutParams.FLAG_SECURE,
                         WindowManager.LayoutParams.FLAG_SECURE
@@ -80,9 +84,7 @@ class MainActivity : ComponentActivity(), AndroidScopeComponent {
                 }
             }
 
-            LaunchedEffect(interfaceUiState.hapticFeedback) {
-                VibrationUtils.setEnabled(interfaceUiState.hapticFeedback)
-            }
+            LaunchedEffect(hapticFeedback) { VibrationUtils.setEnabled(hapticFeedback) }
 
             // 当BackStack出现非顶层路由时，隐藏底部导航栏
             LaunchedEffect(backStack.backStack.lastOrNull()) {
@@ -148,7 +150,7 @@ class MainActivity : ComponentActivity(), AndroidScopeComponent {
                         )
                     }
                     Confetti(
-                        visible = mainViewModel.showConfetti,
+                        visible = isConfettiVisible,
                         onVisibilityChange = { mainViewModel.setConfettiVisibility(it) },
                         modifier = Modifier.fillMaxSize()
                     )

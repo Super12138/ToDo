@@ -11,9 +11,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cn.super12138.todo.R
+import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.ui.pages.crash.CrashPage
-import cn.super12138.todo.ui.pages.settings.SettingsViewModel
 import cn.super12138.todo.ui.theme.VerveDoTheme
+import cn.super12138.todo.ui.viewmodels.MainViewModel
 import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.utils.configureEdgeToEdge
 import cn.super12138.todo.utils.isDark
@@ -35,11 +36,14 @@ class CrashActivity : ComponentActivity() {
         val crashLogs = intent.getStringExtra("crash_logs")
 
         setContent {
-            val settingsViewModel: SettingsViewModel = koinViewModel()
+            val mainViewModel: MainViewModel = koinViewModel()
 
-            val appearanceUiState by settingsViewModel.appearanceUiState.collectAsStateWithLifecycle()
-            val interfaceUiState by settingsViewModel.interfaceUiState.collectAsStateWithLifecycle()
-            val devUiState by settingsViewModel.devUiState.collectAsStateWithLifecycle()
+            val appearanceUiState by mainViewModel.appearanceUiState.collectAsStateWithLifecycle()
+            val devUiState by mainViewModel.devUiState.collectAsStateWithLifecycle()
+            val secureMode by mainViewModel.secureModeFlow.collectAsStateWithLifecycle(Constants.PREF_SECURE_MODE_DEFAULT)
+            val hapticFeedback by mainViewModel.hapticFeedbackFlow.collectAsStateWithLifecycle(
+                Constants.PREF_HAPTIC_FEEDBACK_DEFAULT
+            )
 
             val isDark = appearanceUiState.darkMode.isDark()
             // 配置状态栏和底部导航栏的颜色（在用户切换深色模式时）
@@ -51,9 +55,7 @@ class CrashActivity : ComponentActivity() {
                 }
             }
 
-            LaunchedEffect(interfaceUiState.hapticFeedback) {
-                VibrationUtils.setEnabled(interfaceUiState.hapticFeedback)
-            }
+            LaunchedEffect(hapticFeedback) { VibrationUtils.setEnabled(hapticFeedback) }
 
             VerveDoTheme(
                 darkTheme = isDark,

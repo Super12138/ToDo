@@ -54,7 +54,6 @@ import cn.super12138.todo.ui.pages.tasks.components.TaskCard
 import cn.super12138.todo.ui.pages.tasks.components.TaskSearchTextField
 import cn.super12138.todo.ui.pages.tasks.components.TasksTopAppBar
 import cn.super12138.todo.ui.theme.fadeScale
-import cn.super12138.todo.ui.viewmodels.MainViewModel
 import cn.super12138.todo.utils.toLocalDateString
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
@@ -65,10 +64,9 @@ import kotlin.time.Duration.Companion.milliseconds
 @Composable
 fun SharedTransitionScope.TasksPage(
     modifier: Modifier = Modifier,
-    toTodoAddPage: () -> Unit,
-    toTodoEditPage: (TaskEntity) -> Unit,
-    viewModel: TaskViewModel = koinViewModel(),
-    mainViewModel: MainViewModel = koinViewModel()
+    toTaskAddPage: () -> Unit,
+    toTaskEditPage: (TaskEntity) -> Unit,
+    viewModel: TaskViewModel = koinViewModel()
 ) {
     val animatedVisibilityScope = LocalNavAnimatedContentScope.current
     val transitionSpec = fadeScale()
@@ -124,7 +122,7 @@ fun SharedTransitionScope.TasksPage(
                 text = stringResource(R.string.action_add_task),
                 iconRes = R.drawable.ic_add,
                 expanded = expandedFab,
-                onClick = { toTodoAddPage() },
+                onClick = { toTaskAddPage() },
                 modifier = Modifier
                     .sharedBounds(
                         sharedContentState = rememberSharedContentState(key = Constants.KEY_TODO_FAB_TRANSITION),
@@ -215,7 +213,7 @@ fun SharedTransitionScope.TasksPage(
                                     if (isInSelectionMode) {
                                         viewModel.toggleTaskSelection(task)
                                     } else {
-                                        toTodoEditPage(task)
+                                        toTaskEditPage(task)
                                     }
                                 },
                                 onLongClick = {
@@ -227,7 +225,7 @@ fun SharedTransitionScope.TasksPage(
                                 },
                                 onChecked = {
                                     viewModel.updateTask(task.copy(isCompleted = true))
-                                    mainViewModel.setConfettiVisibility(true)
+                                    viewModel.setConfettiVisibility(true)
                                 },
                                 modifier = Modifier
                                     .sharedBounds(
