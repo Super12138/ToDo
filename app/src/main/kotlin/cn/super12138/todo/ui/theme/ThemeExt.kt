@@ -1,8 +1,6 @@
 package cn.super12138.todo.ui.theme
 
 import androidx.compose.animation.animateColor
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.Transition
 import androidx.compose.animation.core.spring
@@ -15,7 +13,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import cn.super12138.todo.logic.model.PaletteStyle
-import cn.super12138.todo.utils.blend
+import cn.super12138.todo.utils.darken
+import cn.super12138.todo.utils.toColor
 import com.kyant.m3color.dynamiccolor.ColorSpec
 import com.kyant.m3color.dynamiccolor.DynamicScheme
 import com.kyant.m3color.hct.Hct
@@ -344,21 +343,3 @@ fun animateColorScheme(
         onTertiaryFixedVariant = onTertiaryFixedVariant
     )
 }
-
-@Suppress("NOTHING_TO_INLINE")
-private inline fun Int.toColor(): Color = Color(this)
-
-// https://github.com/jordond/MaterialKolor/blob/main/material-kolor/src/commonMain/kotlin/com/materialkolor/DynamicMaterialTheme.kt
-@Composable
-private fun Color.animate(animationSpec: AnimationSpec<Color> = spring()): Color =
-    animateColorAsState(this, animationSpec).value
-
-// https://github.com/hushenghao/AndroidEasterEggs/blob/main/core/theme/src/main/java/com/dede/android_eggs/views/theme/Theme.kt#L21
-/**
- * 让颜色变暗
- */
-private fun Color.darken(fraction: Float = 0.5f): Color =
-    Color(this.toArgb().blend(Color.Black.toArgb(), fraction))
-
-private fun Color.replace(color: Color): Color = color
-private fun Color.replace(color: Int): Color = color.toColor()

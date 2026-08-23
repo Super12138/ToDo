@@ -20,6 +20,7 @@ class DataStoreManager(val dataStore: DataStore<Preferences>) {
     private val DARK_MODE = intPreferencesKey(Constants.PREF_DARK_MODE)
     private val PURE_BLACK_MODE = booleanPreferencesKey(Constants.PREF_PURE_BLACK_MODE)
     private val CONTRAST_LEVEL = floatPreferencesKey(Constants.PREF_CONTRAST_LEVEL)
+    private val PREVIEW_COLOR_SYSTEM = booleanPreferencesKey(Constants.PREF_PREVIEW_COLOR_SYSTEM)
 
     // 界面与交互
     // private val SHOW_COMPLETED = booleanPreferencesKey(Constants.PREF_SHOW_COMPLETED)
@@ -30,9 +31,6 @@ class DataStoreManager(val dataStore: DataStore<Preferences>) {
 
     // 数据
     private val CATEGORIES = stringPreferencesKey(Constants.PREF_CATEGORIES)
-
-    private val COLOR_SPEC_VERSION = intPreferencesKey(Constants.PREF_COLOR_SPEC_VERSION)
-    private val DYNAMIC_SCHEME_PLATFORM = intPreferencesKey(Constants.PREF_DYNAMIC_SCHEME_PLATFORM)
 
     // Getters
     val dynamicColorFlow: Flow<Boolean> = dataStore.data.map { preferences ->
@@ -53,6 +51,10 @@ class DataStoreManager(val dataStore: DataStore<Preferences>) {
 
     val contrastLevelFlow = dataStore.data.map { preferences ->
         preferences[CONTRAST_LEVEL] ?: Constants.PREF_CONTRAST_LEVEL_DEFAULT
+    }
+
+    val previewColorSystemFlow: Flow<Boolean> = dataStore.data.map { preferences ->
+        preferences[PREVIEW_COLOR_SYSTEM] ?: Constants.PREF_PREVIEW_COLOR_SYSTEM_DEFAULT
     }
 
     /*val showCompletedFlow: Flow<Boolean> = dataStore.data.map { preferences ->
@@ -77,14 +79,6 @@ class DataStoreManager(val dataStore: DataStore<Preferences>) {
 
     val categoriesFlow: Flow<List<String>> = dataStore.data.map { preferences ->
         Json.decodeFromString(preferences[CATEGORIES] ?: Constants.PREF_CATEGORIES_DEFAULT)
-    }
-
-    val colorSpecVersionFlow: Flow<Int> = dataStore.data.map { preferences ->
-        preferences[COLOR_SPEC_VERSION] ?: Constants.PREF_COLOR_SPEC_VERSION_DEFAULT
-    }
-
-    val dynamicSchemePlatformFlow: Flow<Int> = dataStore.data.map { preferences ->
-        preferences[DYNAMIC_SCHEME_PLATFORM] ?: Constants.PREF_DYNAMIC_SCHEME_PLATFORM_DEFAULT
     }
 
     // Setters
@@ -115,6 +109,12 @@ class DataStoreManager(val dataStore: DataStore<Preferences>) {
     suspend fun setContrastLevel(value: Float) {
         dataStore.edit { preferences ->
             preferences[CONTRAST_LEVEL] = value
+        }
+    }
+
+    suspend fun setPreviewColorSystem(value: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[PREVIEW_COLOR_SYSTEM] = value
         }
     }
 
@@ -151,18 +151,6 @@ class DataStoreManager(val dataStore: DataStore<Preferences>) {
     suspend fun setCategories(value: List<String>) {
         dataStore.edit { preferences ->
             preferences[CATEGORIES] = Json.encodeToString(value)
-        }
-    }
-
-    suspend fun setColorSpecVersion(value: Int) {
-        dataStore.edit { preferences ->
-            preferences[COLOR_SPEC_VERSION] = value
-        }
-    }
-
-    suspend fun setDynamicSchemePlatform(value: Int) {
-        dataStore.edit { preferences ->
-            preferences[DYNAMIC_SCHEME_PLATFORM] = value
         }
     }
 }

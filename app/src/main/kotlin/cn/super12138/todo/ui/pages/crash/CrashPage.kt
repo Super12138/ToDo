@@ -51,11 +51,7 @@ fun CrashPage(
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val scrollState = rememberScrollState()
-    val isExpanded by remember {
-        derivedStateOf {
-            scrollState.value == 0
-        }
-    }
+    val isExpanded by remember { derivedStateOf { scrollState.value == 0 } }
 
     Scaffold(
         modifier = modifier

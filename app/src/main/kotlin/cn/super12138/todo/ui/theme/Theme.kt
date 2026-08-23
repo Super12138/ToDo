@@ -4,13 +4,11 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import cn.super12138.todo.logic.model.ColorSpecVersion
 import cn.super12138.todo.logic.model.ContrastLevel
-import cn.super12138.todo.logic.model.DynamicSchemePlatform
 import cn.super12138.todo.logic.model.PaletteStyle
-import cn.super12138.todo.logic.model.toPlatform
-import cn.super12138.todo.logic.model.toSpecVersion
 import cn.super12138.todo.utils.keyColorBasedOnDynamicColor
+import com.kyant.m3color.dynamiccolor.ColorSpec
+import com.kyant.m3color.dynamiccolor.DynamicScheme
 
 @Composable
 fun VerveDoTheme(
@@ -20,8 +18,8 @@ fun VerveDoTheme(
     style: PaletteStyle = PaletteStyle.TonalSpot,
     contrastLevel: ContrastLevel = ContrastLevel.Default,
     dynamicColor: Boolean = true, // Dynamic color is available on Android 12+
-    specVersion: ColorSpecVersion = ColorSpecVersion.Spec2025,
-    platform: DynamicSchemePlatform = DynamicSchemePlatform.Phone,
+    specVersion: ColorSpec.SpecVersion = ColorSpec.SpecVersion.SPEC_2021,
+    platform: DynamicScheme.Platform = DynamicScheme.Platform.PHONE,
     animate: Boolean = true,
     content: @Composable () -> Unit
 ) {
@@ -34,8 +32,8 @@ fun VerveDoTheme(
         pureBlack = pureBlackMode,
         style = style,
         contrastLevel = contrastLevel.value.toDouble(),
-        specVersion = specVersion.toSpecVersion(),
-        platform = platform.toPlatform()
+        specVersion = specVersion,
+        platform = platform
     )
 
     MaterialExpressiveTheme(

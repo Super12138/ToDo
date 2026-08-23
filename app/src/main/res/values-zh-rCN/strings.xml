@@ -147,4 +147,8 @@
     <string name="label_none">无</string>
     <string name="time_next_week">下周</string>
     <string name="label_basic_information">基本信息</string>
+    <string name="pref_assist_in_translation">协助翻译</string>
+    <string name="pref_assist_in_translation_desc">帮助我们把 VerveDo 翻译到你使用的语言</string>
+    <string name="pref_preview_color_system">预览新的颜色系统</string>
+    <string name="pref_preview_color_system_desc">使用支持 Material 3 Expressive 的颜色标准 Spec2025（实验性）</string>
 </resources>

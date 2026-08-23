@@ -1,6 +1,5 @@
 package cn.super12138.todo.ui.pages.settings
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,6 +19,7 @@ import cn.super12138.todo.ui.icons.GitHubIcon
 import cn.super12138.todo.ui.pages.settings.components.SettingsContainer
 import cn.super12138.todo.ui.pages.settings.components.SettingsItem
 import cn.super12138.todo.utils.appVersion
+import cn.super12138.todo.utils.showToast
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -63,9 +63,9 @@ fun SettingsAbout(
                         clickCount++
                         if (clickCount == 5) {
                             if ((System.currentTimeMillis() % 2) == 0.toLong()) {
-                                Toast.makeText(context, "\uD83C\uDF67", Toast.LENGTH_SHORT).show()
+                                context.showToast("\uD83C\uDF42")
                             } else {
-                                Toast.makeText(context, "\uD83C\uDF66", Toast.LENGTH_SHORT).show()
+                                context.showToast("\uD83C\uDF41")
                             }
                             clickCount = 0
                         }
@@ -90,13 +90,21 @@ fun SettingsAbout(
             }
             item(key = 4) {
                 SettingsItem(
+                    leadingIconRes = R.drawable.ic_translate,
+                    title = stringResource(R.string.pref_assist_in_translation),
+                    description = stringResource(R.string.pref_assist_in_translation_desc),
+                    onClick = { uriHandler.openUri(Constants.CROWDIN_PROJECT) }
+                )
+            }
+            item(key = 5) {
+                SettingsItem(
                     leadingIconRes = R.drawable.ic_balance,
                     title = stringResource(R.string.pref_licence),
                     description = stringResource(R.string.pref_licence_desc),
                     onClick = toLicencePage
                 )
             }
-            item(key = 5) {
+            item(key = 6) {
                 SettingsItem(
                     leadingIconRes = R.drawable.ic_code_blocks,
                     title = stringResource(R.string.pref_developer_options),

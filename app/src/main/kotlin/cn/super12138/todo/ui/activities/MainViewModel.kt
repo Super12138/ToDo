@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cn.super12138.todo.logic.SettingsRepository
 import cn.super12138.todo.ui.pages.settings.SettingsAppearanceUiState
-import cn.super12138.todo.ui.pages.settings.SettingsDevUiState
 import cn.super12138.todo.utils.ConfettiController
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -18,6 +17,7 @@ class MainViewModel(
     val isConfettiVisible = confettiController.visible
     val secureModeFlow = settingsRepository.secureModeFlow
     val hapticFeedbackFlow = settingsRepository.hapticFeedbackFlow
+    val previewColorSystemFlow = settingsRepository.previewColorSystemFlow
 
     val appearanceUiState: StateFlow<SettingsAppearanceUiState> = combine(
         settingsRepository.dynamicColorFlow,
@@ -37,20 +37,6 @@ class MainViewModel(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = SettingsAppearanceUiState()
-    )
-
-    val devUiState: StateFlow<SettingsDevUiState> = combine(
-        settingsRepository.colorSpecVersionFlow,
-        settingsRepository.dynamicSchemePlatformFlow
-    ) { colorSpecVersion, colorSpecPlatform ->
-        SettingsDevUiState(
-            colorSpecVersion = colorSpecVersion,
-            dynamicSchemePlatform = colorSpecPlatform
-        )
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = SettingsDevUiState()
     )
 
     fun setConfettiVisibility(visible: Boolean) = confettiController.setVisibility(visible)

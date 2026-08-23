@@ -31,7 +31,7 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
         settingsRepository.paletteStyleFlow,
         settingsRepository.darkModeFlow,
         settingsRepository.pureBlackFlow,
-        settingsRepository.contrastLevelFlow
+        settingsRepository.contrastLevelFlow,
     ) { dynamicColor, paletteStyle, darkMode, pureBlackMode, contrastLevel ->
         SettingsAppearanceUiState(
             dynamicColor = dynamicColor,
@@ -45,6 +45,9 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = SettingsAppearanceUiState()
     )
+
+    // 实验性设置单独设置流
+    val previewColorSystemFlow = settingsRepository.previewColorSystemFlow
 
     val interfaceUiState: StateFlow<SettingsInterfaceUiState> = combine(
         settingsRepository.sortingMethodFlow,
@@ -70,20 +73,6 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = SettingsDataUiState()
-    )
-
-    val devUiState: StateFlow<SettingsDevUiState> = combine(
-        settingsRepository.colorSpecVersionFlow,
-        settingsRepository.dynamicSchemePlatformFlow
-    ) { colorSpecVersion, colorSpecPlatform ->
-        SettingsDevUiState(
-            colorSpecVersion = colorSpecVersion,
-            dynamicSchemePlatform = colorSpecPlatform
-        )
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = SettingsDevUiState()
     )
 
     /**
@@ -200,6 +189,12 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
         }
     }
 
+    fun setPreviewColorSystem(value: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setPreviewColorSystem(value)
+        }
+    }
+
     fun setSortingMethod(id: Int) {
         viewModelScope.launch {
             settingsRepository.setSortingMethod(id)
@@ -227,18 +222,6 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
     fun setCategories(categories: List<String>) {
         viewModelScope.launch {
             settingsRepository.setCategories(categories)
-        }
-    }
-
-    fun setColorSpecVersion(id: Int) {
-        viewModelScope.launch {
-            settingsRepository.setColorSpecVersion(id)
-        }
-    }
-
-    fun setDynamicSchemePlatform(id: Int) {
-        viewModelScope.launch {
-            settingsRepository.setDynamicSchemePlatform(id)
         }
     }
 }

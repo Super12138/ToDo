@@ -12,6 +12,7 @@ import cn.super12138.todo.logic.model.PaletteStyle
 import cn.super12138.todo.ui.VerveDoDefaults
 import cn.super12138.todo.ui.pages.settings.components.LazyRowSettingsItem
 import cn.super12138.todo.utils.isDark
+import com.kyant.m3color.dynamiccolor.ColorSpec
 
 @Composable
 fun PalettePicker(
@@ -21,6 +22,7 @@ fun PalettePicker(
     darkMode: DarkMode,
     pureBlackMode: Boolean,
     contrastLevel: ContrastLevel,
+    specVersion: ColorSpec.SpecVersion,
     modifier: Modifier = Modifier
 ) {
     LazyRowSettingsItem(
@@ -37,6 +39,7 @@ fun PalettePicker(
                 selected = currentPalette == it,
                 contrastLevel = contrastLevel,
                 pureBlackMode = pureBlackMode,
+                specVersion = specVersion,
                 onSelect = { onPaletteChange(it) }
             )
         }

@@ -41,6 +41,7 @@ import cn.super12138.todo.ui.theme.rememberDynamicColorScheme
 import cn.super12138.todo.ui.theme.shapeByInteraction
 import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.utils.keyColorBasedOnDynamicColor
+import com.kyant.m3color.dynamiccolor.ColorSpec
 
 @Composable
 fun PaletteItem(
@@ -50,6 +51,7 @@ fun PaletteItem(
     paletteStyle: PaletteStyle,
     contrastLevel: ContrastLevel,
     selected: Boolean,
+    specVersion: ColorSpec.SpecVersion,
     modifier: Modifier = Modifier,
     onSelect: () -> Unit = {},
     shapes: ButtonShapes = VerveDoDefaults.shapes
@@ -66,7 +68,8 @@ fun PaletteItem(
         isDark = isDark,
         contrastLevel = contrastLevel.value.toDouble(),
         pureBlack = pureBlackMode,
-        style = paletteStyle
+        style = paletteStyle,
+        specVersion = specVersion
     )
     val animatedColorScheme = animateColorScheme(colorScheme)
 

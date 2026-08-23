@@ -1,10 +1,8 @@
 package cn.super12138.todo.ui.pages.settings
 
 import cn.super12138.todo.constants.Constants
-import cn.super12138.todo.logic.model.ColorSpecVersion
 import cn.super12138.todo.logic.model.ContrastLevel
 import cn.super12138.todo.logic.model.DarkMode
-import cn.super12138.todo.logic.model.DynamicSchemePlatform
 import cn.super12138.todo.logic.model.PaletteStyle
 import cn.super12138.todo.logic.model.SortingMethod
 
@@ -13,7 +11,8 @@ data class SettingsAppearanceUiState(
     val paletteStyle: PaletteStyle = PaletteStyle.TonalSpot,
     val darkMode: DarkMode = DarkMode.FollowSystem,
     val pureBlackMode: Boolean = Constants.PREF_PURE_BLACK_MODE_DEFAULT,
-    val contrastLevel: ContrastLevel = ContrastLevel.Default
+    val contrastLevel: ContrastLevel = ContrastLevel.Default,
+    val previewColorSystem: Boolean = Constants.PREF_PREVIEW_COLOR_SYSTEM_DEFAULT
 )
 
 data class SettingsInterfaceUiState(
@@ -25,9 +24,4 @@ data class SettingsInterfaceUiState(
 
 data class SettingsDataUiState(
     val categories: List<String> = emptyList()
-)
-
-data class SettingsDevUiState(
-    val colorSpecVersion: ColorSpecVersion = ColorSpecVersion.Spec2021,
-    val dynamicSchemePlatform: DynamicSchemePlatform = DynamicSchemePlatform.Phone
 )

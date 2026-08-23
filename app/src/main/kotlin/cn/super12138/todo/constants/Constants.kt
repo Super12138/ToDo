@@ -4,6 +4,7 @@ object Constants {
     const val TAG = "VerveDo"
     const val DEVELOPER_GITHUB = "https://github.com/Super12138/"
     const val GITHUB_REPO = "https://github.com/Super12138/VerveDo/"
+    const val CROWDIN_PROJECT = "https://crowdin.com/project/vervedo/"
 
     const val KEY_TODO_FAB_TRANSITION = "todo_fab"
     const val KEY_TODO_ITEM_TRANSITION = "todo_item_id"
@@ -28,6 +29,9 @@ object Constants {
     const val PREF_CONTRAST_LEVEL = "contrast_level"
     const val PREF_CONTRAST_LEVEL_DEFAULT = 0f // Normal
 
+    const val PREF_PREVIEW_COLOR_SYSTEM = "preview_color_system"
+    const val PREF_PREVIEW_COLOR_SYSTEM_DEFAULT = false
+
     /*const val PREF_SHOW_COMPLETED = "show_completed"
     const val PREF_SHOW_COMPLETED_DEFAULT = true*/
 
@@ -45,10 +49,4 @@ object Constants {
 
     const val PREF_CATEGORIES = "categories"
     const val PREF_CATEGORIES_DEFAULT = "[]"
-
-    const val PREF_COLOR_SPEC_VERSION = "color_spec_version"
-    const val PREF_COLOR_SPEC_VERSION_DEFAULT = 1
-
-    const val PREF_DYNAMIC_SCHEME_PLATFORM = "dynamic_scheme_platform"
-    const val PREF_DYNAMIC_SCHEME_PLATFORM_DEFAULT = 1
 }

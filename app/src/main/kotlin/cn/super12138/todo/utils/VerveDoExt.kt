@@ -2,7 +2,11 @@ package cn.super12138.todo.utils
 
 import android.content.Context
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.FloatRange
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material3.ButtonGroupDefaults
@@ -15,6 +19,7 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.Dp
 import androidx.core.graphics.ColorUtils
@@ -249,3 +254,24 @@ fun DarkMode.isDark() = when (this) {
     DarkMode.Light -> false
     DarkMode.Dark -> true
 }
+
+@Suppress("NOTHING_TO_INLINE")
+inline fun Int.toColor(): Color = Color(this)
+
+// https://github.com/jordond/MaterialKolor/blob/main/material-kolor/src/commonMain/kotlin/com/materialkolor/DynamicMaterialTheme.kt
+@Composable
+fun Color.animate(animationSpec: AnimationSpec<Color> = spring()): Color =
+    animateColorAsState(this, animationSpec).value
+
+// https://github.com/hushenghao/AndroidEasterEggs/blob/main/core/theme/src/main/java/com/dede/android_eggs/views/theme/Theme.kt#L21
+/**
+ * 让颜色变暗
+ */
+fun Color.darken(fraction: Float = 0.5f): Color =
+    Color(this.toArgb().blend(Color.Black.toArgb(), fraction))
+
+fun Color.replace(color: Color): Color = color
+fun Color.replace(color: Int): Color = color.toColor()
+
+fun Context.showToast(text: String, duration: Int = Toast.LENGTH_SHORT) =
+    Toast.makeText(this, text, duration).show()
