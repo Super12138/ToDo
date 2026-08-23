@@ -206,7 +206,7 @@ fun List<TaskEntity>.sort(sortingMethod: SortingMethod): List<TaskEntity> = when
     SortingMethod.Priority -> this.sortedWith(
         comparator = compareBy<TaskEntity> { it.isCompleted }
             .thenByDescending { it.priority }
-            .thenBy(nullsLast()) { it.dueDate }
+            .thenBy(nullsLast()) { it.dueDateMillis }
     ) // 优先级高的在前
 
     SortingMethod.Completion -> this.sortedWith(
@@ -229,7 +229,7 @@ fun List<TaskEntity>.sort(sortingMethod: SortingMethod): List<TaskEntity> = when
     SortingMethod.DueDate -> this.sortedWith(
         comparator = compareBy<TaskEntity> { it.isCompleted }
             // 确保未设置截止日期的任务在最下头
-            .thenBy(nullsLast()) { it.dueDate }
+            .thenBy(nullsLast()) { it.dueDateMillis }
     )
 }
 

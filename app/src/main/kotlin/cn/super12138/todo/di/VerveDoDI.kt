@@ -24,6 +24,9 @@ import cn.super12138.todo.ui.pages.settings.SettingsDataViewModel
 import cn.super12138.todo.ui.pages.settings.SettingsInterfaceInteractionViewModel
 import cn.super12138.todo.ui.pages.tasks.TaskViewModel
 import cn.super12138.todo.utils.ConfettiController
+import com.jsoizo.kotlincsv.csvWriter
+import com.jsoizo.kotlincsv.writer.CsvWriter
+import com.jsoizo.kotlincsv.writer.WriteQuoteMode
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.scope.dsl.activityRetainedScope
 import org.koin.core.module.dsl.singleOf
@@ -43,6 +46,11 @@ object VerveDoDI {
             )
         }
     )
+
+    val singleInstanceModule = module {
+        singleOf(::ConfettiController)
+        single<CsvWriter> { csvWriter { quoteMode = WriteQuoteMode.ALL } }
+    }
 
     val databaseModule = module {
         single<TaskDatabase> {
@@ -67,7 +75,6 @@ object VerveDoDI {
     val datastoreModule = module {
         single<DataStore<Preferences>> { androidApplication().dataStore }
         singleOf(::DataStoreManager)
-        singleOf(::ConfettiController)
     }
 
     val viewModelModule = module {
@@ -94,5 +101,11 @@ object VerveDoDI {
         }
     }
 
-    val allModules = listOf(databaseModule, datastoreModule, viewModelModule, navigationModule)
+    val allModules = listOf(
+        singleInstanceModule,
+        databaseModule,
+        datastoreModule,
+        viewModelModule,
+        navigationModule
+    )
 }

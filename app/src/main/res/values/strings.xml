@@ -85,9 +85,9 @@
     <string name="pref_data">Data</string>
     <string name="pref_data_desc">Backup and Restore, Manage Data</string>
     <string name="pref_backup">Backup</string>
-    <string name="pref_backup_desc">Save VerveDo app data on your device</string>
+    <string name="pref_backup_desc">Save VerveDo\'s app data on your device</string>
     <string name="pref_restore">Restore</string>
-    <string name="pref_restore_desc">Restore VerveDo app data from your device</string>
+    <string name="pref_restore_desc">Restore VerveDo\'s app data from your device, only support .zip file</string>
     <string name="tip_backup_success">Backup successful</string>
     <string name="tip_backup_failed">Backup failed</string>
     <string name="tip_restore_success">Restore successful, restart the app to load data</string>
@@ -151,4 +151,8 @@
     <string name="pref_assist_in_translation_desc">Help us translate VerveDo into your language</string>
     <string name="pref_preview_color_system">Preview New Color System</string>
     <string name="pref_preview_color_system_desc">Using color specification Spec2025 which support Material 3 Expressive (Experimental)</string>
+    <string name="pref_export_task">Export task to file</string>
+    <string name="pref_export_task_desc">Export all task to a single file (support .csv file currently)</string>
+    <string name="tip_export_success">Export successful</string>
+    <string name="tip_export_failed">Export failed</string>
 </resources>

@@ -39,7 +39,7 @@ android {
         applicationId = "cn.super12138.todo"
         minSdk = 26
         targetSdk = 37
-        versionCode = 1227
+        versionCode = 1228
         versionName = "3.4.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -137,6 +137,8 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
     implementation(libs.koin.compose.viewmodel)
+    // Kotlin Csv
+    implementation(libs.jsoizo.kotlin.csv)
     // Test
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

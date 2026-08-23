@@ -85,7 +85,7 @@
     <string name="pref_backup">备份数据</string>
     <string name="pref_backup_desc">将 VerveDo 的应用数据保存在你的设备上</string>
     <string name="pref_restore">恢复数据</string>
-    <string name="pref_restore_desc">从你的设备上恢复 VerveDo 的应用数据</string>
+    <string name="pref_restore_desc">从你的设备上恢复 VerveDo 的应用数据，仅支持 .zip 文件</string>
     <string name="tip_backup_success">备份成功</string>
     <string name="tip_backup_failed">备份失败</string>
     <string name="tip_restore_success">数据恢复成功，需要重启应用以加载数据</string>
@@ -149,4 +149,8 @@
     <string name="pref_assist_in_translation_desc">帮助我们把 VerveDo 翻译到你使用的语言</string>
     <string name="pref_preview_color_system">预览新的颜色系统</string>
     <string name="pref_preview_color_system_desc">使用支持 Material 3 Expressive 的颜色标准 Spec2025（实验性）</string>
+    <string name="pref_export_task">导出任务到文件</string>
+    <string name="pref_export_task_desc">导出全部任务到一个文件中（当前支持 .csv 文件）</string>
+    <string name="tip_export_success">导出成功</string>
+    <string name="tip_export_failed">导出失败</string>
 </resources>

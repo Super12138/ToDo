@@ -46,7 +46,7 @@ class EditorViewModel(
                         content = content,
                         category = category,
                         priority = Priority.fromFloat(priority),
-                        dueDateMillis = dueDate,
+                        dueDateMillis = dueDateMillis,
                         isCompleted = isCompleted
                     )
                 }
@@ -67,7 +67,7 @@ class EditorViewModel(
             if ((initialTask?.category ?: "") != category.trim()) isModified = true
             if ((initialTask?.priority ?: 0f) != priority.value) isModified = true
             if ((initialTask?.isCompleted == true) != isCompleted) isModified = true
-            if (initialTask?.dueDate != dueDateMillis) isModified = true
+            if (initialTask?.dueDateMillis != dueDateMillis) isModified = true
         }
 
         return isModified
@@ -96,7 +96,7 @@ class EditorViewModel(
                 category = category,
                 isCompleted = isCompleted,
                 priority = priority.value,
-                dueDate = dueDateMillis,
+                dueDateMillis = dueDateMillis,
                 id = initialTask?.id ?: 0
             )
         }

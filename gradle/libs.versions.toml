@@ -15,17 +15,15 @@ nav3Core = "1.1.6"
 aboutLibsRelease = "15.1.1"
 # M3 Color
 m3color = "2026.1"
-# Capsule
-# capsule = "2.1.1"
 # Konfetti
 konfetti = "2.0.5"
-# Lazy Column Scrollbar
-# lazyColumnScrollbar = "2.2.0"
 # Kotlin
 kotlinCoroutines = "1.11.0"
 kotlinSerialization = "1.11.0"
 # Koin
 koinBom = "4.2.2"
+# Kotlin Csv
+kotlinCsv = "2.0.0"
 # Test
 junit = "4.13.2"
 junitVersion = "1.3.0"
@@ -72,8 +70,6 @@ aboutlibraries-compose = { group = "com.mikepenz", name = "aboutlibraries-compos
 
 # M3 Color
 kyant0-m3color = { group = "com.github.Kyant0", name = "m3color", version.ref = "m3color" }
-# Capsule
-# kyant0-capsule = { group = "io.github.kyant0", name = "capsule", version.ref = "capsule" }
 
 # Konfetti
 nl-dionsegijn-konfetti-compose = { group = "nl.dionsegijn", name = "konfetti-compose", version.ref = "konfetti" }
@@ -88,6 +84,9 @@ koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koinBom
 koin-android = { group = "io.insert-koin", name = "koin-android" }
 koin-compose = { group = "io.insert-koin", name = "koin-compose" }
 koin-compose-viewmodel = { group = "io.insert-koin", name = "koin-compose-viewmodel" }
+
+# Kotlin Csv
+jsoizo-kotlin-csv = { group = "com.jsoizo", name = "kotlin-csv", version.ref = "kotlinCsv" }
 
 # Test
 junit = { group = "junit", name = "junit", version.ref = "junit" }

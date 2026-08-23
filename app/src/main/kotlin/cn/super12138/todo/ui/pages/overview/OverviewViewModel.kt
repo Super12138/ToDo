@@ -21,16 +21,16 @@ class OverviewViewModel(private val taskRepository: TaskRepository) : ViewModel(
             val dayMillis = 24L * 60 * 60 * 1000
 
             val todayTasks = it.filter { task ->
-                val due = task.dueDate ?: return@filter false // 如果截止日期为空立即返回null
+                val due = task.dueDateMillis ?: return@filter false // 如果截止日期为空立即返回null
                 due == todayMillis // 判断截止日期是否为今天
             }
 
             val nextWeekTasks = it.filter { task -> // 先过滤
-                val due = task.dueDate ?: return@filter false
+                val due = task.dueDateMillis ?: return@filter false
                 // 截止日期是否在今天到一周之后并且未完成
                 due in todayMillis..(todayMillis + 7 * dayMillis) && !task.isCompleted
             }.sortedWith( // 后排序
-                comparator = compareBy<TaskEntity> { it.dueDate } // 截止日期近的靠前
+                comparator = compareBy<TaskEntity> { it.dueDateMillis } // 截止日期近的靠前
                     .thenBy { it.category } // TODO：可选删了
                     .thenByDescending { it.priority } // 优先级高的靠前
             )

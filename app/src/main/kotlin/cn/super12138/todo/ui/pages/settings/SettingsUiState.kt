@@ -23,6 +23,11 @@ data class SettingsInterfaceUiState(
     val showSortingMethodDialog: Boolean = false
 )
 
+data class SettingsDataUiState(
+    // val showBackupFormatDialog: Boolean = false,
+    val showRestoreDialog: Boolean = false
+)
+
 data class SettingsDataCategoryUiState(
     val categories: List<String> = emptyList(),
     val editingCategory: String = "",

@@ -103,7 +103,7 @@ fun ListCard(
                                 content = task.content,
                                 category = task.category,
                                 priority = Priority.fromFloat(task.priority),
-                                dueDate = task.dueDate
+                                dueDate = task.dueDateMillis
                             )
                         }
                     }

@@ -83,7 +83,7 @@ fun SharedTransitionScope.TasksPage(
                 listOf(
                     task.content,
                     task.category,
-                    task.dueDate?.toLocalDateString() ?: ""
+                    task.dueDateMillis?.toLocalDateString() ?: ""
                 ).any {
                     it.contains(uiState.searchQuery, ignoreCase = true)
                 }
@@ -207,7 +207,7 @@ fun SharedTransitionScope.TasksPage(
                                 content = task.content,
                                 category = task.category,
                                 completed = task.isCompleted,
-                                dueDateMillis = task.dueDate,
+                                dueDateMillis = task.dueDateMillis,
                                 priority = priority,
                                 selected = selected,
                                 onClick = {
