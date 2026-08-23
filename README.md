@@ -13,7 +13,7 @@
 
 ## 📦 版本支持
 
-支持 `Android 7.0 (Nougat)` 至 `Android 16.0 (Baklava)`
+支持 `Android 8.0 (Oreo)` 至 `Android 17.0 (Cinnamon Bun)`
 
 ## 📃 许可证
 
@@ -36,9 +36,7 @@
 >
 > 待办不会自动更新，建议[订阅 GitHub Release 发行通知](https://docs.github.com/zh/account-and-profile/managing-subscriptions-and-notifications-on-github/setting-up-notifications/configuring-notifications#configuring-your-watch-settings-for-an-individual-repository)或者[安装 F-Droid](https://f-droid.org/) 检查更新
 
-[前往 GitHub Release](https://github.com/Super12138/VerveDo/releases/)
-
-或者[从 F-Droid 上下载](https://f-droid.org/packages/cn.super12138.todo)
+[前往 GitHub Release](https://github.com/Super12138/VerveDo/releases/)或者[从 F-Droid 上下载](https://f-droid.org/packages/cn.super12138.todo)
 
 [<img src="./art/get-it-on-fdroid-zh-cn.png" height="100" />](https://f-droid.org/packages/cn.super12138.todo)
 
@@ -55,5 +53,5 @@
 贡献代码只需提交 Pull Request 即可，贡献翻译请[加入 Crowdin 项目](https://crowdin.com/project/vervedo)。若需提出新语言，请提交 Issue。
 
 <a href="https://crowdin.com/project/vervedo">
-    <img style="width:140; height:40px" src="art/localization-at-white-rounded-bordered@1x.png" srcset="art/localization-at-white-rounded-bordered@1x.png 1x,art/localization-at-white-rounded-bordered@2x.png 2x" alt="VerveDo Crowdin 项目" />
+    <img style="width:140; height:40px" src="./art/localization-at-white-rounded-bordered@1x.png" srcset="./art/localization-at-white-rounded-bordered@1x.png 1x,./art/localization-at-white-rounded-bordered@2x.png 2x" alt="VerveDo Crowdin 项目" />
 </a>

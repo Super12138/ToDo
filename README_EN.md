@@ -13,7 +13,7 @@ A simple to-do app that follows Material 3 Expressive, using Jetpack Compose.
 
 # 📦 Supported Versions
 
-From `Android 7.0 (Nougat)` to `Android 16.0 (Baklava)`
+From `Android 8.0 (Oreo)` to `Android 17.0 (Cinnamon Bun)`
 
 # 📃 License
 
@@ -36,9 +36,7 @@ From `Android 7.0 (Nougat)` to `Android 16.0 (Baklava)`
 >
 > VerveDo can't update automatically. It is recommended to [subscribe to GitHub Release notifications](https://docs.github.com/en/account-and-profile/managing-subscriptions-and-notifications-on-github/setting-up-notifications/configuring-notifications#configuring-your-watch-settings-for-an-individual-repository) or [install F-Droid](https://f-droid.org/) to check for updates.
 
-[From Github Release](https://github.com/Super12138/VerveDo/releases/)
-
-Or get it from [F-Droid](https://f-droid.org/packages/cn.super12138.todo)
+[From Github Release](https://github.com/Super12138/VerveDo/releases/) or get it from [F-Droid](https://f-droid.org/packages/cn.super12138.todo)
 [<img src="./art/get-it-on-fdroid.png" height="100" />](https://f-droid.org/packages/cn.super12138.todo)
 
 # 📸 Screenshots
@@ -53,5 +51,5 @@ Or get it from [F-Droid](https://f-droid.org/packages/cn.super12138.todo)
 You can contribute to VerveDo by submitting code or translations. To contribute code, simply submit a Pull Request. To contribute translations, please [join the Crowdin project](https://crowdin.com/project/vervedo). If you want to propose a new language, please submit an Issue.
 
 <a href="https://crowdin.com/project/vervedo">
-    <img style="width:140; height:40px" src="art/localization-at-white-rounded-bordered@1x.png" srcset="art/localization-at-white-rounded-bordered@1x.png 1x,art/localization-at-white-rounded-bordered@2x.png 2x" alt="VerveDo Crowdin 项目" />
+    <img style="width:140; height:40px" src="./art/localization-at-white-rounded-bordered@1x.png" srcset="./art/localization-at-white-rounded-bordered@1x.png 1x,./art/localization-at-white-rounded-bordered@2x.png 2x" alt="VerveDo Crowdin Project" />
 </a>

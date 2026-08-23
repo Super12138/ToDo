@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
+import androidx.core.content.pm.PackageInfoCompat
 import cn.super12138.todo.ui.activities.MainActivity
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -74,10 +75,6 @@ fun Context.restartApp() {
 fun Context.appVersion(): String {
     val pkgInfo = this.packageManager.getPackageInfo(this.packageName, 0)
     val verName = pkgInfo.versionName
-    val verCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-        pkgInfo.longVersionCode.toInt()
-    } else {
-        pkgInfo.versionCode
-    }
+    val verCode = PackageInfoCompat.getLongVersionCode(pkgInfo).toInt()
     return "$verName ($verCode)"
 }
