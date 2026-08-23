@@ -17,7 +17,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun SettingsAppearanceDarkMode(
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: SettingsViewModel = koinViewModel()
+    viewModel: SettingsAppearanceViewModel = koinViewModel()
 ) {
     val uiState by viewModel.appearanceUiState.collectAsStateWithLifecycle()
 

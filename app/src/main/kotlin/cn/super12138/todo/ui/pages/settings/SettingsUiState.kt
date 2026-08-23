@@ -19,9 +19,12 @@ data class SettingsInterfaceUiState(
     val sortingMethod: SortingMethod = SortingMethod.Sequential,
     val textFieldAutoFocus: Boolean = Constants.PREF_TEXT_FIELD_AUTO_FOCUS_DEFAULT,
     val secureMode: Boolean = Constants.PREF_SECURE_MODE_DEFAULT,
-    val hapticFeedback: Boolean = Constants.PREF_HAPTIC_FEEDBACK_DEFAULT
+    val hapticFeedback: Boolean = Constants.PREF_HAPTIC_FEEDBACK_DEFAULT,
+    val showSortingMethodDialog: Boolean = false
 )
 
-data class SettingsDataUiState(
-    val categories: List<String> = emptyList()
+data class SettingsDataCategoryUiState(
+    val categories: List<String> = emptyList(),
+    val editingCategory: String = "",
+    val showAddDialog: Boolean = false
 )

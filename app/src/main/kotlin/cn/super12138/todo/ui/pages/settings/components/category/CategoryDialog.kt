@@ -1,8 +1,8 @@
 package cn.super12138.todo.ui.pages.settings.components.category
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.clearText
 import androidx.compose.foundation.text.input.rememberTextFieldState
@@ -10,16 +10,16 @@ import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.window.DialogProperties
 import cn.super12138.todo.R
 import cn.super12138.todo.ui.components.BasicDialog
@@ -29,25 +29,31 @@ fun CategoryPromptDialog(
     modifier: Modifier = Modifier,
     visible: Boolean,
     initialCategory: String = "",
-    onSave: (oldValue: String, newValue: String) -> Unit,
+    onSave: (String) -> Unit,
     onDismiss: () -> Unit
 ) {
-    val textFieldState = rememberTextFieldState(initialText = initialCategory)
-    var isError by rememberSaveable { mutableStateOf(false) }
+    val supportingText = stringResource(R.string.tip_short_category)
+    val errorText = stringResource(R.string.error_no_content_entered)
 
-    LaunchedEffect(visible) {
-        if (visible) {
-            textFieldState.setTextAndPlaceCursorAtEnd(initialCategory)
-            isError = false
-        }
+    val textFieldState = rememberTextFieldState(initialText = initialCategory)
+    var validate by remember { mutableStateOf(false) }
+    val isError by remember { derivedStateOf { validate && textFieldState.text.trim().isEmpty() } }
+
+    fun save(category: String) {
+        validate = true
+        if (isError) return
+
+        onSave(category)
+        textFieldState.clearText()
+        onDismiss()
+        validate = false
     }
 
-    val supportingText = listOf(
-        stringResource(R.string.tip_short_category),
-        stringResource(R.string.error_no_content_entered),
-    )
-
-    var currentSupportingText by remember { mutableStateOf(supportingText[0]) }
+    SideEffect(visible) {
+        if (visible) {
+            textFieldState.setTextAndPlaceCursorAtEnd(initialCategory)
+        }
+    }
 
     BasicDialog(
         visible = visible,
@@ -55,32 +61,20 @@ fun CategoryPromptDialog(
         title = stringResource(R.string.tip_tips),
         text = {
             // 已经是实现好滚动的Column布局
-            Text(stringResource(R.string.tip_enter_category))
-            Spacer(Modifier.size(3.dp))
             OutlinedTextField(
                 state = textFieldState,
                 lineLimits = TextFieldLineLimits.SingleLine,
-                label = { Text(stringResource(R.string.label_enter_sth)) },
-                supportingText = { AnimatedContent(targetState = currentSupportingText) { Text(it) } },
-                isError = isError
+                label = { Text(stringResource(R.string.tip_enter_category)) },
+                supportingText = { AnimatedContent(targetState = isError) { Text(if (it) errorText else supportingText) } },
+                isError = isError,
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                onKeyboardAction = { save(textFieldState.text.trim().toString()) },
+                modifier = Modifier.fillMaxWidth()
             )
         },
         confirmButton = stringResource(R.string.action_save),
         dismissButton = stringResource(R.string.action_cancel),
-        onConfirm = {
-            val trimmedText = textFieldState.text.trim()
-            if (trimmedText.isEmpty()) {
-                isError = true
-                currentSupportingText = supportingText[1]
-                return@BasicDialog
-            } else {
-                onSave(initialCategory, trimmedText.toString())
-                isError = false
-                currentSupportingText = supportingText[0]
-                textFieldState.clearText()
-                onDismiss()
-            }
-        },
+        onConfirm = { save(textFieldState.text.trim().toString()) },
         onDismiss = onDismiss,
         properties = DialogProperties(),
         modifier = modifier

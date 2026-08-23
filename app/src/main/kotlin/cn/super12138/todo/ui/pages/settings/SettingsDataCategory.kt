@@ -23,10 +23,7 @@ import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
@@ -53,18 +50,15 @@ import org.koin.compose.viewmodel.koinViewModel
 fun SettingsDataCategory(
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: SettingsViewModel = koinViewModel()
+    viewModel: SettingsDataCategoryViewModel = koinViewModel()
 ) {
-    val uiState by viewModel.dataUiState.collectAsStateWithLifecycle()
-
-    // TODO: 本页及其相关组件重组性能检查优化
     val view = LocalView.current
-    val snackbarHostState = remember { SnackbarHostState() }
+
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     val listState = rememberLazyListState()
-
-    var initialCategory by rememberSaveable { mutableStateOf("") }
-    var showDialog by rememberSaveable { mutableStateOf(false) }
-
+    val snackbarHostState = remember { SnackbarHostState() }
+    val isListEmpty by remember { derivedStateOf { uiState.categories.isEmpty() } }
     val isExpanded by remember { derivedStateOf { listState.firstVisibleItemIndex == 0 } }
 
     val transitionSpec = fadeScale()
@@ -79,15 +73,15 @@ fun SettingsDataCategory(
                 text = stringResource(R.string.action_add_category),
                 expanded = isExpanded,
                 onClick = {
-                    initialCategory = ""
-                    showDialog = true
+                    viewModel.setEditingCategory("")
+                    viewModel.showAddDialog()
                 }
             )
         },
         modifier = modifier,
     ) {
         AnimatedContent(
-            targetState = uiState.categories.isEmpty(),
+            targetState = isListEmpty,
             transitionSpec = { transitionSpec }
         ) {
             if (it) {
@@ -132,7 +126,7 @@ fun SettingsDataCategory(
                                     shapes = IconButtonDefaults.shapes(),
                                     onClick = {
                                         VibrationUtils.performHapticFeedback(view)
-                                        viewModel.setCategories(uiState.categories - category)
+                                        viewModel.removeCategory(category)
                                     }
                                 ) {
                                     Icon(
@@ -142,8 +136,8 @@ fun SettingsDataCategory(
                                 }
                             },
                             onClick = {
-                                initialCategory = category
-                                showDialog = true
+                                viewModel.setEditingCategory(category)
+                                viewModel.showAddDialog()
                             },
                             modifier = Modifier.animateItem(
                                 fadeInSpec = MaterialTheme.motionScheme.defaultEffectsSpec(),
@@ -157,25 +151,10 @@ fun SettingsDataCategory(
         }
 
         CategoryPromptDialog(
-            visible = showDialog,
-            initialCategory = initialCategory,
-            onSave = { oldCategory, newCategory ->
-                if (oldCategory.isEmpty()) {
-                    if (!uiState.categories.contains(newCategory)) {
-                        viewModel.setCategories(uiState.categories + newCategory)
-                    } else {
-                        // 调换分类位置
-                        val tempList = uiState.categories - newCategory
-                        viewModel.setCategories(tempList + newCategory)
-                    }
-                } else {
-                    if (oldCategory != newCategory) {
-                        val tempList = uiState.categories - oldCategory
-                        viewModel.setCategories(tempList + newCategory)
-                    }
-                }
-            },
-            onDismiss = { showDialog = false }
+            visible = uiState.showAddDialog,
+            initialCategory = uiState.editingCategory,
+            onSave = { viewModel.addCategory(it) },
+            onDismiss = { viewModel.hideAddDialog() }
         )
     }
 }

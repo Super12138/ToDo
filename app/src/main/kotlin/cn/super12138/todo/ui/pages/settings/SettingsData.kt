@@ -32,12 +32,14 @@ fun SettingsData(
     modifier: Modifier = Modifier,
     toCategoryManager: () -> Unit,
     onNavigateUp: () -> Unit,
-    viewModel: SettingsViewModel = koinViewModel()
+    viewModel: SettingsDataViewModel = koinViewModel()
 ) {
     val context = LocalContext.current
-    var showRestoreDialog by rememberSaveable { mutableStateOf(false) }
-    val snackbarHostState = remember { SnackbarHostState() }
+
     val scope = rememberCoroutineScope()
+
+    val snackbarHostState = remember { SnackbarHostState() }
+    var showRestoreDialog by rememberSaveable { mutableStateOf(false) }
 
     val tipBackupSuccess = stringResource(R.string.tip_backup_success)
     val tipBackupFailed = stringResource(R.string.tip_backup_failed)

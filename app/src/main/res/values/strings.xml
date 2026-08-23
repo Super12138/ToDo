@@ -102,9 +102,7 @@
     <string name="pref_category_data_management">Data Management</string>
     <string name="pref_category_management_desc">Manage the category of tasks</string>
     <string name="action_add_category">Add Category</string>
-    <string name="label_enter_sth">Enter something</string>
-    <string name="tip_enter_category">Enter the category you want to add</string>
-    <!--<string name="error_category_duplicate">The category is duplicate</string>-->
+    <string name="tip_enter_category">Enter a category</string>
     <string name="tip_no_category_chip">There are currently no custom categories. You can add categories in the settings.</string>
     <string name="tip_no_category_page">No custom categories</string>
     <string name="tip_default_category">Default Category, please modify</string>

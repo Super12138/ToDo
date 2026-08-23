@@ -3,9 +3,6 @@ package cn.super12138.todo.ui.pages.settings
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -25,11 +22,17 @@ import org.koin.compose.viewmodel.koinViewModel
 fun SettingsInterface(
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: SettingsViewModel = koinViewModel()
+    viewModel: SettingsInterfaceInteractionViewModel = koinViewModel()
 ) {
     val uiState by viewModel.interfaceUiState.collectAsStateWithLifecycle()
 
-    var showSortingMethodDialog by rememberSaveable { mutableStateOf(false) }
+    val sortingList = SortingMethod.entries.map {
+        SettingsRadioOptions(
+            id = it.id,
+            text = stringResource(it.nameRes)
+        )
+    }
+
     TopAppBarScaffold(
         title = stringResource(R.string.pref_interface_interaction),
         onBack = onNavigateUp,
@@ -52,7 +55,7 @@ fun SettingsInterface(
                     leadingIconRes = R.drawable.ic_sort,
                     title = stringResource(R.string.pref_sorting_method),
                     description = stringResource(uiState.sortingMethod.nameRes),
-                    onClick = { showSortingMethodDialog = true }
+                    onClick = { viewModel.showSortingMethodDialog() }
                 )
             }
 
@@ -89,14 +92,8 @@ fun SettingsInterface(
             }
         }
 
-        val sortingList = SortingMethod.entries.map {
-            SettingsRadioOptions(
-                id = it.id,
-                text = stringResource(it.nameRes)
-            )
-        }
         SettingsRadioDialog(
-            visible = showSortingMethodDialog,
+            visible = uiState.showSortingMethodDialog,
             title = stringResource(R.string.pref_sorting_method),
             currentOptions = SettingsRadioOptions(
                 id = uiState.sortingMethod.id,
@@ -104,7 +101,7 @@ fun SettingsInterface(
             ),
             options = sortingList,
             onSelect = { viewModel.setSortingMethod(it) },
-            onDismiss = { showSortingMethodDialog = false }
+            onDismiss = { viewModel.hideSortingMethodDialog() }
         )
     }
 }

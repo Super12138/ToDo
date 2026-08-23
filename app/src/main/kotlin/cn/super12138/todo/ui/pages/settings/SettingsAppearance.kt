@@ -23,7 +23,7 @@ fun SettingsAppearance(
     modifier: Modifier = Modifier,
     toDarkModePage: () -> Unit,
     onNavigateUp: () -> Unit,
-    viewModel: SettingsViewModel = koinViewModel()
+    viewModel: SettingsAppearanceViewModel = koinViewModel()
 ) {
     val uiState by viewModel.appearanceUiState.collectAsStateWithLifecycle()
     val previewColorSystem by viewModel.previewColorSystemFlow.collectAsStateWithLifecycle(

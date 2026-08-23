@@ -100,8 +100,7 @@
     <string name="pref_category_data_management">数据管理</string>
     <string name="pref_category_management_desc">管理任务的分类标签</string>
     <string name="action_add_category">添加分类</string>
-    <string name="label_enter_sth">输入内容</string>
-    <string name="tip_enter_category">输入你想添加的分类名称</string>
+    <string name="tip_enter_category">输入分类名称</string>
     <!--<string name="error_category_duplicate">The category is duplicate</string>-->
     <string name="tip_no_category_chip">当前暂无自定义分类，你可以在设置中添加分类</string>
     <string name="tip_no_category_page">暂无自定义分类</string>

@@ -18,7 +18,10 @@ import cn.super12138.todo.ui.navigation.TopLevelBackStack
 import cn.super12138.todo.ui.navigation.VerveDoScreen
 import cn.super12138.todo.ui.pages.editor.EditorViewModel
 import cn.super12138.todo.ui.pages.overview.OverviewViewModel
-import cn.super12138.todo.ui.pages.settings.SettingsViewModel
+import cn.super12138.todo.ui.pages.settings.SettingsAppearanceViewModel
+import cn.super12138.todo.ui.pages.settings.SettingsDataCategoryViewModel
+import cn.super12138.todo.ui.pages.settings.SettingsDataViewModel
+import cn.super12138.todo.ui.pages.settings.SettingsInterfaceInteractionViewModel
 import cn.super12138.todo.ui.pages.tasks.TaskViewModel
 import cn.super12138.todo.utils.ConfettiController
 import org.koin.android.ext.koin.androidApplication
@@ -79,7 +82,10 @@ object VerveDoDI {
                 confettiController = get()
             )
         }
-        viewModelOf(::SettingsViewModel)
+        viewModelOf(::SettingsAppearanceViewModel)
+        viewModelOf(::SettingsDataViewModel)
+        viewModelOf(::SettingsDataCategoryViewModel)
+        viewModelOf(::SettingsInterfaceInteractionViewModel)
     }
 
     val navigationModule = module {
