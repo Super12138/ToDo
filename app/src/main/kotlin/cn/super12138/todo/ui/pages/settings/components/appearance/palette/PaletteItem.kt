@@ -24,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -54,10 +55,29 @@ fun PaletteItem(
     shapes: ButtonShapes = VerveDoDefaults.shapes
 ) {
     val view = LocalView.current
+
     val interactionSource = remember { MutableInteractionSource() }
     val pressed by interactionSource.collectIsPressedAsState()
+
     val animatedShape =
         shapeByInteraction(shapes, pressed, VerveDoDefaults.shapesDefaultAnimationSpec)
+    val colorScheme = rememberDynamicColorScheme(
+        keyColor = isDynamicColor.keyColorBasedOnDynamicColor(),
+        isDark = isDark,
+        contrastLevel = contrastLevel.value.toDouble(),
+        pureBlack = pureBlackMode,
+        style = paletteStyle
+    )
+    val animatedColorScheme = animateColorScheme(colorScheme)
+
+    val colors = listOf(
+        animatedColorScheme.primary,
+        animatedColorScheme.secondary,
+        animatedColorScheme.tertiary,
+        animatedColorScheme.tertiaryContainer,
+        animatedColorScheme.secondaryContainer,
+        animatedColorScheme.primaryContainer,
+    )
 
     Surface(
         onClick = {
@@ -75,45 +95,11 @@ fun PaletteItem(
                 .padding(VerveDoDefaults.contentPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            val colorScheme = rememberDynamicColorScheme(
-                keyColor = isDynamicColor.keyColorBasedOnDynamicColor(),
-                isDark = isDark,
-                contrastLevel = contrastLevel.value.toDouble(),
-                pureBlack = pureBlackMode,
-                style = paletteStyle
+            ColorPreview(
+                colors = colors,
+                selected = selected,
+                borderColor = animatedColorScheme.primary
             )
-            // 为不同主题样式设置不同色板
-            MaterialTheme(animateColorScheme(colorScheme)) {
-                val borderWidth by animateDpAsState(if (selected) 3.dp else (-1).dp)
-                // 颜色预览区域
-                Column(
-                    modifier = Modifier
-                        .width(70.dp)
-                        .clip(MaterialTheme.shapes.large)
-                        .border(
-                            width = borderWidth,
-                            color = MaterialTheme.colorScheme.primary,
-                            shape = MaterialTheme.shapes.large
-                        ),
-                    verticalArrangement = Arrangement.spacedBy(VerveDoDefaults.contentPadding / 2)
-                ) {
-                    listOf(
-                        MaterialTheme.colorScheme.primary,
-                        MaterialTheme.colorScheme.secondary,
-                        MaterialTheme.colorScheme.tertiary,
-                        MaterialTheme.colorScheme.tertiaryContainer,
-                        MaterialTheme.colorScheme.secondaryContainer,
-                        MaterialTheme.colorScheme.primaryContainer,
-                    ).fastForEach {
-                        Box(
-                            Modifier
-                                .fillMaxWidth()
-                                .height(24.dp)
-                                .background(it)
-                        )
-                    }
-                }
-            }
 
             Spacer(Modifier.size(VerveDoDefaults.contentPadding))
 
@@ -125,6 +111,36 @@ fun PaletteItem(
                 } else MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
+            )
+        }
+    }
+}
+
+@Composable
+fun ColorPreview(
+    colors: List<Color>,
+    selected: Boolean,
+    borderColor: Color,
+    modifier: Modifier = Modifier
+) {
+    val borderWidth by animateDpAsState(if (selected) 3.dp else (-1).dp)
+    Column(
+        modifier = modifier
+            .width(70.dp)
+            .clip(MaterialTheme.shapes.large)
+            .border(
+                width = borderWidth,
+                color = borderColor,
+                shape = MaterialTheme.shapes.large
+            ),
+        verticalArrangement = Arrangement.spacedBy(VerveDoDefaults.contentPadding / 4)
+    ) {
+        colors.fastForEach {
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .height(24.dp)
+                    .background(it)
             )
         }
     }
