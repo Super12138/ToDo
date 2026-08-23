@@ -29,7 +29,6 @@ import cn.super12138.todo.ui.navigation.TopLevelBackStack
 import cn.super12138.todo.ui.navigation.TopNavigation
 import cn.super12138.todo.ui.navigation.VerveDoDestinations
 import cn.super12138.todo.ui.theme.VerveDoTheme
-import cn.super12138.todo.ui.viewmodels.MainViewModel
 import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.utils.configureEdgeToEdge
 import cn.super12138.todo.utils.isDark

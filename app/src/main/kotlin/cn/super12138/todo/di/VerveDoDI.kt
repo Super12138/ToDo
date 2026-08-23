@@ -13,13 +13,13 @@ import cn.super12138.todo.logic.TaskRepository
 import cn.super12138.todo.logic.database.TaskDao
 import cn.super12138.todo.logic.database.TaskDatabase
 import cn.super12138.todo.logic.datastore.DataStoreManager
+import cn.super12138.todo.ui.activities.MainViewModel
 import cn.super12138.todo.ui.navigation.TopLevelBackStack
 import cn.super12138.todo.ui.navigation.VerveDoScreen
 import cn.super12138.todo.ui.pages.editor.EditorViewModel
 import cn.super12138.todo.ui.pages.overview.OverviewViewModel
 import cn.super12138.todo.ui.pages.settings.SettingsViewModel
 import cn.super12138.todo.ui.pages.tasks.TaskViewModel
-import cn.super12138.todo.ui.viewmodels.MainViewModel
 import cn.super12138.todo.utils.ConfettiController
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.scope.dsl.activityRetainedScope

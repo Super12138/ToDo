@@ -8,7 +8,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.shrinkOut
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,16 +27,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import cn.super12138.todo.R
-import cn.super12138.todo.logic.model.ScreenMode
 import cn.super12138.todo.ui.VerveDoDefaults
 import cn.super12138.todo.ui.theme.fadeScale
 import cn.super12138.todo.utils.VibrationUtils
 
 @Composable
 fun TasksTopAppBar(
-    screenMode: ScreenMode,
+    inSearchMode: Boolean,
+    inSelectionMode: Boolean,
     selectedTasksIds: Set<Int>,
-    onSearchModeChange: (Boolean) -> Unit,
+    onEnterSearchMode: () -> Unit,
     onCancelSelect: () -> Unit,
     onSelectAll: () -> Unit,
     onDeleteSelectedTodo: () -> Unit,
@@ -73,7 +72,7 @@ fun TasksTopAppBar(
     val view = LocalView.current
     val animatedContainerColor by animateColorAsState(
         animationSpec = MaterialTheme.motionScheme.defaultEffectsSpec(),
-        targetValue = if (screenMode == ScreenMode.Selection) {
+        targetValue = if (inSelectionMode) {
             MaterialTheme.colorScheme.surfaceContainerHighest
         } else {
             VerveDoDefaults.Colors.Background
@@ -83,7 +82,7 @@ fun TasksTopAppBar(
     TopAppBar(
         navigationIcon = {
             AnimatedVisibility(
-                visible = screenMode == ScreenMode.Selection,
+                visible = inSelectionMode,
                 enter = navIconEnterTransition,
                 exit = navIconExitTransition
             ) {
@@ -103,16 +102,10 @@ fun TasksTopAppBar(
         },
         title = {
             AnimatedContent(
-                targetState = screenMode != ScreenMode.Selection,
+                targetState = inSelectionMode,
                 transitionSpec = { defaultTransitionSpec }
             ) {
                 if (it) {
-                    Text(
-                        text = stringResource(R.string.page_tasks),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                } else {
                     Text(
                         text = stringResource(
                             R.string.title_selected_count,
@@ -121,40 +114,35 @@ fun TasksTopAppBar(
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
+                } else {
+                    Text(
+                        text = stringResource(R.string.page_tasks),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
                 }
             }
         },
         actions = {
             Row {
-                AnimatedContent(
-                    targetState = screenMode,
-                    transitionSpec = { actionEnterTransition togetherWith actionExitTransition }
-                ) {
-                    when (it) {
-                        ScreenMode.Default -> {
-                            IconButton(
-                                shapes = IconButtonDefaults.shapes(),
-                                onClick = {
-                                    VibrationUtils.performHapticFeedback(view)
-                                    onSearchModeChange(screenMode != ScreenMode.Search)
-                                },
-                                modifier = modifier
-                            ) {
-                                Icon(
-                                    painter = painterResource(R.drawable.ic_search),
-                                    contentDescription = stringResource(R.string.action_search)
-                                )
-                            }
-                        }
-
-                        ScreenMode.Selection -> {
-                            ActionMultipleSelection(
-                                onSelectAll = onSelectAll,
-                                onDeleteSelectedTodo = onDeleteSelectedTodo
-                            )
-                        }
-
-                        ScreenMode.Search -> {}
+                if (inSelectionMode) {
+                    ActionMultipleSelection(
+                        onSelectAll = onSelectAll,
+                        onDeleteSelectedTodo = onDeleteSelectedTodo
+                    )
+                } else if (!inSearchMode) {
+                    IconButton(
+                        shapes = IconButtonDefaults.shapes(),
+                        onClick = {
+                            VibrationUtils.performHapticFeedback(view)
+                            onEnterSearchMode()
+                        },
+                        modifier = modifier
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_search),
+                            contentDescription = stringResource(R.string.action_search)
+                        )
                     }
                 }
             }
@@ -201,19 +189,3 @@ fun ActionMultipleSelection(
         }
     }
 }
-
-/*
-@Preview(locale = "zh-rCN", showBackground = true)
-@Composable
-private fun TodoTopAppBarPreview() {
-    val selectedMode = remember { mutableStateOf(false) }
-    TodoTopAppBar(
-        searchMode = true,
-        onSearchModeChange = {},
-        selectedTodoIds = (1..10).toSet(),
-        selectedMode = selectedMode.value,
-        onCancelSelect = { selectedMode.value = !selectedMode.value },
-        onSelectAll = { },
-        onDeleteSelectedTodo = { }
-    )
-}*/

@@ -1,4 +1,4 @@
-package cn.super12138.todo.ui.viewmodels
+package cn.super12138.todo.ui.activities
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

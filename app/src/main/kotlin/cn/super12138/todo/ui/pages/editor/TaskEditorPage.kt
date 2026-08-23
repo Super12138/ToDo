@@ -123,7 +123,11 @@ fun TaskEditorPage(
     }
 
     // 已知问题：聚焦时光标放在了内容的开始，而不是结尾
-    SideEffect(uiState.shouldAutoFocusContent) { focusRequester.requestFocus() }
+    SideEffect(uiState.shouldAutoFocusContent) {
+        if (uiState.shouldAutoFocusContent) {
+            focusRequester.requestFocus()
+        }
+    }
 
     BackHandler(onBack = ::navigateUpIfUnchanged)
 

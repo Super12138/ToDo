@@ -29,8 +29,7 @@ import cn.super12138.todo.utils.VibrationUtils
 @OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun TaskSearchTextField(
-    searchMode: Boolean,
-    onSearchModeChange: (Boolean) -> Unit,
+    onExitSearchMode: () -> Unit,
     modifier: Modifier = Modifier,
     textFieldState: TextFieldState,
 ) {
@@ -50,7 +49,7 @@ fun TaskSearchTextField(
             IconButton(
                 onClick = {
                     VibrationUtils.performHapticFeedback(view)
-                    onSearchModeChange(!searchMode)
+                    onExitSearchMode()
                 }
             ) {
                 Icon(
