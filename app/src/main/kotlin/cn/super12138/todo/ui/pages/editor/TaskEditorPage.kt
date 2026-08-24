@@ -138,7 +138,7 @@ fun TaskEditorPage(
     }
 
     SideEffect(categoryChipList) {
-        if (isSetInitialCategory) return@SideEffect
+        if (isSetInitialCategory || uiState.categoryList.isEmpty()) return@SideEffect
 
         val id = if (task == null) {
             // 新建一个任务判断分类列表有没有内容（除了自定义项）有默认选择第一项反之选择自定义
