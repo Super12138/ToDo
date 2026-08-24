@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialShapes
@@ -104,6 +105,7 @@ fun SharedTransitionScope.TasksPage(
             viewModel.exitMultiSelectMode()
         } else if (uiState.inSearchMode) {
             viewModel.exitSearchMode()
+            searchQueryState.setTextAndPlaceCursorAtEnd("")
         }
     }
 
