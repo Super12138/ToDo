@@ -38,6 +38,8 @@ class EditorViewModel(
         initialValue = TaskEditorUiState()
     )
 
+    private var initialCategory = ""
+
     init {
         if (initialTask != null) {
             with(initialTask) {
@@ -64,7 +66,7 @@ class EditorViewModel(
 
         with(uiState.value) {
             if ((initialTask?.content ?: "") != content.trim()) isModified = true
-            if ((initialTask?.category ?: "") != category.trim()) isModified = true
+            if ((initialTask?.category ?: initialCategory) != category.trim()) isModified = true
             if ((initialTask?.priority ?: 0f) != priority.value) isModified = true
             if ((initialTask?.isCompleted == true) != isCompleted) isModified = true
             if (initialTask?.dueDateMillis != dueDateMillis) isModified = true
@@ -78,6 +80,11 @@ class EditorViewModel(
     fun showExitConfirmDialog() = localUiState.update { it.copy(showExitConfirmDialog = true) }
     fun hideDeleteConfirmDialog() = localUiState.update { it.copy(showDeleteConfirmDialog = false) }
     fun hideExitConfirmDialog() = localUiState.update { it.copy(showExitConfirmDialog = false) }
+    fun setInitialCategory(chipItem: ChipItem?) {
+        setSelectedCategory(chipItem)
+        initialCategory = chipItem?.label ?: ""
+    }
+
     fun setSelectedCategory(chipItem: ChipItem?) {
         if (chipItem == null) return
         localUiState.update {

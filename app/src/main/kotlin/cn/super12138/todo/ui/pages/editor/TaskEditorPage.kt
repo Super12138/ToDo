@@ -33,6 +33,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -108,9 +109,16 @@ fun TaskEditorPage(
     val view = LocalView.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    val customizationText = stringResource(R.string.label_customization)
+
     val focusRequester = remember { FocusRequester() }
     var validate by remember { mutableStateOf(false) } // @ChatGPT
-
+    val categoryChipList = remember(uiState.categoryList) {
+        uiState.categoryList.mapIndexed { index, category ->
+            ChipItem(index, category)
+        } + ChipItem(-1, customizationText)
+    }
+    var isSetInitialCategory by rememberSaveable { mutableStateOf(false) }
     val isContentError by remember { derivedStateOf { validate && uiState.content.isBlank() } }
     val isCategoryError by remember { derivedStateOf { validate && uiState.category.isBlank() } }
 
@@ -127,6 +135,21 @@ fun TaskEditorPage(
         if (uiState.shouldAutoFocusContent) {
             focusRequester.requestFocus()
         }
+    }
+
+    SideEffect(categoryChipList) {
+        if (isSetInitialCategory) return@SideEffect
+
+        val id = if (task == null) {
+            // 新建一个任务判断分类列表有没有内容（除了自定义项）有默认选择第一项反之选择自定义
+            if (categoryChipList.size == 1) -1 else 0
+        } else {
+            // 已经存在的任务直接在分类列表里查询分类Id
+            task.category findIdIn categoryChipList
+        }
+        viewModel.setInitialCategory(categoryChipList.firstOrNull { it.id == id })
+
+        isSetInitialCategory = true
     }
 
     BackHandler(onBack = ::navigateUpIfUnchanged)
@@ -185,29 +208,11 @@ fun TaskEditorPage(
         },
         modifier = modifier
     ) {
-        /*val contentField = rememberTextFieldState()*/
-        val customizationText = stringResource(R.string.label_customization)
-
-        val categoryChipList = remember(uiState.categoryList) {
-            uiState.categoryList.mapIndexed { index, category ->
-                ChipItem(index, category)
-            } + ChipItem(-1, customizationText)
-        }
-
-        /*LaunchedEffect(contentField, categoryField) {
+        /*val contentField = rememberTextFieldState()
+        LaunchedEffect(contentField, categoryField) {
             snapshotFlow { contentField.text.trim().toString() }
                 .collect { }
         }*/
-
-        SideEffect(categoryChipList) {
-            val id = if (task == null) {
-                if (categoryChipList.size == 1) -1 else 0
-            } else {
-                task.category findIdIn categoryChipList
-            }
-            viewModel.setSelectedCategory(categoryChipList.firstOrNull { it.id == id })
-        }
-
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(VerveDoDefaults.contentPadding * 2),
             modifier = Modifier
@@ -370,7 +375,7 @@ fun TaskEditorPage(
             viewModel.deleteTask()
             onNavigateUp()
         },
-        onDismiss = { viewModel.hideDeleteConfirmDialog() }
+        onDismiss = viewModel::hideDeleteConfirmDialog
     )
 }
 
