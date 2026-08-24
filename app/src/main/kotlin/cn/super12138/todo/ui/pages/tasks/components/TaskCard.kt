@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Badge
 import androidx.compose.material3.ButtonShapes
@@ -43,7 +44,9 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.ui.VerveDoDefaults
@@ -138,18 +141,19 @@ fun TaskCard(
                 onLongClick = onLongClick
             )
             .drawBehind { drawRect(containerColor) }
-            .padding(start = VerveDoDefaults.screenHorizontalPadding)
+            .padding()
     ) {
         AnimatedVisibility(
             visible = selected,
             enter = enterTransition,
             exit = exitTransition
-        ) { SelectedIcon(Modifier.padding(end = VerveDoDefaults.contentPadding * 2)) }
+        ) { SelectedIcon(Modifier.padding(start = VerveDoDefaults.contentPadding * 2)) }
 
         CompositionLocalProvider(LocalContentColor provides contentColor) {
             Column(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier
+                    .padding(horizontal = VerveDoDefaults.contentPadding * 2)
                     .weight(1f)
                     .fillMaxSize()
             ) {
@@ -162,7 +166,7 @@ fun TaskCard(
                         text = content,
                         style = MaterialTheme.typography.titleLarge,
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
+                        overflow = TextOverflow.MiddleEllipsis,
                         modifier = Modifier.weight(1f)
                     )
 
@@ -171,24 +175,29 @@ fun TaskCard(
                             dueDateMillis = it,
                             dateColor = dateColor,
                             relativeDateColor = relativeDateColor,
-                            modifier = Modifier.padding(
-                                start = VerveDoDefaults.screenVerticalPadding,
-                                end = VerveDoDefaults.screenHorizontalPadding
-                            )
+                            modifier = Modifier.padding(start = VerveDoDefaults.contentPadding)
                         )
                     }
                 }
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(VerveDoDefaults.contentPadding / 2)
+                    horizontalArrangement = Arrangement.spacedBy(VerveDoDefaults.contentPadding / 2),
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    CategoryBadge(category = category, containerColor = badgeColor)
+                    CategoryBadge(
+                        category = category,
+                        containerColor = badgeColor,
+                        modifier = Modifier.weight(weight = 1f, fill = false)
+                    )
 
                     Text(
                         text = stringResource(priority.nameRes),
                         style = MaterialTheme.typography.labelMedium,
-                        color = priorityColor
+                        color = priorityColor,
+                        maxLines = 1,
+                        overflow = TextOverflow.MiddleEllipsis,
+                        modifier = Modifier.wrapContentWidth()
                     )
                 }
             }
@@ -261,7 +270,9 @@ fun CategoryBadge(
         Text(
             text = category.ifEmpty { stringResource(R.string.tip_default_category) },
             style = MaterialTheme.typography.labelMedium,
-            maxLines = 1
+            maxLines = 1,
+            overflow = TextOverflow.MiddleEllipsis,
+            textAlign = TextAlign.Center
         )
     }
 }
@@ -290,3 +301,30 @@ private fun CheckButton(
         )
     }
 }
+
+@Preview
+@Composable
+private fun LongTaskCardPreview() {
+    TaskCard(
+        content = "这里有一条很长长长长长长长长长长长长长长长长长长长长长长的任务",
+        category = "这里有一条很长长长长长长长长长长长长长长长长长长长长长长的分类",
+        completed = false,
+        dueDateMillis = 1787616000000,
+        priority = Priority.NotImportant,
+        selected = false
+    )
+}
+
+@Preview
+@Composable
+private fun TaskCardPreview() {
+    TaskCard(
+        content = "这是一个任务",
+        category = "它的分类",
+        completed = true,
+        dueDateMillis = 1787616000000,
+        priority = Priority.NotImportant,
+        selected = false
+    )
+}
+
