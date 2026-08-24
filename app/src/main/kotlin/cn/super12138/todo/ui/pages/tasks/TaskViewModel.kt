@@ -94,7 +94,7 @@ class TaskViewModel(
         }
 
     fun enterSearchMode() = localUiState.update { it.copy(inSearchMode = true) }
-    fun exitSearchMode() = localUiState.update { it.copy(inSearchMode = false) }
+    fun exitSearchMode() = localUiState.update { it.copy(searchQuery = "", inSearchMode = false) }
     fun showDeleteConfirmDialog() = localUiState.update { it.copy(showDeleteConfirmDialog = true) }
     fun hideDeleteConfirmDialog() = localUiState.update { it.copy(showDeleteConfirmDialog = false) }
 

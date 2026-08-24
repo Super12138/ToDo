@@ -37,9 +37,9 @@ fun TasksTopAppBar(
     inSelectionMode: Boolean,
     selectedTasksIds: Set<Int>,
     onEnterSearchMode: () -> Unit,
-    onCancelSelect: () -> Unit,
     onSelectAll: () -> Unit,
-    onDeleteSelectedTodo: () -> Unit,
+    onExitSelectMode: () -> Unit,
+    onDeleteSelectedTask: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val navIconEnterTransition = fadeIn(
@@ -90,7 +90,7 @@ fun TasksTopAppBar(
                     shapes = IconButtonDefaults.shapes(),
                     onClick = {
                         VibrationUtils.performHapticFeedback(view)
-                        onCancelSelect()
+                        onExitSelectMode()
                     }
                 ) {
                     Icon(
@@ -128,7 +128,7 @@ fun TasksTopAppBar(
                 if (inSelectionMode) {
                     ActionMultipleSelection(
                         onSelectAll = onSelectAll,
-                        onDeleteSelectedTodo = onDeleteSelectedTodo
+                        onDeleteSelectedTodo = onDeleteSelectedTask
                     )
                 } else if (!inSearchMode) {
                     IconButton(

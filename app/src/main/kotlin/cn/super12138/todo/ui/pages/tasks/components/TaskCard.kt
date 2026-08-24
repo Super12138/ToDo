@@ -72,7 +72,7 @@ fun TaskCard(
     onChecked: () -> Unit = {},
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     colors: CardColors = VerveDoDefaults.listColor,
-    shapes: ButtonShapes = VerveDoDefaults.shapes,
+    shapes: ButtonShapes = VerveDoDefaults.shapes
 ) {
     val view = LocalView.current
 
