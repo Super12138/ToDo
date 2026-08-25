@@ -39,7 +39,7 @@ android {
         applicationId = "cn.super12138.todo"
         minSdk = 26
         targetSdk = 37
-        versionCode = 1234
+        versionCode = 1235
         versionName = "3.4.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

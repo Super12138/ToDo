@@ -1,7 +1,6 @@
 package cn.super12138.todo.ui.pages.overview
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -31,50 +30,48 @@ fun OverviewPage(
         title = stringResource(R.string.page_overview),
         modifier = modifier
     ) {
-        Column {
-            LazyVerticalStaggeredGrid(
-                modifier = Modifier.fillMaxSize(),
-                columns = StaggeredGridCells.Adaptive(160.dp),
-                horizontalArrangement = Arrangement.spacedBy(VerveDoDefaults.contentPadding),
-                verticalItemSpacing = VerveDoDefaults.contentPadding
-            ) {
-                item {
-                    RoundedCornerCardLarge(
-                        iconRes = R.drawable.ic_apps,
-                        title = stringResource(R.string.title_all_task),
-                        count = uiState.totalTasks
-                    )
-                }
-                item {
-                    RoundedCornerCardLarge(
-                        iconRes = R.drawable.ic_check_circle,
-                        title = stringResource(R.string.title_completed_task),
-                        count = uiState.completedTasks,
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer
-                    )
-                }
-                item {
-                    RoundedCornerCardLarge(
-                        iconRes = R.drawable.ic_pending,
-                        title = stringResource(R.string.title_pending_task),
-                        count = uiState.totalTasks - uiState.completedTasks,
-                        containerColor = MaterialTheme.colorScheme.errorContainer
-                    )
-                }
-                item {
-                    ProgressCard(
-                        title = stringResource(R.string.title_today_task),
-                        total = uiState.todayTasks.size,
-                        completed = uiState.todayTasks.count { it.isCompleted }
-                    )
-                }
+        LazyVerticalStaggeredGrid(
+            modifier = Modifier.fillMaxSize(),
+            columns = StaggeredGridCells.Adaptive(160.dp),
+            horizontalArrangement = Arrangement.spacedBy(VerveDoDefaults.contentPadding),
+            verticalItemSpacing = VerveDoDefaults.contentPadding
+        ) {
+            item {
+                RoundedCornerCardLarge(
+                    iconRes = R.drawable.ic_apps,
+                    title = stringResource(R.string.title_all_task),
+                    count = uiState.totalTasks
+                )
+            }
+            item {
+                RoundedCornerCardLarge(
+                    iconRes = R.drawable.ic_check_circle,
+                    title = stringResource(R.string.title_completed_task),
+                    count = uiState.completedTasks,
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer
+                )
+            }
+            item {
+                RoundedCornerCardLarge(
+                    iconRes = R.drawable.ic_pending,
+                    title = stringResource(R.string.title_pending_task),
+                    count = uiState.totalTasks - uiState.completedTasks,
+                    containerColor = MaterialTheme.colorScheme.errorContainer
+                )
+            }
+            item {
+                ProgressCard(
+                    title = stringResource(R.string.title_today_task),
+                    total = uiState.todayTasks.size,
+                    completed = uiState.todayTasks.count { it.isCompleted }
+                )
+            }
 
-                item {
-                    ListCard(
-                        title = stringResource(R.string.title_upcoming_task),
-                        list = uiState.nextWeekTasks
-                    )
-                }
+            item {
+                ListCard(
+                    title = stringResource(R.string.title_upcoming_task),
+                    list = uiState.nextWeekTasks
+                )
             }
         }
     }

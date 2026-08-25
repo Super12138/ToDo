@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularWavyProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -41,19 +43,32 @@ import cn.super12138.todo.ui.theme.fadeScale
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ProgressCard(
-    modifier: Modifier = Modifier,
     title: String,
     total: Int,
     completed: Int,
+    modifier: Modifier = Modifier,
     containerColor: Color = VerveDoDefaults.Colors.Container,
+    shape: CornerBasedShape = VerveDoDefaults.defaultShape,
+    colors: CardColors = CardDefaults.cardColors(containerColor = containerColor),
     emptyTipContainerColor: Color = MaterialTheme.colorScheme.secondaryContainer
 ) {
+    val transitionSpec = fadeScale()
+    val thickStrokeWidth = with(LocalDensity.current) { 5.dp.toPx() }
     val progress = if (total == 0) 0f else completed / total.toFloat()
+
+    val thickStroke = remember(thickStrokeWidth) {
+        Stroke(width = thickStrokeWidth, cap = StrokeCap.Round)
+    }
+
+    val animatedProgress by animateFloatAsState(
+        targetValue = progress,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+    )
 
     Card(
         modifier = modifier.height(VerveDoDefaults.Sizes.overviewCardHeight * 2),
-        colors = CardDefaults.cardColors(containerColor = containerColor),
-        shape = VerveDoDefaults.defaultShape
+        colors = colors,
+        shape = shape
     ) {
         Column(
             modifier = Modifier
@@ -66,7 +81,6 @@ fun ProgressCard(
                 text = title,
                 style = MaterialTheme.typography.titleLarge
             )
-            val transitionSpec = fadeScale()
             AnimatedContent(
                 targetState = total == 0,
                 transitionSpec = { transitionSpec }
@@ -99,15 +113,6 @@ fun ProgressCard(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
-                        val animatedProgress by animateFloatAsState(
-                            targetValue = progress,
-                            animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
-                        )
-                        val thickStrokeWidth = with(LocalDensity.current) { 5.dp.toPx() }
-                        val thickStroke = remember(thickStrokeWidth) {
-                            Stroke(width = thickStrokeWidth, cap = StrokeCap.Round)
-                        }
-
                         CircularWavyProgressIndicator(
                             progress = { animatedProgress },
                             waveSpeed = 3.dp,

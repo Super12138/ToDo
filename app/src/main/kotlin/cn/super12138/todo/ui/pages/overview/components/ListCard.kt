@@ -12,8 +12,10 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialShapes
@@ -44,16 +46,20 @@ import cn.super12138.todo.utils.toRelativeTimeString
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ListCard(
-    modifier: Modifier = Modifier,
     title: String,
     list: List<TaskEntity>,
+    modifier: Modifier = Modifier,
     containerColor: Color = VerveDoDefaults.Colors.Container,
+    shape: CornerBasedShape = VerveDoDefaults.defaultShape,
+    colors: CardColors = CardDefaults.cardColors(containerColor = containerColor),
     emptyTipContainerColor: Color = MaterialTheme.colorScheme.secondaryContainer
 ) {
+    val transitionSpec = fadeScale()
+
     Card(
         modifier = modifier.height(VerveDoDefaults.Sizes.overviewCardHeight * 2),
-        colors = CardDefaults.cardColors(containerColor = containerColor),
-        shape = VerveDoDefaults.defaultShape
+        colors = colors,
+        shape = shape
     ) {
         Column(
             modifier = Modifier
@@ -66,7 +72,6 @@ fun ListCard(
                 text = title,
                 style = MaterialTheme.typography.titleLarge
             )
-            val transitionSpec = fadeScale()
             AnimatedContent(
                 targetState = list.isEmpty(),
                 transitionSpec = { transitionSpec }

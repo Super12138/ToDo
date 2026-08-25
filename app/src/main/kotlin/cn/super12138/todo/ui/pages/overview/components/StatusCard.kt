@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.ButtonShapes
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -39,22 +40,21 @@ import cn.super12138.todo.utils.VibrationUtils
 
 @Composable
 fun RoundedCornerCardLarge(
-    modifier: Modifier = Modifier,
     @DrawableRes iconRes: Int,
     title: String,
     count: Int,
+    modifier: Modifier = Modifier,
     containerColor: Color = VerveDoDefaults.Colors.Container,
     shapes: ButtonShapes = VerveDoDefaults.shapes,
+    colors: CardColors = CardDefaults.cardColors(containerColor = containerColor),
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     onClick: () -> Unit = {}
 ) {
-
     val view = LocalView.current
-    val interactionSource = remember { MutableInteractionSource() }
-    val pressed by interactionSource.collectIsPressedAsState()
-    val animatedShape =
-        shapeByInteraction(shapes, pressed, VerveDoDefaults.shapesDefaultAnimationSpec)
 
-    val cardColors = CardDefaults.cardColors(containerColor = containerColor)
+    val pressed by interactionSource.collectIsPressedAsState()
+    val shape = shapeByInteraction(shapes, pressed, VerveDoDefaults.shapesDefaultAnimationSpec)
+
     Surface(
         onClick = {
             VibrationUtils.performHapticFeedback(view)
@@ -63,9 +63,9 @@ fun RoundedCornerCardLarge(
         modifier = modifier
             .height(VerveDoDefaults.Sizes.overviewCardHeight)
             .semantics { role = Role.Button },
-        shape = animatedShape,
-        color = cardColors.containerColor,
-        contentColor = cardColors.contentColor,
+        shape = shape,
+        color = colors.containerColor,
+        contentColor = colors.contentColor,
         interactionSource = interactionSource,
     ) {
         Row(
@@ -95,7 +95,7 @@ fun RoundedCornerCardLarge(
                 BasicText(
                     text = count.toString(),
                     style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
-                    color = ColorProducer { cardColors.contentColor },
+                    color = ColorProducer { colors.contentColor },
                     autoSize = TextAutoSize.StepBased(
                         MaterialTheme.typography.headlineSmall.fontSize,
                         MaterialTheme.typography.displayMedium.fontSize
