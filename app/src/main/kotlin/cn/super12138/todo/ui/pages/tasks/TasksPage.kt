@@ -10,13 +10,15 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -34,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.ui.LocalNavAnimatedContentScope
 import cn.super12138.todo.R
@@ -51,10 +54,9 @@ import cn.super12138.todo.ui.pages.tasks.components.TaskSearchTextField
 import cn.super12138.todo.ui.pages.tasks.components.TasksTopAppBar
 import cn.super12138.todo.ui.theme.fadeScale
 import cn.super12138.todo.utils.toLocalDateString
-import kotlinx.coroutines.FlowPreview
 import org.koin.compose.viewmodel.koinViewModel
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class, FlowPreview::class)
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SharedTransitionScope.TasksPage(
     modifier: Modifier = Modifier,
@@ -72,7 +74,7 @@ fun SharedTransitionScope.TasksPage(
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val taskListState = rememberLazyListState()
+    val taskListState = rememberLazyStaggeredGridState()
     val taskList = remember(uiState.originalTaskList, uiState.searchQuery) {
         if (uiState.searchQuery.isEmpty()) {
             uiState.originalTaskList
@@ -171,9 +173,12 @@ fun SharedTransitionScope.TasksPage(
                         )
                     }
                 } else {
-                    LazyColumn(
+                    LazyVerticalStaggeredGrid(
                         state = taskListState,
-                        verticalArrangement = Arrangement.spacedBy(VerveDoDefaults.settingsItemPadding),
+                        columns = StaggeredGridCells.Adaptive(minSize = 250.dp),
+                        contentPadding = PaddingValues(vertical = VerveDoDefaults.contentPadding / 4),
+                        verticalItemSpacing = VerveDoDefaults.contentPadding / 2,
+                        horizontalArrangement = Arrangement.spacedBy(VerveDoDefaults.contentPadding / 2),
                         modifier = Modifier
                             .fillMaxSize()
                             .clip(VerveDoDefaults.ScreenContainerShape)

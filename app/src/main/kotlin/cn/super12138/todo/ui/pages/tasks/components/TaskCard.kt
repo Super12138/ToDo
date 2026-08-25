@@ -14,12 +14,14 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Badge
@@ -128,7 +130,9 @@ fun TaskCard(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .fillMaxWidth()
-            .height(VerveDoDefaults.Sizes.taskCardHeight)
+            .height(IntrinsicSize.Min)
+            // .requiredHeight(VerveDoDefaults.Sizes.taskCardHeight)
+            // .wrapContentHeight()
             .clip(animatedShape)
             .combinedClickable(
                 interactionSource = interactionSource,
@@ -141,7 +145,6 @@ fun TaskCard(
                 onLongClick = onLongClick
             )
             .drawBehind { drawRect(containerColor) }
-            .padding()
     ) {
         AnimatedVisibility(
             visible = selected,
@@ -153,7 +156,10 @@ fun TaskCard(
             Column(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier
-                    .padding(horizontal = VerveDoDefaults.contentPadding * 2)
+                    .padding(
+                        horizontal = VerveDoDefaults.contentPadding * 2,
+                        vertical = VerveDoDefaults.contentPadding * 2
+                    )
                     .weight(1f)
                     .fillMaxSize()
             ) {
@@ -165,9 +171,11 @@ fun TaskCard(
                     Text(
                         text = content,
                         style = MaterialTheme.typography.titleLarge,
-                        maxLines = 1,
-                        overflow = TextOverflow.MiddleEllipsis,
-                        modifier = Modifier.weight(1f)
+                        maxLines = 3,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .wrapContentHeight()
+                            .weight(1f)
                     )
 
                     dueDateMillis?.let {
@@ -207,7 +215,7 @@ fun TaskCard(
             visible = !selected && !completed,
             enter = enterTransition,
             exit = exitTransition
-        ) { CheckButton(onChecked = onChecked) }
+        ) { CheckButton(onChecked = onChecked, modifier = Modifier.fillMaxHeight()) }
     }
 }
 
@@ -286,7 +294,6 @@ private fun CheckButton(
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
-            .fillMaxHeight()
             .background(VerveDoDefaults.Colors.Green)
             .clickable {
                 VibrationUtils.performHapticFeedback(view)
