@@ -19,6 +19,9 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
+import androidx.compose.foundation.text.input.TextFieldLineLimits
+import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.material3.ButtonGroupDefaults
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
@@ -28,6 +31,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.ToggleButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -35,6 +39,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -109,16 +114,19 @@ fun TaskEditorPage(
     val view = LocalView.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    val contentField = rememberTextFieldState(initialText = task?.content ?: "")
     val customizationText = stringResource(R.string.label_customization)
 
     val focusRequester = remember { FocusRequester() }
-    var validate by remember { mutableStateOf(false) } // @ChatGPT
+    var validate by remember { mutableStateOf(false) } // @ChatGPT，用于判断用户是否按下了保存按钮。按下了开始进行错误检测
     val categoryChipList = remember(uiState.categoryList) {
         uiState.categoryList.mapIndexed { index, category ->
             ChipItem(index, category)
         } + ChipItem(-1, customizationText)
     }
-    var isSetInitialCategory by rememberSaveable { mutableStateOf(false) }
+
+    var isSetInitialCategory by rememberSaveable { mutableStateOf(false) } // 是否设置过初始的分类
+
     val isContentError by remember { derivedStateOf { validate && uiState.content.isBlank() } }
     val isCategoryError by remember { derivedStateOf { validate && uiState.category.isBlank() } }
 
@@ -130,14 +138,15 @@ fun TaskEditorPage(
         }
     }
 
-    // 已知问题：聚焦时光标放在了内容的开始，而不是结尾
     SideEffect(uiState.shouldAutoFocusContent) {
         if (uiState.shouldAutoFocusContent) {
             focusRequester.requestFocus()
+            contentField.setTextAndPlaceCursorAtEnd(task?.content ?: "")
         }
     }
 
     SideEffect(categoryChipList) {
+        // 设置过分类或者是categoryList正在从数据库中加载（即categoryList为空）不执行
         if (isSetInitialCategory || uiState.categoryList.isEmpty()) return@SideEffect
 
         val id = if (task == null) {
@@ -150,6 +159,11 @@ fun TaskEditorPage(
         viewModel.setInitialCategory(categoryChipList.firstOrNull { it.id == id })
 
         isSetInitialCategory = true
+    }
+
+    LaunchedEffect(contentField) {
+        snapshotFlow { contentField.text.trim().toString() }
+            .collect { viewModel.setContentText(it) }
     }
 
     BackHandler(onBack = ::navigateUpIfUnchanged)
@@ -208,11 +222,6 @@ fun TaskEditorPage(
         },
         modifier = modifier
     ) {
-        /*val contentField = rememberTextFieldState()
-        LaunchedEffect(contentField, categoryField) {
-            snapshotFlow { contentField.text.trim().toString() }
-                .collect { }
-        }*/
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(VerveDoDefaults.contentPadding * 2),
             modifier = Modifier
@@ -221,7 +230,7 @@ fun TaskEditorPage(
         ) {
             item {
                 Subtitle(R.string.label_basic_information)
-                /*TextField(
+                TextField(
                     state = contentField,
                     label = { Text(stringResource(R.string.placeholder_add_todo)) },
                     lineLimits = TextFieldLineLimits.MultiLine(maxHeightInLines = 3),
@@ -238,9 +247,12 @@ fun TaskEditorPage(
                                 overflow = TextOverflow.Ellipsis
                             )
                         }
-                    }
-                )*/
-                TextField(
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .focusRequester(focusRequester)
+                )
+                /*TextField(
                     value = uiState.content,
                     onValueChange = { viewModel.setContentText(it) },
                     label = { Text(stringResource(R.string.placeholder_add_todo)) },
@@ -262,7 +274,7 @@ fun TaskEditorPage(
                     modifier = Modifier
                         .fillMaxWidth()
                         .focusRequester(focusRequester)
-                )
+                )*/
             }
             item {
                 Subtitle(R.string.label_category)
