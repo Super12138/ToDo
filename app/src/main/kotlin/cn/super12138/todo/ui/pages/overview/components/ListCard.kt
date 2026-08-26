@@ -143,7 +143,7 @@ fun UpcomingTaskItem(
             Text(
                 text = content,
                 maxLines = 1,
-                overflow = TextOverflow.MiddleEllipsis,
+                overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.weight(weight = 1f, fill = false)
             )

@@ -8,6 +8,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.shrinkOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -124,25 +125,29 @@ fun TasksTopAppBar(
             }
         },
         actions = {
+            val selectionMode = 0
+            val searchMode = 1
+            val elseMode = 2
+
             Row {
-                if (inSelectionMode) {
-                    ActionMultipleSelection(
-                        onSelectAll = onSelectAll,
-                        onDeleteSelectedTodo = onDeleteSelectedTask
-                    )
-                } else if (!inSearchMode) {
-                    IconButton(
-                        shapes = IconButtonDefaults.shapes(),
-                        onClick = {
-                            VibrationUtils.performHapticFeedback(view)
-                            onEnterSearchMode()
-                        },
-                        modifier = modifier
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_search),
-                            contentDescription = stringResource(R.string.action_search)
-                        )
+                AnimatedContent(
+                    targetState = when {
+                        inSelectionMode -> selectionMode
+                        inSearchMode -> searchMode
+                        else -> elseMode
+                    },
+                    transitionSpec = { actionEnterTransition togetherWith actionExitTransition }
+                ) {
+                    when (it) {
+                        selectionMode -> {
+                            ActionMultipleSelection(
+                                onSelectAll = onSelectAll,
+                                onDeleteSelectedTodo = onDeleteSelectedTask
+                            )
+                        }
+
+                        searchMode -> {}
+                        elseMode -> SearchButton(onEnterSearchMode)
                     }
                 }
             }
@@ -153,14 +158,14 @@ fun TasksTopAppBar(
 }
 
 @Composable
-fun ActionMultipleSelection(
+private fun ActionMultipleSelection(
     onSelectAll: () -> Unit,
     onDeleteSelectedTodo: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val view = LocalView.current
     Row(
-        verticalAlignment = Alignment.Bottom,
+        verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
     ) {
         IconButton(
@@ -187,5 +192,23 @@ fun ActionMultipleSelection(
                 contentDescription = stringResource(R.string.action_delete)
             )
         }
+    }
+}
+
+@Composable
+private fun SearchButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
+    val view = LocalView.current
+    IconButton(
+        shapes = IconButtonDefaults.shapes(),
+        onClick = {
+            VibrationUtils.performHapticFeedback(view)
+            onClick()
+        },
+        modifier = modifier
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_search),
+            contentDescription = stringResource(R.string.action_search)
+        )
     }
 }
