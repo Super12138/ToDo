@@ -2,6 +2,7 @@ package cn.super12138.todo.ui.pages.tasks.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -131,8 +132,9 @@ fun TaskCard(
         modifier = modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Min)
-            // .requiredHeight(VerveDoDefaults.Sizes.taskCardHeight)
-            // .wrapContentHeight()
+            .animateContentSize()
+            //.heightIn(min = VerveDoDefaults.Sizes.taskCardHeight)
+            //.wrapContentHeight()
             .clip(animatedShape)
             .combinedClickable(
                 interactionSource = interactionSource,
@@ -204,7 +206,7 @@ fun TaskCard(
                         style = MaterialTheme.typography.labelMedium,
                         color = priorityColor,
                         maxLines = 1,
-                        overflow = TextOverflow.MiddleEllipsis,
+                        overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.wrapContentWidth()
                     )
                 }
@@ -215,7 +217,13 @@ fun TaskCard(
             visible = !selected && !completed,
             enter = enterTransition,
             exit = exitTransition
-        ) { CheckButton(onChecked = onChecked, modifier = Modifier.fillMaxHeight()) }
+        ) {
+            CheckButton(
+                onChecked = onChecked, modifier = Modifier
+                    .fillMaxHeight()
+                    .animateContentSize()
+            )
+        }
     }
 }
 
@@ -279,7 +287,7 @@ fun CategoryBadge(
             text = category.ifEmpty { stringResource(R.string.tip_default_category) },
             style = MaterialTheme.typography.labelMedium,
             maxLines = 1,
-            overflow = TextOverflow.MiddleEllipsis,
+            overflow = TextOverflow.Ellipsis,
             textAlign = TextAlign.Center
         )
     }
