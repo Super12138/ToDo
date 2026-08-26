@@ -39,14 +39,18 @@ fun CategoryPromptDialog(
     var validate by remember { mutableStateOf(false) }
     val isError by remember { derivedStateOf { validate && textFieldState.text.trim().isEmpty() } }
 
+    fun dismiss() {
+        onDismiss()
+        textFieldState.clearText()
+        validate = false
+    }
+
     fun save(category: String) {
         validate = true
         if (isError) return
 
         onSave(category)
-        textFieldState.clearText()
-        onDismiss()
-        validate = false
+        dismiss()
     }
 
     SideEffect(visible) {
@@ -75,7 +79,7 @@ fun CategoryPromptDialog(
         confirmButton = stringResource(R.string.action_save),
         dismissButton = stringResource(R.string.action_cancel),
         onConfirm = { save(textFieldState.text.trim().toString()) },
-        onDismiss = onDismiss,
+        onDismiss = { dismiss() },
         properties = DialogProperties(),
         modifier = modifier
     )
