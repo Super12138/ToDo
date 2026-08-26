@@ -10,7 +10,7 @@ composeBom = "2026.08.00"
 liveData = "1.12.0"
 room3 = "3.0.1"
 material3 = "1.5.0-alpha26"
-nav3Core = "1.1.6"
+nav3Core = "1.1.7"
 # AboutLibraries
 aboutLibsRelease = "15.1.1"
 # M3 Color
