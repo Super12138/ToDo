@@ -25,7 +25,7 @@ jobs:
           fetch-depth: 0
 
       - name: Crowdin Action
-        uses: crowdin/github-action@v2.17.1
+        uses: crowdin/github-action@v3.0.0
         with:
           upload_sources: true
           upload_translations: true
