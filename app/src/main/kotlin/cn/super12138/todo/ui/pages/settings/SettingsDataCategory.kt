@@ -1,7 +1,6 @@
 package cn.super12138.todo.ui.pages.settings
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -117,8 +116,7 @@ fun SettingsDataCategory(
                                     text = category,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
-                                    style = MaterialTheme.typography.titleMedium,
-                                    modifier = Modifier.basicMarquee()
+                                    style = MaterialTheme.typography.titleMedium
                                 )
                             },
                             trailingContent = {

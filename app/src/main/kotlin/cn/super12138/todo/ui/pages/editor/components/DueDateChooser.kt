@@ -10,7 +10,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExposedDropdownMenu
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -19,6 +18,7 @@ import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuDefaults
+import androidx.compose.material3.SelectableDropdownMenuItem
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -205,7 +205,7 @@ private fun ExposedDropdownMenu(
         ) {
             val optionCount = items.size
             items.forEachIndexed { index, option ->
-                DropdownMenuItem(
+                SelectableDropdownMenuItem(
                     shapes = MenuDefaults.itemShape(index, optionCount),
                     text = {
                         Text(

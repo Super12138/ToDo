@@ -85,5 +85,5 @@ object VerveDoDefaults {
         @Composable get() = MaterialTheme.motionScheme.defaultEffectsSpec()
 
     val toggleButtonColors: ToggleButtonColors
-        @Composable get() = ToggleButtonDefaults.toggleButtonColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHighest)
+        @Composable get() = ToggleButtonDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerHighest)
 }
