@@ -61,8 +61,7 @@ class TaskWidget : GlanceAppWidget(), KoinComponent {
                 TaskWidgetApp(
                     taskList = allIncompleteTask,
                     onChecked = { scope.launch { taskRepository.updateTask(it) } },
-                    modifier = GlanceModifier
-                        .padding(VerveDoDefaults.contentPadding)
+                    modifier = GlanceModifier.padding(VerveDoDefaults.contentPadding)
                 )
             }
         }
@@ -75,7 +74,9 @@ private fun TaskWidgetApp(
     modifier: GlanceModifier = GlanceModifier,
     onChecked: (TaskEntity) -> Unit = {}
 ) {
+    val context = LocalContext.current
     if (taskList.isEmpty()) {
+        val allTaskComplete = remember(true) { context.getString(R.string.tip_all_task_complete) }
         Box(
             modifier = modifier
                 .fillMaxSize()
@@ -84,17 +85,23 @@ private fun TaskWidgetApp(
                 .widgetCornerRadius(),
             contentAlignment = Alignment.Center
         ) {
-            Text(text = "全部任务都完成啦", style = Typography.titleLarge)
+            Text(text = allTaskComplete, style = Typography.titleLarge)
         }
     } else {
         Scaffold(
             titleBar = {
+                val title = remember(taskList.size) {
+                    context.getString(
+                        R.string.title_task_incomplete,
+                        taskList.size
+                    )
+                }
                 Row(
                     modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.Vertical.CenterVertically,
                 ) {
                     Text(
-                        text = "${taskList.size} 项任务未完成",
+                        text = title,
                         style = Typography.titleLarge,
                         maxLines = 1,
                         modifier = GlanceModifier.defaultWeight(),

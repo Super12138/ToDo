@@ -153,4 +153,6 @@
     <string name="pref_export_task_desc">导出全部任务到一个文件中（当前支持 .csv 文件）</string>
     <string name="tip_export_success">导出成功</string>
     <string name="tip_export_failed">导出失败</string>
+    <string name="tip_all_task_complete">全部任务都完成啦</string>
+    <string name="title_task_incomplete">%d 项任务未完成</string>
 </resources>

@@ -155,4 +155,6 @@
     <string name="pref_export_task_desc">Export all task to a single file (support .csv file currently)</string>
     <string name="tip_export_success">Export successful</string>
     <string name="tip_export_failed">Export failed</string>
+    <string name="tip_all_task_complete">All tasks are completed!</string>
+    <string name="title_task_incomplete">%d Tasks Incomplete</string>
 </resources>
