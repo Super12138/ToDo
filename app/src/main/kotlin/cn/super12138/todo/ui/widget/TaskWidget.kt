@@ -2,6 +2,7 @@ package cn.super12138.todo.ui.widget
 
 import android.content.Context
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -42,8 +43,8 @@ import cn.super12138.todo.logic.TaskRepository
 import cn.super12138.todo.logic.database.TaskEntity
 import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.ui.VerveDoDefaults
-import cn.super12138.todo.utils.containerColor
 import cn.super12138.todo.utils.toLocalDateString
+import cn.super12138.todo.utils.toRelativeTimeString
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
@@ -172,15 +173,17 @@ private fun TaskCard(
                 Text(
                     text = priorityText,
                     style = Typography.labelMedium.copy(
-                        color = priority.containerColor().toColorProvider()
+                        color = priority.containerColor()
                     ),
                     maxLines = 1
                 )
             }
             dueDateMillis?.let {
                 val dueDate = remember(dueDateMillis) { dueDateMillis.toLocalDateString() }
+                val relativeDueDate =
+                    remember(dueDateMillis) { dueDateMillis.toRelativeTimeString(context) }
                 Text(
-                    text = dueDate,
+                    text = "$dueDate ($relativeDueDate)",
                     style = Typography.labelMedium.copy(
                         color = GlanceTheme.colors.onSurfaceVariant
                     ),
@@ -239,3 +242,14 @@ private object Typography {
             fontSize = 12.sp
         )
 }
+
+@Stable
+@Composable
+private fun Priority.containerColor(): ColorProvider =
+    when (this) {
+        Priority.NotUrgent -> GlanceTheme.colors.onSurfaceVariant
+        Priority.NotImportant -> GlanceTheme.colors.onSurfaceVariant
+        Priority.Default -> GlanceTheme.colors.secondary
+        Priority.Important -> GlanceTheme.colors.tertiary
+        Priority.Urgent -> GlanceTheme.colors.error
+    }
