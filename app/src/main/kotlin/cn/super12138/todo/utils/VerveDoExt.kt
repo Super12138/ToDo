@@ -43,8 +43,8 @@ fun Int.blend(
     @FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.5f,
 ): Int = ColorUtils.blendARGB(this, color, fraction)
 
-@Composable
 @Stable
+@Composable
 fun Priority.containerColor(): Color =
     when (this) {
         Priority.NotUrgent -> MaterialTheme.colorScheme.onSurfaceVariant

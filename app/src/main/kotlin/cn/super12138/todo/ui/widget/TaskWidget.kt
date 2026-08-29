@@ -27,9 +27,11 @@ import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
+import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
+import androidx.glance.layout.size
 import androidx.glance.layout.wrapContentHeight
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
@@ -40,6 +42,7 @@ import cn.super12138.todo.logic.TaskRepository
 import cn.super12138.todo.logic.database.TaskEntity
 import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.ui.VerveDoDefaults
+import cn.super12138.todo.utils.containerColor
 import cn.super12138.todo.utils.toLocalDateString
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -58,7 +61,8 @@ class TaskWidget : GlanceAppWidget(), KoinComponent {
                 TaskWidgetApp(
                     taskList = allIncompleteTask,
                     onChecked = { scope.launch { taskRepository.updateTask(it) } },
-                    modifier = GlanceModifier.padding(VerveDoDefaults.contentPadding / 2)
+                    modifier = GlanceModifier
+                        .padding(VerveDoDefaults.contentPadding)
                 )
             }
         }
@@ -71,9 +75,7 @@ private fun TaskWidgetApp(
     modifier: GlanceModifier = GlanceModifier,
     onChecked: (TaskEntity) -> Unit = {}
 ) {
-    val incompleteCount = taskList.size
-
-    if (incompleteCount == 0) {
+    if (taskList.isEmpty()) {
         Box(
             modifier = modifier
                 .fillMaxSize()
@@ -82,7 +84,7 @@ private fun TaskWidgetApp(
                 .widgetCornerRadius(),
             contentAlignment = Alignment.Center
         ) {
-            Text("全部任务都完成啦")
+            Text(text = "全部任务都完成啦", style = Typography.titleLarge)
         }
     } else {
         Scaffold(
@@ -92,17 +94,14 @@ private fun TaskWidgetApp(
                     verticalAlignment = Alignment.Vertical.CenterVertically,
                 ) {
                     Text(
-                        text = "$incompleteCount 项任务未完成",
-                        style = TextStyle(
-                            color = GlanceTheme.colors.onSurface,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp,
-                        ),
+                        text = "${taskList.size} 项任务未完成",
+                        style = Typography.titleLarge,
                         maxLines = 1,
                         modifier = GlanceModifier.defaultWeight(),
                     )
                 }
             },
+            // Scaffold内部包含fillMaxSize Modifier
             modifier = modifier
         ) {
             LazyColumn {
@@ -131,7 +130,7 @@ private fun TaskCard(
 ) {
     val context = LocalContext.current
 
-    val priority = remember(priority) { context.getString(priority.nameRes) }
+    val priorityText = remember(priority) { context.getString(priority.nameRes) }
     val checkButtonDescription =
         remember(context) { context.getString(R.string.tip_mark_completed) }
 
@@ -148,20 +147,39 @@ private fun TaskCard(
         ) {
             Text(
                 text = content,
-                style = TextStyle(
-                    color = GlanceTheme.colors.onSurface,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 16.sp,
-                ),
+                style = Typography.titleMedium,
                 maxLines = 1
             )
-            Row {
-                Text(text = category)
-                Text(text = priority)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = GlanceModifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = category,
+                    style = Typography.labelMedium.copy(
+                        color = GlanceTheme.colors.onSurfaceVariant
+                    ),
+                    maxLines = 1
+                )
+                Spacer(GlanceModifier.size(VerveDoDefaults.contentPadding))
+                Text(
+                    text = priorityText,
+                    style = Typography.labelMedium.copy(
+                        color = priority.containerColor().toColorProvider()
+                    ),
+                    maxLines = 1
+                )
             }
             dueDateMillis?.let {
                 val dueDate = remember(dueDateMillis) { dueDateMillis.toLocalDateString() }
-                Text(dueDate)
+                Text(
+                    text = dueDate,
+                    style = Typography.labelMedium.copy(
+                        color = GlanceTheme.colors.onSurfaceVariant
+                    ),
+                    maxLines = 1,
+                    modifier = GlanceModifier.fillMaxWidth()
+                )
             }
         }
 
@@ -169,17 +187,19 @@ private fun TaskCard(
             imageProvider = ImageProvider(R.drawable.ic_check),
             contentDescription = checkButtonDescription,
             onClick = action(block = onChecked),
-            backgroundColor = FixedColorProvider(VerveDoDefaults.Colors.Green),
-            contentColor = FixedColorProvider(Color.White)
+            backgroundColor = VerveDoDefaults.Colors.Green.toColorProvider(),
+            contentColor = Color.White.toColorProvider()
         )
     }
 }
 
-data class FixedColorProvider(val color: Color) : ColorProvider {
+private data class FixedColorProvider(val color: Color) : ColorProvider {
     override fun getColor(context: Context): Color = color
 }
 
-fun GlanceModifier.widgetCornerRadius(): GlanceModifier {
+private fun Color.toColorProvider() = FixedColorProvider(this)
+
+private fun GlanceModifier.widgetCornerRadius(): GlanceModifier {
     val cornerRadiusModifier =
         if (android.os.Build.VERSION.SDK_INT >= 31) {
             GlanceModifier.cornerRadius(android.R.dimen.system_app_widget_background_radius)
@@ -188,4 +208,27 @@ fun GlanceModifier.widgetCornerRadius(): GlanceModifier {
         }
 
     return this.then(cornerRadiusModifier)
+}
+
+private object Typography {
+    val defaultColor: ColorProvider
+        @Composable get() = GlanceTheme.colors.onSurface
+    val titleLarge: TextStyle
+        @Composable get() = TextStyle(
+            color = defaultColor,
+            fontWeight = FontWeight.Normal,
+            fontSize = 22.sp
+        )
+    val titleMedium: TextStyle
+        @Composable get() = TextStyle(
+            color = defaultColor,
+            fontWeight = FontWeight.Medium,
+            fontSize = 16.sp
+        )
+    val labelMedium: TextStyle
+        @Composable get() = TextStyle(
+            color = defaultColor,
+            fontWeight = FontWeight.Medium,
+            fontSize = 12.sp
+        )
 }
