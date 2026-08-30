@@ -154,5 +154,8 @@
     <string name="tip_export_success">导出成功</string>
     <string name="tip_export_failed">导出失败</string>
     <string name="tip_all_task_complete">全部任务都完成啦</string>
-    <string name="title_task_incomplete">%d 项任务未完成</string>
+    <string name="label_task_incomplete">未完成</string>
+    <string name="label_widget_all_incomplete">全部未完成</string>
+    <string name="label_widget_today_task">今日任务</string>
+    <string name="label_slot_item_task">% 项</string>
 </resources>

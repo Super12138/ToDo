@@ -32,7 +32,7 @@ import cn.super12138.todo.ui.navigation.TopLevelBackStack
 import cn.super12138.todo.ui.navigation.TopNavigation
 import cn.super12138.todo.ui.navigation.VerveDoDestinations
 import cn.super12138.todo.ui.theme.VerveDoTheme
-import cn.super12138.todo.ui.widget.TaskWidget
+import cn.super12138.todo.ui.widget.all.AllIncompleteWidget
 import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.utils.configureEdgeToEdge
 import cn.super12138.todo.utils.isDark
@@ -45,7 +45,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.scope.Scope
 
 class MainActivity : ComponentActivity(), AndroidScopeComponent {
-    val taskWidget = TaskWidget()
+    val allIncompleteWidget = AllIncompleteWidget()
 
     override val scope: Scope by activityRetainedScope()
 
@@ -174,7 +174,7 @@ class MainActivity : ComponentActivity(), AndroidScopeComponent {
         super.onStop()
         lifecycleScope.launch {
             // TODO: 更新逻辑还需优化，最好是在update方法里执行
-            taskWidget.updateAll(applicationContext)
+            allIncompleteWidget.updateAll(applicationContext)
         }
     }
 }

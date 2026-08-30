@@ -156,5 +156,8 @@
     <string name="tip_export_success">Export successful</string>
     <string name="tip_export_failed">Export failed</string>
     <string name="tip_all_task_complete">All tasks are completed!</string>
-    <string name="title_task_incomplete">%d Tasks Incomplete</string>
+    <string name="label_task_incomplete">Incomplete</string>
+    <string name="label_widget_all_incomplete">All Incomplete</string>
+    <string name="label_widget_today_task">Today\'s Task</string>
+    <string name="label_slot_item_task">%d items</string>
 </resources>
