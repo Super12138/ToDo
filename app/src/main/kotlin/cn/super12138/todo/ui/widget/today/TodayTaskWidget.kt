@@ -11,22 +11,15 @@ import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
 import androidx.glance.LocalContext
 import androidx.glance.appwidget.GlanceAppWidget
-import androidx.glance.appwidget.appWidgetBackground
 import androidx.glance.appwidget.components.Scaffold
 import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.lazy.LazyListScope
 import androidx.glance.appwidget.lazy.items
 import androidx.glance.appwidget.provideContent
-import androidx.glance.background
-import androidx.glance.layout.Alignment
-import androidx.glance.layout.Box
-import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
-import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
-import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.TaskRepository
@@ -35,10 +28,11 @@ import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.logic.model.SortingMethod
 import cn.super12138.todo.ui.VerveDoDefaults
 import cn.super12138.todo.ui.widget.components.GlanceTaskCard
+import cn.super12138.todo.ui.widget.components.GlanceTaskEmptyTip
+import cn.super12138.todo.ui.widget.components.GlanceTitleBar
 import cn.super12138.todo.utils.GlanceTypography
 import cn.super12138.todo.utils.SystemUtils
 import cn.super12138.todo.utils.sort
-import cn.super12138.todo.utils.widgetCornerRadius
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
@@ -74,55 +68,38 @@ private fun TodayTaskApp(
     onChecked: (TaskEntity) -> Unit = {}
 ) {
     val context = LocalContext.current
+    val completeStr = remember(context) { context.getString(R.string.title_completed_task) }
+    val incompleteStr = remember(context) { context.getString(R.string.label_task_incomplete) }
     val completeTasks = remember(taskList) { taskList.filter { it.isCompleted } }
     val inCompleteTasks = remember(taskList) { taskList.filter { !it.isCompleted } }
 
-    if (taskList.isEmpty()) {
-        val allTaskComplete = remember(true) { context.getString(R.string.tip_all_task_complete) }
-        Box(
-            modifier = modifier
-                .fillMaxSize()
-                .background(GlanceTheme.colors.widgetBackground)
-                .appWidgetBackground()
-                .widgetCornerRadius(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(text = allTaskComplete, style = GlanceTypography.titleLarge)
-        }
-    } else {
-        Scaffold(
-            titleBar = {
-                val title = remember(taskList.size) {
-                    context.getString(
-                        R.string.label_task_incomplete,
-                        taskList.size
-                    )
-                }
-                Row(
-                    modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.Vertical.CenterVertically,
-                ) {
-                    Text(
-                        text = "今日任务",
-                        style = GlanceTypography.titleLarge,
-                        maxLines = 1,
-                        modifier = GlanceModifier.defaultWeight()
-                    )
+    Scaffold(
+        titleBar = {
+            val title = remember(taskList.size) {
+                context.getString(R.string.label_widget_today_task)
+            }
+            val taskCount = remember(taskList.size) {
+                context.getString(
+                    R.string.label_slot_item_task,
+                    inCompleteTasks.size
+                )
+            }
 
-                    Text(
-                        text = "${inCompleteTasks.size} 项",
-                        style = GlanceTypography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                        maxLines = 1,
-                        modifier = GlanceModifier
-                    )
-                }
-            },
-            // Scaffold内部包含fillMaxSize Modifier
-            modifier = modifier
-        ) {
+            GlanceTitleBar(
+                title = title,
+                taskCount = taskCount,
+                modifier = GlanceModifier.fillMaxWidth()
+            )
+        },
+        // Scaffold内部包含fillMaxSize Modifier
+        modifier = modifier
+    ) {
+        if (taskList.isEmpty()) {
+            GlanceTaskEmptyTip()
+        } else {
             LazyColumn {
                 if (inCompleteTasks.isNotEmpty()) {
-                    title("未完成")
+                    title(incompleteStr)
                     items(
                         items = inCompleteTasks,
                         itemId = { task -> task.id.toLong() }
@@ -140,7 +117,7 @@ private fun TodayTaskApp(
                 }
 
                 if (completeTasks.isNotEmpty()) {
-                    title("已完成")
+                    title(completeStr)
                     items(
                         items = completeTasks,
                         itemId = { task -> task.id.toLong() }

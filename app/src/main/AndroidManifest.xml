@@ -42,7 +42,7 @@
                 android:resource="@xml/all_incomplete_widget_info" />
         </receiver>
         <receiver
-            android:name=".ui.widget.today.TodayTaskReceiver"
+            android:name=".ui.widget.today.TodayTaskWidgetReceiver"
             android:exported="true"
             android:label="@string/label_widget_today_task">
             <intent-filter>

@@ -30,7 +30,6 @@ import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.ui.VerveDoDefaults
 import cn.super12138.todo.utils.GlanceTypography
 import cn.super12138.todo.utils.glanceContainerColor
-import cn.super12138.todo.utils.toColorProvider
 import cn.super12138.todo.utils.toLocalDateString
 import cn.super12138.todo.utils.toRelativeTimeString
 
@@ -126,7 +125,7 @@ fun DueDatePresenter(
 @Composable
 fun CheckButton(
     modifier: GlanceModifier = GlanceModifier,
-    contentColor: ColorProvider = Color.White.toColorProvider(),
+    contentColor: ColorProvider = ColorProvider(Color.White),
     backgroundColor: Color = VerveDoDefaults.Colors.Green,
     onChecked: () -> Unit = {}
 ) {
