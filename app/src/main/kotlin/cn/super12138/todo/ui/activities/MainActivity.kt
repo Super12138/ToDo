@@ -40,15 +40,14 @@ import cn.super12138.todo.utils.isDark
 import com.kyant.m3color.dynamiccolor.ColorSpec
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
-import org.koin.android.ext.android.inject
 import org.koin.android.scope.AndroidScopeComponent
 import org.koin.androidx.scope.activityRetainedScope
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.scope.Scope
 
 class MainActivity : ComponentActivity(), AndroidScopeComponent {
-    val allIncompleteWidget: AllIncompleteWidget by inject()
-    val todayTaskWidget: TodayTaskWidget by inject()
+    val allIncompleteWidget = AllIncompleteWidget()
+    val todayTaskWidget = TodayTaskWidget()
 
     override val scope: Scope by activityRetainedScope()
 
