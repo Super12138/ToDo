@@ -42,7 +42,9 @@ import cn.super12138.todo.R
 import cn.super12138.todo.logic.TaskRepository
 import cn.super12138.todo.logic.database.TaskEntity
 import cn.super12138.todo.logic.model.Priority
+import cn.super12138.todo.logic.model.SortingMethod
 import cn.super12138.todo.ui.VerveDoDefaults
+import cn.super12138.todo.utils.sort
 import cn.super12138.todo.utils.toLocalDateString
 import cn.super12138.todo.utils.toRelativeTimeString
 import kotlinx.coroutines.launch
@@ -56,7 +58,9 @@ class TaskWidget : GlanceAppWidget(), KoinComponent {
         provideContent {
             val scope = rememberCoroutineScope()
             val allTask by taskRepository.getAllTasks().collectAsState(emptyList())
-            val allIncompleteTask = remember(allTask) { allTask.filter { !it.isCompleted } }
+            val allIncompleteTask = remember(allTask) {
+                allTask.filter { !it.isCompleted }.sort(SortingMethod.Priority)
+            }
 
             GlanceTheme {
                 TaskWidgetApp(
