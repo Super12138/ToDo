@@ -16,7 +16,6 @@ import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.lazy.LazyListScope
 import androidx.glance.appwidget.lazy.items
 import androidx.glance.appwidget.provideContent
-import androidx.glance.appwidget.updateAll
 import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
@@ -56,12 +55,7 @@ class TodayTaskWidget : GlanceAppWidget(), KoinComponent {
             GlanceTheme {
                 TodayTaskApp(
                     taskList = todayTask,
-                    onChecked = {
-                        scope.launch {
-                            taskRepository.updateTask(it)
-                            updateAll(context)
-                        }
-                    }
+                    onChecked = { scope.launch { taskRepository.updateTask(it) } }
                 )
             }
         }
@@ -85,7 +79,7 @@ private fun TodayTaskApp(
             val title = remember(taskList.size) {
                 context.getString(R.string.label_widget_today_task)
             }
-            val taskCount = remember(taskList.size) {
+            val taskCount = remember(inCompleteTasks.size) {
                 context.getString(
                     R.string.label_slot_item_task,
                     inCompleteTasks.size

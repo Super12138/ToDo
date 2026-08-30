@@ -15,7 +15,6 @@ import androidx.glance.appwidget.components.Scaffold
 import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.lazy.items
 import androidx.glance.appwidget.provideContent
-import androidx.glance.appwidget.updateAll
 import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
@@ -49,12 +48,7 @@ class AllIncompleteWidget : GlanceAppWidget(), KoinComponent {
             GlanceTheme {
                 TaskWidgetApp(
                     taskList = allIncompleteTask,
-                    onChecked = {
-                        scope.launch {
-                            taskRepository.updateTask(it)
-                            updateAll(context)
-                        }
-                    }
+                    onChecked = { scope.launch { taskRepository.updateTask(it) } }
                 )
             }
         }
