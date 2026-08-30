@@ -157,4 +157,5 @@
     <string name="label_widget_all_incomplete">全部未完成</string>
     <string name="label_widget_today_task">今日任务</string>
     <string name="label_slot_item_task">%d 项</string>
+    <string name="label_slot_date_with_relative">%1$s（%2$s）</string>
 </resources>

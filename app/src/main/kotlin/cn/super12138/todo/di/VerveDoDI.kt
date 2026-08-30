@@ -23,6 +23,8 @@ import cn.super12138.todo.ui.pages.settings.SettingsDataCategoryViewModel
 import cn.super12138.todo.ui.pages.settings.SettingsDataViewModel
 import cn.super12138.todo.ui.pages.settings.SettingsInterfaceInteractionViewModel
 import cn.super12138.todo.ui.pages.tasks.TaskViewModel
+import cn.super12138.todo.ui.widget.all.AllIncompleteWidget
+import cn.super12138.todo.ui.widget.today.TodayTaskWidget
 import cn.super12138.todo.utils.ConfettiController
 import com.jsoizo.kotlincsv.csvWriter
 import com.jsoizo.kotlincsv.writer.CsvWriter
@@ -101,11 +103,17 @@ object VerveDoDI {
         }
     }
 
+    val widgetModule = module {
+        singleOf(::AllIncompleteWidget)
+        singleOf(::TodayTaskWidget)
+    }
+
     val allModules = listOf(
         singleInstanceModule,
         databaseModule,
         datastoreModule,
         viewModelModule,
-        navigationModule
+        navigationModule,
+        widgetModule
     )
 }

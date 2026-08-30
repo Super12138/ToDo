@@ -33,19 +33,22 @@ import cn.super12138.todo.ui.navigation.TopNavigation
 import cn.super12138.todo.ui.navigation.VerveDoDestinations
 import cn.super12138.todo.ui.theme.VerveDoTheme
 import cn.super12138.todo.ui.widget.all.AllIncompleteWidget
+import cn.super12138.todo.ui.widget.today.TodayTaskWidget
 import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.utils.configureEdgeToEdge
 import cn.super12138.todo.utils.isDark
 import com.kyant.m3color.dynamiccolor.ColorSpec
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
+import org.koin.android.ext.android.inject
 import org.koin.android.scope.AndroidScopeComponent
 import org.koin.androidx.scope.activityRetainedScope
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.scope.Scope
 
 class MainActivity : ComponentActivity(), AndroidScopeComponent {
-    val allIncompleteWidget = AllIncompleteWidget()
+    val allIncompleteWidget: AllIncompleteWidget by inject()
+    val todayTaskWidget: TodayTaskWidget by inject()
 
     override val scope: Scope by activityRetainedScope()
 
@@ -169,12 +172,13 @@ class MainActivity : ComponentActivity(), AndroidScopeComponent {
             }
         }
     }
-    
+
     override fun onStop() {
         super.onStop()
         lifecycleScope.launch {
             // TODO: 更新逻辑还需优化，最好是在update方法里执行
             allIncompleteWidget.updateAll(applicationContext)
+            todayTaskWidget.updateAll(applicationContext)
         }
     }
 }

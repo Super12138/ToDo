@@ -15,8 +15,12 @@ import androidx.glance.appwidget.components.Scaffold
 import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.lazy.items
 import androidx.glance.appwidget.provideContent
+import androidx.glance.appwidget.updateAll
+import androidx.glance.layout.Spacer
+import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
+import androidx.glance.layout.size
 import cn.super12138.todo.R
 import cn.super12138.todo.logic.TaskRepository
 import cn.super12138.todo.logic.database.TaskEntity
@@ -45,8 +49,12 @@ class AllIncompleteWidget : GlanceAppWidget(), KoinComponent {
             GlanceTheme {
                 TaskWidgetApp(
                     taskList = allIncompleteTask,
-                    onChecked = { scope.launch { taskRepository.updateTask(it) } },
-                    modifier = GlanceModifier.padding(VerveDoDefaults.contentPadding)
+                    onChecked = {
+                        scope.launch {
+                            taskRepository.updateTask(it)
+                            updateAll(context)
+                        }
+                    }
                 )
             }
         }
@@ -79,13 +87,18 @@ private fun TaskWidgetApp(
                 modifier = GlanceModifier.fillMaxWidth()
             )
         },
+        horizontalPadding = VerveDoDefaults.screenHorizontalPadding,
         // Scaffold内部包含fillMaxSize Modifier
         modifier = modifier
     ) {
         if (taskList.isEmpty()) {
             GlanceTaskEmptyTip()
         } else {
-            LazyColumn {
+            LazyColumn(
+                modifier = GlanceModifier
+                    .padding(top = VerveDoDefaults.contentPadding / 2)
+                    .fillMaxSize()
+            ) {
                 items(items = taskList, itemId = { task -> task.id.toLong() }) {
                     GlanceTaskCard(
                         content = it.content,
@@ -95,6 +108,9 @@ private fun TaskWidgetApp(
                         priority = Priority.fromFloat(it.priority),
                         onChecked = { onChecked(it.copy(isCompleted = true)) }
                     )
+                }
+                item {
+                    Spacer(GlanceModifier.size(VerveDoDefaults.contentPadding / 2))
                 }
             }
         }

@@ -30,6 +30,7 @@ import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.ui.VerveDoDefaults
 import cn.super12138.todo.utils.GlanceTypography
 import cn.super12138.todo.utils.glanceContainerColor
+import cn.super12138.todo.utils.toColorProvider
 import cn.super12138.todo.utils.toLocalDateString
 import cn.super12138.todo.utils.toRelativeTimeString
 
@@ -53,7 +54,7 @@ fun GlanceTaskCard(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(vertical = VerveDoDefaults.settingsItemVerticalPadding / 4)
+            .padding(vertical = VerveDoDefaults.contentPadding / 2)
     ) {
         Column(
             verticalAlignment = Alignment.CenterVertically,
@@ -111,9 +112,12 @@ fun DueDatePresenter(
 
     val dueDate = remember(dueDateMillis) { dueDateMillis.toLocalDateString() }
     val relativeDueDate = remember(dueDateMillis) { dueDateMillis.toRelativeTimeString(context) }
+    val combinedText = remember(dueDateMillis) {
+        context.getString(R.string.label_slot_date_with_relative, dueDate, relativeDueDate)
+    }
 
     Text(
-        text = "$dueDate ($relativeDueDate)",
+        text = combinedText,
         style = GlanceTypography.labelMedium.copy(
             color = GlanceTheme.colors.onSurfaceVariant
         ),
@@ -125,7 +129,7 @@ fun DueDatePresenter(
 @Composable
 fun CheckButton(
     modifier: GlanceModifier = GlanceModifier,
-    contentColor: ColorProvider = ColorProvider(Color.White),
+    contentColor: ColorProvider = Color.White.toColorProvider(),
     backgroundColor: Color = VerveDoDefaults.Colors.Green,
     onChecked: () -> Unit = {}
 ) {

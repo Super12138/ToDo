@@ -4,9 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.glance.GlanceModifier
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Row
-import androidx.glance.layout.fillMaxWidth
+import androidx.glance.layout.padding
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
+import cn.super12138.todo.ui.VerveDoDefaults
 import cn.super12138.todo.utils.GlanceTypography
 
 @Composable
@@ -16,7 +17,8 @@ fun GlanceTitleBar(
     modifier: GlanceModifier = GlanceModifier
 ) {
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.padding(horizontal = VerveDoDefaults.screenHorizontalPadding)
+            .padding(top = VerveDoDefaults.screenHorizontalPadding),
         verticalAlignment = Alignment.Vertical.CenterVertically,
     ) {
         Text(

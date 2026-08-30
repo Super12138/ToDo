@@ -1,7 +1,9 @@
 package cn.super12138.todo.utils
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceTheme
 import androidx.glance.text.FontWeight
@@ -37,6 +39,12 @@ object GlanceTypography {
             fontSize = 12.sp
         )
 }
+
+data class FixedColorProvider(val color: Color) : ColorProvider {
+    override fun getColor(context: Context): Color = color
+}
+
+fun Color.toColorProvider() = FixedColorProvider(this)
 
 @Stable
 @Composable
