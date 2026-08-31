@@ -155,4 +155,9 @@
     <string name="pref_export_task_desc">Export all task to a single file (support .csv file currently)</string>
     <string name="tip_export_success">Export successful</string>
     <string name="tip_export_failed">Export failed</string>
+    <string name="label_task_incomplete">Incomplete</string>
+    <string name="label_widget_all_incomplete">All Incomplete</string>
+    <string name="label_widget_today_task">Today\'s Task</string>
+    <string name="label_slot_item_task">%d items</string>
+    <string name="label_slot_date_with_relative">%1$s (%2$s)</string>
 </resources>

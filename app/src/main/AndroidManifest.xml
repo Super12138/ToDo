@@ -29,6 +29,28 @@
             android:exported="false"
             android:launchMode="singleTask"
             android:theme="@style/Theme.VerveDo" />
-    </application>
 
+        <receiver
+            android:name=".ui.widget.all.AllIncompleteWidgetReceiver"
+            android:exported="true"
+            android:label="@string/label_widget_all_incomplete">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/all_incomplete_widget_info" />
+        </receiver>
+        <receiver
+            android:name=".ui.widget.today.TodayTaskWidgetReceiver"
+            android:exported="true"
+            android:label="@string/label_widget_today_task">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/today_task_widget_info" />
+        </receiver>
+    </application>
 </manifest>

@@ -153,4 +153,9 @@
     <string name="pref_export_task_desc">导出全部任务到一个文件中（当前支持 .csv 文件）</string>
     <string name="tip_export_success">导出成功</string>
     <string name="tip_export_failed">导出失败</string>
+    <string name="label_task_incomplete">未完成</string>
+    <string name="label_widget_all_incomplete">全部未完成</string>
+    <string name="label_widget_today_task">今日任务</string>
+    <string name="label_slot_item_task">%d 项</string>
+    <string name="label_slot_date_with_relative">%1$s（%2$s）</string>
 </resources>

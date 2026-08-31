@@ -21,7 +21,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import androidx.glance.appwidget.updateAll
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation3.runtime.NavKey
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.ui.VerveDoDefaults
@@ -30,10 +32,13 @@ import cn.super12138.todo.ui.navigation.TopLevelBackStack
 import cn.super12138.todo.ui.navigation.TopNavigation
 import cn.super12138.todo.ui.navigation.VerveDoDestinations
 import cn.super12138.todo.ui.theme.VerveDoTheme
+import cn.super12138.todo.ui.widget.all.AllIncompleteWidget
+import cn.super12138.todo.ui.widget.today.TodayTaskWidget
 import cn.super12138.todo.utils.VibrationUtils
 import cn.super12138.todo.utils.configureEdgeToEdge
 import cn.super12138.todo.utils.isDark
 import com.kyant.m3color.dynamiccolor.ColorSpec
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
 import org.koin.android.scope.AndroidScopeComponent
 import org.koin.androidx.scope.activityRetainedScope
@@ -41,6 +46,9 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.scope.Scope
 
 class MainActivity : ComponentActivity(), AndroidScopeComponent {
+    val allIncompleteWidget = AllIncompleteWidget()
+    val todayTaskWidget = TodayTaskWidget()
+
     override val scope: Scope by activityRetainedScope()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -161,6 +169,15 @@ class MainActivity : ComponentActivity(), AndroidScopeComponent {
                     )
                 }
             }
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        lifecycleScope.launch {
+            // TODO: 更新逻辑还需优化，最好是在update方法里执行
+            allIncompleteWidget.updateAll(applicationContext)
+            todayTaskWidget.updateAll(applicationContext)
         }
     }
 }

@@ -219,8 +219,8 @@ fun dynamicColorScheme(
 @Composable
 fun rememberDynamicColorScheme(
     keyColor: Color,
-    isDark: Boolean,
-    pureBlack: Boolean,
+    isDark: Boolean = false,
+    pureBlack: Boolean = false,
     style: PaletteStyle = PaletteStyle.TonalSpot,
     contrastLevel: Double = 0.0,
     specVersion: ColorSpec.SpecVersion = ColorSpec.SpecVersion.SPEC_2026,

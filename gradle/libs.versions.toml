@@ -4,6 +4,7 @@ coreKtx = "1.19.0"
 splashScreen = "1.2.0"
 lifecycleRuntimeKtx = "2.11.0"
 datastore = "1.2.1"
+glance = "1.3.0-alpha02"
 # Compose
 activityCompose = "1.13.0"
 composeBom = "2026.08.00"
@@ -43,6 +44,8 @@ androidx-lifecycle-viewmodel-navigation3 = { group = "androidx.lifecycle", name 
 androidx-compose-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "liveData" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
+androidx-glance-appwidget = { group = "androidx.glance", name = "glance-appwidget", version.ref = "glance" }
+androidx-glance-material3 = { group = "androidx.glance", name = "glance-material3", version.ref = "glance" }
 
 # Compose
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }

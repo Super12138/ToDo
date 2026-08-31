@@ -36,13 +36,15 @@ import java.util.Locale
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.milliseconds
 
+val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
 fun Int.blend(
     color: Int,
     @FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.5f,
 ): Int = ColorUtils.blendARGB(this, color, fraction)
 
-@Composable
 @Stable
+@Composable
 fun Priority.containerColor(): Color =
     when (this) {
         Priority.NotUrgent -> MaterialTheme.colorScheme.onSurfaceVariant
@@ -107,8 +109,7 @@ fun ContentDrawScope.drawFadedEdge(
 fun Long?.toLocalDateString(): String {
     if (this == null) return ""
     val date = Date(this)
-    val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-    return format.format(date)
+    return dateFormat.format(date)
 }
 
 /**
